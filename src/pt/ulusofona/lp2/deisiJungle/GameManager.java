@@ -13,7 +13,7 @@ import java.util.*;
 // Classe responsável por gerir o jogo
 public class GameManager {
 
-    int countEspeciesExistente = 33;
+    int countEspeciesExistente = 0;
 
     public GameManager() {
     }
