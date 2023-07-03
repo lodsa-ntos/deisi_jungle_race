@@ -50,6 +50,7 @@ public class GameManager {
 
         HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
         int countTarzan = 0;
+        int casaAtual = 1;
 
         // TODO O POSIÇÃO - duas posições por cada jogador
         if (jungleSize < 2 * playersInfo.length) {
@@ -75,7 +76,7 @@ public class GameManager {
             String nomeJogador = infoJogador[1];
             String especieJogador = infoJogador[2];
 
-             Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador);
+            Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaAtual, initialEnergy);
             System.out.println(jogadorAtual);
 
             // TODO IDs - não podem haver dois jogadores com o mesmo id
