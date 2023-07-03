@@ -13,7 +13,10 @@ import java.util.*;
 // Classe responsável por gerir o jogo
 public class GameManager {
 
+
+    ArrayList<Jogador> jogadores = new ArrayList<>();
     int countEspeciesExistente = 0;
+    int TAMANHO_MAX_MAPA;
 
     public GameManager() {
     }
@@ -51,6 +54,8 @@ public class GameManager {
         HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
         int countTarzan = 0;
         int casaAtual = 1;
+        TAMANHO_MAX_MAPA = jungleSize;
+        System.out.println(TAMANHO_MAX_MAPA);
 
         // TODO O POSIÇÃO - duas posições por cada jogador
         if (jungleSize < 2 * playersInfo.length) {
@@ -77,6 +82,7 @@ public class GameManager {
             String especieJogador = infoJogador[2];
 
             Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaAtual, initialEnergy);
+            jogadores.add(jogadorAtual);
             System.out.println(jogadorAtual);
 
             // TODO IDs - não podem haver dois jogadores com o mesmo id
@@ -123,13 +129,21 @@ public class GameManager {
             }
 
         }
+
+
+        System.out.println(Arrays.toString(getPlayerIds(32)));
         return true;
     }
 
     public int[] getPlayerIds(int squareNr) {
 
 
-        return new int[0];
+
+        if (squareNr < 1 || squareNr > TAMANHO_MAX_MAPA) {
+            return new int[0];
+        }
+
+        return null;
     }
 
     public String[] getSquareInfo(int squareNr) {
