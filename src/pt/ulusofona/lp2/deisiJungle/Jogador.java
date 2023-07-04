@@ -3,14 +3,14 @@ package pt.ulusofona.lp2.deisiJungle;
 public class Jogador {
     int id;
     String nome;
-    String especie;
+    String idEspecie;
     int posicaoAtual;
     int energiaAtual;
 
-    public Jogador(int id, String nome, String especie, int posicaoAtual, int energiaAtual) {
+    public Jogador(int id, String nome, String idEspecie, int posicaoAtual, int energiaAtual) {
         this.id = id;
         this.nome = nome;
-        this.especie = especie;
+        this.idEspecie = idEspecie;
         this.posicaoAtual = posicaoAtual;
         this.energiaAtual = energiaAtual;
     }
@@ -23,8 +23,8 @@ public class Jogador {
         return nome;
     }
 
-    public String getEspecie() {
-        return especie;
+    public String getIdEspecie() {
+        return idEspecie;
     }
 
     public int getPosicaoAtual() {
@@ -37,7 +37,7 @@ public class Jogador {
 
     @Override
     public String toString() {
-        return id + ":" + nome + ":" + especie + ":" + energiaAtual + ":" + posicaoAtual;
+        return id + ":" + nome + ":" + idEspecie + ":" + energiaAtual + ":" + posicaoAtual;
     }
 
 }

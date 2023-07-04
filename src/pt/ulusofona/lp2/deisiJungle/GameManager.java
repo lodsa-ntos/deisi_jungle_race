@@ -129,6 +129,7 @@ public class GameManager {
 
         }
         // System.out.println(Arrays.toString(getPlayerIds(1)));
+        //System.out.println(Arrays.toString(getPlayerInfo(2)));
         return true;
     }
 
@@ -174,33 +175,59 @@ public class GameManager {
         /*
         Cada elemento do array deve ter a seguinte informação:
             - [0] => Nome do ficheiro com a imagem a colocar nesse posição
-            - [1] => Uma descrição textual do que existe nessa posição (nesta fasebpode ser apenas “Vazio” ou “Meta”)
+            - [1] => Uma descrição textual do que existe nessa posição (nesta fase pode ser apenas “Vazio” ou “Meta”)
             - [2] => Uma String contendo os identificadores dos jogadores que
             estão nessa posição, separados por
             vírgula (ex: “3,5” — estão lá os
             jogadores 3 e 5).
          */
 
-        String[] posicaoInfo = new String[3];
+        String[] infoPosCaixasNoMapa = new String[3];
 
+        // [0] => Nome do ficheiro com a imagem a colocar nessa posicao
+        // Se squareNr for a última posição a descrição textual será Meta
+        if (squareNr == POSICAO_FINAL_JOGO) {
+            infoPosCaixasNoMapa[0] = "finish.png";
+            infoPosCaixasNoMapa[1] = "Meta";
+        } else {
+            infoPosCaixasNoMapa[0] = "blank.png";
+            infoPosCaixasNoMapa[1] = "Vazio";
+        }
 
-        return new String[0];
+        return infoPosCaixasNoMapa;
     }
 
     public String[] getPlayerInfo(int playerId) {
 
-        return new String[0];
+        /*
+        - [0] => O ID do jogador
+        - [1] => O Nome do jogador
+        - [2] => O ID da espécie associada ao jogador.
+        - [3] => A energia atual do jogador, medida em unidades de energia
+         */
+        String[] infoJogador = new String[4];
+
+        for (Jogador info : jogadores) {
+            if (info.getId() == playerId) {
+                infoJogador[0] = String.valueOf(info.getId());
+                infoJogador[1] = info.getNome();
+                infoJogador[2] = String.valueOf(info.getIdEspecie());
+                infoJogador[3] = String.valueOf(info.getEnergiaAtual());
+                return infoJogador;
+            }
+        }
+        return null;
     }
 
     public String[] getCurrentPlayerInfo() {
 
 
-        return new String[0];
+        return null;
     }
 
     public String[][] getPlayersInfo() {
 
-        return new String[0][0];
+        return null;
     }
 
     public boolean moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
@@ -209,7 +236,7 @@ public class GameManager {
     }
 
     public String[] getWinnerInfo() {
-        return new String[0];
+        return null;
     }
 
     public ArrayList<String> getGameResults() {
