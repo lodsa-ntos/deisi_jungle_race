@@ -13,7 +13,6 @@ import java.util.*;
 // Classe responsável por gerir o jogo
 public class GameManager {
 
-    Jogador[] todosJogadoresEmJogo;
     ArrayList<Jogador> jogadores = new ArrayList<>();
     int POSICAO_FINAL_JOGO;
     int CASA_PARTIDA = 1;
@@ -83,6 +82,7 @@ public class GameManager {
 
             Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, CASA_PARTIDA, initialEnergy);
             jogadores.add(jogadorAtual);
+            System.out.println(jogadorAtual);
 
             // TODO IDs - não podem haver dois jogadores com o mesmo id
             Integer countIDJogadores = idJogadoresEmJogo.get(idJogador);
@@ -126,11 +126,11 @@ public class GameManager {
                     break;
                 }
             }
-            todosJogadoresEmJogo = new Jogador[playersInfo.length];
-
         }
+
         // System.out.println(Arrays.toString(getPlayerIds(1)));
         //System.out.println(Arrays.toString(getPlayerInfo(2)));
+        //System.out.println(Arrays.toString(getCurrentPlayerInfo()));
         return true;
     }
 
@@ -222,6 +222,13 @@ public class GameManager {
 
     public String[] getCurrentPlayerInfo() {
 
+        /*
+        Devolve informação do jogador que se
+        encontra ativo no turno atual.
+        A informação retornada está no mesmo
+        formato da função getPlayerInfo().
+         */
+
         String[] jogadorAtual = new String[4];
 
         for (Jogador jogadorAtualEmJogo: jogadores) {
@@ -238,7 +245,22 @@ public class GameManager {
 
     public String[][] getPlayersInfo() {
 
-        return null;
+        /*
+        Retorna informação de todos os jogadores,
+        no mesmo formato que o retornado pelas
+        funções getPlayerInfo e
+        getCurrentPlayerInfo.
+         */
+
+        String [][] infoGeralJogadores = new String[jogadores.size()][4];
+
+        for (int i = 0; i < jogadores.size(); i++) {
+            infoGeralJogadores[i][0] = String.valueOf(jogadores.get(i).getId());
+            infoGeralJogadores[i][1] = jogadores.get(i).getNome();
+            infoGeralJogadores[i][2] = String.valueOf(jogadores.get(i).getIdEspecie());
+            infoGeralJogadores[i][3] = String.valueOf(jogadores.get(i).getEnergiaAtual());
+        }
+        return infoGeralJogadores;
     }
 
     public boolean moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
@@ -270,7 +292,8 @@ public class GameManager {
 
     public int incrementarTurno() {
 
-        turnoAtual = (turnoAtual + 1);
+        // turno assim alterna entre 0 e 1???
+        turnoAtual = (turnoAtual + 1) % jogadores.size();
 
         return turnoAtual;
     }
