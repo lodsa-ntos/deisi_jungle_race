@@ -259,7 +259,7 @@ public class GameManager {
     }
 
     public void incrementarTurno() {
-
+        turnoAtual = (turnoAtual + 1);
     }
 
 }
