@@ -186,7 +186,8 @@ public class GameManager {
         String[] infoPosCaixasNoMapa = new String[3];
 
         // [0] => Nome do ficheiro com a imagem a colocar nessa posicao
-        // Se squareNr for a última posição a descrição textual será Meta
+        // [1] => Uma descrição textual do que existe nessa posição (nesta fase pode ser apenas “Vazio” ou “Meta”)
+        // Se squareNr for a última posição a descrição textual será Meta senão será Vazio
         if (squareNr == POSICAO_FINAL_JOGO) {
             infoPosCaixasNoMapa[0] = "finish.png";
             infoPosCaixasNoMapa[1] = "Meta";
@@ -194,6 +195,16 @@ public class GameManager {
             infoPosCaixasNoMapa[0] = "blank.png";
             infoPosCaixasNoMapa[1] = "Vazio";
         }
+
+        /*
+        [2] => Uma String contendo os ‘ids’ dos jogadores que estão nessa posição, separados por
+            vírgula (ex: “3,5” — estão lá os jogadores 3 e 5).
+         */
+        String idsOnJungle = "";
+
+        infoPosCaixasNoMapa[2] = idsOnJungle;
+
+
 
         return infoPosCaixasNoMapa;
     }
@@ -235,7 +246,7 @@ public class GameManager {
             if (incrementarTurno() == 1) {
                 jogadorAtual[0] = String.valueOf(jogadorAtualEmJogo.getId());
                 jogadorAtual[1] = jogadorAtualEmJogo.getNome();
-                jogadorAtual[2] = String.valueOf(jogadorAtualEmJogo.getIdEspecie());
+                jogadorAtual[2] = jogadorAtualEmJogo.getIdEspecie();
                 jogadorAtual[3] = String.valueOf(jogadorAtualEmJogo.getEnergiaAtual());
                 return jogadorAtual;
             }
@@ -292,7 +303,6 @@ public class GameManager {
 
     public int incrementarTurno() {
 
-        // turno assim alterna entre 0 e 1???
         turnoAtual = (turnoAtual + 1) % jogadores.size();
 
         return turnoAtual;
