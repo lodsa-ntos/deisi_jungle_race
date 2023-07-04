@@ -13,7 +13,7 @@ import java.util.*;
 // Classe responsável por gerir o jogo
 public class GameManager {
 
-    Jogador[] todosJogadores;
+    Jogador[] todosJogadoresEmJogo;
     ArrayList<Jogador> jogadores = new ArrayList<>();
     int POSICAO_FINAL_JOGO;
     int CASA_PARTIDA = 1;
@@ -51,7 +51,6 @@ public class GameManager {
 
     public boolean createInitialJungle(int jungleSize, int initialEnergy, String[][] playersInfo) {
 
-        todosJogadores = new Jogador[playersInfo.length];
         POSICAO_FINAL_JOGO = jungleSize;
 
         HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
@@ -127,6 +126,7 @@ public class GameManager {
                     break;
                 }
             }
+            todosJogadoresEmJogo = new Jogador[playersInfo.length];
 
         }
         // System.out.println(Arrays.toString(getPlayerIds(1)));
@@ -222,7 +222,17 @@ public class GameManager {
 
     public String[] getCurrentPlayerInfo() {
 
+        String[] jogadorAtual = new String[4];
 
+        for (Jogador jogadorAtualEmJogo: jogadores) {
+            if (incrementarTurno() == 1) {
+                jogadorAtual[0] = String.valueOf(jogadorAtualEmJogo.getId());
+                jogadorAtual[1] = jogadorAtualEmJogo.getNome();
+                jogadorAtual[2] = String.valueOf(jogadorAtualEmJogo.getIdEspecie());
+                jogadorAtual[3] = String.valueOf(jogadorAtualEmJogo.getEnergiaAtual());
+                return jogadorAtual;
+            }
+        }
         return null;
     }
 
@@ -258,8 +268,11 @@ public class GameManager {
         return "";
     }
 
-    public void incrementarTurno() {
+    public int incrementarTurno() {
+
         turnoAtual = (turnoAtual + 1);
+
+        return turnoAtual;
     }
 
 }
