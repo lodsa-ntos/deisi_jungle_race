@@ -17,6 +17,7 @@ public class GameManager {
     ArrayList<Jogador> jogadores = new ArrayList<>();
     int POSICAO_FINAL_JOGO;
     int CASA_PARTIDA = 1;
+    int turnoAtual = 0;
 
     public GameManager() {}
 
@@ -255,6 +256,10 @@ public class GameManager {
 
     public String whoIsTaborda() {
         return "";
+    }
+
+    public void incrementarTurno() {
+
     }
 
 }
