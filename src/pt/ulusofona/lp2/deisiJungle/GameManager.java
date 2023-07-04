@@ -153,16 +153,36 @@ public class GameManager {
         }
 
         // Retornar um array com ‘ids’ dos jogadores de uma determinada posição do mapa
-        int [] posicaoDosIds = new int[listaIdsJogadores.size()];
+        int [] idsInJungle = new int[listaIdsJogadores.size()];
         for (int i = 0; i < listaIdsJogadores.size(); i++) {
             // passar os valores da lista para o array
-            posicaoDosIds[i] = listaIdsJogadores.get(i);
+            idsInJungle[i] = listaIdsJogadores.get(i);
         }
 
-        return posicaoDosIds;
+        return idsInJungle;
     }
 
     public String[] getSquareInfo(int squareNr) {
+
+        /// RESTRIÇÕES
+        // Caso o nrSquare seja inválido, a função deve retornar null.
+        // squareNr — números de quadrados do mapa (posições do mapa)
+        if (squareNr < 1 || squareNr >  POSICAO_FINAL_JOGO) {
+            return null;
+        }
+
+        /*
+        Cada elemento do array deve ter a seguinte informação:
+            - [0] => Nome do ficheiro com a imagem a colocar nesse posição
+            - [1] => Uma descrição textual do que existe nessa posição (nesta fasebpode ser apenas “Vazio” ou “Meta”)
+            - [2] => Uma String contendo os identificadores dos jogadores que
+            estão nessa posição, separados por
+            vírgula (ex: “3,5” — estão lá os
+            jogadores 3 e 5).
+         */
+
+        String[] posicaoInfo = new String[3];
+
 
         return new String[0];
     }
