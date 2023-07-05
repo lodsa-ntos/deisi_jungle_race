@@ -16,7 +16,6 @@ public class GameManager {
     ArrayList<Jogador> jogadores = new ArrayList<>();
     int POSICAO_FINAL_JOGO;
     int CASA_PARTIDA = 1;
-    int turnoAtual = 0;
 
     public GameManager() {}
 
@@ -200,6 +199,7 @@ public class GameManager {
         [2] => Uma String contendo os ‘ids’ dos jogadores que estão nessa posição, separados por
             vírgula (ex: “3,5” — estão lá os jogadores 3 e 5).
          */
+        //TODO a pensar acerca deste ponto...
 
         return infoPosCaixasNoMapa;
     }
@@ -297,7 +297,9 @@ public class GameManager {
     }
 
     public int incrementarTurno() {
+        int turnoAtual = 0;
 
+        //alternar entre 0 e 1....
         turnoAtual = (turnoAtual + 1) % jogadores.size();
 
         return turnoAtual;

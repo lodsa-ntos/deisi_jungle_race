@@ -31,8 +31,16 @@ public class Jogador {
         return posicaoAtual;
     }
 
+    public void setPosicaoAtual(int posicaoAtual) {
+        this.posicaoAtual = posicaoAtual;
+    }
+
     public int getEnergiaAtual() {
         return energiaAtual;
+    }
+
+    public void setEnergiaAtual(int energiaAtual) {
+        this.energiaAtual = energiaAtual;
     }
 
     @Override
