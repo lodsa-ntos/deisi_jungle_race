@@ -16,6 +16,7 @@ public class GameManager {
     ArrayList<Jogador> jogadores = new ArrayList<>();
     int POSICAO_FINAL_JOGO;
     int CASA_PARTIDA = 1;
+    int turnoAtual = 0;
 
     public GameManager() {}
 
@@ -130,6 +131,7 @@ public class GameManager {
         // System.out.println(Arrays.toString(getPlayerIds(1)));
         //System.out.println(Arrays.toString(getPlayerInfo(2)));
         //System.out.println(Arrays.toString(getCurrentPlayerInfo()));
+        //System.out.println(moveCurrentPlayer(2, true));
         return true;
     }
 
@@ -238,7 +240,7 @@ public class GameManager {
         String[] jogadorAtual = new String[4];
 
         for (Jogador jogadorAtualEmJogo: jogadores) {
-            if (incrementarTurno() == 1) {
+            if (jogadorAtualEmJogo.getTurnoAtual() == 0) {
                 jogadorAtual[0] = String.valueOf(jogadorAtualEmJogo.getId());
                 jogadorAtual[1] = jogadorAtualEmJogo.getNome();
                 jogadorAtual[2] = jogadorAtualEmJogo.getIdEspecie();
@@ -271,6 +273,21 @@ public class GameManager {
 
     public boolean moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
 
+        //incrementarTurno();
+        Jogador jogadorAtual = jogadores.get(0);
+        int casaAtual = jogadorAtual.getPosicaoAtual();
+        int novaCasaAtual = casaAtual + nrSquares; // A + M
+        int energiaAtual = jogadorAtual.getEnergiaAtual(); // 22
+
+        // O argumento nrSquares não pode ser menor que 1 ou maior do que 6, porque o dado tem 6 lados.
+        // No entanto, se o parâmetro bypassValidations tiver o valor true, a regra anterior não é aplicada.
+        if (!bypassValidations && (nrSquares < 1 || nrSquares > 6)) {
+            return false;
+        }
+
+        // Move o jogador do turno atual tantas casas quantas as indicadas no argumento nrSquares.
+
+        incrementarTurno();
         return true;
     }
 
@@ -296,13 +313,11 @@ public class GameManager {
         return "";
     }
 
-    public int incrementarTurno() {
-        int turnoAtual = 0;
+    public void incrementarTurno() {
+        turnoAtual++;
 
-        //alternar entre 0 e 1....
-        turnoAtual = (turnoAtual + 1) % jogadores.size();
-
-        return turnoAtual;
+        System.out.println();
+        System.out.println("> turno atual: " + turnoAtual);
     }
 
 }
