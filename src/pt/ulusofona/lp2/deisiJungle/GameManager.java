@@ -200,11 +200,6 @@ public class GameManager {
         [2] => Uma String contendo os ‘ids’ dos jogadores que estão nessa posição, separados por
             vírgula (ex: “3,5” — estão lá os jogadores 3 e 5).
          */
-        String idsOnJungle = "";
-
-        infoPosCaixasNoMapa[2] = idsOnJungle;
-
-
 
         return infoPosCaixasNoMapa;
     }
