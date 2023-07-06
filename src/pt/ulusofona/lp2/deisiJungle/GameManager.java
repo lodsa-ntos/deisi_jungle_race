@@ -15,8 +15,8 @@ import java.util.*;
 public class GameManager {
 
     ArrayList<Jogador> jogadores = new ArrayList<>();
-    int POSICAO_FINAL_JOGO;
-    int CASA_PARTIDA = 1;
+    int posicaoFinalJogo;
+    int casaPartida = 1;
     int turnoAtual = 0;
 
     public GameManager() {}
@@ -61,7 +61,7 @@ public class GameManager {
 
     public void createInitialJungle(int jungleSize, int initialEnergy, String[][] playersInfo) throws InvalidInitialJungleException {
 
-        POSICAO_FINAL_JOGO = jungleSize;
+        posicaoFinalJogo = jungleSize;
 
         HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
         int countTarzan = 0;
@@ -88,7 +88,7 @@ public class GameManager {
             String nomeJogador = infoJogador[1];
             String especieJogador = infoJogador[2];
 
-            Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, CASA_PARTIDA, initialEnergy);
+            Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida, initialEnergy);
             jogadores.add(jogadorAtual);
             System.out.println(jogadorAtual);
 
@@ -149,7 +149,7 @@ public class GameManager {
         // Retornar um array vazio se o squareNr for inválido;
         // Retornar um array vazio se não houver jogadorers na posição indicada;
         // squareNr — números de quadrados do mapa (posições do mapa)
-        if (squareNr < CASA_PARTIDA || squareNr > POSICAO_FINAL_JOGO) {
+        if (squareNr < casaPartida || squareNr > posicaoFinalJogo) {
             return new int[0];
         }
 
@@ -176,7 +176,7 @@ public class GameManager {
         /// RESTRIÇÕES
         // Caso o nrSquare seja inválido, a função deve retornar null.
         // squareNr — números de quadrados do mapa (posições do mapa)
-        if (squareNr < 1 || squareNr >  POSICAO_FINAL_JOGO) {
+        if (squareNr < 1 || squareNr > posicaoFinalJogo) {
             return null;
         }
 
@@ -195,7 +195,7 @@ public class GameManager {
         // [0] => Nome do ficheiro com a imagem a colocar nessa posicao
         // [1] => Uma descrição textual do que existe nessa posição (nesta fase pode ser apenas “Vazio” ou “Meta”)
         // Se squareNr for a última posição a descrição textual será Meta senão será Vazio
-        if (squareNr == POSICAO_FINAL_JOGO) {
+        if (squareNr == posicaoFinalJogo) {
             infoPosCaixasNoMapa[0] = "finish.png";
             infoPosCaixasNoMapa[1] = "Meta";
         } else {
@@ -300,8 +300,8 @@ public class GameManager {
         }
 
         // Se o jogador tentar ultrapassar a acasa final do jogo, deve ficar na posição final do jogo
-        if (novaCasaAtual > POSICAO_FINAL_JOGO) {
-            novaCasaAtual = POSICAO_FINAL_JOGO;
+        if (novaCasaAtual > posicaoFinalJogo) {
+            novaCasaAtual = posicaoFinalJogo;
             //System.out.println("Vencedor");
         }
 
