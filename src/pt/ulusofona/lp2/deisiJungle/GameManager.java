@@ -1,6 +1,7 @@
 package pt.ulusofona.lp2.deisiJungle;
 
 import javax.swing.*;
+import java.io.File;
 import java.util.*;
 /*-------------------------------------------------DEISI JUNGLE----------------------------------------------------
     Certo dia, numa savana muito (muito) longe daqui, os animais decidiram descobrir quem seria o melhor atleta entre
@@ -48,29 +49,36 @@ public class GameManager {
         return especies;
     }
 
-    public boolean createInitialJungle(int jungleSize, int initialEnergy, String[][] playersInfo) {
+    public String[][] getFoodTypes() {
+
+        return new String[0][];
+    }
+
+    public void createInitialJungle(int jungleSize, String[][] playersInfo, String[][] foodsInfo) throws InvalidInitialJungleException {
+
+
+    }
+
+    public void createInitialJungle(int jungleSize, int initialEnergy, String[][] playersInfo) throws InvalidInitialJungleException {
 
         POSICAO_FINAL_JOGO = jungleSize;
 
         HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
         int countTarzan = 0;
 
-        // TODO POSIÇÃO - duas posições por cada jogador
+        // TODO POSIÇÃO — duas posições por cada jogador
         if (jungleSize < 2 * playersInfo.length) {
-            System.out.println("ERRO.: O mapa tem de ter, pelo menos, duas posições por cada jogador");
-            return false;
+            throw  new InvalidInitialJungleException("O mapa tem de ter, pelo menos, duas posições por cada jogador", true, false);
         }
 
-        // TODO ENERGIA - todos os jogadores começam com energia inicial no maximo
+        // TODO ENERGIA — todos os jogadores começam com energia inicial no maximo
         if (initialEnergy <= 0) {
-            System.out.println("ERRO.: Energia inicial inválida.");
-            return false;
+            throw  new InvalidInitialJungleException("Energia inicial inválida", true, false);
         }
 
         // TODO JOGADORES — O jogo terá entre 2 e 4 jogadores
         if (playersInfo.length < 2 || playersInfo.length > 4) {
-            System.out.println("ERRO.: Número de jogadores inválido");
-            return false;
+            throw  new InvalidInitialJungleException("Número de jogadores inválido", true, false);
         }
 
         // ‘loop’ foreach para Guardar Informação dos Jogadores playersInfo
@@ -94,12 +102,12 @@ public class GameManager {
             } else {
                 // se não, se houver dois jogadores com o mesmo ID, retorna invalido.
                 idJogadoresEmJogo.put(idJogador, ++countIDJogadores);
-                return false;
+                throw  new InvalidInitialJungleException("Não podem haver dois jogadores com o mesmo id", true, false);
             }
 
             // TODO NOMES - não podem ser null ou vazios
             if (nomeJogador == null || nomeJogador.isEmpty()) {
-                return false;
+                throw  new InvalidInitialJungleException("Os nomes dos jogadores não podem ser null ou vazios", true, false);
             }
 
             // TODO TARZAN
@@ -111,9 +119,7 @@ public class GameManager {
 
                 if (countTarzan > 1) {
                     System.out.println();
-                    System.out.println("Erro.: Existe mais do que 1 jogador da espécie Tarzan a competir.");
-                    System.out.println();
-                    return false;
+                    throw  new InvalidInitialJungleException("Existe mais do que 1 jogador da espécie Tarzan a competir", true, false);
                 }
             }
 
@@ -132,7 +138,7 @@ public class GameManager {
         //System.out.println(Arrays.toString(getPlayerInfo(2)));
         //System.out.println(Arrays.toString(getCurrentPlayerInfo()));
         //System.out.println(moveCurrentPlayer(1, true));
-        return true;
+
     }
 
     public int[] getPlayerIds(int squareNr) {
@@ -251,6 +257,11 @@ public class GameManager {
         return null;
     }
 
+    public String[] getCurrentPlayerEnergyInfo(int nrPositions) {
+
+        return new String[0];
+    }
+
     public String[][] getPlayersInfo() {
 
         /*
@@ -271,7 +282,7 @@ public class GameManager {
         return infoGeralJogadores;
     }
 
-    public boolean moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
+    public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
 
         // A cada turno alterno o jogador atual de acordo a quantidade dos jogadores em jogo
         // Quando chega a casa A + M alterna o jogador
@@ -284,8 +295,8 @@ public class GameManager {
 
         // O argumento nrSquares não pode ser menor que 1 ou maior do que 6, porque o dado tem 6 lados.
         // No entanto, se o parâmetro bypassValidations tiver o valor true, a regra anterior não é aplicada.
-        if (!bypassValidations && (nrSquares < 1 || nrSquares > 6)) {
-            return false;
+        if (!bypassValidations && (nrSquares < -6 || nrSquares > 6)) {
+            return new MovementResult(MovementResultCode.INVALID_MOVEMENT," ");
         }
 
         // Se o jogador tentar ultrapassar a acasa final do jogo, deve ficar na posição final do jogo
@@ -296,7 +307,7 @@ public class GameManager {
 
         // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
         if (energiaAtual == 0) {
-            return false;
+            return new MovementResult(MovementResultCode.NO_ENERGY," ");
         }
 
         // Movimento do jogador para a casa A + M
@@ -306,7 +317,7 @@ public class GameManager {
         jogadorAtual.setEnergiaAtual(energiaAtual - 2);
 
         incrementarTurno();
-        return true;
+        return new MovementResult(MovementResultCode.VALID_MOVEMENT, " ");
     }
 
     public String[] getWinnerInfo() {
@@ -329,6 +340,15 @@ public class GameManager {
 
     public String whoIsTaborda() {
         return "";
+    }
+
+    public boolean saveGame(File file) {
+
+        return false;
+    }
+
+    public boolean loadGame(File file) {
+        return false;
     }
 
     public void incrementarTurno() {
