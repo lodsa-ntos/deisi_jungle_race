@@ -8,12 +8,11 @@ public class Jogador {
     int energiaAtual;
     int turnoAtual;
 
-    public Jogador(int id, String nome, String idEspecie, int posicaoAtual, int energiaAtual) {
+    public Jogador(int id, String nome, String idEspecie, int posicaoAtual) {
         this.id = id;
         this.nome = nome;
         this.idEspecie = idEspecie;
         this.posicaoAtual = posicaoAtual;
-        this.energiaAtual = energiaAtual;
     }
 
     public int getId() {

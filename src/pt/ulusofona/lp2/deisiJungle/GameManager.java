@@ -59,7 +59,7 @@ public class GameManager {
 
     }
 
-    public void createInitialJungle(int jungleSize, int initialEnergy, String[][] playersInfo) throws InvalidInitialJungleException {
+    public void createInitialJungle(int jungleSize, String[][] playersInfo) throws InvalidInitialJungleException {
 
         posicaoFinalJogo = jungleSize;
 
@@ -72,9 +72,6 @@ public class GameManager {
         }
 
         // TODO ENERGIA — todos os jogadores começam com energia inicial no maximo
-        if (initialEnergy <= 0) {
-            throw  new InvalidInitialJungleException("Energia inicial inválida", true, false);
-        }
 
         // TODO JOGADORES — O jogo terá entre 2 e 4 jogadores
         if (playersInfo.length < 2 || playersInfo.length > 4) {
@@ -88,7 +85,7 @@ public class GameManager {
             String nomeJogador = infoJogador[1];
             String especieJogador = infoJogador[2];
 
-            Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida, initialEnergy);
+            Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida);
             jogadores.add(jogadorAtual);
             System.out.println(jogadorAtual);
 
