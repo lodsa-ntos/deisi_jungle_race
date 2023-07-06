@@ -131,7 +131,7 @@ public class GameManager {
         // System.out.println(Arrays.toString(getPlayerIds(1)));
         //System.out.println(Arrays.toString(getPlayerInfo(2)));
         //System.out.println(Arrays.toString(getCurrentPlayerInfo()));
-        //System.out.println(moveCurrentPlayer(2, true));
+        //System.out.println(moveCurrentPlayer(1, true));
         return true;
     }
 
@@ -273,9 +273,12 @@ public class GameManager {
 
     public boolean moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
 
-        //incrementarTurno();
-        Jogador jogadorAtual = jogadores.get(0);
-        int casaAtual = jogadorAtual.getPosicaoAtual();
+        // A cada turno alterno o jogador atual de acordo a quantidade dos jogadores em jogo
+        // Quando chega a casa A + M alterna o jogador
+        Jogador jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
+        System.out.println(jogadorAtual);
+
+        int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1
         int novaCasaAtual = casaAtual + nrSquares; // A + M
         int energiaAtual = jogadorAtual.getEnergiaAtual(); // 22
 
@@ -285,7 +288,22 @@ public class GameManager {
             return false;
         }
 
-        // Move o jogador do turno atual tantas casas quantas as indicadas no argumento nrSquares.
+        // Se o jogador tentar ultrapassar a acasa final do jogo, deve ficar na posição final do jogo
+        if (novaCasaAtual > POSICAO_FINAL_JOGO) {
+            novaCasaAtual = POSICAO_FINAL_JOGO;
+            //System.out.println("Vencedor");
+        }
+
+        // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
+        if (energiaAtual == 0) {
+            return false;
+        }
+
+        // Movimento do jogador para a casa A + M
+        jogadorAtual.setPosicaoAtual(novaCasaAtual);
+
+        // Durante o movimento, o jogador consome 2 unidades de energia
+        jogadorAtual.setEnergiaAtual(energiaAtual - 2);
 
         incrementarTurno();
         return true;

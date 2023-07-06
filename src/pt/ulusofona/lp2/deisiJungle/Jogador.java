@@ -6,10 +6,7 @@ public class Jogador {
     String idEspecie;
     int posicaoAtual;
     int energiaAtual;
-    int playerAtual;
     int turnoAtual;
-
-    boolean jogadorMoveu;
 
     public Jogador(int id, String nome, String idEspecie, int posicaoAtual, int energiaAtual) {
         this.id = id;
@@ -49,22 +46,6 @@ public class Jogador {
 
     public int getTurnoAtual() {
         return turnoAtual;
-    }
-
-    public int getPlayerAtual() {
-        return playerAtual;
-    }
-
-    public void setPlayerAtual(int playerAtual) {
-        this.playerAtual = playerAtual;
-    }
-
-    public boolean isJogadorMoveu() {
-        return jogadorMoveu;
-    }
-
-    public void setJogadorMoveu(boolean jogadorMoveu) {
-        this.jogadorMoveu = jogadorMoveu;
     }
 
     public void setTurnoAtual(int turnoAtual) {
