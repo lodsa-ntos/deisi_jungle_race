@@ -3,6 +3,7 @@ package pt.ulusofona.lp2.deisiJungle;
 import pt.ulusofona.lp2.deisiJungle.Records.MovementResult;
 import pt.ulusofona.lp2.deisiJungle.Records.MovementResultCode;
 import pt.ulusofona.lp2.deisiJungle.Validar.ValidadorJogador;
+import pt.ulusofona.lp2.deisiJungle.Validar.ValidatorAlimento;
 
 import javax.swing.*;
 import java.io.File;
@@ -87,6 +88,7 @@ public class GameManager {
         // TODO JOGADORES — O jogo terá entre 2 e 4 jogadores
         ValidadorJogador.validarNumJogadorEmJogo(playersInfo.length);
 
+        // TODO playersInfo
         // ‘loop’ foreach para guardar informação do playersInfo
         for (String[] infoJogador: playersInfo) {
 
@@ -114,6 +116,21 @@ public class GameManager {
             ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
         }
 
+
+        // TODO foodsInfo
+        // ‘loop’ foreach para guardar informação do foodsInfo
+        for (String[] infoAlimento: foodsInfo) {
+
+            String idTipo = infoAlimento[0];
+            int posicaoAlimento = Integer.parseInt(infoAlimento[1]);
+
+            // TODO ID - tem que ser um dos que foi retornado pela função getFoodTypes()
+            ValidatorAlimento.validarIDAlimento(idTipo, getFoodTypes());
+
+            // TODO POSIÇÃO - Os alimentos têm que estar posicionados dentro dos limites do terreno.
+            ValidatorAlimento.validarPosicaoAlimentos(posicaoAlimento, casaPartida, posicaoFinalJogo);
+
+        }
     }
 
     public void createInitialJungle(int jungleSize, String[][] playersInfo) throws InvalidInitialJungleException {
@@ -153,11 +170,6 @@ public class GameManager {
             // TODO ESPÉCIES - A espécie tem que ser uma das que foi retornada da função getSpecies()
             ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
         }
-
-        // System.out.println(Arrays.toString(getPlayerIds(1)));
-        //System.out.println(Arrays.toString(getPlayerInfo(2)));
-        //System.out.println(Arrays.toString(getCurrentPlayerInfo()));
-        //System.out.println(moveCurrentPlayer(1, true));
 
     }
 
