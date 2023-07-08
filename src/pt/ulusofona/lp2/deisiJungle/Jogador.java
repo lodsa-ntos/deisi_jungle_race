@@ -1,12 +1,12 @@
 package pt.ulusofona.lp2.deisiJungle;
 
 public class Jogador {
-    int id;
-    String nome;
-    String idEspecie;
-    int posicaoAtual;
-    int energiaAtual;
-    int turnoAtual;
+    private final int id;
+    private final String nome;
+    private final String idEspecie;
+    private int posicaoAtual;
+    private int energiaAtual;
+    private int turnoAtual;
 
     public Jogador(int id, String nome, String idEspecie, int posicaoAtual) {
         this.id = id;
@@ -45,10 +45,6 @@ public class Jogador {
 
     public int getTurnoAtual() {
         return turnoAtual;
-    }
-
-    public void setTurnoAtual(int turnoAtual) {
-        this.turnoAtual = turnoAtual;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package pt.ulusofona.lp2.deisiJungle;
+package pt.ulusofona.lp2.deisiJungle.Records;
 
 public record MovementResult (MovementResultCode code, String message) {
 

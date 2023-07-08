@@ -1,5 +1,9 @@
 package pt.ulusofona.lp2.deisiJungle;
 
+import pt.ulusofona.lp2.deisiJungle.Records.MovementResult;
+import pt.ulusofona.lp2.deisiJungle.Records.MovementResultCode;
+import pt.ulusofona.lp2.deisiJungle.Validar.ValidadorJogador;
+
 import javax.swing.*;
 import java.io.File;
 import java.util.*;
@@ -51,34 +55,39 @@ public class GameManager {
 
     public String[][] getFoodTypes() {
 
-        return new String[0][];
+        String [][] alimentos = new String[5][3];
+
+        alimentos[0][0] = "e";
+        alimentos[0][1] = "Erva";
+        alimentos[0][2] = "grass.png";
+        alimentos[1][0] = "a";
+        alimentos[1][1] = "Água";
+        alimentos[1][2] = "water.png";
+        alimentos[2][0] = "b";
+        alimentos[2][1] = "Cacho de bananas";
+        alimentos[2][2] = "bananas.png";
+        alimentos[3][0] = "c";
+        alimentos[3][1] = "Carne";
+        alimentos[3][2] = "meat.png";
+        alimentos[4][0] = "m";
+        alimentos[4][1] = "Cogumelos magicos";
+        alimentos[4][2] = "mushroom.png";
+
+        return alimentos;
     }
 
     public void createInitialJungle(int jungleSize, String[][] playersInfo, String[][] foodsInfo) throws InvalidInitialJungleException {
 
-
-    }
-
-    public void createInitialJungle(int jungleSize, String[][] playersInfo) throws InvalidInitialJungleException {
-
+        HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
         posicaoFinalJogo = jungleSize;
 
-        HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
-        int countTarzan = 0;
-
-        // TODO POSIÇÃO — duas posições por cada jogador
-        if (jungleSize < 2 * playersInfo.length) {
-            throw  new InvalidInitialJungleException("O mapa tem de ter, pelo menos, duas posições por cada jogador", true, false);
-        }
-
-        // TODO ENERGIA — todos os jogadores começam com energia inicial no maximo
+        // TODO MAPA — duas posições por cada jogador
+        ValidadorJogador.validarDimensaoMapa(posicaoFinalJogo, playersInfo.length);
 
         // TODO JOGADORES — O jogo terá entre 2 e 4 jogadores
-        if (playersInfo.length < 2 || playersInfo.length > 4) {
-            throw  new InvalidInitialJungleException("Número de jogadores inválido", true, false);
-        }
+        ValidadorJogador.validarNumJogadorEmJogo(playersInfo.length);
 
-        // ‘loop’ foreach para Guardar Informação dos Jogadores playersInfo
+        // ‘loop’ foreach para guardar informação do playersInfo
         for (String[] infoJogador: playersInfo) {
 
             int idJogador = Integer.parseInt(infoJogador[0]);
@@ -89,46 +98,60 @@ public class GameManager {
             jogadores.add(jogadorAtual);
             System.out.println(jogadorAtual);
 
-            // TODO IDs - não podem haver dois jogadores com o mesmo id
-            Integer countIDJogadores = idJogadoresEmJogo.get(idJogador);
+            // TODO IDs - é um valor numérico?
+            ValidadorJogador.validarIDJogadores(idJogador);
 
-            // enquanto não existirem jogadores com o mesmo ID
-            if (countIDJogadores == null) {
-                // o id verificado fica anotado que só existe 1 vez...
-                idJogadoresEmJogo.put(idJogador, 1);
-            } else {
-                // se não, se houver dois jogadores com o mesmo ID, retorna invalido.
-                idJogadoresEmJogo.put(idJogador, ++countIDJogadores);
-                throw  new InvalidInitialJungleException("Não podem haver dois jogadores com o mesmo id", true, false);
-            }
+            // TODO IDs - não podem haver dois jogadores com o mesmo id
+            ValidadorJogador.validarNumeroIDs(idJogadoresEmJogo, idJogador);
 
             // TODO NOMES - não podem ser null ou vazios
-            if (nomeJogador == null || nomeJogador.isEmpty()) {
-                throw  new InvalidInitialJungleException("Os nomes dos jogadores não podem ser null ou vazios", true, false);
-            }
+            ValidadorJogador.validarNomeJogadores(nomeJogador);
 
-            // TODO TARZAN
-            // Apenas poderá existir um jogador da espécie Tarzan a competir
-            for (int i = 0; i < especieJogador.length(); i++) {
-                if (especieJogador.charAt(i) == 'Z') {
-                    countTarzan++;
-                }
-
-                if (countTarzan > 1) {
-                    System.out.println();
-                    throw  new InvalidInitialJungleException("Existe mais do que 1 jogador da espécie Tarzan a competir", true, false);
-                }
-            }
+            // TODO TARZAN - Apenas poderá existir um jogador da espécie Tarzan a competir
+            ValidadorJogador.validarEspecieTarzan(especieJogador);
 
             // TODO ESPÉCIES - A espécie tem que ser uma das que foi retornada da função getSpecies()
-            for (int i = 0; i < getSpecies().length; i++) {
-                String obterEspecies = getSpecies()[i][0];
-                if ((especieJogador.contains(obterEspecies))) {
-                    // System.out.println(obterEspecies);
-                    //countEspeciesExistente++;
-                    break;
-                }
-            }
+            ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
+        }
+
+    }
+
+    public void createInitialJungle(int jungleSize, String[][] playersInfo) throws InvalidInitialJungleException {
+
+        HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
+        posicaoFinalJogo = jungleSize;
+
+        // TODO MAPA — duas posições por cada jogador
+        ValidadorJogador.validarDimensaoMapa(posicaoFinalJogo, playersInfo.length);
+
+        // TODO JOGADORES — O jogo terá entre 2 e 4 jogadores
+        ValidadorJogador.validarNumJogadorEmJogo(playersInfo.length);
+
+        // ‘loop’ foreach para guardar informação do playersInfo
+        for (String[] infoJogador: playersInfo) {
+
+            int idJogador = Integer.parseInt(infoJogador[0]);
+            String nomeJogador = infoJogador[1];
+            String especieJogador = infoJogador[2];
+
+            Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida);
+            jogadores.add(jogadorAtual);
+            System.out.println(jogadorAtual);
+
+            // TODO IDs - é um valor numérico?
+            ValidadorJogador.validarIDJogadores(idJogador);
+
+            // TODO IDs - não podem haver dois jogadores com o mesmo id
+            ValidadorJogador.validarNumeroIDs(idJogadoresEmJogo, idJogador);
+
+            // TODO NOMES - não podem ser null ou vazios
+            ValidadorJogador.validarNomeJogadores(nomeJogador);
+
+            // TODO TARZAN - Apenas poderá existir um jogador da espécie Tarzan a competir
+            ValidadorJogador.validarEspecieTarzan(especieJogador);
+
+            // TODO ESPÉCIES - A espécie tem que ser uma das que foi retornada da função getSpecies()
+            ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
         }
 
         // System.out.println(Arrays.toString(getPlayerIds(1)));
