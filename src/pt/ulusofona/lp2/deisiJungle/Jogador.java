@@ -49,7 +49,7 @@ public class Jogador {
 
     @Override
     public String toString() {
-        return id + ":" + nome + ":" + idEspecie + ":" + energiaAtual + ":" + posicaoAtual;
+        return id + ":" + nome + ":" + idEspecie + ":" + posicaoAtual;
     }
 
 }
