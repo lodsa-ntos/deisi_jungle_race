@@ -1,7 +1,7 @@
 package pt.ulusofona.lp2.deisiJungle;
 
-import pt.ulusofona.lp2.deisiJungle.Validar.ValidadorJogador;
-import pt.ulusofona.lp2.deisiJungle.Validar.ValidatorAlimento;
+import pt.ulusofona.lp2.deisiJungle.validar.ValidadorJogador;
+import pt.ulusofona.lp2.deisiJungle.validar.ValidatorAlimento;
 
 import javax.swing.*;
 import java.io.File;

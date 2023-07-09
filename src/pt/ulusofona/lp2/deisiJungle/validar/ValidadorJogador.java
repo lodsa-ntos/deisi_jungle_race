@@ -1,4 +1,4 @@
-package pt.ulusofona.lp2.deisiJungle.Validar;
+package pt.ulusofona.lp2.deisiJungle.validar;
 
 import pt.ulusofona.lp2.deisiJungle.InvalidInitialJungleException;
 
@@ -22,8 +22,12 @@ public class ValidadorJogador {
         String newID = String.valueOf(idJogador);
         boolean isNumericValue = newID.matches("-?\\d+(\\.\\d+)?");
 
-        if (newID == null || newID.isEmpty() || !isNumericValue) {
-            throw new InvalidInitialJungleException("O ID do jogador não é um valor numérico.", true, false);
+        if (!isNumericValue) {
+            throw new InvalidInitialJungleException("O ID do jogador não é válido.", true, false);
+        }
+
+        if (newID == null || newID.isEmpty()) {
+            throw new InvalidInitialJungleException("O ID do jogador não existe.", true, false);
         }
     }
 
