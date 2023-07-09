@@ -1,7 +1,5 @@
 package pt.ulusofona.lp2.deisiJungle;
 
-import pt.ulusofona.lp2.deisiJungle.Records.MovementResult;
-import pt.ulusofona.lp2.deisiJungle.Records.MovementResultCode;
 import pt.ulusofona.lp2.deisiJungle.Validar.ValidadorJogador;
 import pt.ulusofona.lp2.deisiJungle.Validar.ValidatorAlimento;
 
@@ -353,8 +351,9 @@ public class GameManager {
         Jogador jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
         System.out.println(jogadorAtual);
 
-        int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1
-        int novaCasaAtual = casaAtual + nrSquares; // A + M
+        int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1 // ficar no mesmo sitio
+        int avancar = casaAtual + nrSquares; // A + M
+        int recuar = casaAtual - nrSquares; // A — M
         int energiaAtual = jogadorAtual.getEnergiaAtual(); // 22
 
         // O argumento nrSquares não pode ser menor que 1 ou maior do que 6, porque o dado tem 6 lados.
@@ -364,8 +363,8 @@ public class GameManager {
         }
 
         // Se o jogador tentar ultrapassar a acasa final do jogo, deve ficar na posição final do jogo
-        if (novaCasaAtual > posicaoFinalJogo) {
-            novaCasaAtual = posicaoFinalJogo;
+        if (avancar > posicaoFinalJogo) {
+            avancar = posicaoFinalJogo;
             //System.out.println("Vencedor");
         }
 
@@ -375,7 +374,10 @@ public class GameManager {
         }
 
         // Movimento do jogador para a casa A + M
-        jogadorAtual.setPosicaoAtual(novaCasaAtual);
+        jogadorAtual.setPosicaoAtual(avancar);
+
+        // Movimento do jogador para a casa A — M
+        jogadorAtual.setPosicaoAtual(recuar);
 
         // Durante o movimento, o jogador consome 2 unidades de energia
         jogadorAtual.setEnergiaAtual(energiaAtual - 2);

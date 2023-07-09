@@ -1,4 +1,4 @@
-package pt.ulusofona.lp2.deisiJungle.Records;
+package pt.ulusofona.lp2.deisiJungle;
 
 public enum MovementResultCode {
     INVALID_MOVEMENT,
