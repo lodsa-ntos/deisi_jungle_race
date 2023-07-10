@@ -118,10 +118,10 @@ public class GameManager {
         HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
         posicaoFinalJogo = jungleSize;
 
-        // TODO MAPA — duas posições por cada jogador
+        // TODO O MAPA — duas posições por cada jogador
         ValidadorJogador.validarDimensaoMapa(posicaoFinalJogo, playersInfo.length);
 
-        // TODO JOGADORES — O jogo terá entre 2 e 4 jogadores
+        // TODO JOGADOR — O jogo terá entre 2 e 4 jogadores
         ValidadorJogador.validarNumJogadorEmJogo(playersInfo.length);
 
         // TODO playersInfo
@@ -137,7 +137,7 @@ public class GameManager {
                 throw new InvalidInitialJungleException("O ID do jogador é null ou vazio, logo, não é válido.", true, false);
             }
 
-            // TODO IDs - é um valor numérico?
+            // TODO IDs — é um valor numérico?
             boolean isNumericValue = oldIDJogador.matches("-?\\d+(\\.\\d+)?");
 
             if (!isNumericValue) {
@@ -148,19 +148,23 @@ public class GameManager {
 
             Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida);
             jogadores.add(jogadorAtual);
-            System.out.println(jogadorAtual);
+            System.out.println("Jogador ⇒ " + jogadorAtual);
 
-            // TODO IDs - não podem haver dois jogadores com o mesmo id
+            // TODO IDs — não podem haver dois jogadores com o mesmo id
             ValidadorJogador.validarNumeroIDs(idJogadoresEmJogo, idJogador);
 
-            // TODO NOMES - não podem ser null ou vazios
+            // TODO O NOMES - não podem ser null ou vazios
             ValidadorJogador.validarNomeJogadores(nomeJogador);
 
-            // TODO TARZAN - Apenas poderá existir um jogador da espécie Tarzan a competir
+            // TODO TARZAN — Apenas poderá existir um jogador da espécie Tarzan a competir
             ValidadorJogador.validarEspecieTarzan(especieJogador);
 
-            // TODO ESPÉCIES - A espécie tem que ser uma das que foi retornada da função getSpecies()
+            // TODO O ESPÉCIES - A espécie tem que ser uma das que foi retornada da função getSpecies()
             ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
+
+            // Definir especies do jogador
+            jogadorAtual.definirEspecieJogador(especieJogador);
+            System.out.println(jogadorAtual.getEspecie());
         }
 
         System.out.println();
@@ -329,14 +333,16 @@ public class GameManager {
         - [3] => A energia atual do jogador, medida em unidades de energia
         - [4] => A velocidade, no formato “X..Y” => Velocidade Minima = 1..6 = Velocidade Maxima
          */
-        String[] infoJogador = new String[4];
+        String[] infoJogador = new String[5];
 
-        for (Jogador info : jogadores) {
-            if (info.getId() == playerId) {
-                infoJogador[0] = String.valueOf(info.getId());
-                infoJogador[1] = info.getNome();
-                infoJogador[2] = String.valueOf(info.getIdEspecie());
-                infoJogador[3] = String.valueOf(info.getEnergiaAtual());
+        for (Jogador jogador : jogadores) {
+            if (jogador.getId() == playerId) {
+                infoJogador[0] = String.valueOf(jogador.getId());
+                infoJogador[1] = jogador.getNome();
+                infoJogador[2] = String.valueOf(jogador.getIdEspecie());
+                infoJogador[3] = String.valueOf(jogador.getEnergiaAtual());
+                infoJogador[4] = jogador.getEspecie().getVelocidadeMinima() + ".."
+                        + jogador.getEspecie().getVelocidadeMaxima() ;
                 return infoJogador;
             }
         }
