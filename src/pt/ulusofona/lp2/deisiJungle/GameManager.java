@@ -327,6 +327,7 @@ public class GameManager {
         - [1] => O Nome do jogador
         - [2] => O ID da espécie associada ao jogador.
         - [3] => A energia atual do jogador, medida em unidades de energia
+        - [4] => A velocidade, no formato “X..Y” => Velocidade Minima = 1..6 = Velocidade Maxima
          */
         String[] infoJogador = new String[4];
 
