@@ -28,15 +28,6 @@ public class ValidatorAlimento {
 
     }
 
-    public static void validarValorNumPosicao(int posicaoAlimento) throws InvalidInitialJungleException {
-        String posicao = String.valueOf(posicaoAlimento);
-        boolean isNumericValue = posicao.matches("-?\\d+(\\.\\d+)?");
-
-        if (!isNumericValue) {
-            throw new InvalidInitialJungleException("A posição do alimento não é válido.", true, false);
-        }
-    }
-
     public static void validarPosicaoAlimentos(int posicaoAlimento, int posicaoInicialMapa, int posicaoFinalMapa) throws InvalidInitialJungleException {
         if (posicaoAlimento <= posicaoInicialMapa || posicaoAlimento >= posicaoFinalMapa) {
             throw new InvalidInitialJungleException("Os alimentos têm que estar posicionados dentro dos limites do terreno.", false, true);

@@ -128,23 +128,23 @@ public class GameManager {
         // ‘loop’ foreach para guardar informação do playersInfo
         for (String[] infoJogador: playersInfo) {
 
-            String oldID = infoJogador[0]; // TODO erro no dropProjet pensar melhor
+            String oldIDJogador = infoJogador[0];
             String nomeJogador = infoJogador[1];
             String especieJogador = infoJogador[2];
 
             // TODO IDs - é null ou vazio?
-            if (oldID == null || oldID.isEmpty()) {
+            if (oldIDJogador == null || oldIDJogador.isEmpty()) {
                 throw new InvalidInitialJungleException("O ID do jogador é null ou vazio, logo, não é válido.", true, false);
             }
 
             // TODO IDs - é um valor numérico?
-            boolean isNumericValue = oldID.matches("-?\\d+(\\.\\d+)?");
+            boolean isNumericValue = oldIDJogador.matches("-?\\d+(\\.\\d+)?");
 
             if (!isNumericValue) {
                 throw new InvalidInitialJungleException("O ID do jogador não é válido.", true, false);
             }
 
-            int idJogador = Integer.parseInt(oldID);
+            int idJogador = Integer.parseInt(oldIDJogador);
 
             Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida);
             jogadores.add(jogadorAtual);
@@ -170,7 +170,22 @@ public class GameManager {
         for (String[] infoAlimento: foodsInfo) {
 
             String idTipo = infoAlimento[0];
-            int posicaoAlimento = Integer.parseInt(infoAlimento[1]);
+            String oldPosicaoAlimento = infoAlimento[1];
+            //int posicaoAlimento = Integer.parseInt(infoAlimento[1]);
+
+            // TODO IDs - é null ou vazio?
+            if (oldPosicaoAlimento == null || oldPosicaoAlimento.isEmpty()) {
+                throw new InvalidInitialJungleException("A posição do alimento é null ou vazio, logo, não é válida.", false, true);
+            }
+
+            // TODO IDs - é um valor numérico?
+            boolean isNumericValue = oldPosicaoAlimento.matches("-?\\d+(\\.\\d+)?");
+
+            if (!isNumericValue) {
+                throw new InvalidInitialJungleException("A posição do alimento não é válida.", false, true);
+            }
+
+            int posicaoAlimento = Integer.parseInt(oldPosicaoAlimento);
 
             // TODO ID - tem que ser um dos que foi retornado pela função getFoodTypes()
             ValidatorAlimento.validarIDAlimento(idTipo, getFoodTypes());
@@ -199,23 +214,23 @@ public class GameManager {
         // ‘loop’ foreach para guardar informação do playersInfo
         for (String[] infoJogador: playersInfo) {
 
-            String oldID = infoJogador[0]; // TODO erro no dropProjet pensar melhor
+            String oldIDJogador = infoJogador[0];
             String nomeJogador = infoJogador[1];
             String especieJogador = infoJogador[2];
 
             // TODO IDs - é null ou vazio?
-            if (oldID == null || oldID.isEmpty()) {
+            if (oldIDJogador == null || oldIDJogador.isEmpty()) {
                 throw new InvalidInitialJungleException("O ID do jogador é null ou vazio, logo, não é válido.", true, false);
             }
 
             // TODO IDs - é um valor numérico?
-            boolean isNumericValue = oldID.matches("-?\\d+(\\.\\d+)?");
+            boolean isNumericValue = oldIDJogador.matches("-?\\d+(\\.\\d+)?");
 
             if (!isNumericValue) {
                 throw new InvalidInitialJungleException("O ID do jogador não é válido.", true, false);
             }
 
-            int idJogador = Integer.parseInt(oldID);
+            int idJogador = Integer.parseInt(oldIDJogador);
 
             Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida);
             jogadores.add(jogadorAtual);
