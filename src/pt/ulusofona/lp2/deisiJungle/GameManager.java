@@ -62,9 +62,9 @@ public class GameManager {
         especies[0][5] = "5"; // ⇒ ganho de energia em descanso
         especies[0][6] = "1..3"; // ⇒ velocidade, no formato “X..Y”
 
+        especies[3][0] = "P";
         especies[3][1] = "Pássaro";
         especies[3][2] = "bird.png";
-        especies[3][0] = "P";
         especies[0][3] = "70"; // ⇒ energia inicial
         especies[0][4] = "4"; // ⇒ consumo de energia
         especies[0][5] = "50"; // ⇒ ganho de energia em descanso
@@ -170,10 +170,10 @@ public class GameManager {
         HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
         posicaoFinalJogo = jungleSize;
 
-        // TODO MAPA — duas posições por cada jogador
+        // TODO O MAPA — duas posições por cada jogador
         ValidadorJogador.validarDimensaoMapa(posicaoFinalJogo, playersInfo.length);
 
-        // TODO JOGADORES — O jogo terá entre 2 e 4 jogadores
+        // TODO JOGADOR — O jogo terá entre 2 e 4 jogadores
         ValidadorJogador.validarNumJogadorEmJogo(playersInfo.length);
 
         // ‘loop’ foreach para guardar informação do playersInfo
@@ -187,19 +187,19 @@ public class GameManager {
             jogadores.add(jogadorAtual);
             System.out.println(jogadorAtual);
 
-            // TODO IDs - é um valor numérico?
+            // TODO IDs — é um valor numérico?
             ValidadorJogador.validarIDJogadores(idJogador);
 
-            // TODO IDs - não podem haver dois jogadores com o mesmo id
+            // TODO IDs — não podem haver dois jogadores com o mesmo id
             ValidadorJogador.validarNumeroIDs(idJogadoresEmJogo, idJogador);
 
-            // TODO NOMES - não podem ser null ou vazios
+            // TODO O NOMES - não podem ser null ou vazios
             ValidadorJogador.validarNomeJogadores(nomeJogador);
 
-            // TODO TARZAN - Apenas poderá existir um jogador da espécie Tarzan a competir
+            // TODO TARZAN — Apenas poderá existir um jogador da espécie Tarzan a competir
             ValidadorJogador.validarEspecieTarzan(especieJogador);
 
-            // TODO ESPÉCIES - A espécie tem que ser uma das que foi retornada da função getSpecies()
+            // TODO O ESPÉCIES - A espécie tem que ser uma das que foi retornada da função getSpecies()
             ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
         }
 
