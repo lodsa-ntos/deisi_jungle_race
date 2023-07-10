@@ -18,7 +18,7 @@ public class Jogador {
         this.posicaoAtual = posicaoAtual;
     }
 
-    public int getId() {
+    public final int getId() {
         return id;
     }
 
@@ -61,7 +61,7 @@ public class Jogador {
             case "T" -> this.especie = new Tartaruga(idEspecieJogador, "Tartaruga", "turtle.png");
             case "P" -> this.especie = new Passaro(idEspecieJogador, "Pássaro", "bird.png");
             case "Z" -> this.especie = new Tarzan(idEspecieJogador, "Tarzan", "tarzan.png");
-            case "U" -> this.especie = new Unicornio(idEspecieJogador, "Unicornio", "unicorn.png");
+            case "U" -> this.especie = new Unicornio(idEspecieJogador, "Unicórnio", "unicorn.png");
             default -> throw new IllegalArgumentException("Espécie inválida: " + idEspecieJogador);
         }
 

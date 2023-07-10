@@ -104,7 +104,7 @@ public class Elefante extends Especie {
                 "Energia Inicial: " + energiaInicial + "\n" +
                 "Consumo de Energia: " + consumoEnergia + "\n" +
                 "Ganho Energia Descanso: " + ganhoEnergiaDescanso + "\n" +
-                "Velocidade maxima: " + velocidadeMaxima + "\n" +
-                "Velocidade minima: " + velocidadeMinima + "\n";
+                "Velocidade minima: " + velocidadeMinima + "\n" +
+                "Velocidade maxima: " + velocidadeMaxima + "\n";
     }
 }

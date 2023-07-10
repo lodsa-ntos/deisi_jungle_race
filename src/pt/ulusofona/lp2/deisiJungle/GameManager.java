@@ -335,14 +335,15 @@ public class GameManager {
          */
         String[] infoJogador = new String[5];
 
-        for (Jogador jogador : jogadores) {
-            if (jogador.getId() == playerId) {
-                infoJogador[0] = String.valueOf(jogador.getId());
-                infoJogador[1] = jogador.getNome();
-                infoJogador[2] = String.valueOf(jogador.getIdEspecie());
-                infoJogador[3] = String.valueOf(jogador.getEnergiaAtual());
-                infoJogador[4] = jogador.getEspecie().getVelocidadeMinima() + ".."
-                        + jogador.getEspecie().getVelocidadeMaxima() ;
+        for (int i = 0; i < jogadores.size(); i++) {
+
+            if (jogadores.get(i).getId() == playerId) {
+                infoJogador[0] = String.valueOf(jogadores.get(i).getId());
+                infoJogador[1] = jogadores.get(i).getNome();
+                infoJogador[2] = jogadores.get(i).getIdEspecie();
+                infoJogador[3] = String.valueOf(jogadores.get(i).getEnergiaAtual());
+                infoJogador[4] = jogadores.get(i).getEspecie().getVelocidadeMinima() + ".." + jogadores.get(i).getEspecie().getVelocidadeMaxima();
+
                 return infoJogador;
             }
         }
