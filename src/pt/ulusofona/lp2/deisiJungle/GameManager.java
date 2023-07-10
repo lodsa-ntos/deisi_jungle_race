@@ -128,16 +128,27 @@ public class GameManager {
         // ‘loop’ foreach para guardar informação do playersInfo
         for (String[] infoJogador: playersInfo) {
 
-            int idJogador = Integer.parseInt(infoJogador[0]); // TODO erro no dropProjet pensar melhor
+            String oldID = infoJogador[0]; // TODO erro no dropProjet pensar melhor
             String nomeJogador = infoJogador[1];
             String especieJogador = infoJogador[2];
+
+            // TODO IDs - é null ou vazio?
+            if (oldID == null || oldID.isEmpty()) {
+                throw new InvalidInitialJungleException("O ID do jogador é null ou vazio, logo, não é válido.", true, false);
+            }
+
+            // TODO IDs - é um valor numérico?
+            boolean isNumericValue = oldID.matches("-?\\d+(\\.\\d+)?");
+
+            if (!isNumericValue) {
+                throw new InvalidInitialJungleException("O ID do jogador não é válido.", true, false);
+            }
+
+            int idJogador = Integer.parseInt(oldID);
 
             Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida);
             jogadores.add(jogadorAtual);
             System.out.println(jogadorAtual);
-
-            // TODO IDs - é um valor numérico?
-            ValidadorJogador.validarIDJogadores(idJogador);
 
             // TODO IDs - não podem haver dois jogadores com o mesmo id
             ValidadorJogador.validarNumeroIDs(idJogadoresEmJogo, idJogador);
@@ -188,16 +199,27 @@ public class GameManager {
         // ‘loop’ foreach para guardar informação do playersInfo
         for (String[] infoJogador: playersInfo) {
 
-            int idJogador = Integer.parseInt(infoJogador[0]); // TODO erro no dropProjet pensar melhor
+            String oldID = infoJogador[0]; // TODO erro no dropProjet pensar melhor
             String nomeJogador = infoJogador[1];
             String especieJogador = infoJogador[2];
+
+            // TODO IDs - é null ou vazio?
+            if (oldID == null || oldID.isEmpty()) {
+                throw new InvalidInitialJungleException("O ID do jogador é null ou vazio, logo, não é válido.", true, false);
+            }
+
+            // TODO IDs - é um valor numérico?
+            boolean isNumericValue = oldID.matches("-?\\d+(\\.\\d+)?");
+
+            if (!isNumericValue) {
+                throw new InvalidInitialJungleException("O ID do jogador não é válido.", true, false);
+            }
+
+            int idJogador = Integer.parseInt(oldID);
 
             Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida);
             jogadores.add(jogadorAtual);
             System.out.println(jogadorAtual);
-
-            // TODO IDs — é um valor numérico?
-            ValidadorJogador.validarIDJogadores(idJogador);
 
             // TODO IDs — não podem haver dois jogadores com o mesmo id
             ValidadorJogador.validarNumeroIDs(idJogadoresEmJogo, idJogador);

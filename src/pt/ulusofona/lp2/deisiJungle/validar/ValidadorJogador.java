@@ -18,19 +18,6 @@ public class ValidadorJogador {
         }
     }
 
-    public static void validarIDJogadores(int idJogador) throws InvalidInitialJungleException {
-        String newID = String.valueOf(idJogador);
-        boolean isNumericValue = newID.matches("-?\\d+(\\.\\d+)?");
-
-        if (!isNumericValue) {
-            throw new InvalidInitialJungleException("O ID do jogador não é válido.", true, false);
-        }
-
-        if (newID == null || newID.isEmpty()) {
-            throw new InvalidInitialJungleException("O ID do jogador não existe.", true, false);
-        }
-    }
-
     public static void validarNumeroIDs(Map<Integer, Integer> idJogadoresEmJogo, int idJogador) throws InvalidInitialJungleException {
         Integer countIDJogadores = idJogadoresEmJogo.get(idJogador);
 
