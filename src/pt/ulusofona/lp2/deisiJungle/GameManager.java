@@ -35,8 +35,9 @@ public class GameManager {
             ● [4] ⇒ consumo de energia
             ● [5] ⇒ ganho de energia em descanso
             ● [6] ⇒ velocidade, no formato “X..Y”
+            // Total Especies = 6
         */
-        String [][] especies = new String[5][7];
+        String [][] especies = new String[6][7];
 
         especies[0][0] = "E"; // ⇒ id da espécie
         especies[0][1] = "Elefante"; // ⇒ nome da espécie
@@ -49,34 +50,42 @@ public class GameManager {
         especies[1][0] = "L";
         especies[1][1] = "Leão";
         especies[1][2] = "lion.png";
-        especies[0][3] = "80"; // ⇒ energia inicial
-        especies[0][4] = "2"; // ⇒ consumo de energia
-        especies[0][5] = "10"; // ⇒ ganho de energia em descanso
-        especies[0][6] = "4..6"; // ⇒ velocidade, no formato “X..Y”
+        especies[1][3] = "80"; // ⇒ energia inicial
+        especies[1][4] = "2"; // ⇒ consumo de energia
+        especies[1][5] = "10"; // ⇒ ganho de energia em descanso
+        especies[1][6] = "4..6"; // ⇒ velocidade, no formato “X..Y”
 
         especies[2][0] = "T";
         especies[2][1] = "Tartaruga";
         especies[2][2] = "turtle.png";
-        especies[0][3] = "150"; // ⇒ energia inicial
-        especies[0][4] = "1"; // ⇒ consumo de energia
-        especies[0][5] = "5"; // ⇒ ganho de energia em descanso
-        especies[0][6] = "1..3"; // ⇒ velocidade, no formato “X..Y”
+        especies[2][3] = "150"; // ⇒ energia inicial
+        especies[2][4] = "1"; // ⇒ consumo de energia
+        especies[2][5] = "5"; // ⇒ ganho de energia em descanso
+        especies[2][6] = "1..3"; // ⇒ velocidade, no formato “X..Y”
 
         especies[3][0] = "P";
         especies[3][1] = "Pássaro";
         especies[3][2] = "bird.png";
-        especies[0][3] = "70"; // ⇒ energia inicial
-        especies[0][4] = "4"; // ⇒ consumo de energia
-        especies[0][5] = "50"; // ⇒ ganho de energia em descanso
-        especies[0][6] = "5..6"; // ⇒ velocidade, no formato “X..Y”
+        especies[3][3] = "70"; // ⇒ energia inicial
+        especies[3][4] = "4"; // ⇒ consumo de energia
+        especies[3][5] = "50"; // ⇒ ganho de energia em descanso
+        especies[3][6] = "5..6"; // ⇒ velocidade, no formato “X..Y”
 
         especies[4][0] = "Z";
         especies[4][1] = "Tarzan";
         especies[4][2] = "tarzan.png";
-        especies[0][3] = "70"; // ⇒ energia inicial
-        especies[0][4] = "2"; // ⇒ consumo de energia
-        especies[0][5] = "20"; // ⇒ ganho de energia em descanso
-        especies[0][6] = "1..6"; // ⇒ velocidade, no formato “X..Y”
+        especies[4][3] = "70"; // ⇒ energia inicial
+        especies[4][4] = "2"; // ⇒ consumo de energia
+        especies[4][5] = "20"; // ⇒ ganho de energia em descanso
+        especies[4][6] = "1..6"; // ⇒ velocidade, no formato “X..Y”
+
+        especies[5][0] = "U";
+        especies[5][1] = "Unicórnio";
+        especies[5][2] = "unicorn.png";
+        especies[5][3] = "200"; // ⇒ energia inicial
+        especies[5][4] = "8"; // ⇒ consumo de energia
+        especies[5][5] = "20"; // ⇒ ganho de energia em descanso
+        especies[5][6] = "3..6"; // ⇒ velocidade, no formato “X..Y”
 
         return especies;
     }
