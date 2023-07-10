@@ -128,7 +128,7 @@ public class GameManager {
         // ‘loop’ foreach para guardar informação do playersInfo
         for (String[] infoJogador: playersInfo) {
 
-            int idJogador = Integer.parseInt(infoJogador[0]);
+            int idJogador = Integer.parseInt(infoJogador[0]); // TODO erro no dropProjet pensar melhor
             String nomeJogador = infoJogador[1];
             String especieJogador = infoJogador[2];
 
@@ -188,7 +188,7 @@ public class GameManager {
         // ‘loop’ foreach para guardar informação do playersInfo
         for (String[] infoJogador: playersInfo) {
 
-            int idJogador = Integer.parseInt(infoJogador[0]);
+            int idJogador = Integer.parseInt(infoJogador[0]); // TODO erro no dropProjet pensar melhor
             String nomeJogador = infoJogador[1];
             String especieJogador = infoJogador[2];
 
