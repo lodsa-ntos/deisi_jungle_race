@@ -3,9 +3,9 @@ package pt.ulusofona.lp2.deisiJungle;
 import pt.ulusofona.lp2.deisiJungle.especieFilho.*;
 
 public class Jogador {
-    private final int id;
-    private final String nome;
-    private final String idEspecie;
+    private int id;
+    private String nome;
+    private String idEspecie;
     private int posicaoAtual;
     private int energiaAtual;
     private Especie especie;
@@ -16,6 +16,49 @@ public class Jogador {
         this.nome = nome;
         this.idEspecie = idEspecie;
         this.posicaoAtual = posicaoAtual;
+    }
+
+    public void caracterizarEspecieJogador(Jogador jogadorAtual) {
+
+        switch (idEspecie) {
+            case "E" -> {
+                this.especie = new Elefante(idEspecie, "Elefante", "elephant.png",
+                        180, 4, 10, 1, 6);
+                jogadorAtual.setEspecie(this.especie);
+                jogadorAtual.setEnergiaAtual(this.especie.getEnergiaInicial());
+            }
+            case "L" -> {
+                this.especie = new Leao(idEspecie, "Leão", "lion.png",
+                        80, 2, 10, 4, 6);
+                jogadorAtual.setEspecie(this.especie);
+                jogadorAtual.setEnergiaAtual(this.especie.getEnergiaInicial());
+            }
+            case "P" -> {
+                this.especie = new Passaro(idEspecie, "Pássaro", "bird.png",
+                        70, 4, 50, 5, 6);
+                jogadorAtual.setEspecie(this.especie);
+                jogadorAtual.setEnergiaAtual(this.especie.getEnergiaInicial());
+            }
+            case "T" -> {
+                this.especie = new Tartaruga(idEspecie, "Tartaruga", "turtle.png",
+                        150, 1, 5, 1, 3);
+                jogadorAtual.setEspecie(this.especie);
+                jogadorAtual.setEnergiaAtual(this.especie.getEnergiaInicial());
+            }
+            case "Z" -> {
+                this.especie = new Tarzan(idEspecie, "Tarzan", "tarzan.png",
+                        70, 2, 20, 1, 6);
+                jogadorAtual.setEspecie(this.especie);
+                jogadorAtual.setEnergiaAtual(this.especie.getEnergiaInicial());
+            }
+            case "U" -> {
+                this.especie = new Unicornio(idEspecie, "Unicórnio", "unicorn.png",
+                        200, 8, 20, 3, 3);
+                jogadorAtual.setEspecie(this.especie);
+                jogadorAtual.setEnergiaAtual(this.especie.getEnergiaInicial());
+            }
+        }
+
     }
 
     public final int getId() {
@@ -54,18 +97,8 @@ public class Jogador {
         return especie;
     }
 
-    public void definirEspecieJogador(String idEspecieJogador) {
-        switch (idEspecieJogador) {
-            case "E" -> this.especie = new Elefante(idEspecieJogador, "Elefante", "elephant.png");
-            case "L" -> this.especie = new Leao(idEspecieJogador, "Leao", "leon.png");
-            case "T" -> this.especie = new Tartaruga(idEspecieJogador, "Tartaruga", "turtle.png");
-            case "P" -> this.especie = new Passaro(idEspecieJogador, "Pássaro", "bird.png");
-            case "Z" -> this.especie = new Tarzan(idEspecieJogador, "Tarzan", "tarzan.png");
-            case "U" -> this.especie = new Unicornio(idEspecieJogador, "Unicórnio", "unicorn.png");
-            default -> throw new IllegalArgumentException("Espécie inválida: " + idEspecieJogador);
-        }
-
-        getEspecie().caracterizarEspecie();
+    public void setEspecie(Especie especie) {
+        this.especie = especie;
     }
 
     @Override

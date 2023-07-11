@@ -1,11 +1,14 @@
 package pt.ulusofona.lp2.deisiJungle.especieFilho;
 
 import pt.ulusofona.lp2.deisiJungle.Especie;
+import pt.ulusofona.lp2.deisiJungle.Jogador;
 
 public class Passaro extends Especie {
 
-    public Passaro(String id, String nome, String imagem) {
-        super(id, nome, imagem);
+
+    public Passaro(String id, String nome, String imagem, int energiaInicial, int consumoEnergia, int ganhoEnergiaDescanso,
+                   int velocidadeMinima, int velocidadeMaxima) {
+        super(id, nome, imagem, energiaInicial, consumoEnergia, ganhoEnergiaDescanso, velocidadeMinima, velocidadeMaxima);
     }
 
     @Override

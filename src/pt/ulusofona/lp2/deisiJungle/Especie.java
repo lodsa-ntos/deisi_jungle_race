@@ -11,10 +11,17 @@ public abstract class Especie {
     protected String nome;
     protected String imagem;
 
-    public Especie(String id, String nome, String imagem) {
+    public Especie(String id, String nome, String imagem, int energiaInicial, int consumoEnergia,
+                   int ganhoEnergiaDescanso, int velocidadeMinima, int velocidadeMaxima) {
+
         this.id = id;
         this.nome = nome;
         this.imagem = imagem;
+        this.energiaInicial = energiaInicial;
+        this.consumoEnergia = consumoEnergia;
+        this.ganhoEnergiaDescanso = ganhoEnergiaDescanso;
+        this.velocidadeMinima = velocidadeMinima;
+        this.velocidadeMaxima = velocidadeMaxima;
     }
 
     protected abstract void caracterizarEspecie();

@@ -1,5 +1,6 @@
 package pt.ulusofona.lp2.deisiJungle;
 
+import pt.ulusofona.lp2.deisiJungle.especieFilho.Elefante;
 import pt.ulusofona.lp2.deisiJungle.validar.ValidadorJogador;
 import pt.ulusofona.lp2.deisiJungle.validar.ValidatorAlimento;
 
@@ -146,10 +147,6 @@ public class GameManager {
 
             int idJogador = Integer.parseInt(oldIDJogador);
 
-            Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida);
-            jogadores.add(jogadorAtual);
-            System.out.println("Jogador ⇒ " + jogadorAtual);
-
             // TODO IDs — não podem haver dois jogadores com o mesmo id
             ValidadorJogador.validarNumeroIDs(idJogadoresEmJogo, idJogador);
 
@@ -163,8 +160,12 @@ public class GameManager {
             ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
 
             // Definir especies do jogador
-            jogadorAtual.definirEspecieJogador(especieJogador);
-            System.out.println(jogadorAtual.getEspecie());
+            Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida);
+            jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
+            jogadores.add(jogadorAtual);
+            System.out.println("Jogador ⇒ " + jogadorAtual);
+
+            //System.out.println(jogadorAtual.getEspecie());
             //System.out.println(Arrays.toString(getCurrentPlayerEnergyInfo(3)));
         }
 
