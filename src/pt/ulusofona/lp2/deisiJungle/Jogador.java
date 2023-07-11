@@ -65,9 +65,8 @@ public class Jogador {
             default -> throw new IllegalArgumentException("Espécie inválida: " + idEspecieJogador);
         }
 
-        this.especie.caracterizarEspecie();
+        getEspecie().caracterizarEspecie();
     }
-
 
     @Override
     public String toString() {

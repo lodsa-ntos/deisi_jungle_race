@@ -165,7 +165,7 @@ public class GameManager {
             // Definir especies do jogador
             jogadorAtual.definirEspecieJogador(especieJogador);
             System.out.println(jogadorAtual.getEspecie());
-            //System.out.println(Arrays.toString(getCurrentPlayerEnergyInfo(10)));
+            //System.out.println(Arrays.toString(getCurrentPlayerEnergyInfo(3)));
         }
 
         System.out.println();
