@@ -163,8 +163,8 @@ public class GameManager {
             ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
 
             // Definir especies do jogador
-            jogadorAtual.definirEspecieJogador(especieJogador);
-            System.out.println(jogadorAtual.getEspecie());
+            //jogadorAtual.definirEspecieJogador(especieJogador);
+            //System.out.println(jogadorAtual.getEspecie());
         }
 
         System.out.println();
@@ -335,15 +335,14 @@ public class GameManager {
          */
         String[] infoJogador = new String[5];
 
-        for (int i = 0; i < jogadores.size(); i++) {
-
-            if (jogadores.get(i).getId() == playerId) {
-                infoJogador[0] = String.valueOf(jogadores.get(i).getId());
-                infoJogador[1] = jogadores.get(i).getNome();
-                infoJogador[2] = jogadores.get(i).getIdEspecie();
-                infoJogador[3] = String.valueOf(jogadores.get(i).getEnergiaAtual());
-                infoJogador[4] = jogadores.get(i).getEspecie().getVelocidadeMinima() + ".." + jogadores.get(i).getEspecie().getVelocidadeMaxima();
-
+        for (Jogador jogador : jogadores) {
+            if (jogador.getId() == playerId) {
+                infoJogador[0] = String.valueOf(jogador.getId());
+                infoJogador[1] = jogador.getNome();
+                infoJogador[2] = jogador.getIdEspecie();
+                infoJogador[3] = String.valueOf(jogador.getEnergiaAtual());
+                infoJogador[4] = jogador.getEspecie().getVelocidadeMinima() + ".."
+                        + jogador.getEspecie().getVelocidadeMaxima();
                 return infoJogador;
             }
         }

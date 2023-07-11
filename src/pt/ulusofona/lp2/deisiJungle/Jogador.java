@@ -54,6 +54,7 @@ public class Jogador {
         return especie;
     }
 
+    /*
     public void definirEspecieJogador(String idEspecieJogador) {
         switch (idEspecieJogador) {
             case "E" -> this.especie = new Elefante(idEspecieJogador, "Elefante", "elephant.png");
@@ -67,6 +68,9 @@ public class Jogador {
 
         this.especie.caracterizarEspecie();
     }
+     */
+
+
 
 
     @Override
