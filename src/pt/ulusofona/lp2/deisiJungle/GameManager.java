@@ -163,8 +163,9 @@ public class GameManager {
             ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
 
             // Definir especies do jogador
-            //jogadorAtual.definirEspecieJogador(especieJogador);
-            //System.out.println(jogadorAtual.getEspecie());
+            jogadorAtual.definirEspecieJogador(especieJogador);
+            System.out.println(jogadorAtual.getEspecie());
+            //System.out.println(Arrays.toString(getCurrentPlayerEnergyInfo(10)));
         }
 
         System.out.println();
@@ -324,6 +325,11 @@ public class GameManager {
         return infoPosCaixasNoMapa;
     }
 
+    //TODO dropProjet - erro test_001_Unicornio_Specie_OBG (getPlayerInfo)
+    // Cannot invoke "pt.ulusofona.lp2.deisiJungle.Especie.getVelocidadeMinima()"
+    // because the return value of "pt.ulusofona.lp2.deisiJungle.Jogador.getEspecie()" is null
+
+    // Influencia com outros metodos???
     public String[] getPlayerInfo(int playerId) {
 
         /*
@@ -341,8 +347,7 @@ public class GameManager {
                 infoJogador[1] = jogador.getNome();
                 infoJogador[2] = jogador.getIdEspecie();
                 infoJogador[3] = String.valueOf(jogador.getEnergiaAtual());
-                infoJogador[4] = jogador.getEspecie().getVelocidadeMinima() + ".."
-                        + jogador.getEspecie().getVelocidadeMaxima();
+                infoJogador[4] = jogador.getEspecie().getVelocidadeMinima() + ".." + jogador.getEspecie().getVelocidadeMaxima();
                 return infoJogador;
             }
         }
@@ -374,7 +379,32 @@ public class GameManager {
 
     public String[] getCurrentPlayerEnergyInfo(int nrPositions) {
 
-        return new String[0];
+        //Devolve informação de energia para o jogador que se encontra ativo no turno atual.
+
+        /*
+        - [0] => Qual será o consumo de energia deste jogador se se movimentar <nrPositions>
+        - [1] => Qual será o ganho de energia se ficar no lugar
+         */
+
+        //Consumo de energia — a quantidade de unidades de energia gastas para o
+        //animal se mover uma posição. Por exemplo, se o jogador se movimentar 3 posições, irá
+        //gastar 3 * N, em que N é o consumo de energia da espécie respetiva
+
+        // Ganho de energia em descanso — a quantidade de unidades de energia que o jogador
+        //ganha por não avançar (seja porque assim o decidiu, seja porque já não tem energia)
+
+        String[] infoEnergia = new String[2];
+
+        for (Jogador jogador: jogadores) {
+            if (jogador.getTurnoAtual() == 0) {
+                infoEnergia[0] = String.valueOf(jogador.getEspecie().getConsumoEnergia() * nrPositions);
+                infoEnergia[1] = String.valueOf(jogador.getEspecie().getGanhoEnergiaDescanso());
+            }
+        }
+
+        //System.out.println(Arrays.toString(infoEnergia));
+
+        return infoEnergia;
     }
 
     public String[][] getPlayersInfo() {
