@@ -19,7 +19,6 @@ public class GameManager {
 
     ArrayList<Jogador> jogadores = new ArrayList<>();
     ArrayList<Alimento> alimentos = new ArrayList<>();
-    ArrayList<Integer> idsEmJogoSquareInfo = new ArrayList<>();
 
     int posicaoFinalJogo;
     int casaPartida = 1;
@@ -166,7 +165,6 @@ public class GameManager {
             especieJogadorEmJogo.identificarEspecie(especieJogador);
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
             jogadores.add(jogadorAtual);
-            idsEmJogoSquareInfo.add(idJogador);
 
 
             System.out.println("Jogador ⇒ " + jogadorAtual);
@@ -176,7 +174,6 @@ public class GameManager {
             //System.out.println(Arrays.toString(getCurrentPlayerEnergyInfo(3)));
             //System.out.println(getCurrentPlayerEnergyInfo(4));
             System.out.println(getSquareInfo(1));
-            System.out.println(idsEmJogoSquareInfo);
         }
 
         System.out.println();
