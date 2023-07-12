@@ -168,6 +168,8 @@ public class GameManager {
 
             System.out.println("Jogador ⇒ " + jogadorAtual);
             System.out.println(jogadorAtual.getEspecie());
+            //System.out.println(getPlayerIds(1));
+            //System.out.println(moveCurrentPlayer(20, true));
             //System.out.println(Arrays.toString(getCurrentPlayerEnergyInfo(3)));
         }
 
@@ -266,7 +268,7 @@ public class GameManager {
 
     public int[] getPlayerIds(int squareNr) {
 
-        ArrayList<Integer> listaIdsJogadores = new ArrayList<>();
+        ArrayList<Jogador> listaIdsJogadores = new ArrayList<>();
 
         /// RESTRIÇÕES:
         // Retornar um array vazio se o squareNr for inválido;
@@ -278,9 +280,9 @@ public class GameManager {
 
         /// REQUISITOS:
         // Obter os ‘ids’ dos jogadores de uma determinada posição do mapa
-        for (Jogador emJogo: jogadores) {
-            if (emJogo.getPosicaoAtual() == squareNr) {
-                listaIdsJogadores.add(emJogo.getId());
+        for (Jogador jogadorEmJogo: jogadores) {
+            if (jogadorEmJogo.getPosicaoAtual() == squareNr) {
+                listaIdsJogadores.add(jogadorEmJogo);
             }
         }
 
@@ -288,7 +290,7 @@ public class GameManager {
         int [] idsInJungle = new int[listaIdsJogadores.size()];
         for (int i = 0; i < listaIdsJogadores.size(); i++) {
             // passar os valores da lista para o array
-            idsInJungle[i] = listaIdsJogadores.get(i);
+            idsInJungle[i] = listaIdsJogadores.get(i).getId();
         }
 
         return idsInJungle;
@@ -366,7 +368,7 @@ public class GameManager {
         formato da função getPlayerInfo().
          */
 
-        String[] jogadorAtual = new String[4];
+        String[] jogadorAtual = new String[5];
 
         for (Jogador jogadorAtualEmJogo: jogadores) {
             if (jogadorAtualEmJogo.getTurnoAtual() == 0) {
@@ -374,6 +376,7 @@ public class GameManager {
                 jogadorAtual[1] = jogadorAtualEmJogo.getNome();
                 jogadorAtual[2] = jogadorAtualEmJogo.getIdEspecie();
                 jogadorAtual[3] = String.valueOf(jogadorAtualEmJogo.getEnergiaAtual());
+                jogadorAtual[4] = jogadorAtualEmJogo.getEspecie().getVelocidadeMinima() + ".." + jogadorAtualEmJogo.getEspecie().getVelocidadeMaxima();
                 return jogadorAtual;
             }
         }
@@ -433,6 +436,8 @@ public class GameManager {
 
     public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
 
+        // null para movimentos inválidos
+
         // A cada turno alterno o jogador atual de acordo a quantidade dos jogadores em jogo
         // Quando chega a casa A + M alterna o jogador
         Jogador jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
@@ -446,7 +451,7 @@ public class GameManager {
         // O argumento nrSquares não pode ser menor que 1 ou maior do que 6, porque o dado tem 6 lados.
         // No entanto, se o parâmetro bypassValidations tiver o valor true, a regra anterior não é aplicada.
         if (!bypassValidations && (nrSquares < -6 || nrSquares > 6)) {
-            return new MovementResult(MovementResultCode.INVALID_MOVEMENT," ");
+            return new MovementResult(MovementResultCode.INVALID_MOVEMENT,null);
         }
 
         // Se o jogador tentar ultrapassar a acasa final do jogo, deve ficar na posição final do jogo
@@ -492,7 +497,7 @@ public class GameManager {
     }
 
     public String whoIsTaborda() {
-        return "atletismo";
+        return "atleta";
     }
 
     public boolean saveGame(File file) {
