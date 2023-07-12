@@ -171,6 +171,7 @@ public class GameManager {
             //System.out.println(getPlayerIds(1));
             //System.out.println(moveCurrentPlayer(20, true));
             //System.out.println(Arrays.toString(getCurrentPlayerEnergyInfo(3)));
+            System.out.println(getCurrentPlayerEnergyInfo(4));
         }
 
         System.out.println();
@@ -371,14 +372,12 @@ public class GameManager {
         String[] jogadorAtual = new String[5];
 
         for (Jogador jogadorAtualEmJogo: jogadores) {
-            if (jogadorAtualEmJogo.getTurnoAtual() == 0) {
-                jogadorAtual[0] = String.valueOf(jogadorAtualEmJogo.getId());
-                jogadorAtual[1] = jogadorAtualEmJogo.getNome();
-                jogadorAtual[2] = jogadorAtualEmJogo.getIdEspecie();
-                jogadorAtual[3] = String.valueOf(jogadorAtualEmJogo.getEnergiaAtual());
-                jogadorAtual[4] = jogadorAtualEmJogo.getEspecie().getVelocidadeMinima() + ".." + jogadorAtualEmJogo.getEspecie().getVelocidadeMaxima();
-                return jogadorAtual;
-            }
+            jogadorAtual[0] = String.valueOf(jogadorAtualEmJogo.getId());
+            jogadorAtual[1] = jogadorAtualEmJogo.getNome();
+            jogadorAtual[2] = jogadorAtualEmJogo.getIdEspecie();
+            jogadorAtual[3] = String.valueOf(jogadorAtualEmJogo.getEnergiaAtual());
+            jogadorAtual[4] = jogadorAtualEmJogo.getEspecie().getVelocidadeMinima() + ".." + jogadorAtualEmJogo.getEspecie().getVelocidadeMaxima();
+            return jogadorAtual;
         }
         return null;
     }
@@ -402,10 +401,8 @@ public class GameManager {
         String[] infoEnergia = new String[2];
 
         for (Jogador jogador: jogadores) {
-            if (jogador.getTurnoAtual() == 0) {
-                infoEnergia[0] = String.valueOf(jogador.getEspecie().getConsumoEnergia() * nrPositions);
-                infoEnergia[1] = String.valueOf(jogador.getEspecie().getGanhoEnergiaDescanso());
-            }
+            infoEnergia[0] = String.valueOf(jogador.getEspecie().getConsumoEnergia() * nrPositions);
+            infoEnergia[1] = String.valueOf(jogador.getEspecie().getGanhoEnergiaDescanso());
         }
 
         //System.out.println(Arrays.toString(infoEnergia));
