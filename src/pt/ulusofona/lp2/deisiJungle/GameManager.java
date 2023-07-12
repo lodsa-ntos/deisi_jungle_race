@@ -19,6 +19,8 @@ public class GameManager {
 
     ArrayList<Jogador> jogadores = new ArrayList<>();
     ArrayList<Alimento> alimentos = new ArrayList<>();
+    ArrayList<Integer> idsEmJogoSquareInfo = new ArrayList<>();
+
     int posicaoFinalJogo;
     int casaPartida = 1;
     int turnoAtual = 0;
@@ -164,6 +166,7 @@ public class GameManager {
             especieJogadorEmJogo.identificarEspecie(especieJogador);
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
             jogadores.add(jogadorAtual);
+            idsEmJogoSquareInfo.add(idJogador);
 
 
             System.out.println("Jogador ⇒ " + jogadorAtual);
@@ -171,7 +174,9 @@ public class GameManager {
             //System.out.println(getPlayerIds(1));
             //System.out.println(moveCurrentPlayer(20, true));
             //System.out.println(Arrays.toString(getCurrentPlayerEnergyInfo(3)));
-            System.out.println(getCurrentPlayerEnergyInfo(4));
+            //System.out.println(getCurrentPlayerEnergyInfo(4));
+            System.out.println(getSquareInfo(1));
+            System.out.println(idsEmJogoSquareInfo);
         }
 
         System.out.println();
@@ -302,7 +307,7 @@ public class GameManager {
         /// RESTRIÇÕES
         // Caso o nrSquare seja inválido, a função deve retornar null.
         // squareNr — números de quadrados do mapa (posições do mapa)
-        if (squareNr < 1 || squareNr > posicaoFinalJogo) {
+        if (squareNr < casaPartida || squareNr > posicaoFinalJogo) {
             return null;
         }
 
@@ -316,22 +321,26 @@ public class GameManager {
 
         String[] infoPosCaixasNoMapa = new String[3];
 
-        // [0] => Nome do ficheiro com a imagem a colocar nessa posicao
-        // [1] => Uma descrição textual do que existe nessa posição (nesta fase pode ser apenas “Vazio” ou “Meta”)
-        // Se squareNr for a última posição a descrição textual será Meta senão será Vazio
         if (squareNr == posicaoFinalJogo) {
             infoPosCaixasNoMapa[0] = "finish.png";
             infoPosCaixasNoMapa[1] = "Meta";
+            infoPosCaixasNoMapa[2] = "";
         } else {
             infoPosCaixasNoMapa[0] = "blank.png";
             infoPosCaixasNoMapa[1] = "Vazio";
+            infoPosCaixasNoMapa[2] = "";
         }
 
-        /*
-        [2] => Uma String contendo os ‘ids’ dos jogadores que estão nessa posição, separados por
-            vírgula (ex: “3,5” — estão lá os jogadores 3 e 5).
-         */
-        //TODO dúvidas acerca deste ponto...
+
+        //
+        // [2] => Uma String contendo os identificadores dos jogadores que estão nessa posição, separados por
+        // vírgula (ex: “3,5” — estão lá os jogadores 3 e 5).
+        for (int i = 0; i < jogadores.size(); i++) {
+
+            infoPosCaixasNoMapa[2] += jogadores.get(i).getId();
+
+        }
+
 
         return infoPosCaixasNoMapa;
     }
@@ -415,8 +424,7 @@ public class GameManager {
         /*
         Retorna informação de todos os jogadores,
         no mesmo formato que o retornado pelas
-        funções getPlayerInfo e
-        getCurrentPlayerInfo.
+        funções getPlayerInfo e getCurrentPlayerInfo.
          */
 
         String [][] infoGeralJogadores = new String[jogadores.size()][5];
@@ -494,7 +502,7 @@ public class GameManager {
     }
 
     public String whoIsTaborda() {
-        return "atleta";
+        return "Bungee jumping";
     }
 
     public boolean saveGame(File file) {
