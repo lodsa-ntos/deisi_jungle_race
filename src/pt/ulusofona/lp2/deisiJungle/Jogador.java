@@ -1,79 +1,85 @@
 package pt.ulusofona.lp2.deisiJungle;
 
-import pt.ulusofona.lp2.deisiJungle.especieFilho.*;
 
 public class Jogador {
-    private int id;
-    private String nome;
-    private String idEspecie;
+    private final int id;
+    private final String nome;
+    private final String idEspecie;
     private int posicaoAtual;
     private int energiaAtual;
     private Especie especie;
     private int turnoAtual;
 
-    public Jogador(int id, String nome, String idEspecie, int posicaoAtual) {
+    public Jogador(int id, String nome, String idEspecie, int posicaoAtual, Especie especie) {
         this.id = id;
         this.nome = nome;
         this.idEspecie = idEspecie;
         this.posicaoAtual = posicaoAtual;
+        this.especie = especie;
     }
 
     public void caracterizarEspecieJogador(Jogador jogadorAtual) {
 
         switch (idEspecie) {
             case "E" -> {
-                this.especie = new Elefante(idEspecie, "Elefante", "elephant.png",
+                Especie jogadorElefante = new Especie(idEspecie, jogadorAtual.getEspecie().getNome(), jogadorAtual.getEspecie().getImagem(),
                         180, 4, 10, 1, 6);
-                jogadorAtual.setEspecie(this.especie);
-                jogadorAtual.setEnergiaAtual(this.especie.getEnergiaInicial());
-                jogadorAtual.getEspecie().setConsumoEnergia(4);
-                jogadorAtual.getEspecie().setVelocidadeMinima(1);
-                jogadorAtual.getEspecie().setVelocidadeMaxima(6);
+                jogadorAtual.setEspecie(jogadorElefante);
+                jogadorAtual.setEnergiaAtual(jogadorElefante.getEnergiaInicial());
+                jogadorAtual.getEspecie().setConsumoEnergia(jogadorElefante.getConsumoEnergia());
+                jogadorAtual.getEspecie().setGanhoEnergiaDescanso(jogadorElefante.getGanhoEnergiaDescanso());
+                jogadorAtual.getEspecie().setVelocidadeMinima(jogadorElefante.getVelocidadeMinima());
+                jogadorAtual.getEspecie().setVelocidadeMaxima(jogadorElefante.getVelocidadeMaxima());
             }
             case "L" -> {
-                this.especie = new Leao(idEspecie, "Leão", "lion.png",
+                Especie jogadorLeao = new Especie(idEspecie, jogadorAtual.getEspecie().getNome(), jogadorAtual.getEspecie().getImagem(),
                         80, 2, 10, 4, 6);
-                jogadorAtual.setEspecie(this.especie);
-                jogadorAtual.setEnergiaAtual(this.especie.getEnergiaInicial());
-                jogadorAtual.getEspecie().setConsumoEnergia(2);
-                jogadorAtual.getEspecie().setVelocidadeMinima(4);
-                jogadorAtual.getEspecie().setVelocidadeMaxima(6);
+                jogadorAtual.setEspecie(jogadorLeao);
+                jogadorAtual.setEnergiaAtual(jogadorLeao.getEnergiaInicial());
+                jogadorAtual.getEspecie().setConsumoEnergia(jogadorLeao.getConsumoEnergia());
+                jogadorAtual.getEspecie().setGanhoEnergiaDescanso(jogadorLeao.getGanhoEnergiaDescanso());
+                jogadorAtual.getEspecie().setVelocidadeMinima(jogadorLeao.getVelocidadeMinima());
+                jogadorAtual.getEspecie().setVelocidadeMaxima(jogadorLeao.getVelocidadeMaxima());
             }
             case "P" -> {
-                this.especie = new Passaro(idEspecie, "Pássaro", "bird.png",
+                Especie jogadorPassaro = new Especie(idEspecie, jogadorAtual.getEspecie().getNome(), jogadorAtual.getEspecie().getImagem(),
                         70, 4, 50, 5, 6);
-                jogadorAtual.setEspecie(this.especie);
-                jogadorAtual.setEnergiaAtual(this.especie.getEnergiaInicial());
-                jogadorAtual.getEspecie().setConsumoEnergia(4);
-                jogadorAtual.getEspecie().setVelocidadeMinima(5);
-                jogadorAtual.getEspecie().setVelocidadeMaxima(6);
+                jogadorAtual.setEspecie(jogadorPassaro);
+                jogadorAtual.setEnergiaAtual(jogadorPassaro.getEnergiaInicial());
+                jogadorAtual.getEspecie().setConsumoEnergia(jogadorPassaro.getConsumoEnergia());
+                jogadorAtual.getEspecie().setGanhoEnergiaDescanso(jogadorPassaro.getGanhoEnergiaDescanso());
+                jogadorAtual.getEspecie().setVelocidadeMinima(jogadorPassaro.getVelocidadeMinima());
+                jogadorAtual.getEspecie().setVelocidadeMaxima(jogadorPassaro.getVelocidadeMaxima());
             }
             case "T" -> {
-                this.especie = new Tartaruga(idEspecie, "Tartaruga", "turtle.png",
+                Especie jogadorTartaruga = new Especie(idEspecie, jogadorAtual.getEspecie().getNome(), jogadorAtual.getEspecie().getImagem(),
                         150, 1, 5, 1, 3);
-                jogadorAtual.setEspecie(this.especie);
-                jogadorAtual.setEnergiaAtual(this.especie.getEnergiaInicial());
-                jogadorAtual.getEspecie().setConsumoEnergia(1);
-                jogadorAtual.getEspecie().setVelocidadeMinima(1);
-                jogadorAtual.getEspecie().setVelocidadeMaxima(3);
+                jogadorAtual.setEspecie(jogadorTartaruga);
+                jogadorAtual.setEnergiaAtual(jogadorTartaruga.getEnergiaInicial());
+                jogadorAtual.getEspecie().setConsumoEnergia(jogadorTartaruga.getConsumoEnergia());
+                jogadorAtual.getEspecie().setGanhoEnergiaDescanso(jogadorTartaruga.getGanhoEnergiaDescanso());
+                jogadorAtual.getEspecie().setVelocidadeMinima(jogadorTartaruga.getVelocidadeMinima());
+                jogadorAtual.getEspecie().setVelocidadeMaxima(jogadorTartaruga.getVelocidadeMaxima());
             }
             case "Z" -> {
-                this.especie = new Tarzan(idEspecie, "Tarzan", "tarzan.png",
+                Especie jogadorTarzan = new Especie(idEspecie, jogadorAtual.getEspecie().getNome(), jogadorAtual.getEspecie().getImagem(),
                         70, 2, 20, 1, 6);
-                jogadorAtual.setEspecie(this.especie);
-                jogadorAtual.setEnergiaAtual(this.especie.getEnergiaInicial());
-                jogadorAtual.getEspecie().setConsumoEnergia(2);
-                jogadorAtual.getEspecie().setVelocidadeMinima(1);
-                jogadorAtual.getEspecie().setVelocidadeMaxima(6);
+                jogadorAtual.setEspecie(jogadorTarzan);
+                jogadorAtual.setEnergiaAtual(jogadorTarzan.getEnergiaInicial());
+                jogadorAtual.getEspecie().setConsumoEnergia(jogadorTarzan.getConsumoEnergia());
+                jogadorAtual.getEspecie().setGanhoEnergiaDescanso(jogadorTarzan.getGanhoEnergiaDescanso());
+                jogadorAtual.getEspecie().setVelocidadeMinima(jogadorTarzan.getVelocidadeMinima());
+                jogadorAtual.getEspecie().setVelocidadeMaxima(jogadorTarzan.getVelocidadeMaxima());
             }
             case "U" -> {
-                this.especie = new Unicornio(idEspecie, "Unicórnio", "unicorn.png",
+                Especie jogadorUnicornio = new Especie(idEspecie, jogadorAtual.getEspecie().getNome(), jogadorAtual.getEspecie().getImagem(),
                         200, 8, 20, 3, 6);
-                jogadorAtual.setEspecie(this.especie);
-                jogadorAtual.setEnergiaAtual(this.especie.getEnergiaInicial());
-                jogadorAtual.getEspecie().setConsumoEnergia(8);
-                jogadorAtual.getEspecie().setVelocidadeMinima(3);
-                jogadorAtual.getEspecie().setVelocidadeMaxima(6);
+                jogadorAtual.setEspecie(jogadorUnicornio);
+                jogadorAtual.setEnergiaAtual(jogadorUnicornio.getEnergiaInicial());
+                jogadorAtual.getEspecie().setConsumoEnergia(jogadorUnicornio.getConsumoEnergia());
+                jogadorAtual.getEspecie().setGanhoEnergiaDescanso(jogadorUnicornio.getGanhoEnergiaDescanso());
+                jogadorAtual.getEspecie().setVelocidadeMinima(jogadorUnicornio.getVelocidadeMinima());
+                jogadorAtual.getEspecie().setVelocidadeMaxima(jogadorUnicornio.getVelocidadeMaxima());
             }
         }
 
@@ -121,7 +127,7 @@ public class Jogador {
 
     @Override
     public String toString() {
-        return id + ":" + nome + ":" + idEspecie + ":" + posicaoAtual;
+        return id + ":" + nome + ":" + idEspecie + ":" + energiaAtual + ":" + posicaoAtual;
     }
 
 }

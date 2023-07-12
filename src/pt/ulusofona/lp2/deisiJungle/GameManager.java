@@ -1,6 +1,5 @@
 package pt.ulusofona.lp2.deisiJungle;
 
-import pt.ulusofona.lp2.deisiJungle.especieFilho.Elefante;
 import pt.ulusofona.lp2.deisiJungle.validar.ValidadorJogador;
 import pt.ulusofona.lp2.deisiJungle.validar.ValidatorAlimento;
 
@@ -147,25 +146,28 @@ public class GameManager {
 
             int idJogador = Integer.parseInt(oldIDJogador);
 
-            // TODO IDs — não podem haver dois jogadores com o mesmo id
+            // TODO IDs — não pode haver dois jogadores com o mesmo id
             ValidadorJogador.validarNumeroIDs(idJogadoresEmJogo, idJogador);
 
-            // TODO O NOMES - não podem ser null ou vazios
+            // TODO NOME — não podem ser null ou vazios
             ValidadorJogador.validarNomeJogadores(nomeJogador);
 
             // TODO TARZAN — Apenas poderá existir um jogador da espécie Tarzan a competir
             ValidadorJogador.validarEspecieTarzan(especieJogador);
 
-            // TODO O ESPÉCIES - A espécie tem que ser uma das que foi retornada da função getSpecies()
+            // TODO ESPÉCIES — A espécie tem que ser uma das que foi retornada da função getSpecies()
             ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
 
-            // Definir especies do jogador
-            Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida);
+            Especie especieJogadorEmJogo = new Especie();
+            Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida, especieJogadorEmJogo);
+
+            especieJogadorEmJogo.identificarEspecie(especieJogador);
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
             jogadores.add(jogadorAtual);
-            System.out.println("Jogador ⇒ " + jogadorAtual);
 
-            //System.out.println(jogadorAtual.getEspecie());
+
+            System.out.println("Jogador ⇒ " + jogadorAtual);
+            System.out.println(jogadorAtual.getEspecie());
             //System.out.println(Arrays.toString(getCurrentPlayerEnergyInfo(3)));
         }
 
@@ -238,10 +240,6 @@ public class GameManager {
 
             int idJogador = Integer.parseInt(oldIDJogador);
 
-            Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida);
-            jogadores.add(jogadorAtual);
-            System.out.println(jogadorAtual);
-
             // TODO IDs — não podem haver dois jogadores com o mesmo id
             ValidadorJogador.validarNumeroIDs(idJogadoresEmJogo, idJogador);
 
@@ -253,6 +251,15 @@ public class GameManager {
 
             // TODO O ESPÉCIES - A espécie tem que ser uma das que foi retornada da função getSpecies()
             ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
+
+            Especie especieJogadorEmJogo = new Especie();
+            Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida, especieJogadorEmJogo);
+
+            especieJogadorEmJogo.identificarEspecie(especieJogador);
+            jogadores.add(jogadorAtual);
+
+            jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
+            System.out.println(jogadorAtual);
         }
 
     }
@@ -326,11 +333,6 @@ public class GameManager {
         return infoPosCaixasNoMapa;
     }
 
-    //TODO dropProjet - erro test_001_Unicornio_Specie_OBG (getPlayerInfo)
-    // Cannot invoke "pt.ulusofona.lp2.deisiJungle.Especie.getVelocidadeMinima()"
-    // because the return value of "pt.ulusofona.lp2.deisiJungle.Jogador.getEspecie()" is null
-
-    // Influencia com outros metodos???
     public String[] getPlayerInfo(int playerId) {
 
         /*
@@ -417,13 +419,14 @@ public class GameManager {
         getCurrentPlayerInfo.
          */
 
-        String [][] infoGeralJogadores = new String[jogadores.size()][4];
+        String [][] infoGeralJogadores = new String[jogadores.size()][5];
 
         for (int i = 0; i < jogadores.size(); i++) {
             infoGeralJogadores[i][0] = String.valueOf(jogadores.get(i).getId());
             infoGeralJogadores[i][1] = jogadores.get(i).getNome();
             infoGeralJogadores[i][2] = String.valueOf(jogadores.get(i).getIdEspecie());
             infoGeralJogadores[i][3] = String.valueOf(jogadores.get(i).getEnergiaAtual());
+            infoGeralJogadores[i][4] = jogadores.get(i).getEspecie().getVelocidadeMinima() + ".." + jogadores.get(i).getEspecie().getVelocidadeMaxima();
         }
         return infoGeralJogadores;
     }
@@ -489,7 +492,7 @@ public class GameManager {
     }
 
     public String whoIsTaborda() {
-        return "";
+        return "atletismo";
     }
 
     public boolean saveGame(File file) {
