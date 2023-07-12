@@ -1,6 +1,10 @@
 package pt.ulusofona.lp2.deisiJungle;
 
 
+import pt.ulusofona.lp2.deisiJungle.especieFilho.*;
+
+import java.util.HashMap;
+
 public class Jogador {
     private final int id;
     private final String nome;
@@ -20,69 +24,27 @@ public class Jogador {
 
     public void caracterizarEspecieJogador(Jogador jogadorAtual) {
 
-        switch (idEspecie) {
-            case "E" -> {
-                Especie jogadorElefante = new Especie(idEspecie, jogadorAtual.getEspecie().getNome(), jogadorAtual.getEspecie().getImagem(),
-                        180, 4, 10, 1, 6);
-                jogadorAtual.setEspecie(jogadorElefante);
-                jogadorAtual.setEnergiaAtual(jogadorElefante.getEnergiaInicial());
-                jogadorAtual.getEspecie().setConsumoEnergia(jogadorElefante.getConsumoEnergia());
-                jogadorAtual.getEspecie().setGanhoEnergiaDescanso(jogadorElefante.getGanhoEnergiaDescanso());
-                jogadorAtual.getEspecie().setVelocidadeMinima(jogadorElefante.getVelocidadeMinima());
-                jogadorAtual.getEspecie().setVelocidadeMaxima(jogadorElefante.getVelocidadeMaxima());
-            }
-            case "L" -> {
-                Especie jogadorLeao = new Especie(idEspecie, jogadorAtual.getEspecie().getNome(), jogadorAtual.getEspecie().getImagem(),
-                        80, 2, 10, 4, 6);
-                jogadorAtual.setEspecie(jogadorLeao);
-                jogadorAtual.setEnergiaAtual(jogadorLeao.getEnergiaInicial());
-                jogadorAtual.getEspecie().setConsumoEnergia(jogadorLeao.getConsumoEnergia());
-                jogadorAtual.getEspecie().setGanhoEnergiaDescanso(jogadorLeao.getGanhoEnergiaDescanso());
-                jogadorAtual.getEspecie().setVelocidadeMinima(jogadorLeao.getVelocidadeMinima());
-                jogadorAtual.getEspecie().setVelocidadeMaxima(jogadorLeao.getVelocidadeMaxima());
-            }
-            case "P" -> {
-                Especie jogadorPassaro = new Especie(idEspecie, jogadorAtual.getEspecie().getNome(), jogadorAtual.getEspecie().getImagem(),
-                        70, 4, 50, 5, 6);
-                jogadorAtual.setEspecie(jogadorPassaro);
-                jogadorAtual.setEnergiaAtual(jogadorPassaro.getEnergiaInicial());
-                jogadorAtual.getEspecie().setConsumoEnergia(jogadorPassaro.getConsumoEnergia());
-                jogadorAtual.getEspecie().setGanhoEnergiaDescanso(jogadorPassaro.getGanhoEnergiaDescanso());
-                jogadorAtual.getEspecie().setVelocidadeMinima(jogadorPassaro.getVelocidadeMinima());
-                jogadorAtual.getEspecie().setVelocidadeMaxima(jogadorPassaro.getVelocidadeMaxima());
-            }
-            case "T" -> {
-                Especie jogadorTartaruga = new Especie(idEspecie, jogadorAtual.getEspecie().getNome(), jogadorAtual.getEspecie().getImagem(),
-                        150, 1, 5, 1, 3);
-                jogadorAtual.setEspecie(jogadorTartaruga);
-                jogadorAtual.setEnergiaAtual(jogadorTartaruga.getEnergiaInicial());
-                jogadorAtual.getEspecie().setConsumoEnergia(jogadorTartaruga.getConsumoEnergia());
-                jogadorAtual.getEspecie().setGanhoEnergiaDescanso(jogadorTartaruga.getGanhoEnergiaDescanso());
-                jogadorAtual.getEspecie().setVelocidadeMinima(jogadorTartaruga.getVelocidadeMinima());
-                jogadorAtual.getEspecie().setVelocidadeMaxima(jogadorTartaruga.getVelocidadeMaxima());
-            }
-            case "Z" -> {
-                Especie jogadorTarzan = new Especie(idEspecie, jogadorAtual.getEspecie().getNome(), jogadorAtual.getEspecie().getImagem(),
-                        70, 2, 20, 1, 6);
-                jogadorAtual.setEspecie(jogadorTarzan);
-                jogadorAtual.setEnergiaAtual(jogadorTarzan.getEnergiaInicial());
-                jogadorAtual.getEspecie().setConsumoEnergia(jogadorTarzan.getConsumoEnergia());
-                jogadorAtual.getEspecie().setGanhoEnergiaDescanso(jogadorTarzan.getGanhoEnergiaDescanso());
-                jogadorAtual.getEspecie().setVelocidadeMinima(jogadorTarzan.getVelocidadeMinima());
-                jogadorAtual.getEspecie().setVelocidadeMaxima(jogadorTarzan.getVelocidadeMaxima());
-            }
-            case "U" -> {
-                Especie jogadorUnicornio = new Especie(idEspecie, jogadorAtual.getEspecie().getNome(), jogadorAtual.getEspecie().getImagem(),
-                        200, 8, 20, 3, 6);
-                jogadorAtual.setEspecie(jogadorUnicornio);
-                jogadorAtual.setEnergiaAtual(jogadorUnicornio.getEnergiaInicial());
-                jogadorAtual.getEspecie().setConsumoEnergia(jogadorUnicornio.getConsumoEnergia());
-                jogadorAtual.getEspecie().setGanhoEnergiaDescanso(jogadorUnicornio.getGanhoEnergiaDescanso());
-                jogadorAtual.getEspecie().setVelocidadeMinima(jogadorUnicornio.getVelocidadeMinima());
-                jogadorAtual.getEspecie().setVelocidadeMaxima(jogadorUnicornio.getVelocidadeMaxima());
-            }
-        }
+        // HashMap para mapear os IDs das espécie e às instâncias da classe Especie.
+        HashMap<String, Especie> especies = new HashMap<>();
 
+        especies.put("E", new Elefante());
+        especies.put("L", new Leao());
+        especies.put("T", new Tartaruga());
+        especies.put("P", new Passaro());
+        especies.put("Z", new Tarzan());
+        especies.put("U", new Unicornio());
+
+        //  obter a instância que correspondente à idEspecie
+        Especie especieJogador = especies.get(idEspecie);
+
+        if (especieJogador != null) {
+            jogadorAtual.setEspecie(especieJogador);
+            jogadorAtual.setEnergiaAtual(especieJogador.getEnergiaInicial());
+            jogadorAtual.getEspecie().setConsumoEnergia(especieJogador.getConsumoEnergia());
+            jogadorAtual.getEspecie().setGanhoEnergiaDescanso(especieJogador.getGanhoEnergiaDescanso());
+            jogadorAtual.getEspecie().setVelocidadeMinima(especieJogador.getVelocidadeMinima());
+            jogadorAtual.getEspecie().setVelocidadeMaxima(especieJogador.getVelocidadeMaxima());
+        }
     }
 
     public final int getId() {

@@ -125,8 +125,11 @@ public class GameManager {
         // TODO JOGADOR — O jogo terá entre 2 e 4 jogadores
         ValidadorJogador.validarNumJogadorEmJogo(playersInfo.length);
 
-        // TODO playersInfo
-        // ‘loop’ foreach para guardar informação do playersInfo
+
+        /**
+         * playersInfo
+         * ‘loop’ foreach para guardar informação do playersInfo
+         */
         for (String[] infoJogador: playersInfo) {
 
             String oldIDJogador = infoJogador[0];
@@ -150,36 +153,38 @@ public class GameManager {
             // TODO IDs — não pode haver dois jogadores com o mesmo id
             ValidadorJogador.validarNumeroIDs(idJogadoresEmJogo, idJogador);
 
-            // TODO NOME — não podem ser null ou vazios
+            // TODO O NOME — não podem ser null ou vazios
             ValidadorJogador.validarNomeJogadores(nomeJogador);
 
             // TODO TARZAN — Apenas poderá existir um jogador da espécie Tarzan a competir
             ValidadorJogador.validarEspecieTarzan(especieJogador);
 
-            // TODO ESPÉCIES — A espécie tem que ser uma das que foi retornada da função getSpecies()
+            // TODO O ESPÉCIES — A espécie tem que ser uma das que foi retornada da função getSpecies()
             ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
 
-            Especie especieJogadorEmJogo = new Especie();
+
+            Especie especieJogadorEmJogo = Especie.identificarEspecie(especieJogador);
             Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida, especieJogadorEmJogo);
 
-            especieJogadorEmJogo.identificarEspecie(especieJogador);
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
             jogadores.add(jogadorAtual);
 
 
             System.out.println("Jogador ⇒ " + jogadorAtual);
-            System.out.println(jogadorAtual.getEspecie());
+            System.out.println(jogadorAtual.getEspecie().toString());
             //System.out.println(getPlayerIds(1));
             //System.out.println(moveCurrentPlayer(20, true));
             //System.out.println(Arrays.toString(getCurrentPlayerEnergyInfo(3)));
             //System.out.println(getCurrentPlayerEnergyInfo(4));
-            System.out.println(getSquareInfo(1));
+            //System.out.println(getSquareInfo(1));
         }
 
         System.out.println();
 
-        // TODO foodsInfo
-        // ‘loop’ foreach para guardar informação do foodsInfo
+        /**
+         * foodsInfo
+         * ‘loop’ foreach para guardar informação do foodsInfo
+         */
         for (String[] infoAlimento: foodsInfo) {
 
             String idTipo = infoAlimento[0];
@@ -224,7 +229,9 @@ public class GameManager {
         // TODO JOGADOR — O jogo terá entre 2 e 4 jogadores
         ValidadorJogador.validarNumJogadorEmJogo(playersInfo.length);
 
-        // ‘loop’ foreach para guardar informação do playersInfo
+        /**
+         * ‘loop’ foreach para guardar informação do playersInfo
+         */
         for (String[] infoJogador: playersInfo) {
 
             String oldIDJogador = infoJogador[0];
@@ -257,13 +264,12 @@ public class GameManager {
             // TODO O ESPÉCIES - A espécie tem que ser uma das que foi retornada da função getSpecies()
             ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
 
-            Especie especieJogadorEmJogo = new Especie();
+            Especie especieJogadorEmJogo = Especie.identificarEspecie(especieJogador);
             Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida, especieJogadorEmJogo);
 
-            especieJogadorEmJogo.identificarEspecie(especieJogador);
             jogadores.add(jogadorAtual);
-
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
+
             System.out.println(jogadorAtual);
         }
 
@@ -328,7 +334,6 @@ public class GameManager {
             infoPosCaixasNoMapa[2] = "";
         }
 
-
         //
         // [2] => Uma String contendo os identificadores dos jogadores que estão nessa posição, separados por
         // vírgula (ex: “3,5” — estão lá os jogadores 3 e 5).
@@ -341,7 +346,6 @@ public class GameManager {
             }
 
         }
-
 
         return infoPosCaixasNoMapa;
     }
