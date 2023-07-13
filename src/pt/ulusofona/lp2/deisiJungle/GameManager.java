@@ -345,9 +345,11 @@ public class GameManager {
 
                 infoPosCaixasNoMapa[2] += jogador.getId();
 
+                /*
                 if (i < jogadores.size() - 1) {
                     infoPosCaixasNoMapa[2] += ",";
                 }
+                 */
                 break;
             }
 
