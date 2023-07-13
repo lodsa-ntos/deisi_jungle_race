@@ -339,23 +339,18 @@ public class GameManager {
         // vírgula (ex: “3,5” — estão lá os jogadores 3 e 5).
         for (int i = 0; i < jogadores.size(); i++) {
 
-            infoPosCaixasNoMapa[2] += jogadores.get(i).getId();
+            Jogador jogador = jogadores.get(i);
 
-            if (i < jogadores.size() - 1) {
-                infoPosCaixasNoMapa [2] += ",";
+            if (jogador.getPosicaoAtual() == squareNr) {
+
+                infoPosCaixasNoMapa[2] += jogador.getId();
+
+                if (i < jogadores.size() - 1) {
+                    infoPosCaixasNoMapa[2] += ",";
+                }
             }
 
         }
-
-        /*
-        Ao longo do terreno, estarão espalhados vários alimentos, de diferentes tipos. Quando um
-        jogador calha numa casa com um alimento, ele é obrigado a ingeri-lo. Isso pode ser bom ou
-        mau. Por exemplo, para o Leão é bom calhar numa casa com o alimento “Carne”, mas para o
-        Elefante, herbívoro, não é bom. Todos os alimentos são identificados por uma letra
-        minúscula. Para melhorar a jogabilidade, o visualizador irá mostrar uma tooltip com informação
-        sobre o alimento, quando se passa por cima dele. Esta tooltip é baseada no retorno da função
-        getSquareInfo()
-         */
 
         for (Alimento alimento : alimentos) {
 
