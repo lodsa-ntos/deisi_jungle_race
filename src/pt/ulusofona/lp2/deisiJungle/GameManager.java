@@ -348,6 +348,7 @@ public class GameManager {
                 if (i < jogadores.size() - 1) {
                     infoPosCaixasNoMapa[2] += ",";
                 }
+                break;
             }
 
         }
