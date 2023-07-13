@@ -18,6 +18,7 @@ public class CogumeloMagico extends Alimento {
     /**
      * Efeitos ao consumir cogumelos magicos
      */
+    /*
     @Override
     protected int obterEfeitosConsumo(String tipoAlimentacaoEspecie, int energiaEspecie) {
 
@@ -29,16 +30,15 @@ public class CogumeloMagico extends Alimento {
             ○ Se comerem o cogumelo nas jogadas pares, os animais aumentam em N% a sua energia
             ○ Se comerem o cogumelo nas jogadas ímpares, ele torna-se venenoso e reduzem em N% a sua energia
             ○ A tooltip deve mostrar “Cogumelo Magico: +- <N>% energia”, em que N é o número gerado aleatoriamente.
-         */
 
-        int aumentarEnergia = 50;
-
+    int aumentarEnergia = 50;
 
         return switch (tipoAlimentacaoEspecie) {
-            case "carnívoro", "herbívoro", "omnívoro" -> (energiaEspecie + aumentarEnergia);
-            default -> throw new IllegalArgumentException("");
-        };
-    }
+        case "carnívoro", "herbívoro", "omnívoro" -> (energiaEspecie + aumentarEnergia);
+        default -> throw new IllegalArgumentException("");
+    };
+}
+     */
 
 
     @Override
@@ -79,6 +79,26 @@ public class CogumeloMagico extends Alimento {
     @Override
     public void setNumeroAleatorioCog(int numeroAleatorioCog) {
         this.numeroAleatorioCog = numeroAleatorioCog;
+    }
+
+    @Override
+    public boolean isCarneToxica() {
+        return isCarneToxica;
+    }
+
+    @Override
+    public void setCarneToxica(boolean carneToxica) {
+        this.isCarneToxica = carneToxica;
+    }
+
+    @Override
+    public int getNumroJogadasCarne() {
+        return numroJogadasCarne;
+    }
+
+    @Override
+    public void setNumroJogadasCarne(int numroJogadasCarne) {
+        this.numroJogadasCarne = numroJogadasCarne;
     }
 
     @Override

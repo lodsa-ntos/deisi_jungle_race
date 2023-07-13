@@ -448,7 +448,7 @@ public class GameManager {
 
     public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
 
-        // null para movimentos inválidos
+        // null para movimentos inválidos e movimento válido
 
         // A cada turno alterno o jogador atual de acordo a quantidade dos jogadores em jogo
         // Quando chega a casa A + M alterna o jogador
@@ -487,7 +487,7 @@ public class GameManager {
         jogadorAtual.setEnergiaAtual(energiaAtual - 2);
 
         incrementarTurno();
-        return new MovementResult(MovementResultCode.VALID_MOVEMENT, " ");
+        return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
     }
 
     public String[] getWinnerInfo() {

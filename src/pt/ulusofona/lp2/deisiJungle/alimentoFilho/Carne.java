@@ -1,6 +1,7 @@
 package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 
 import pt.ulusofona.lp2.deisiJungle.Alimento;
+import pt.ulusofona.lp2.deisiJungle.Jogador;
 
 public class Carne extends Alimento {
 
@@ -11,11 +12,14 @@ public class Carne extends Alimento {
         this.nome = "Carne";
         this.imagem = "meat.png";
         this.posicaoAlimento = posicaoAlimento;
+        this.isCarneToxica = false;
     }
 
     /**
      * Efeitos ao consumir carne
      */
+
+    /*
     @Override
     protected int obterEfeitosConsumo(String tipoAlimentacaoEspecie, int energiaEspecie) {
 
@@ -26,14 +30,55 @@ public class Carne extends Alimento {
             ○ Deteriora-se à medida que o tempo passa. Só é comestível nas primeiras 12
             jogadas. A partir daí é tóxica — se fôr ingerida, reduz para metade a energia do
             animal.
-         */
 
-        int aumentarEnergia = 50;
+
+    int aumentarEnergia = 50;
 
         return switch (tipoAlimentacaoEspecie) {
-            case "carnívoro", "omnívoro" -> (energiaEspecie + aumentarEnergia);
-            default -> throw new IllegalArgumentException("");
-        };
+        case "carnívoro", "omnívoro" -> (energiaEspecie + aumentarEnergia);
+        default -> throw new IllegalArgumentException("");
+    };
+}
+     */
+
+    public void consumirCarne(Jogador jogador, int turnosRestantes, Carne carne) {
+
+        // Só é comestível nas primeiras 12 jogadas
+        if (turnosRestantes <= 12) {
+
+            carne.setNumroJogadasCarne(turnosRestantes);
+
+            // Se ingerido por carnívoros (ex: Leão) ou omnívoros (ex: Tarzan)...
+            if (jogador.getEspecie().getTipoAlimentacaoDaEspecie().equals("carnívoro") ||
+                    jogador.getEspecie().getTipoAlimentacaoDaEspecie().equals("omnívoro")) {
+
+                // aumenta a energia em 50 unidades
+                jogador.aumentarEnergia(50);
+
+            } else {
+                // Os herbívoros ignoram esta comida, por isso não lhes acontece nada.
+                jogador.manterEnergia(0);
+            }
+
+        } else {
+
+            carne.setNumroJogadasCarne(turnosRestantes);
+
+            // A partir daí é tóxica — se fôr ingerida, reduz para metade a energia do animal
+            this.isCarneToxica = true;
+            carne.setCarneToxica(true);
+
+            if (jogador.getEspecie().getTipoAlimentacaoDaEspecie().equals("carnívoro") ||
+                    jogador.getEspecie().getTipoAlimentacaoDaEspecie().equals("omnívoro")) {
+
+                int energia = (jogador.getEnergiaAtual() / 2);
+                jogador.diminuirEnergia(--energia);
+
+            } else {
+                // Os herbívoros ignoram esta comida, por isso não lhes acontece nada.
+                jogador.manterEnergia(0);
+            }
+        }
     }
 
 
@@ -78,6 +123,27 @@ public class Carne extends Alimento {
     }
 
     @Override
+    public boolean isCarneToxica() {
+        return isCarneToxica;
+    }
+
+    @Override
+    public void setCarneToxica(boolean carneToxica) {
+        this.isCarneToxica = carneToxica;
+    }
+
+    @Override
+    public int getNumroJogadasCarne() {
+        return numroJogadasCarne;
+    }
+
+    @Override
+    public void setNumroJogadasCarne(int numroJogadasCarne) {
+        this.numroJogadasCarne = numroJogadasCarne;
+    }
+
+
+    @Override
     public String toolTip() {
         /*
             ○ A tooltip deve mostrar “Carne : +- 50 energia : <N> jogadas”, em que <N>
@@ -85,6 +151,14 @@ public class Carne extends Alimento {
                 deve mostrar “Carne toxica”
          */
 
-        return null;
+        if (isCarneToxica()) {
+
+            return "Carne toxica";
+
+        } else {
+
+            return "Carne : +- 50 energia : " + numroJogadasCarne + " jogadas";
+
+        }
     }
 }

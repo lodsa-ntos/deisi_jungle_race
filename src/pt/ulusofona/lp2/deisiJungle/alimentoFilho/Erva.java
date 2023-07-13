@@ -1,6 +1,7 @@
 package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 
 import pt.ulusofona.lp2.deisiJungle.Alimento;
+import pt.ulusofona.lp2.deisiJungle.Jogador;
 
 public class Erva extends Alimento {
 
@@ -17,7 +18,9 @@ public class Erva extends Alimento {
     /**
      * Efeitos ao consumir Erva
      */
-    @Override
+
+    /*
+     @Override
     public int obterEfeitosConsumo(String tipoAlimentacaoEspecie, int energiaEspecie) {
 
         /*
@@ -25,16 +28,23 @@ public class Erva extends Alimento {
             ○ Se ingerido por herbívoros ou omnívoros, aumenta a energia em 20 unidades
             ○ Se ingerido por carnívoros, reduz a energia em 20 unidades
             ○ A tooltip deve mostrar “Erva : +- 20 energia”.
-         */
 
-        int restricaoEnergia = 20;
+    int restricaoEnergia = 20;
 
         return switch (tipoAlimentacaoEspecie) {
-            case "herbívoro", "omnívoro" -> (energiaEspecie + restricaoEnergia);
-            case "carnívoro" -> (energiaEspecie - restricaoEnergia);
-            default -> throw new IllegalArgumentException("");
-        };
+        case "herbívoro", "omnívoro" -> (energiaEspecie + restricaoEnergia);
+        case "carnívoro" -> (energiaEspecie - restricaoEnergia);
+        default -> throw new IllegalArgumentException("");
+    };
 
+    }
+     */
+
+    public void consumirErva(String tipoAlimentacaoEspecie, Jogador jogador) {
+        switch (tipoAlimentacaoEspecie) {
+            case "herbívoro", "omnívoro" -> jogador.aumentarEnergia(40);
+            case "carnívoro" -> jogador.diminuirEnergia(40);
+        }
     }
 
     @Override
@@ -75,6 +85,26 @@ public class Erva extends Alimento {
     @Override
     public void setNumeroAleatorioCog(int numeroAleatorioCog) {
         this.numeroAleatorioCog = numeroAleatorioCog;
+    }
+
+    @Override
+    public boolean isCarneToxica() {
+        return isCarneToxica;
+    }
+
+    @Override
+    public void setCarneToxica(boolean carneToxica) {
+        this.isCarneToxica = carneToxica;
+    }
+
+    @Override
+    public int getNumroJogadasCarne() {
+        return numroJogadasCarne;
+    }
+
+    @Override
+    public void setNumroJogadasCarne(int numroJogadasCarne) {
+        this.numroJogadasCarne = numroJogadasCarne;
     }
 
     @Override

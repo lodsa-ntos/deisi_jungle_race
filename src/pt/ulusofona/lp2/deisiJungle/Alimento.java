@@ -1,7 +1,6 @@
 package pt.ulusofona.lp2.deisiJungle;
 
 import pt.ulusofona.lp2.deisiJungle.alimentoFilho.*;
-import pt.ulusofona.lp2.deisiJungle.especieFilho.*;
 
 public abstract class Alimento {
 
@@ -11,6 +10,8 @@ public abstract class Alimento {
     protected int posicaoAlimento;
     protected int numeroBananasON;
     protected int numeroAleatorioCog;
+    protected int numroJogadasCarne;
+    protected boolean isCarneToxica;
 
     public Alimento(String id, int posicaoAlimento) {
         this.id = id;
@@ -34,7 +35,11 @@ public abstract class Alimento {
     /**
      * Efeitos ao consumir alimentos
      */
-    protected abstract int obterEfeitosConsumo (String tipoAlimentacaoEspecie, int energiaEspecie);
+    //protected abstract int obterEfeitosConsumo (String tipoAlimentacaoEspecie, int energiaEspecie);
+
+    public void diminuirNumBananas() {
+        this.numeroBananasON -= 1;
+    }
 
     public abstract String getId();
 
@@ -51,6 +56,14 @@ public abstract class Alimento {
     public abstract int getNumeroAleatorioCog();
 
     public abstract void setNumeroAleatorioCog(int numeroAleatorioCog);
+
+    public abstract boolean isCarneToxica();
+
+    public abstract void setCarneToxica(boolean carneToxica);
+
+    public abstract int getNumroJogadasCarne();
+
+    public abstract void setNumroJogadasCarne(int numroJogadasCarne);
 
     public abstract String toolTip();
 }

@@ -1,6 +1,7 @@
 package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 
 import pt.ulusofona.lp2.deisiJungle.Alimento;
+import pt.ulusofona.lp2.deisiJungle.Jogador;
 
 public class CachoDeBanana extends Alimento {
 
@@ -11,20 +12,23 @@ public class CachoDeBanana extends Alimento {
         this.nome = "Cacho de bananas";
         this.imagem = "bananas.png";
         this.posicaoAlimento = posicaoAlimento;
-        this.numeroBananasON = 3;
+        numeroBananasON = 3;
     }
 
 
     /**
      * Efeitos ao consumir bananas
      */
+    /*
+
     @Override
     protected int obterEfeitosConsumo(String tipoAlimentacaoEspecie, int energiaEspecie) {
 
-        /*
+
         ● Cacho de bananas (identificador: ‘b’, imagem: ‘bananas.png’)
             ○ Pode ser ingerido por qualquer animal -> "carnívoro", "herbívoro", "omnívoro"
             ○ Aumenta a energia em 40 unidades
+
             ○ Só existem 3 bananas no cacho. Os animais que calham numa casa com este
             alimento consomem uma dessas bananas. Quando as bananas acabarem, o
             alimento deixa de produzir efeito. Ou seja, a partir da 4.ª vez que algum animal
@@ -34,14 +38,36 @@ public class CachoDeBanana extends Alimento {
             dar, na mesma proporção (40U).
             ○ Note-se que pode haver mais do que um cacho de bananas no terreno. Cada
             cacho é independente dos outros.
-         */
+
+
 
         int aumentarEnergia = 40;
 
-        return switch (tipoAlimentacaoEspecie) {
-            case "carnívoro", "herbívoro", "omnívoro" -> (energiaEspecie + aumentarEnergia);
-            default -> throw new IllegalArgumentException("");
-        };
+        if (tipoAlimentacaoEspecie.equals("carnívoro") || tipoAlimentacaoEspecie.equals("herbívoro") ||
+                tipoAlimentacaoEspecie.equals("omnívoro") ) {
+
+        if (numeroBananasON > 0) {
+            numeroBananasON--;
+            return energiaEspecie - aumentarEnergia;
+        }
+    }
+        return aumentarEnergia;
+}
+     */
+
+    public void consumirBanana(String tipoAlimentacaoEspecie, Jogador jogador) {
+        if (tipoAlimentacaoEspecie.equals("carnívoro") || tipoAlimentacaoEspecie.equals("herbívoro") ||
+                tipoAlimentacaoEspecie.equals("omnívoro") ) {
+
+            if (numeroBananasON > 0 && !jogador.isConsumiuCachoDeBanana()) {
+                if (numeroBananasON <= 1) {
+                    jogador.aumentarEnergia(40);
+                } else {
+                    jogador.diminuirEnergia(40 * (numeroBananasON - 1));
+                }
+                numeroBananasON--;
+            }
+        }
     }
 
 
@@ -83,6 +109,26 @@ public class CachoDeBanana extends Alimento {
     @Override
     public void setNumeroAleatorioCog(int numeroAleatorioCog) {
         this.numeroAleatorioCog = numeroAleatorioCog;
+    }
+
+    @Override
+    public boolean isCarneToxica() {
+        return isCarneToxica;
+    }
+
+    @Override
+    public void setCarneToxica(boolean carneToxica) {
+        this.isCarneToxica = carneToxica;
+    }
+
+    @Override
+    public int getNumroJogadasCarne() {
+        return numroJogadasCarne;
+    }
+
+    @Override
+    public void setNumroJogadasCarne(int numroJogadasCarne) {
+        this.numroJogadasCarne = numroJogadasCarne;
     }
 
     @Override

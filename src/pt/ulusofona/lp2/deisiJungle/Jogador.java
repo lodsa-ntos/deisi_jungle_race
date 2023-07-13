@@ -12,6 +12,10 @@ public class Jogador {
     private int energiaAtual;
     private Especie especie;
     private int turnoAtual;
+    private int aumentarEnergia;
+    private int diminuirEnergia;
+    private int manterEnergia;
+    private boolean consumiuCachoDeBanana;
 
     public Jogador(int id, String nome, String idEspecie, int posicaoAtual, Especie especie) {
         this.id = id;
@@ -89,9 +93,40 @@ public class Jogador {
         this.especie = especie;
     }
 
+    public boolean isConsumiuCachoDeBanana() {
+        return consumiuCachoDeBanana;
+    }
+
+    public void setConsumiuCachoDeBanana(boolean consumiuCachoDeBanana) {
+        this.consumiuCachoDeBanana = consumiuCachoDeBanana;
+    }
+
+    public int getAumentarEnergia() {
+        return aumentarEnergia;
+    }
+
+    public void aumentarEnergia(int aumentarEnergia) {
+        this.aumentarEnergia = aumentarEnergia;
+    }
+
+    public int getDiminuirEnergia() {
+        return diminuirEnergia;
+    }
+
+    public void diminuirEnergia(int diminuirEnergia) {
+        this.diminuirEnergia = diminuirEnergia;
+    }
+
+    public int getManterEnergia() {
+        return manterEnergia;
+    }
+
+    public void manterEnergia(int manterEnergia) {
+        this.manterEnergia = manterEnergia;
+    }
+
     @Override
     public String toString() {
         return id + ":" + nome + ":" + idEspecie + ":" + energiaAtual + ":" + posicaoAtual;
     }
-
 }
