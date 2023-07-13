@@ -13,9 +13,27 @@ public class Carne extends Alimento {
         this.posicaoAlimento = posicaoAlimento;
     }
 
+    /**
+     * Efeitos ao consumir carne
+     */
     @Override
-    public int obterEfeitosConsumoErva(String tipoAlimentacaoEspecie) {
-        return 0;
+    protected int obterEfeitosConsumo(String tipoAlimentacaoEspecie, int energiaEspecie) {
+
+        /*
+        ● Carne (identificador: ‘c’, imagem: ‘meat.png’)
+            ○ Se ingerido por carnívoros (ex: Leão) ou omnívoros (ex: Tarzan), aumenta a energia em 50 unidades
+            ○ Os herbívoros ignoram esta comida, por isso não lhes acontece nada.
+            ○ Deteriora-se à medida que o tempo passa. Só é comestível nas primeiras 12
+            jogadas. A partir daí é tóxica — se fôr ingerida, reduz para metade a energia do
+            animal.
+         */
+
+        int aumentarEnergia = 50;
+
+        return switch (tipoAlimentacaoEspecie) {
+            case "carnívoro", "omnívoro" -> (energiaEspecie + aumentarEnergia);
+            default -> throw new IllegalArgumentException("");
+        };
     }
 
 
@@ -40,7 +58,33 @@ public class Carne extends Alimento {
     }
 
     @Override
+    public int getNumeroBananasON() {
+        return numeroBananasON;
+    }
+
+    @Override
+    public void setNumeroBananasON(int numeroBananasON) {
+        this.numeroBananasON = numeroBananasON;
+    }
+
+    @Override
+    public int getNumeroAleatorioCog() {
+        return numeroAleatorioCog;
+    }
+
+    @Override
+    public void setNumeroAleatorioCog(int numeroAleatorioCog) {
+        this.numeroAleatorioCog = numeroAleatorioCog;
+    }
+
+    @Override
     public String toolTip() {
+        /*
+            ○ A tooltip deve mostrar “Carne : +- 50 energia : <N> jogadas”, em que <N>
+                representa o número de jogadas já efetuadas. Caso a carne já esteja tóxica,
+                deve mostrar “Carne toxica”
+         */
+
         return null;
     }
 }

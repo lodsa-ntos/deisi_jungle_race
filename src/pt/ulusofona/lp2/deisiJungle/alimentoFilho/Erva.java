@@ -18,7 +18,7 @@ public class Erva extends Alimento {
      * Efeitos ao consumir Erva
      */
     @Override
-    public int obterEfeitosConsumo(String tipoAlimentacaoEspecie) {
+    public int obterEfeitosConsumo(String tipoAlimentacaoEspecie, int energiaEspecie) {
 
         /*
         ● Erva (identificador: ‘e’, imagem: ‘grass.png’)
@@ -27,13 +27,12 @@ public class Erva extends Alimento {
             ○ A tooltip deve mostrar “Erva : +- 20 energia”.
          */
 
-        int aumentarEnergia = 20;
-        int reduzirEnergia = -20;
+        int restricaoEnergia = 20;
 
         return switch (tipoAlimentacaoEspecie) {
-            case "herbívoro", "omnívoro" -> aumentarEnergia;
-            case "carnívoro" -> reduzirEnergia;
-            default -> throw new IllegalArgumentException();
+            case "herbívoro", "omnívoro" -> (energiaEspecie + restricaoEnergia);
+            case "carnívoro" -> (energiaEspecie - restricaoEnergia);
+            default -> throw new IllegalArgumentException("");
         };
 
     }
@@ -59,7 +58,30 @@ public class Erva extends Alimento {
     }
 
     @Override
+    public int getNumeroBananasON() {
+        return numeroBananasON;
+    }
+
+    @Override
+    public void setNumeroBananasON(int numeroBananasON) {
+        this.numeroBananasON = numeroBananasON;
+    }
+
+    @Override
+    public int getNumeroAleatorioCog() {
+        return numeroAleatorioCog;
+    }
+
+    @Override
+    public void setNumeroAleatorioCog(int numeroAleatorioCog) {
+        this.numeroAleatorioCog = numeroAleatorioCog;
+    }
+
+    @Override
     public String toolTip() {
+        /*
+            ○ A tooltip deve mostrar “Agua : + 15U|20% energia”.
+         */
         return "Erva : +- 20 energia";
     }
 }

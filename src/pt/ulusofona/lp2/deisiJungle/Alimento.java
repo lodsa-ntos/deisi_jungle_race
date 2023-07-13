@@ -9,6 +9,8 @@ public abstract class Alimento {
     protected String nome;
     protected String imagem;
     protected int posicaoAlimento;
+    protected int numeroBananasON;
+    protected int numeroAleatorioCog;
 
     public Alimento(String id, int posicaoAlimento) {
         this.id = id;
@@ -32,7 +34,7 @@ public abstract class Alimento {
     /**
      * Efeitos ao consumir Erva
      */
-    protected abstract int obterEfeitosConsumo (String tipoAlimentacaoEspecie);
+    protected abstract int obterEfeitosConsumo (String tipoAlimentacaoEspecie, int energiaEspecie);
 
     public abstract String getId();
 
@@ -41,6 +43,14 @@ public abstract class Alimento {
     public abstract String getImagem();
 
     public abstract int getPosicaoAlimento();
+
+    public abstract int getNumeroBananasON();
+
+    public abstract void setNumeroBananasON(int numeroBananasON);
+
+    public abstract int getNumeroAleatorioCog();
+
+    public abstract void setNumeroAleatorioCog(int numeroAleatorioCog);
 
     public abstract String toolTip();
 }
