@@ -32,7 +32,7 @@ public abstract class Alimento {
     }
 
     /**
-     * Efeitos ao consumir Erva
+     * Efeitos ao consumir alimentos
      */
     protected abstract int obterEfeitosConsumo (String tipoAlimentacaoEspecie, int energiaEspecie);
 
