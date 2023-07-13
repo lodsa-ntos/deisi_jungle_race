@@ -347,7 +347,36 @@ public class GameManager {
 
         }
 
-        //TODO deve passar a retornar informação do alimento, quando nesse slot esteja algum alimento.
+        /*
+        Ao longo do terreno, estarão espalhados vários alimentos, de diferentes tipos. Quando um
+        jogador calha numa casa com um alimento, ele é obrigado a ingeri-lo. Isso pode ser bom ou
+        mau. Por exemplo, para o Leão é bom calhar numa casa com o alimento “Carne”, mas para o
+        Elefante, herbívoro, não é bom. Todos os alimentos são identificados por uma letra
+        minúscula. Para melhorar a jogabilidade, o visualizador irá mostrar uma tooltip com informação
+        sobre o alimento, quando se passa por cima dele. Esta tooltip é baseada no retorno da função
+        getSquareInfo()
+         */
+
+        for (Alimento alimento : alimentos) {
+
+            int posicaoAlimento = alimento.getPosicaoAlimento();
+            String idAlimento = alimento.getId();
+            String mostrarToolTip = alimento.toolTip();
+            String imagemAlimento = alimento.getImagem();
+
+            //TODO deve passar a retornar informação do alimento, quando nesse slot esteja algum alimento.
+            // Mostrar uma tooltip quando se passa o rato por cima de um alimento
+            if (squareNr == posicaoAlimento) { // Até a posição dos alimentos
+
+                switch (idAlimento) {
+                    case "e", "a", "b", "m", "c" -> infoPosCaixasNoMapa[1] = mostrarToolTip;
+                }
+
+                // mostrar os alimentos no mapa
+                infoPosCaixasNoMapa[0] = imagemAlimento;
+                break;
+            }
+        }
 
         return infoPosCaixasNoMapa;
     }
