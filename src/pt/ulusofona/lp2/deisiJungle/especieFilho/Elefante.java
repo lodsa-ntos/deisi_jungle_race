@@ -2,8 +2,6 @@ package pt.ulusofona.lp2.deisiJungle.especieFilho;
 
 import pt.ulusofona.lp2.deisiJungle.Especie;
 
-import java.util.ArrayList;
-
 public class Elefante extends Especie {
 
     public Elefante() {

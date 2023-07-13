@@ -3,6 +3,8 @@ package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 import pt.ulusofona.lp2.deisiJungle.Alimento;
 import pt.ulusofona.lp2.deisiJungle.Jogador;
 
+import java.util.Random;
+
 public class Agua extends Alimento {
 
     public Agua(String id, int posicaoAlimento) {
@@ -105,6 +107,26 @@ public class Agua extends Alimento {
     @Override
     public void setNumroJogadasCarne(int numroJogadasCarne) {
         this.numroJogadasCarne = numroJogadasCarne;
+    }
+
+    @Override
+    public boolean isVenenoso() {
+        return isVenenoso;
+    }
+
+    @Override
+    public void setVenenoso(boolean venenoso) {
+        this.isVenenoso = venenoso;
+    }
+
+    @Override
+    public Random getRandom() {
+        return random;
+    }
+
+    @Override
+    public void setRandom(Random random) {
+        this.random = random;
     }
 
     @Override

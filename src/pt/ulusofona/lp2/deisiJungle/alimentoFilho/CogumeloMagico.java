@@ -1,6 +1,7 @@
 package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 
 import pt.ulusofona.lp2.deisiJungle.Alimento;
+import pt.ulusofona.lp2.deisiJungle.Jogador;
 
 import java.util.Random;
 
@@ -13,6 +14,9 @@ public class CogumeloMagico extends Alimento {
         this.nome = "Cogumelos magicos";
         this.imagem = "mushroom.png";
         this.posicaoAlimento = posicaoAlimento;
+        random = new Random();
+        numeroAleatorioCog = random.nextInt(40) + 10; // Gerar um número aleatório entre 10 e 50
+        isVenenoso = false;
     }
 
     /**
@@ -39,6 +43,35 @@ public class CogumeloMagico extends Alimento {
     };
 }
      */
+
+    public void consumirCogumeloMagico(Jogador jogador, int turnoCogumelo, CogumeloMagico cogumeloMagico) {
+
+        // Todos os animais podem ingerir -> "carnívoro", "herbívoro", "omnívoro"
+        if (jogador.getEspecie().getTipoAlimentacaoDaEspecie().equals("carnívoro") ||
+                jogador.getEspecie().getTipoAlimentacaoDaEspecie().equals("omnívoro") ||
+                jogador.getEspecie().getTipoAlimentacaoDaEspecie().equals("herbívoro")) {
+
+            // Se comerem o cogumelo nas jogadas pares
+            if (turnoCogumelo % 2 == 0) {
+
+                // os animais aumentam em N% a sua energia
+                jogador.aumentarEnergia(jogador.getEnergiaAtual() * numeroAleatorioCog / 100);
+
+                // Se comerem o cogumelo nas jogadas ímpares
+            } else {
+
+                // torna-se venenos
+                isVenenoso = true;
+                cogumeloMagico.setVenenoso(true);
+
+                // reduzem em N% a sua energia
+                int energia = jogador.getEnergiaAtual() * numeroAleatorioCog / 100;
+                jogador.diminuirEnergia(--energia);
+
+            }
+
+        }
+    }
 
 
     @Override
@@ -99,6 +132,26 @@ public class CogumeloMagico extends Alimento {
     @Override
     public void setNumroJogadasCarne(int numroJogadasCarne) {
         this.numroJogadasCarne = numroJogadasCarne;
+    }
+
+    @Override
+    public boolean isVenenoso() {
+        return isVenenoso;
+    }
+
+    @Override
+    public void setVenenoso(boolean venenoso) {
+        this.isVenenoso = venenoso;
+    }
+
+    @Override
+    public Random getRandom() {
+        return random;
+    }
+
+    @Override
+    public void setRandom(Random random) {
+        this.random = random;
     }
 
     @Override

@@ -2,6 +2,8 @@ package pt.ulusofona.lp2.deisiJungle;
 
 import pt.ulusofona.lp2.deisiJungle.alimentoFilho.*;
 
+import java.util.Random;
+
 public abstract class Alimento {
 
     protected String id;
@@ -12,6 +14,8 @@ public abstract class Alimento {
     protected int numeroAleatorioCog;
     protected int numroJogadasCarne;
     protected boolean isCarneToxica;
+    protected boolean isVenenoso;
+    protected Random random;
 
     public Alimento(String id, int posicaoAlimento) {
         this.id = id;
@@ -64,6 +68,14 @@ public abstract class Alimento {
     public abstract int getNumroJogadasCarne();
 
     public abstract void setNumroJogadasCarne(int numroJogadasCarne);
+
+    public abstract boolean isVenenoso();
+
+    public abstract void setVenenoso(boolean venenoso);
+
+    public abstract Random getRandom();
+
+    public abstract void setRandom(Random random);
 
     public abstract String toolTip();
 }

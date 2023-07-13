@@ -3,6 +3,8 @@ package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 import pt.ulusofona.lp2.deisiJungle.Alimento;
 import pt.ulusofona.lp2.deisiJungle.Jogador;
 
+import java.util.Random;
+
 public class Carne extends Alimento {
 
     public Carne(String id, int posicaoAlimento) {
@@ -12,7 +14,7 @@ public class Carne extends Alimento {
         this.nome = "Carne";
         this.imagem = "meat.png";
         this.posicaoAlimento = posicaoAlimento;
-        this.isCarneToxica = false;
+        isCarneToxica = false;
     }
 
     /**
@@ -65,7 +67,7 @@ public class Carne extends Alimento {
             carne.setNumroJogadasCarne(turnosRestantes);
 
             // A partir daí é tóxica — se fôr ingerida, reduz para metade a energia do animal
-            this.isCarneToxica = true;
+            isCarneToxica = true;
             carne.setCarneToxica(true);
 
             if (jogador.getEspecie().getTipoAlimentacaoDaEspecie().equals("carnívoro") ||
@@ -140,6 +142,26 @@ public class Carne extends Alimento {
     @Override
     public void setNumroJogadasCarne(int numroJogadasCarne) {
         this.numroJogadasCarne = numroJogadasCarne;
+    }
+
+    @Override
+    public boolean isVenenoso() {
+        return isVenenoso;
+    }
+
+    @Override
+    public void setVenenoso(boolean venenoso) {
+        this.isVenenoso = venenoso;
+    }
+
+    @Override
+    public Random getRandom() {
+        return random;
+    }
+
+    @Override
+    public void setRandom(Random random) {
+        this.random = random;
     }
 
 

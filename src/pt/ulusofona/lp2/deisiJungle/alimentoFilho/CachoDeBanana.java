@@ -3,6 +3,8 @@ package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 import pt.ulusofona.lp2.deisiJungle.Alimento;
 import pt.ulusofona.lp2.deisiJungle.Jogador;
 
+import java.util.Random;
+
 public class CachoDeBanana extends Alimento {
 
     public CachoDeBanana(String id, int posicaoAlimento) {
@@ -129,6 +131,26 @@ public class CachoDeBanana extends Alimento {
     @Override
     public void setNumroJogadasCarne(int numroJogadasCarne) {
         this.numroJogadasCarne = numroJogadasCarne;
+    }
+
+    @Override
+    public boolean isVenenoso() {
+        return isVenenoso;
+    }
+
+    @Override
+    public void setVenenoso(boolean venenoso) {
+        this.isVenenoso = venenoso;
+    }
+
+    @Override
+    public Random getRandom() {
+        return random;
+    }
+
+    @Override
+    public void setRandom(Random random) {
+        this.random = random;
     }
 
     @Override
