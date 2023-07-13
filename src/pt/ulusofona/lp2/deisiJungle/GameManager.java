@@ -345,12 +345,9 @@ public class GameManager {
 
                 infoPosCaixasNoMapa[2] += jogador.getId();
 
-                /*
                 if (i < jogadores.size() - 1) {
                     infoPosCaixasNoMapa[2] += ",";
                 }
-                 */
-                break;
             }
 
         }
@@ -482,38 +479,55 @@ public class GameManager {
         Jogador jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
         System.out.println(jogadorAtual);
 
-        int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1 // ficar no mesmo sitio
-        int avancar = casaAtual + nrSquares; // A + M
-        int recuar = casaAtual - nrSquares; // A — M
-        int energiaAtual = jogadorAtual.getEnergiaAtual(); // 22
+        int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1
+        int energiaAtual = jogadorAtual.getEnergiaAtual();
+        int novaPosicaoJogador = casaAtual + nrSquares; // A + M
+        //int recuar = casaAtual - nrSquares; // A — M
 
         // O argumento nrSquares não pode ser menor que 1 ou maior do que 6, porque o dado tem 6 lados.
         // No entanto, se o parâmetro bypassValidations tiver o valor true, a regra anterior não é aplicada.
-        if (!bypassValidations && (nrSquares < -6 || nrSquares > 6)) {
-            return new MovementResult(MovementResultCode.INVALID_MOVEMENT,null);
+        // Verificar se o movimento é válido
+        if (!bypassValidations) {
+            if (nrSquares < -6 || nrSquares > 6) {
+                return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
+            }
+
+            // Se tentar recuar estando na primeira casa = INVALID_MOVEMENT
+            if (nrSquares < 0 && novaPosicaoJogador < 1) {
+                return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
+            }
+
+            // Se tentar avançar para além da posicao final jogo = INVALID_MOVEMENT
+            if (nrSquares < 0 || novaPosicaoJogador > posicaoFinalJogo) {
+                return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
+            }
         }
 
         // Se o jogador tentar ultrapassar a acasa final do jogo, deve ficar na posição final do jogo
-        if (avancar > posicaoFinalJogo) {
-            avancar = posicaoFinalJogo;
+        if (novaPosicaoJogador > posicaoFinalJogo) {
+            novaPosicaoJogador = posicaoFinalJogo;
             //System.out.println("Vencedor");
         }
 
-        // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
-        if (energiaAtual == 0) {
-            return new MovementResult(MovementResultCode.NO_ENERGY," ");
+        // Movimento do jogador para a casa A + M
+        jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
+
+        String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador, jogadorAtual);
+        if (alimentoConsumido != null) {
+            return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
         }
 
-        // Movimento do jogador para a casa A + M
-        jogadorAtual.setPosicaoAtual(avancar);
-
-        // Movimento do jogador para a casa A — M
-        jogadorAtual.setPosicaoAtual(recuar);
+        // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
+        if (energiaAtual < 2) {
+            return new MovementResult(MovementResultCode.NO_ENERGY, null);
+        }
 
         // Durante o movimento, o jogador consome 2 unidades de energia
         jogadorAtual.setEnergiaAtual(energiaAtual - 2);
 
+        // Atualizar o turno
         incrementarTurno();
+
         return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
     }
 
@@ -553,6 +567,78 @@ public class GameManager {
 
         System.out.println();
         System.out.println("> turno atual: " + turnoAtual);
+    }
+
+    public String verificarConsumoDeAlimento(int posicao, Jogador jogadorAtual) {
+        for (Alimento alimento : alimentos) {
+            if (alimento.getPosicaoAlimento() == posicao) {
+
+                boolean isHerbivoro = Boolean.parseBoolean(jogadorAtual.getEspecie().setTipoAlimentacaoDaEspecie("herbívoro"));
+                boolean isOmnivoro = Boolean.parseBoolean(jogadorAtual.getEspecie().setTipoAlimentacaoDaEspecie("omnívoro"));
+                boolean isCarnivoro = Boolean.parseBoolean(jogadorAtual.getEspecie().setTipoAlimentacaoDaEspecie("carnívoro"));
+                String idAlimento = alimento.getId();
+
+                switch (idAlimento) {
+                    case "e":
+                        if (isHerbivoro || isOmnivoro) {
+
+                            jogadorAtual.consumirErva(jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie(), jogadorAtual, alimento);
+
+                        } else if (isCarnivoro) {
+
+                            jogadorAtual.consumirErva(jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie(), jogadorAtual, alimento);
+
+                        }
+                        alimentos.remove(alimento);
+                        return alimento.getNome();
+
+                    case "a":
+
+                        if (isCarnivoro || isHerbivoro) {
+                            // Se ingerido por carnívoros ou herbívoros, aumenta a energia em 15 unidades
+                            jogadorAtual.consumirAgua(jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie(), jogadorAtual, alimento);
+
+                        } else if (isOmnivoro) {
+                            // Se ingerido por omnívoros, aumenta a energia em 20%
+                            jogadorAtual.consumirAgua(jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie(), jogadorAtual, alimento);
+
+                        }
+                        alimentos.remove(alimento);
+                        return alimento.getNome();
+
+                    case "b":
+
+                        if (isCarnivoro || isHerbivoro || isOmnivoro) {
+                            // Se ingerido por carnívoros ou herbívoros, aumenta a energia em 15 unidades
+                            jogadorAtual.consumirBanana(jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie(), jogadorAtual, alimento);
+
+                        }
+
+                        break;
+                    case "c":
+
+                        if (isCarnivoro || isOmnivoro) {
+                            // Se ingerido por carnívoros ou herbívoros, aumenta a energia em 15 unidades
+                            jogadorAtual.consumirCarne(jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie(), jogadorAtual, turnoAtual, alimento);
+
+                        }
+                        alimentos.remove(alimento);
+                        return alimento.getNome();
+
+                    case "m":
+
+                        if (isCarnivoro || isHerbivoro || isOmnivoro) {
+                            // Se ingerido por carnívoros ou herbívoros, aumenta a energia em 15 unidades
+                            jogadorAtual.consumirCogumeloMagico(jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie(), jogadorAtual, turnoAtual, alimento);
+
+                        }
+                        alimentos.remove(alimento);
+                        return alimento.getNome();
+                }
+            }
+        }
+
+        return null;
     }
 
 }

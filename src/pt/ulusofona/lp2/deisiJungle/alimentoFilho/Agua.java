@@ -42,12 +42,14 @@ public class Agua extends Alimento {
 }
      */
 
-    public void consumirErva(String tipoAlimentacaoEspecie, Jogador jogador) {
+    /*
+    public void consumirAgua(String tipoAlimentacaoEspecie, Jogador jogador) {
         switch (tipoAlimentacaoEspecie) {
-            case "herbívoro", "omnívoro" -> jogador.aumentarEnergia(15);
-            case "carnívoro" -> jogador.diminuirEnergia(20);
+            case "carnívoros", "herbívoros" -> jogador.aumentarEnergia(15);
+            case "omnívoro" -> jogador.diminuirEnergia(20);
         }
     }
+     */
 
     @Override
     public String getId() {

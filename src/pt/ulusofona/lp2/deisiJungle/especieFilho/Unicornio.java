@@ -102,8 +102,9 @@ public class Unicornio extends Especie {
     }
 
     @Override
-    public void setTipoAlimentacaoDaEspecie(String tipoAlimentacaoDaEspecie) {
+    public String setTipoAlimentacaoDaEspecie(String tipoAlimentacaoDaEspecie) {
         this.tipoAlimentacaoDaEspecie = tipoAlimentacaoDaEspecie;
+        return tipoAlimentacaoDaEspecie;
     }
 
     @Override

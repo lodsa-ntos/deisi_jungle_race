@@ -42,12 +42,14 @@ public class Erva extends Alimento {
     }
      */
 
+    /*
     public void consumirErva(String tipoAlimentacaoEspecie, Jogador jogador) {
         switch (tipoAlimentacaoEspecie) {
             case "herbívoro", "omnívoro" -> jogador.aumentarEnergia(40);
             case "carnívoro" -> jogador.diminuirEnergia(40);
         }
     }
+     */
 
     @Override
     public String getId() {

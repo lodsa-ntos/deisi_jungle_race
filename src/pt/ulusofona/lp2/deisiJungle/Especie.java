@@ -7,13 +7,12 @@ public abstract class Especie {
     protected String id;
     protected String nome;
     protected String imagem;
+    protected String tipoAlimentacaoDaEspecie;
     protected int energiaInicial;
     protected int consumoEnergia;
     protected int ganhoEnergiaDescanso;
-    protected int velocidadeMaxima;
     protected int velocidadeMinima;
-
-    protected String tipoAlimentacaoDaEspecie;
+    protected int velocidadeMaxima;
 
     /**
      * Identificar Especies
@@ -66,7 +65,7 @@ public abstract class Especie {
 
     public abstract String getTipoAlimentacaoDaEspecie();
 
-    public abstract void setTipoAlimentacaoDaEspecie(String tipoAlimentacaoDaEspecie);
+    public abstract String setTipoAlimentacaoDaEspecie(String tipoAlimentacaoDaEspecie);
 
     public abstract String toString();
 }

@@ -43,6 +43,7 @@ public class Carne extends Alimento {
 }
      */
 
+    /*
     public void consumirCarne(Jogador jogador, int turnosRestantes, Carne carne) {
 
         // Só é comestível nas primeiras 12 jogadas
@@ -82,6 +83,7 @@ public class Carne extends Alimento {
             }
         }
     }
+     */
 
 
     @Override

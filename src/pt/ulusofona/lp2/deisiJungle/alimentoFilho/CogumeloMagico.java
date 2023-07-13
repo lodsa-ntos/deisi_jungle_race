@@ -44,6 +44,7 @@ public class CogumeloMagico extends Alimento {
 }
      */
 
+    /*
     public void consumirCogumeloMagico(Jogador jogador, int turnoCogumelo, CogumeloMagico cogumeloMagico) {
 
         // Todos os animais podem ingerir -> "carnívoro", "herbívoro", "omnívoro"
@@ -72,6 +73,7 @@ public class CogumeloMagico extends Alimento {
 
         }
     }
+     */
 
 
     @Override

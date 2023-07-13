@@ -57,6 +57,7 @@ public class CachoDeBanana extends Alimento {
 }
      */
 
+    /*
     public void consumirBanana(String tipoAlimentacaoEspecie, Jogador jogador) {
 
         if (tipoAlimentacaoEspecie.equals("carnívoro") || tipoAlimentacaoEspecie.equals("herbívoro") ||
@@ -73,6 +74,7 @@ public class CachoDeBanana extends Alimento {
         }
 
     }
+     */
 
 
     @Override
