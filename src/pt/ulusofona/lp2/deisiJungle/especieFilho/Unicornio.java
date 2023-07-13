@@ -8,6 +8,7 @@ public class Unicornio extends Especie {
         this.id = "U";
         this.nome = "Unicórnio";
         this.imagem = "unicorn.png";
+        this.tipoAlimentacaoDaEspecie = "herbívoro";
         this.energiaInicial = 200;
         this.consumoEnergia = 8;
         this.ganhoEnergiaDescanso = 20;
@@ -96,8 +97,19 @@ public class Unicornio extends Especie {
     }
 
     @Override
+    public String getTipoAlimentacaoDaEspecie() {
+        return tipoAlimentacaoDaEspecie;
+    }
+
+    @Override
+    public void setTipoAlimentacaoDaEspecie(String tipoAlimentacaoDaEspecie) {
+        this.tipoAlimentacaoDaEspecie = tipoAlimentacaoDaEspecie;
+    }
+
+    @Override
     public String toString() {
         return "Especie: " + nome + "\n" +
+                "Tipo de alimentação: " + tipoAlimentacaoDaEspecie + "\n" +
                 "id: " + id + "\n" +
                 "Energia: " + energiaInicial + "\n" +
                 "Consumo de energia: " + consumoEnergia + "\n" +

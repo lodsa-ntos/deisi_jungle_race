@@ -4,16 +4,20 @@ import pt.ulusofona.lp2.deisiJungle.especieFilho.*;
 
 public abstract class Especie {
 
+    protected String id;
+    protected String nome;
+    protected String imagem;
     protected int energiaInicial;
     protected int consumoEnergia;
     protected int ganhoEnergiaDescanso;
     protected int velocidadeMaxima;
     protected int velocidadeMinima;
-    protected String id;
-    protected String nome;
-    protected String imagem;
 
+    protected String tipoAlimentacaoDaEspecie;
 
+    /**
+     * Identificar Especies
+     */
     public static Especie identificarEspecie(String id) {
         switch (id) {
             case "E" -> new Elefante();
@@ -59,6 +63,10 @@ public abstract class Especie {
     public abstract int getVelocidadeMinima();
 
     public abstract void setVelocidadeMinima(int velocidadeMinima);
+
+    public abstract String getTipoAlimentacaoDaEspecie();
+
+    public abstract void setTipoAlimentacaoDaEspecie(String tipoAlimentacaoDaEspecie);
 
     public abstract String toString();
 }

@@ -1,39 +1,46 @@
 package pt.ulusofona.lp2.deisiJungle;
 
-public class Alimento {
+import pt.ulusofona.lp2.deisiJungle.alimentoFilho.*;
+import pt.ulusofona.lp2.deisiJungle.especieFilho.*;
 
-    String id;
-    String nome;
-    String imagem;
-    int posicaoAlimento;
+public abstract class Alimento {
+
+    protected String id;
+    protected String nome;
+    protected String imagem;
+    protected int posicaoAlimento;
 
     public Alimento(String id, int posicaoAlimento) {
         this.id = id;
         this.posicaoAlimento = posicaoAlimento;
     }
 
-    public Alimento() {
+    /**
+     * Identificar Alimentos
+     */
+    public static Alimento identificarAlimento(String id, int posicaoAlimento) {
+        return switch (id) {
+            case "e" -> new Erva(id, posicaoAlimento);
+            case "a" -> new Agua(id, posicaoAlimento);
+            case "b" -> new CachoDeBanana(id, posicaoAlimento);
+            case "c" -> new Carne(id, posicaoAlimento);
+            case "m" -> new CogumeloMagico(id, posicaoAlimento);
+            default -> null;
+        };
     }
 
-    public String getId() {
-        return id;
-    }
+    /**
+     * Efeitos ao consumir Erva
+     */
+    protected abstract int obterEfeitosConsumo (String tipoAlimentacaoEspecie);
 
-    public String getNome() {
-        return nome;
-    }
+    public abstract String getId();
 
-    public String getImagem() {
-        return imagem;
-    }
+    public abstract String getNome();
 
-    public int getPosicaoAlimento() {
-        return posicaoAlimento;
-    }
+    public abstract String getImagem();
 
-    @Override
-    public String toString() {
+    public abstract int getPosicaoAlimento();
 
-        return id + ':' + posicaoAlimento;
-    }
+    public abstract String toolTip();
 }

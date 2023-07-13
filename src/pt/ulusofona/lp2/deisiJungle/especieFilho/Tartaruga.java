@@ -8,6 +8,7 @@ public class Tartaruga extends Especie {
         this.id = "T";
         this.nome = "Tartaruga";
         this.imagem = "turtle.png";
+        this.tipoAlimentacaoDaEspecie = "herbívoro";
         this.energiaInicial = 150;
         this.consumoEnergia = 1;
         this.ganhoEnergiaDescanso = 5;
@@ -96,8 +97,19 @@ public class Tartaruga extends Especie {
     }
 
     @Override
+    public String getTipoAlimentacaoDaEspecie() {
+        return tipoAlimentacaoDaEspecie;
+    }
+
+    @Override
+    public void setTipoAlimentacaoDaEspecie(String tipoAlimentacaoDaEspecie) {
+        this.tipoAlimentacaoDaEspecie = tipoAlimentacaoDaEspecie;
+    }
+
+    @Override
     public String toString() {
         return "Especie: " + nome + "\n" +
+                "Tipo de alimentação: " + tipoAlimentacaoDaEspecie + "\n" +
                 "id: " + id + "\n" +
                 "Energia: " + energiaInicial + "\n" +
                 "Consumo de energia: " + consumoEnergia + "\n" +

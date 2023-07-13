@@ -125,10 +125,9 @@ public class GameManager {
         // TODO JOGADOR — O jogo terá entre 2 e 4 jogadores
         ValidadorJogador.validarNumJogadorEmJogo(playersInfo.length);
 
-
         /**
-         * playersInfo
-         * ‘loop’ foreach para guardar informação do playersInfo
+         * JOGADORES
+         * loop’ foreach para guardar informação do playersInfo
          */
         for (String[] infoJogador: playersInfo) {
 
@@ -179,10 +178,10 @@ public class GameManager {
             //System.out.println(getSquareInfo(1));
         }
 
-        System.out.println();
+        System.out.println("ALIMENTOS");
 
         /**
-         * foodsInfo
+         * ALIMENTOS
          * ‘loop’ foreach para guardar informação do foodsInfo
          */
         for (String[] infoAlimento: foodsInfo) {
@@ -203,18 +202,18 @@ public class GameManager {
                 throw new InvalidInitialJungleException("A posição do alimento não é válida.", false, true);
             }
 
-            int posicaoAlimento = Integer.parseInt(oldPosicaoAlimento);
+            int posicaoAtualAlimento = Integer.parseInt(oldPosicaoAlimento);
 
             // TODO ID - tem que ser um dos que foi retornado pela função getFoodTypes()
             ValidatorAlimento.validarIDAlimento(idTipo, getFoodTypes());
 
             // TODO POSIÇÃO - Os alimentos têm que estar posicionados dentro dos limites do terreno.
-            ValidatorAlimento.validarPosicaoAlimentos(posicaoAlimento, casaPartida, posicaoFinalJogo);
+            ValidatorAlimento.validarPosicaoAlimentos(posicaoAtualAlimento, casaPartida, posicaoFinalJogo);
 
 
-            Alimento tipoAlimento = new Alimento(idTipo, posicaoAlimento);
+            Alimento tipoAlimento = Alimento.identificarAlimento(idTipo, posicaoAtualAlimento);
             alimentos.add(tipoAlimento);
-            System.out.println(tipoAlimento);
+            System.out.println(tipoAlimento.toolTip());
         }
     }
 
@@ -230,8 +229,9 @@ public class GameManager {
         ValidadorJogador.validarNumJogadorEmJogo(playersInfo.length);
 
         /**
-         * ‘loop’ foreach para guardar informação do playersInfo
-         */
+         * JOGADORES
+         * loop’ foreach para guardar informação do playersInfo
+        */
         for (String[] infoJogador: playersInfo) {
 
             String oldIDJogador = infoJogador[0];
@@ -346,6 +346,8 @@ public class GameManager {
             }
 
         }
+
+        //TODO deve passar a retornar informação do alimento, quando nesse slot esteja algum alimento.
 
         return infoPosCaixasNoMapa;
     }
@@ -507,7 +509,7 @@ public class GameManager {
     }
 
     public String whoIsTaborda() {
-        return "Bungee jumping";
+        return "Parkour";
     }
 
     public boolean saveGame(File file) {

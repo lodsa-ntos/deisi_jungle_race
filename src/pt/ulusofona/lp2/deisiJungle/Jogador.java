@@ -1,6 +1,5 @@
 package pt.ulusofona.lp2.deisiJungle;
 
-
 import pt.ulusofona.lp2.deisiJungle.especieFilho.*;
 
 import java.util.HashMap;
@@ -22,6 +21,9 @@ public class Jogador {
         this.especie = especie;
     }
 
+    /**
+     * Caracterizar a Especie do Jogador
+     */
     public void caracterizarEspecieJogador(Jogador jogadorAtual) {
 
         // HashMap para mapear os IDs das espécie e às instâncias da classe Especie.

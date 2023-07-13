@@ -8,6 +8,7 @@ public class Tarzan extends Especie {
         this.id = "Z";
         this.nome = "Tarzan";
         this.imagem = "tarzan.png";
+        this.tipoAlimentacaoDaEspecie = "omnívoro";
         this.energiaInicial = 70;
         this.consumoEnergia = 2;
         this.ganhoEnergiaDescanso = 20;
@@ -96,8 +97,19 @@ public class Tarzan extends Especie {
     }
 
     @Override
+    public String getTipoAlimentacaoDaEspecie() {
+        return tipoAlimentacaoDaEspecie;
+    }
+
+    @Override
+    public void setTipoAlimentacaoDaEspecie(String tipoAlimentacaoDaEspecie) {
+        this.tipoAlimentacaoDaEspecie = tipoAlimentacaoDaEspecie;
+    }
+
+    @Override
     public String toString() {
         return "Especie: " + nome + "\n" +
+                "Tipo de alimentação: " + tipoAlimentacaoDaEspecie + "\n" +
                 "id: " + id + "\n" +
                 "Energia: " + energiaInicial + "\n" +
                 "Consumo de energia: " + consumoEnergia + "\n" +
