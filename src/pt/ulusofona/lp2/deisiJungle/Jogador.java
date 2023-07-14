@@ -1,7 +1,5 @@
 package pt.ulusofona.lp2.deisiJungle;
 
-import pt.ulusofona.lp2.deisiJungle.alimentoFilho.Carne;
-import pt.ulusofona.lp2.deisiJungle.alimentoFilho.CogumeloMagico;
 import pt.ulusofona.lp2.deisiJungle.especieFilho.*;
 
 import java.util.HashMap;
@@ -11,11 +9,9 @@ public class Jogador {
     private  String nome;
     private  String idEspecie;
     private int posicaoAtual;
-    private int energiaAtual;
+
+    private int numeroPosicoesPercorridas;
     private Especie especie;
-    private int turnoAtual;
-    private int aumentarEnergia;
-    private int diminuirEnergia;
     private int manterEnergia;
     private boolean consumiuCachoDeBanana;
 
@@ -25,6 +21,7 @@ public class Jogador {
         this.idEspecie = idEspecie;
         this.posicaoAtual = posicaoAtual;
         this.especie = especie;
+        this.numeroPosicoesPercorridas = 0;
     }
 
     public Jogador() {
@@ -117,7 +114,7 @@ public class Jogador {
                             int diminuiEnergia = (jogador.getEspecie().getEnergiaInicial() - 40);
                             jogador.getEspecie().setEnergiaInicial(diminuiEnergia);
                         }
-                        alimento.setNumeroBananasON(3-1);
+                        alimento.setNumeroBananasON(alimento.getNumeroBananasON()-1);
 
                     }
                     break;
@@ -229,18 +226,6 @@ public class Jogador {
         this.posicaoAtual = posicaoAtual;
     }
 
-    public int getEnergiaAtual() {
-        return energiaAtual;
-    }
-
-    public void setEnergiaAtual(int energiaAtual) {
-        this.energiaAtual = energiaAtual;
-    }
-
-    public int getTurnoAtual() {
-        return turnoAtual;
-    }
-
     public Especie getEspecie() {
         return especie;
     }
@@ -253,32 +238,16 @@ public class Jogador {
         return consumiuCachoDeBanana;
     }
 
-    public void setConsumiuCachoDeBanana(boolean consumiuCachoDeBanana) {
-        this.consumiuCachoDeBanana = consumiuCachoDeBanana;
-    }
-
-    public int getAumentarEnergia() {
-        return aumentarEnergia;
-    }
-
-    public void aumentarEnergia(int aumentarEnergia) {
-        this.aumentarEnergia = aumentarEnergia;
-    }
-
-    public int getDiminuirEnergia() {
-        return diminuirEnergia;
-    }
-
-    public void diminuirEnergia(int diminuirEnergia) {
-        this.diminuirEnergia = diminuirEnergia;
-    }
-
-    public int getManterEnergia() {
-        return manterEnergia;
-    }
-
     public void manterEnergia(int manterEnergia) {
         this.manterEnergia = manterEnergia;
+    }
+
+    public int getNumeroPosicoesPercorridas() {
+        return numeroPosicoesPercorridas;
+    }
+
+    public void setNumeroPosicoesPercorridas(int numeroPosicoesMovimentadas) {
+        this.numeroPosicoesPercorridas = numeroPosicoesMovimentadas;
     }
 
     @Override
