@@ -89,7 +89,7 @@ public class Jogador {
                     jogador.getEspecie().setEnergiaInicial(aumentaEnergia);
                 }
                 case "omnívoro" -> {
-                    int diminuiEnergia = ((int) (jogador.getEspecie().getEnergiaInicial() - 0.20));
+                    int diminuiEnergia = ((int) (jogador.getEspecie().getEnergiaInicial() * 0.20));
                     jogador.getEspecie().setEnergiaInicial(diminuiEnergia);
                 }
             }
@@ -117,7 +117,7 @@ public class Jogador {
                             int diminuiEnergia = (jogador.getEspecie().getEnergiaInicial() - 40);
                             jogador.getEspecie().setEnergiaInicial(diminuiEnergia);
                         }
-                        alimento.setNumeroBananasON(-1);
+                        alimento.setNumeroBananasON(3-1);
 
                     }
                     break;
