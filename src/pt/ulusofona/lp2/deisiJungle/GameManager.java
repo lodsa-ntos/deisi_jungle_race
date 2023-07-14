@@ -411,7 +411,7 @@ public class GameManager {
             InfoJogadorAtual[0] = String.valueOf(jogadorAtualEmJogo.getId());
             InfoJogadorAtual[1] = jogadorAtualEmJogo.getNome();
             InfoJogadorAtual[2] = jogadorAtualEmJogo.getIdEspecie();
-            InfoJogadorAtual[3] = String.valueOf(jogadorAtualEmJogo.getEnergiaAtual());
+            InfoJogadorAtual[3] = String.valueOf(jogadorAtualEmJogo.getEspecie().getEnergiaInicial());
             InfoJogadorAtual[4] = jogadorAtualEmJogo.getEspecie().getVelocidadeMinima() + ".." + jogadorAtualEmJogo.getEspecie().getVelocidadeMaxima();
             return InfoJogadorAtual;
         }
