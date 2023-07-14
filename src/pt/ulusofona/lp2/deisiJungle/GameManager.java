@@ -174,13 +174,6 @@ public class GameManager {
 
             System.out.println("Jogador ⇒ " + jogadorAtual);
             System.out.println(jogadorAtual.getEspecie().toString());
-            //System.out.println(getPlayerIds(1));
-            //System.out.println(moveCurrentPlayer(20, true));
-            //System.out.println(Arrays.toString(getCurrentPlayerEnergyInfo(3)));
-            //System.out.println(getCurrentPlayerEnergyInfo(4));
-            //System.out.println(getSquareInfo(1));
-            //System.out.println(getPlayersInfo());
-            //System.out.println(getPlayerInfo(1));
         }
 
         System.out.println("ALIMENTOS");

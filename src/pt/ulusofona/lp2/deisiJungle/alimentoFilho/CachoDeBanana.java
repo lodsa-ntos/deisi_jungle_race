@@ -11,7 +11,7 @@ public class CachoDeBanana extends Alimento {
         super(id, posicaoAlimento);
 
         this.id = id;
-        this.nome = "Cacho de bananas";
+        this.nome = "Bananas";
         this.imagem = "bananas.png";
         this.posicaoAlimento = posicaoAlimento;
         numeroBananasON = 3;

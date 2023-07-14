@@ -11,7 +11,7 @@ public class CogumeloMagico extends Alimento {
         super(id, posicaoAlimento);
 
         this.id = id;
-        this.nome = "Cogumelos magicos";
+        this.nome = "Cogumelo Magico";
         this.imagem = "mushroom.png";
         this.posicaoAlimento = posicaoAlimento;
         random = new Random();
