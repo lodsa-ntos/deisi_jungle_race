@@ -168,7 +168,7 @@ public class GameManager {
 
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
             jogadores.add(jogadorAtual);
-            jogadorAtual = jogadores.get(0); // Jogador atual = 1.ª posição da lista de jogadores = ‘id’ = 1
+            //jogadorAtual = jogadores.get(0); // Jogador atual = 1.ª posição da lista de jogadores = ‘id’ = 1
             jogadores.sort(Comparator.comparing(Jogador::getId)); // Ordenar IDs por ordem crescente
 
 
@@ -234,7 +234,7 @@ public class GameManager {
 
             String oldIDJogador = infoJogador[0];
             String nomeJogador = infoJogador[1];
-            String especieJogador = infoJogador[2];
+            String idEspecieJogador = infoJogador[2];
 
             // TODO IDs - é null ou vazio?
             if (oldIDJogador == null || oldIDJogador.isEmpty()) {
@@ -257,16 +257,16 @@ public class GameManager {
             ValidadorJogador.validarNomeJogadores(nomeJogador);
 
             // TODO TARZAN — Apenas poderá existir um jogador da espécie Tarzan a competir
-            ValidadorJogador.validarEspecieTarzan(especieJogador);
+            ValidadorJogador.validarEspecieTarzan(idEspecieJogador);
 
             // TODO O ESPÉCIES - A espécie tem que ser uma das que foi retornada da função getSpecies()
-            ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
+            ValidadorJogador.validarEspecieJogador(idEspecieJogador, getSpecies());
 
-            Especie especieJogadorEmJogo = Especie.identificarEspecie(especieJogador);
-            jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida, especieJogadorEmJogo);
+            Especie especieJogadorEmJogo = Especie.identificarEspecie(idEspecieJogador);
+            jogadorAtual = new Jogador(idJogador, nomeJogador, idEspecieJogador, casaPartida, especieJogadorEmJogo);
 
             jogadores.add(jogadorAtual);
-            jogadorAtual = jogadores.get(0); // Jogador atual = 1.ª posição da lista de jogadores = ‘id’ = 1
+            //jogadorAtual = jogadores.get(0); // Jogador atual = 1.ª posição da lista de jogadores = ‘id’ = 1
             jogadores.sort(Comparator.comparing(Jogador::getId)); // Ordenar IDs por ordem crescente
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
 
