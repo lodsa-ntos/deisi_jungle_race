@@ -12,7 +12,7 @@ public class Agua extends Alimento {
         super(id, posicaoAlimento);
 
         this.id = id;
-        this.nome = "Água";
+        this.nome = "Agua";
         this.imagem = "water.png";
         this.posicaoAlimento = posicaoAlimento;
     }
