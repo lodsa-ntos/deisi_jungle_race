@@ -177,6 +177,7 @@ public class GameManager {
             //System.out.println(getCurrentPlayerEnergyInfo(4));
             //System.out.println(getSquareInfo(1));
             //System.out.println(getPlayersInfo());
+            //System.out.println(getPlayerInfo(1));
         }
 
         System.out.println("ALIMENTOS");
@@ -381,14 +382,15 @@ public class GameManager {
         - [3] => A energia atual do jogador, medida em unidades de energia
         - [4] => A velocidade, no formato “X..Y” => Velocidade Minima = 1..6 = Velocidade Maxima
          */
-        String[] infoJogador = new String[5];
+        //String[] infoJogador = new String[5];
 
         for (Jogador jogador : jogadores) {
             if (jogador.getId() == playerId) {
+                String[] infoJogador = new String[5];
                 infoJogador[0] = String.valueOf(jogador.getId());
                 infoJogador[1] = jogador.getNome();
                 infoJogador[2] = jogador.getIdEspecie();
-                infoJogador[3] = String.valueOf(jogador.getEnergiaAtual());
+                infoJogador[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
                 infoJogador[4] = jogador.getEspecie().getVelocidadeMinima() + ".." + jogador.getEspecie().getVelocidadeMaxima();
                 return infoJogador;
             }
