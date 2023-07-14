@@ -169,7 +169,7 @@ public class GameManager {
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
             jogadores.add(jogadorAtual);
             jogadorAtual = jogadores.get(0); // Jogador atual = 1.ª posição da lista de jogadores = ‘id’ = 1
-            jogadores.sort(Comparator.comparing(Jogador::getId)); // organizar em ordem crescente
+            jogadores.sort(Comparator.comparing(Jogador::getId)); // Ordenar IDs por ordem crescente
 
 
             System.out.println("Jogador ⇒ " + jogadorAtual);
@@ -223,8 +223,62 @@ public class GameManager {
     }
 
     public void createInitialJungle(int jungleSize, String[][] playersInfo) throws InvalidInitialJungleException {
-        // Reduzir linhas
-        createInitialJungle(jungleSize, playersInfo, null);
+
+        HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
+        posicaoFinalJogo = jungleSize;
+
+        // TODO O MAPA — duas posições por cada jogador
+        ValidadorJogador.validarDimensaoMapa(posicaoFinalJogo, playersInfo.length);
+
+        // TODO JOGADOR — O jogo terá entre 2 e 4 jogadores
+        ValidadorJogador.validarNumJogadorEmJogo(playersInfo.length);
+
+        /**
+         * JOGADORES
+         * loop’ foreach para guardar informação do playersInfo
+        */
+        for (String[] infoJogador: playersInfo) {
+
+            String oldIDJogador = infoJogador[0];
+            String nomeJogador = infoJogador[1];
+            String especieJogador = infoJogador[2];
+
+            // TODO IDs - é null ou vazio?
+            if (oldIDJogador == null || oldIDJogador.isEmpty()) {
+                throw new InvalidInitialJungleException("O ID do jogador é null ou vazio, logo, não é válido.", true, false);
+            }
+
+            // TODO IDs - é um valor numérico?
+            boolean isNumericValue = oldIDJogador.matches("-?\\d+(\\.\\d+)?");
+
+            if (!isNumericValue) {
+                throw new InvalidInitialJungleException("O ID do jogador não é válido.", true, false);
+            }
+
+            int idJogador = Integer.parseInt(oldIDJogador);
+
+            // TODO IDs — não podem haver dois jogadores com o mesmo id
+            ValidadorJogador.validarNumeroIDs(idJogadoresEmJogo, idJogador);
+
+            // TODO O NOMES - não podem ser null ou vazios
+            ValidadorJogador.validarNomeJogadores(nomeJogador);
+
+            // TODO TARZAN — Apenas poderá existir um jogador da espécie Tarzan a competir
+            ValidadorJogador.validarEspecieTarzan(especieJogador);
+
+            // TODO O ESPÉCIES - A espécie tem que ser uma das que foi retornada da função getSpecies()
+            ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
+
+            Especie especieJogadorEmJogo = Especie.identificarEspecie(especieJogador);
+            jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida, especieJogadorEmJogo);
+
+            jogadores.add(jogadorAtual);
+            jogadorAtual = jogadores.get(0); // Jogador atual = 1.ª posição da lista de jogadores = ‘id’ = 1
+            jogadores.sort(Comparator.comparing(Jogador::getId)); // Ordenar IDs por ordem crescente
+            jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
+
+            System.out.println(jogadorAtual);
+        }
     }
 
     public int[] getPlayerIds(int squareNr) {
