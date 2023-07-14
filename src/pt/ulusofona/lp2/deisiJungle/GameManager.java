@@ -19,7 +19,7 @@ public class GameManager {
 
     ArrayList<Jogador> jogadores = new ArrayList<>();
     ArrayList<Alimento> alimentos = new ArrayList<>();
-
+    Jogador jogadorAtual;
     int posicaoFinalJogo;
     int casaPartida = 1;
     int turnoAtual = 0;
@@ -163,7 +163,7 @@ public class GameManager {
 
 
             Especie especieJogadorEmJogo = Especie.identificarEspecie(especieJogador);
-            Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida, especieJogadorEmJogo);
+            jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida, especieJogadorEmJogo);
 
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
             jogadores.add(jogadorAtual);
@@ -265,7 +265,7 @@ public class GameManager {
             ValidadorJogador.validarEspecieJogador(especieJogador, getSpecies());
 
             Especie especieJogadorEmJogo = Especie.identificarEspecie(especieJogador);
-            Jogador jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida, especieJogadorEmJogo);
+            jogadorAtual = new Jogador(idJogador, nomeJogador, especieJogador, casaPartida, especieJogadorEmJogo);
 
             jogadores.add(jogadorAtual);
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
@@ -404,15 +404,15 @@ public class GameManager {
         formato da função getPlayerInfo().
          */
 
-        String[] jogadorAtual = new String[5];
+        String[] InfoJogadorAtual = new String[5];
 
         for (Jogador jogadorAtualEmJogo: jogadores) {
-            jogadorAtual[0] = String.valueOf(jogadorAtualEmJogo.getId());
-            jogadorAtual[1] = jogadorAtualEmJogo.getNome();
-            jogadorAtual[2] = jogadorAtualEmJogo.getIdEspecie();
-            jogadorAtual[3] = String.valueOf(jogadorAtualEmJogo.getEnergiaAtual());
-            jogadorAtual[4] = jogadorAtualEmJogo.getEspecie().getVelocidadeMinima() + ".." + jogadorAtualEmJogo.getEspecie().getVelocidadeMaxima();
-            return jogadorAtual;
+            InfoJogadorAtual[0] = String.valueOf(jogadorAtualEmJogo.getId());
+            InfoJogadorAtual[1] = jogadorAtualEmJogo.getNome();
+            InfoJogadorAtual[2] = jogadorAtualEmJogo.getIdEspecie();
+            InfoJogadorAtual[3] = String.valueOf(jogadorAtualEmJogo.getEnergiaAtual());
+            InfoJogadorAtual[4] = jogadorAtualEmJogo.getEspecie().getVelocidadeMinima() + ".." + jogadorAtualEmJogo.getEspecie().getVelocidadeMaxima();
+            return InfoJogadorAtual;
         }
         return null;
     }
@@ -436,6 +436,7 @@ public class GameManager {
         String[] infoEnergia = new String[2];
 
 
+        /*
         for (int i = 0; i < jogadores.size(); i++) {
             Jogador jogadorAtual = jogadores.get(i);
 
@@ -445,6 +446,13 @@ public class GameManager {
             infoEnergia[0] = String.valueOf(consumoEnergia);
             infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);
         }
+         */
+
+        int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * nrPositions;
+        int ganhoEnergiaDescanso = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
+
+        infoEnergia[0] = String.valueOf(consumoEnergia);
+        infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);
 
         System.out.println(Arrays.toString(infoEnergia));
 
@@ -512,7 +520,6 @@ public class GameManager {
             }
         }
 
-
         // Se o jogador tentar ultrapassar a acasa final do jogo, deve ficar na posição final do jogo
         if (novaPosicaoJogador > posicaoFinalJogo) {
             novaPosicaoJogador = posicaoFinalJogo;
@@ -522,7 +529,7 @@ public class GameManager {
         // Movimento do jogador para a casa A + M
         jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
 
-        String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador, jogadorAtual);
+        String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
         if (alimentoConsumido != null) {
             return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
         }
@@ -579,7 +586,7 @@ public class GameManager {
         System.out.println("> turno atual: " + turnoAtual);
     }
 
-    public String verificarConsumoDeAlimento(int posicao, Jogador jogadorAtual) {
+    public String verificarConsumoDeAlimento(int posicao) {
         for (Alimento alimento : alimentos) {
             if (alimento.getPosicaoAlimento() == posicao) {
 

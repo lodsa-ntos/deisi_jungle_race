@@ -181,7 +181,7 @@ public class Carne extends Alimento {
 
         } else {
 
-            return "Carne : +- 50 energia : " + numroJogadasCarne + " jogadas";
+            return "Carne : + 50 energia : " + numroJogadasCarne + " jogadas";
 
         }
     }
