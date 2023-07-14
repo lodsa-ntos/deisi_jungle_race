@@ -462,8 +462,7 @@ public class GameManager {
     public String[][] getPlayersInfo() {
 
         /*
-        Retorna informação de todos os jogadores,
-        no mesmo formato que o retornado pelas
+        Retorna informação de todos os jogadores, no mesmo formato que o retornado pelas
         funções getPlayerInfo e getCurrentPlayerInfo.
          */
 
@@ -473,9 +472,10 @@ public class GameManager {
             infoGeralJogadores[i][0] = String.valueOf(jogadores.get(i).getId());
             infoGeralJogadores[i][1] = jogadores.get(i).getNome();
             infoGeralJogadores[i][2] = String.valueOf(jogadores.get(i).getIdEspecie());
-            infoGeralJogadores[i][3] = String.valueOf(jogadores.get(i).getEnergiaAtual());
+            infoGeralJogadores[i][3] = String.valueOf(jogadores.get(i).getEspecie().getEnergiaInicial());
             infoGeralJogadores[i][4] = jogadores.get(i).getEspecie().getVelocidadeMinima() + ".." + jogadores.get(i).getEspecie().getVelocidadeMaxima();
         }
+
         return infoGeralJogadores;
     }
 
@@ -567,7 +567,7 @@ public class GameManager {
     }
 
     public String whoIsTaborda() {
-        return "Parkour";
+        return "luta livre";
     }
 
     public boolean saveGame(File file) {
