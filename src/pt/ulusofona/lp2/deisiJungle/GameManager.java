@@ -359,16 +359,14 @@ public class GameManager {
         // [2] => Uma String contendo os identificadores dos jogadores que estão nessa posição, separados por
         // vírgula (ex: “3,5” — estão lá os jogadores 3 e 5).
         for (int i = 0; i < jogadores.size(); i++) {
-
             Jogador jogador = jogadores.get(i);
-
-            if (i < jogadores.size() - 1) {
+            if (jogador.getPosicaoAtual() == squareNr) {
                 infoPosCaixasNoMapa[2] += jogador.getId();
-            } else {
-                infoPosCaixasNoMapa[2] += "";
+                if (i < jogadores.size() - 1) {
+                    infoPosCaixasNoMapa[2] += ",";
+                }
             }
         }
-
 
         return infoPosCaixasNoMapa;
     }
@@ -437,12 +435,22 @@ public class GameManager {
 
         String[] infoEnergia = new String[2];
 
+        /*
         for (Jogador jogador: jogadores) {
             infoEnergia[0] = String.valueOf(jogador.getEspecie().getConsumoEnergia() * nrPositions);
             infoEnergia[1] = String.valueOf(jogador.getEspecie().getGanhoEnergiaDescanso());
         }
+         */
 
         //System.out.println(Arrays.toString(infoEnergia));
+
+        Jogador jogadorAtual = new Jogador();
+
+        int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * nrPositions;
+        int ganhoEnergiaDescanso = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
+
+        infoEnergia[0] = String.valueOf(consumoEnergia);
+        infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);
 
         return infoEnergia;
     }
