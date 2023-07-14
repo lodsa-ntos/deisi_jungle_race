@@ -23,6 +23,7 @@ public class GameManager {
     int posicaoFinalJogo;
     int casaPartida = 1;
     int turnoAtual;
+    boolean existeVencedor;
 
     public GameManager() {}
 
@@ -382,11 +383,10 @@ public class GameManager {
         - [3] => A energia atual do jogador, medida em unidades de energia
         - [4] => A velocidade, no formato “X..Y” => Velocidade Minima = 1..6 = Velocidade Maxima
          */
-        //String[] infoJogador = new String[5];
+        String[] infoJogador = new String[5];
 
         for (Jogador jogador : jogadores) {
             if (jogador.getId() == playerId) {
-                String[] infoJogador = new String[5];
                 infoJogador[0] = String.valueOf(jogador.getId());
                 infoJogador[1] = jogador.getNome();
                 infoJogador[2] = jogador.getIdEspecie();
@@ -551,7 +551,24 @@ public class GameManager {
     }
 
     public String[] getWinnerInfo() {
-        return null;
+
+        /*
+        — O jogo termina quando for atingida uma das seguintes condições:
+            ● Um dos jogadores chega à casa final do jogo. Nesse caso, esse jogador é o vencedor.
+            ● A distância entre o jogador mais perto da meta e o segundo jogador mais perto da meta
+            é superior à metade do tamanho do mapa. Neste caso, ganha o segundo jogador mais perto da meta.
+         */
+
+        // Verificar se algum jogador já chegou à posicão final do jogo
+        for (Jogador jogadorVencedor : jogadores) {
+            if (jogadorVencedor.getPosicaoAtual() == posicaoFinalJogo) {
+                return getPlayerInfo(jogadorVencedor.getId());
+            }
+        }
+
+
+
+        return null; // Nenhum jogador venceu ainda
     }
 
     public ArrayList<String> getGameResults() {
