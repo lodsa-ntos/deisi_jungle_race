@@ -334,24 +334,6 @@ public class GameManager {
             infoPosCaixasNoMapa[2] = "";
         }
 
-        //
-        // [2] => Uma String contendo os identificadores dos jogadores que estão nessa posição, separados por
-        // vírgula (ex: “3,5” — estão lá os jogadores 3 e 5).
-        for (int i = 0; i < jogadores.size(); i++) {
-
-            Jogador jogador = jogadores.get(i);
-
-            if (jogador.getPosicaoAtual() == squareNr) {
-
-                infoPosCaixasNoMapa[2] += jogador.getId();
-
-                if (i < jogadores.size() - 1) {
-                    infoPosCaixasNoMapa[2] += ",";
-                }
-            }
-
-        }
-
         for (Alimento alimento : alimentos) {
 
             int posicaoAlimento = alimento.getPosicaoAlimento();
@@ -372,6 +354,21 @@ public class GameManager {
                 break;
             }
         }
+
+        //
+        // [2] => Uma String contendo os identificadores dos jogadores que estão nessa posição, separados por
+        // vírgula (ex: “3,5” — estão lá os jogadores 3 e 5).
+        for (int i = 0; i < jogadores.size(); i++) {
+
+            Jogador jogador = jogadores.get(i);
+
+            if (i < jogadores.size() - 1) {
+                infoPosCaixasNoMapa[2] += jogador.getId();
+            } else {
+                infoPosCaixasNoMapa[2] += "";
+            }
+        }
+
 
         return infoPosCaixasNoMapa;
     }
