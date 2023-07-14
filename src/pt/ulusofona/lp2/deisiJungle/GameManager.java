@@ -168,7 +168,7 @@ public class GameManager {
 
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
             jogadores.add(jogadorAtual);
-            //jogadorAtual = jogadores.get(0); // Jogador atual = 1.ª posição da lista de jogadores = ‘id’ = 1
+            jogadorAtual = jogadores.get(0); // Jogador atual = 1.ª posição da lista de jogadores = ‘id’ = 1
             jogadores.sort(Comparator.comparing(Jogador::getId)); // Ordenar IDs por ordem crescente
 
 
@@ -266,7 +266,7 @@ public class GameManager {
             jogadorAtual = new Jogador(idJogador, nomeJogador, idEspecieJogador, casaPartida, especieJogadorEmJogo);
 
             jogadores.add(jogadorAtual);
-            //jogadorAtual = jogadores.get(0); // Jogador atual = 1.ª posição da lista de jogadores = ‘id’ = 1
+            jogadorAtual = jogadores.get(0); // Jogador atual = 1.ª posição da lista de jogadores = ‘id’ = 1
             jogadores.sort(Comparator.comparing(Jogador::getId)); // Ordenar IDs por ordem crescente
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
 
