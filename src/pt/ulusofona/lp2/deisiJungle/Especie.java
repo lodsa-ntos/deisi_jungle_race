@@ -19,17 +19,30 @@ public abstract class Especie {
      */
     public static Especie identificarEspecie(String id) {
         switch (id) {
-            case "E" -> new Elefante();
-            case "L" -> new Leao();
-            case "T" -> new Tartaruga();
-            case "P" -> new Passaro();
-            case "Z" -> new Tarzan();
-            case "U" -> new Unicornio();
+            case "E" -> {
+                return new Elefante();
+            }
+            case "L" -> {
+                return new Leao();
+            }
+            case "T" -> {
+                return new Tartaruga();
+            }
+            case "P" -> {
+                return new Passaro();
+            }
+            case "Z" -> {
+                return new Tarzan();
+            }
+            case "U" -> {
+                return new Unicornio();
+            }
             default -> {
+                return null;
             }
         }
-        return null;
     }
+
 
     public abstract String getId();
 
