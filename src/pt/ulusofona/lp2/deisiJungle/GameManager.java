@@ -480,6 +480,9 @@ public class GameManager {
         Jogador jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
         System.out.println(jogadorAtual);
 
+        // Verificar as velocidades mínima e máxima do Unicórnio
+        int velocidadeMinima = jogadorAtual.getEspecie().getVelocidadeMinima();
+        int velocidadeMaxima = jogadorAtual.getEspecie().getVelocidadeMaxima();
         int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1
         int energiaAtual = jogadorAtual.getEnergiaAtual();
         int novaPosicaoJogador = casaAtual + nrSquares; // A + M
@@ -502,7 +505,13 @@ public class GameManager {
             if (nrSquares < 0 || novaPosicaoJogador > posicaoFinalJogo) {
                 return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
             }
+
+            // Se as espécies não se movimentarem conforme as suas velocidades = INVALID_MOVEMENT
+            if (nrSquares < velocidadeMinima || nrSquares > velocidadeMaxima) {
+                return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
+            }
         }
+
 
         // Se o jogador tentar ultrapassar a acasa final do jogo, deve ficar na posição final do jogo
         if (novaPosicaoJogador > posicaoFinalJogo) {
