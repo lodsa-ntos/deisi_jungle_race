@@ -16,7 +16,6 @@ public class CogumeloMagico extends Alimento {
         this.posicaoAlimento = posicaoAlimento;
         random = new Random();
         numeroAleatorioCog = random.nextInt(40) + 10; // Gerar um número aleatório entre 10 e 50
-        isVenenoso = false;
     }
 
     /**

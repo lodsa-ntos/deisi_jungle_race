@@ -50,7 +50,7 @@ public class Jogador {
 
         if (especieJogador != null) {
             jogadorAtual.setEspecie(especieJogador);
-            jogadorAtual.setEnergiaAtual(especieJogador.getEnergiaInicial());
+            jogadorAtual.getEspecie().setEnergiaInicial(especieJogador.getEnergiaInicial());
             jogadorAtual.getEspecie().setConsumoEnergia(especieJogador.getConsumoEnergia());
             jogadorAtual.getEspecie().setGanhoEnergiaDescanso(especieJogador.getGanhoEnergiaDescanso());
             jogadorAtual.getEspecie().setVelocidadeMinima(especieJogador.getVelocidadeMinima());
@@ -62,9 +62,19 @@ public class Jogador {
      * Efeitos ao consumir Erva
      */
     public void consumirErva(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento) {
-        switch (tipoAlimentacaoEspecie) {
-            case "herbívoro", "omnívoro" -> jogador.setEnergiaAtual(jogador.getEspecie().getEnergiaInicial() + 40);
-            case "carnívoro" -> jogador.setEnergiaAtual(jogador.getEspecie().getEnergiaInicial() - 40);
+
+        if (alimento.getId().equals("e")) {
+            switch (tipoAlimentacaoEspecie) {
+                case "herbívoro", "omnívoro" -> {
+                    int aumentaEnergia = (jogador.getEspecie().getEnergiaInicial() + 40);
+                    jogador.getEspecie().setEnergiaInicial(aumentaEnergia);
+                    System.out.println(aumentaEnergia);
+                }
+                case "carnívoro" -> {
+                    int diminuiEnergia = (jogador.getEspecie().getEnergiaInicial() - 40);
+                    jogador.getEspecie().setEnergiaInicial(diminuiEnergia);
+                }
+            }
         }
     }
 
@@ -72,9 +82,17 @@ public class Jogador {
      * Efeitos ao consumir Água
      */
     public void consumirAgua(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento) {
-        switch (tipoAlimentacaoEspecie) {
-            case "carnívoros", "herbívoros" -> jogador.setEnergiaAtual(jogador.getEspecie().getEnergiaInicial() + 15);
-            case "omnívoros" -> jogador.setEnergiaAtual((int) (jogador.getEspecie().getEnergiaInicial() - 0.20));
+        if (alimento.getId().equals("a")) {
+            switch (tipoAlimentacaoEspecie) {
+                case "carnívoro", "herbívoro" -> {
+                    int aumentaEnergia = (jogador.getEspecie().getEnergiaInicial() + 15);
+                    jogador.getEspecie().setEnergiaInicial(aumentaEnergia);
+                }
+                case "omnívoro" -> {
+                    int diminuiEnergia = ((int) (jogador.getEspecie().getEnergiaInicial() - 0.20));
+                    jogador.getEspecie().setEnergiaInicial(diminuiEnergia);
+                }
+            }
         }
     }
 
@@ -83,20 +101,26 @@ public class Jogador {
      */
     public void consumirBanana(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento) {
 
-        if (tipoAlimentacaoEspecie.equals("carnívoro") || tipoAlimentacaoEspecie.equals("herbívoro") ||
-                tipoAlimentacaoEspecie.equals("omnívoro") ) {
+        if (alimento.getId().equals("b")) {
+            switch (tipoAlimentacaoEspecie) {
+                case "carnívoro":
+                case "herbívoro":
+                case "omnívoro":
 
-            if (alimento.getNumeroBananasON() > 0 && !jogador.isConsumiuCachoDeBanana()) {
+                    if (alimento.getNumeroBananasON() > 0 && !jogador.isConsumiuCachoDeBanana()) {
 
-                if (alimento.getNumeroBananasON() <= 1) {
+                        if (alimento.getNumeroBananasON() <= 1) {
+                            int aumentaEnergia = (jogador.getEspecie().getEnergiaInicial() + 40);
+                            jogador.getEspecie().setEnergiaInicial(aumentaEnergia);
 
-                    jogador.setEnergiaAtual(jogador.getEnergiaAtual() + 40);
+                        } else {
+                            int diminuiEnergia = (jogador.getEspecie().getEnergiaInicial() - 40);
+                            jogador.getEspecie().setEnergiaInicial(diminuiEnergia);
+                        }
+                        alimento.setNumeroBananasON(-1);
 
-                } else {
-                    jogador.setEnergiaAtual(jogador.getEnergiaAtual() - 40 * (alimento.getNumeroBananasON()  - 1));
-                }
-                alimento.setNumeroBananasON( - 1);
-
+                    }
+                    break;
             }
         }
 
@@ -107,37 +131,40 @@ public class Jogador {
      */
     public void consumirCarne(String tipoAlimentacaoEspecie, Jogador jogador, int turnosRestantes, Alimento alimento) {
 
-        // Só é comestível nas primeiras 12 jogadas
-        if (turnosRestantes <= 12) {
+        if (alimento.getId().equals("c")) {
+            // Só é comestível nas primeiras 12 jogadas
+            if (turnosRestantes <= 12) {
 
-            alimento.setNumroJogadasCarne(turnosRestantes);
+                alimento.setNumroJogadasCarne(turnosRestantes);
 
-            // Se ingerido por carnívoros (ex: Leão) ou omnívoros (ex: Tarzan)...
-            if (tipoAlimentacaoEspecie.equals("carnívoro") || tipoAlimentacaoEspecie.equals("omnívoro")) {
-
-                // aumenta a energia em 50 unidades
-                jogador.setEnergiaAtual(jogador.getEspecie().getEnergiaInicial() + 50);
-
-            } else {
-                // Os herbívoros ignoram esta comida, por isso não lhes acontece nada.
-                jogador.manterEnergia(0);
-            }
-
-        } else {
-
-            alimento.setNumroJogadasCarne(turnosRestantes);
-
-            // A partir daí é tóxica — se fôr ingerida, reduz para metade a energia do animal
-            alimento.setCarneToxica(true);
-
-            if (tipoAlimentacaoEspecie.equals("carnívoro") || tipoAlimentacaoEspecie.equals("omnívoro")) {
-
-                int energia = (jogador.getEnergiaAtual() / 2);
-                jogador.setEnergiaAtual(jogador.getEspecie().getEnergiaInicial()- energia);
+                // Se ingerido por carnívoros (ex: Leão) ou omnívoros (ex: Tarzan)...
+                switch (tipoAlimentacaoEspecie) {
+                    case "carnívoro", "omnívoro" -> {
+                        int aumentaEnergia = (jogador.getEspecie().getEnergiaInicial() + 50);
+                        // aumenta a energia em 50 unidades
+                        jogador.getEspecie().setEnergiaInicial(aumentaEnergia);
+                    }
+                    default ->
+                        // Os herbívoros ignoram esta comida, por isso não lhes acontece nada.
+                            jogador.manterEnergia(0);
+                }
 
             } else {
-                // Os herbívoros ignoram esta comida, por isso não lhes acontece nada.
-                jogador.manterEnergia(0);
+
+                alimento.setNumroJogadasCarne(turnosRestantes);
+
+                // A partir daí é tóxica — se fôr ingerida, reduz para metade a energia do animal
+                alimento.setCarneToxica(true);
+
+                switch (tipoAlimentacaoEspecie) {
+                    case "carnívoro", "omnívoro" -> {
+                        int diminuiEnergia = (jogador.getEspecie().getEnergiaInicial() / 2);
+                        jogador.getEspecie().setEnergiaInicial(jogador.getEspecie().getEnergiaInicial() - diminuiEnergia);
+                    }
+                    default ->
+                        // Os herbívoros ignoram esta comida, por isso não lhes acontece nada.
+                            jogador.manterEnergia(0);
+                }
             }
         }
     }
@@ -147,28 +174,38 @@ public class Jogador {
      */
     public void consumirCogumeloMagico(String tipoAlimentacaoEspecie, Jogador jogador, int turnoCogumelo, Alimento alimento) {
 
-        // Todos os animais podem ingerir -> "carnívoro", "herbívoro", "omnívoro"
-        if (tipoAlimentacaoEspecie.equals("carnívoro") || tipoAlimentacaoEspecie.equals("herbívoro") ||
-                tipoAlimentacaoEspecie.equals("omnívoro") ) {
+        if (alimento.getId().equals("m")) {
+            // Todos os animais podem ingerir -> "carnívoro", "herbívoro", "omnívoro"
+            switch (tipoAlimentacaoEspecie) {
+                case "carnívoro":
+                case "herbívoro":
+                case "omnívoro":
 
-            // Se comerem o cogumelo nas jogadas pares
-            if (turnoCogumelo % 2 == 0) {
+                    // Se comerem o cogumelo nas jogadas pares
+                    if (turnoCogumelo % 2 == 0) {
 
-                // os animais aumentam em N% a sua energia
-                jogador.setEnergiaAtual(jogador.getEspecie().getEnergiaInicial()  * alimento.getNumeroAleatorioCog() / 100);
+                        int energiaJogador = jogador.getEspecie().getEnergiaInicial();
+                        float aumentaEnergia = (float) alimento.getNumeroAleatorioCog() / 100;
 
-                // Se comerem o cogumelo nas jogadas ímpares
-            } else {
+                        // os animais aumentam em N% a sua energia
+                        jogador.getEspecie().setEnergiaInicial((int) (energiaJogador * aumentaEnergia));
 
-                // torna-se venenos
-                alimento.setVenenoso(true);
+                        // Se comerem o cogumelo nas jogadas ímpares
+                    } else {
 
-                // reduzem em N% a sua energia
-                int energia = jogador.getEspecie().getEnergiaInicial() * (alimento.getNumeroAleatorioCog() / 100);
-                jogador.setEnergiaAtual(jogador.getEspecie().getEnergiaInicial() - energia);
+                        // torna-se venenos
+                        alimento.setVenenoso(true);
 
+                        int energiaJogador = jogador.getEspecie().getEnergiaInicial();
+                        float diminuiEnergia = (float) alimento.getNumeroAleatorioCog() / 100;
+
+                        // reduzem em N% a sua energia
+                        jogador.getEspecie().setEnergiaInicial((int) -(energiaJogador * diminuiEnergia));
+
+                    }
+
+                    break;
             }
-
         }
     }
 
@@ -246,6 +283,6 @@ public class Jogador {
 
     @Override
     public String toString() {
-        return id + ":" + nome + ":" + idEspecie + ":" + energiaAtual + ":" + posicaoAtual;
+        return id + ":" + nome + ":" + idEspecie + ":" + especie.getEnergiaInicial() + ":" + posicaoAtual;
     }
 }
