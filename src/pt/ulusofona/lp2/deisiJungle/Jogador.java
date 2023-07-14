@@ -74,7 +74,7 @@ public class Jogador {
     public void consumirAgua(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento) {
         switch (tipoAlimentacaoEspecie) {
             case "carnívoros", "herbívoros" -> jogador.setEnergiaAtual(jogador.getEspecie().getEnergiaInicial() + 15);
-            case "omnívoros" -> jogador.setEnergiaAtual(jogador.getEspecie().getEnergiaInicial() - 20);
+            case "omnívoros" -> jogador.setEnergiaAtual((int) (jogador.getEspecie().getEnergiaInicial() - 0.20));
         }
     }
 

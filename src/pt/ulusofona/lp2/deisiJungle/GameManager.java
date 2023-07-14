@@ -589,7 +589,7 @@ public class GameManager {
                 String idAlimento = alimento.getId();
 
                 switch (idAlimento) {
-                    case "e":
+                    case "e" -> {
                         if (isHerbivoro || isOmnivoro) {
 
                             jogadorAtual.consumirErva(jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie(), jogadorAtual, alimento);
@@ -601,9 +601,8 @@ public class GameManager {
                         }
                         alimentos.remove(alimento);
                         return alimento.getNome();
-
-                    case "a":
-
+                    }
+                    case "a" -> {
                         if (isCarnivoro || isHerbivoro) {
                             // Se ingerido por carnívoros ou herbívoros, aumenta a energia em 15 unidades
                             jogadorAtual.consumirAgua(jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie(), jogadorAtual, alimento);
@@ -615,18 +614,17 @@ public class GameManager {
                         }
                         alimentos.remove(alimento);
                         return alimento.getNome();
-
-                    case "b":
-
+                    }
+                    case "b" -> {
                         if (isCarnivoro || isHerbivoro || isOmnivoro) {
                             // Se ingerido por carnívoros ou herbívoros, aumenta a energia em 15 unidades
                             jogadorAtual.consumirBanana(jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie(), jogadorAtual, alimento);
 
                         }
-
-                        break;
-                    case "c":
-
+                        alimentos.remove(alimento);
+                        return alimento.getNome();
+                    }
+                    case "c" -> {
                         if (isCarnivoro || isOmnivoro) {
                             // Se ingerido por carnívoros ou herbívoros, aumenta a energia em 15 unidades
                             jogadorAtual.consumirCarne(jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie(), jogadorAtual, turnoAtual, alimento);
@@ -634,9 +632,8 @@ public class GameManager {
                         }
                         alimentos.remove(alimento);
                         return alimento.getNome();
-
-                    case "m":
-
+                    }
+                    case "m" -> {
                         if (isCarnivoro || isHerbivoro || isOmnivoro) {
                             // Se ingerido por carnívoros ou herbívoros, aumenta a energia em 15 unidades
                             jogadorAtual.consumirCogumeloMagico(jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie(), jogadorAtual, turnoAtual, alimento);
@@ -644,6 +641,7 @@ public class GameManager {
                         }
                         alimentos.remove(alimento);
                         return alimento.getNome();
+                    }
                 }
             }
         }
