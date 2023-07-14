@@ -435,22 +435,18 @@ public class GameManager {
 
         String[] infoEnergia = new String[2];
 
-        /*
-        for (Jogador jogador: jogadores) {
-            infoEnergia[0] = String.valueOf(jogador.getEspecie().getConsumoEnergia() * nrPositions);
-            infoEnergia[1] = String.valueOf(jogador.getEspecie().getGanhoEnergiaDescanso());
+
+        for (int i = 0; i < jogadores.size(); i++) {
+            Jogador jogadorAtual = jogadores.get(i);
+
+            int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * nrPositions;
+            int ganhoEnergiaDescanso = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
+
+            infoEnergia[0] = String.valueOf(consumoEnergia);
+            infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);
         }
-         */
 
-        //System.out.println(Arrays.toString(infoEnergia));
-
-        Jogador jogadorAtual = new Jogador();
-
-        int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * nrPositions;
-        int ganhoEnergiaDescanso = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
-
-        infoEnergia[0] = String.valueOf(consumoEnergia);
-        infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);
+        System.out.println(Arrays.toString(infoEnergia));
 
         return infoEnergia;
     }
