@@ -22,7 +22,7 @@ public class GameManager {
     Jogador jogadorAtual;
     int posicaoFinalJogo;
     int casaPartida = 1;
-    int turnoAtual = 0;
+    int turnoAtual;
     boolean existeVencedor;
 
     public GameManager() {}
@@ -178,13 +178,11 @@ public class GameManager {
         }
 
 
-
-
-        System.out.println("ALIMENTOS");
         /**
          * ALIMENTOS
          * ‘loop’ foreach para guardar informação do foodsInfo
          */
+        System.out.println("ALIMENTOS");
         for (String[] infoAlimento: foodsInfo) {
 
             String idTipo = infoAlimento[0];
@@ -216,8 +214,6 @@ public class GameManager {
             alimentos.add(tipoAlimento);
             System.out.println(tipoAlimento.toolTip());
         }
-
-
     }
 
     public void createInitialJungle(int jungleSize, String[][] playersInfo) throws InvalidInitialJungleException {
@@ -234,7 +230,7 @@ public class GameManager {
         /**
          * JOGADORES
          * loop’ foreach para guardar informação do playersInfo
-        */
+         */
         for (String[] infoJogador: playersInfo) {
 
             String oldIDJogador = infoJogador[0];
@@ -246,7 +242,7 @@ public class GameManager {
                 throw new InvalidInitialJungleException("O ID do jogador é null ou vazio, logo, não é válido.", true, false);
             }
 
-            // TODO IDs - é um valor numérico?
+            // TODO IDs — é um valor numérico?
             boolean isNumericValue = oldIDJogador.matches("-?\\d+(\\.\\d+)?");
 
             if (!isNumericValue) {
@@ -255,17 +251,18 @@ public class GameManager {
 
             int idJogador = Integer.parseInt(oldIDJogador);
 
-            // TODO IDs — não podem haver dois jogadores com o mesmo id
+            // TODO IDs — não pode haver dois jogadores com o mesmo id
             ValidadorJogador.validarNumeroIDs(idJogadoresEmJogo, idJogador);
 
-            // TODO O NOMES - não podem ser null ou vazios
+            // TODO O NOME — não podem ser null ou vazios
             ValidadorJogador.validarNomeJogadores(nomeJogador);
 
             // TODO TARZAN — Apenas poderá existir um jogador da espécie Tarzan a competir
             ValidadorJogador.validarEspecieTarzan(idEspecieJogador);
 
-            // TODO O ESPÉCIES - A espécie tem que ser uma das que foi retornada da função getSpecies()
+            // TODO O ESPÉCIES — A espécie tem que ser uma das que foi retornada da função getSpecies()
             ValidadorJogador.validarEspecieJogador(idEspecieJogador, getSpecies());
+
 
             Especie especieJogadorEmJogo = Especie.identificarEspecie(idEspecieJogador);
             jogadorAtual = new Jogador(idJogador, nomeJogador, idEspecieJogador, casaPartida, especieJogadorEmJogo);
@@ -274,8 +271,13 @@ public class GameManager {
             jogadores.sort(Comparator.comparing(Jogador::getId)); // Ordenar IDs por ordem crescente
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
 
-            System.out.println(jogadorAtual);
+
+            System.out.println("Jogador ⇒ " + jogadorAtual);
+            System.out.println(jogadorAtual.getEspecie().toString());
+            //System.out.println(getPlayerIds(1));
+
         }
+
     }
 
     public int[] getPlayerIds(int squareNr) {
@@ -491,12 +493,13 @@ public class GameManager {
         // Quando chega a casa A + M alterna o jogador
         jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
         //System.out.println(jogadorAtual);
+       // jogadorAtual = jogadores.get(0);
 
-        int velocidadeMinima = jogadorAtual.getEspecie().getVelocidadeMinima();
-        int velocidadeMaxima = jogadorAtual.getEspecie().getVelocidadeMaxima();
         int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1
-        int energiaAtual = jogadorAtual.getEspecie().getEnergiaInicial();
         int novaPosicaoJogador = casaAtual + nrSquares; // A + M
+        int energiaAtual = jogadorAtual.getEspecie().getEnergiaInicial();
+        int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia();
+
         //int recuar = casaAtual - nrSquares; // A — M
 
         // O argumento nrSquares não pode ser menor que 1 ou maior do que 6, porque o dado tem 6 lados.
@@ -504,42 +507,48 @@ public class GameManager {
         // Verificar se o movimento é válido
         if (!bypassValidations) {
             if (nrSquares < -6 || nrSquares > 6) {
+                // Atualizar o turno
+                incrementarTurno();
                 return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
             }
 
-            // Se tentar recuar estando na primeira casa = INVALID_MOVEMENT
-            if (nrSquares < 0 && novaPosicaoJogador < 1) {
-                return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
-            }
-
-            // Se tentar avançar para além da posicao final jogo = INVALID_MOVEMENT
-            if (nrSquares < 0 || novaPosicaoJogador > posicaoFinalJogo) {
-                return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
-            }
-
-            // Se as espécies não se movimentarem conforme as suas velocidades = INVALID_MOVEMENT
-            if (nrSquares < velocidadeMinima || nrSquares > velocidadeMaxima) {
+            // Se as espécies não se movimentarem nas velocidades mínima e máxima = INVALID_MOVEMENT
+            if (!validarVelocidadeEspecie(Math.abs(nrSquares))) {
+                // Atualizar o turno
+                incrementarTurno();
                 return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
             }
         }
 
-        // Se o jogador tentar ultrapassar a acasa final do jogo, deve ficar na posição final do jogo
+        // Se o jogador tentar ultrapassar a casa final do jogo, deve ficar na posição final do jogo
         if (novaPosicaoJogador >= posicaoFinalJogo) {
             novaPosicaoJogador = posicaoFinalJogo;
             //System.out.println("Vencedor");
         }
 
-        // Movimento do jogador para a casa A + M
-        jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
-
-        String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
-        if (alimentoConsumido != null) {
-            return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
+        // Se tentar recuar estando na casa de partida = INVALID_MOVEMENT
+        if (novaPosicaoJogador < casaPartida) {
+            // Atualizar o turno
+            incrementarTurno();
+            return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
         }
 
         // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
-        if (energiaAtual <= 0) {
+        if (energiaAtual < consumoEnergia * Math.abs(nrSquares)) {
+            // Atualizar o turno
+            incrementarTurno();
             return new MovementResult(MovementResultCode.NO_ENERGY, null);
+        }
+
+        // Movimento do jogador para a casa A + M
+        jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
+
+        // Alimento
+        String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
+        if (alimentoConsumido != null) {
+            // Atualizar o turno
+            incrementarTurno();
+            return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
         }
 
         // Durante o movimento, o jogador consome 2 unidades de energia
@@ -561,7 +570,6 @@ public class GameManager {
         — O jogo termina quando for atingida uma das seguintes condições:
             ● Um dos jogadores chega à casa final do jogo. Nesse caso, esse jogador é o vencedor.
          */
-
         String[] infoJogadorVencedor = new String[4];
 
         // Verificar se algum jogador já chegou à posicão final do jogo
@@ -584,7 +592,6 @@ public class GameManager {
         — O jogo termina quando for atingida uma das seguintes condições:
             ● A distância entre o jogador mais perto da meta e o segundo jogador mais perto da meta
             é superior à metade do tamanho do mapa. Neste caso, ganha o segundo jogador mais perto da meta.
-
          */
 
 
@@ -601,6 +608,7 @@ public class GameManager {
 
 
         ArrayList<String> resultados = new ArrayList<>();
+
 
 
         return resultados;
@@ -680,4 +688,24 @@ public class GameManager {
         }
         return null;
     }
+
+    private boolean validarVelocidadeEspecie(int velocidade) {
+        String especieID = jogadorAtual.getEspecie().getId();
+
+        return switch (especieID) { // Elefante
+            case "E", "Z" -> // Tarzan
+                    velocidade >= 1 && velocidade <= 6;
+            case "L" -> // Leão
+                    velocidade >= 4 && velocidade <= 6;
+            case "T" -> // Tartaruga
+                    velocidade >= 1 && velocidade <= 3;
+            case "P" -> // Pássaro
+                    velocidade >= 5 && velocidade <= 6;
+            case "U" -> // Unicórnio
+                    velocidade >= 3 && velocidade <= 6;
+            default -> false; // Espécie desconhecida, velocidade inválida
+        };
+    }
+
+
 }

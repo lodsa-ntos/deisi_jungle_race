@@ -9,7 +9,6 @@ public class Jogador {
     private  String nome;
     private  String idEspecie;
     private int posicaoAtual;
-
     private int numeroPosicoesPercorridas;
     private Especie especie;
     private int manterEnergia;
