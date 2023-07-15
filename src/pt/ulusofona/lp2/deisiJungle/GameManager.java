@@ -406,19 +406,17 @@ public class GameManager {
         A informação retornada está no mesmo formato da função getPlayerInfo().
          */
 
-        String[] InfoJogadorAtual = new String[5];
+        String[] infoJogadorAtual = new String[5];
 
-        for (Jogador jogador : jogadores) {
+        Jogador jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
 
-            InfoJogadorAtual[0] = Integer.toString(jogador.getId());
-            InfoJogadorAtual[1] = jogador.getNome();
-            InfoJogadorAtual[2] = jogador.getIdEspecie();
-            InfoJogadorAtual[3] = Integer.toString(jogador.getEspecie().getEnergiaInicial());
-            InfoJogadorAtual[4] = jogador.getEspecie().getVelocidadeMinima() + ".." + jogador.getEspecie().getVelocidadeMaxima();
+        infoJogadorAtual[0] = Integer.toString(jogadorAtual.getId());
+        infoJogadorAtual[1] = jogadorAtual.getNome();
+        infoJogadorAtual[2] = jogadorAtual.getIdEspecie();
+        infoJogadorAtual[3] = Integer.toString(jogadorAtual.getEspecie().getEnergiaInicial());
+        infoJogadorAtual[4] = jogadorAtual.getEspecie().getVelocidadeMinima() + ".." + jogadorAtual.getEspecie().getVelocidadeMaxima();
 
-        }
-
-        return InfoJogadorAtual;
+        return infoJogadorAtual;
     }
 
     public String[] getCurrentPlayerEnergyInfo(int nrPositions) {
@@ -507,11 +505,15 @@ public class GameManager {
         // Verificar se o movimento é válido
         if (!bypassValidations) {
             if (nrSquares < -6 || nrSquares > 6) {
+                // Atualizar o turno
+                incrementarTurno();
                 return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
             }
 
             // Se as espécies não se movimentarem nas velocidades mínima e máxima = INVALID_MOVEMENT
             if (!validarVelocidadeEspecie(Math.abs(nrSquares))) {
+                // Atualizar o turno
+                incrementarTurno();
                 return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
             }
         }
@@ -524,11 +526,15 @@ public class GameManager {
 
         // Se tentar recuar estando na casa de partida = INVALID_MOVEMENT
         if (novaPosicaoJogador < casaPartida) {
+            // Atualizar o turno
+            incrementarTurno();
             return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
         }
 
         // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
         if (energiaAtual < consumoEnergia * Math.abs(nrSquares)) {
+            // Atualizar o turno
+            incrementarTurno();
             return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
 
@@ -538,6 +544,8 @@ public class GameManager {
         // Alimento
         String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
         if (alimentoConsumido != null) {
+            // Atualizar o turno
+            incrementarTurno();
             return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
         }
 
@@ -551,55 +559,38 @@ public class GameManager {
     }
 
     public String[] getWinnerInfo() {
-
-
         /*
         Caso o jogo tenha terminado, deve devolver informação do jogador que ganhou o jogo, no
         mesmo formato devolvido pela função getPlayerInfo. Caso o jogo ainda não tenha terminado, deve retornar null.
 
         — O jogo termina quando for atingida uma das seguintes condições:
             ● Um dos jogadores chega à casa final do jogo. Nesse caso, esse jogador é o vencedor.
+            ● A distância entre o jogador mais perto da meta e o segundo jogador mais perto da meta
+              é superior à metade do tamanho do mapa. Neste caso, ganha o segundo jogador mais perto da meta.
          */
-        String[] infoJogadorVencedor = new String[4];
 
-        // Verificar se algum jogador já chegou à posicão final do jogo
-        for (Jogador jogadorVencedor : jogadores) {
-            if (jogadorVencedor.getPosicaoAtual() == posicaoFinalJogo) {
-
-                infoJogadorVencedor[0] = String.valueOf(jogadorVencedor.getId());
-                infoJogadorVencedor[1] = jogadorVencedor.getNome();
-                infoJogadorVencedor[2] = jogadorVencedor.getIdEspecie();
-                infoJogadorVencedor[3] = String.valueOf(jogadorVencedor.getEspecie().getEnergiaInicial());
-
-                return infoJogadorVencedor;
+        // Verificar se algum jogador já chegou à posição final do jogo
+        for (Jogador jogador : jogadores) {
+            if (jogador.getPosicaoAtual() == posicaoFinalJogo) {
+                return getPlayerInfo(jogador.getId()); // Retornar informação do jogador vencedor
             }
         }
-
-        /*
-        Caso o jogo tenha terminado, deve devolver informação do jogador que ganhou o jogo, no
-        mesmo formato devolvido pela função getPlayerInfo. Caso o jogo ainda não tenha terminado, deve retornar null.
-
-        — O jogo termina quando for atingida uma das seguintes condições:
-            ● A distância entre o jogador mais perto da meta e o segundo jogador mais perto da meta
-            é superior à metade do tamanho do mapa. Neste caso, ganha o segundo jogador mais perto da meta.
-         */
-
-
-
-
-
-
-
 
         return null; // Nenhum jogador venceu ainda
     }
 
     public ArrayList<String> getGameResults() {
 
-
         ArrayList<String> resultados = new ArrayList<>();
 
+        for (Jogador jogador : jogadores) {
+            String nome = jogador.getNome();
+            String nomeEspecie = jogador.getEspecie().getNome();
+            int posicaoDeChegada = jogador.getPosicaoAtual();
+            int distancia = jogador.getNumeroPosicoesPercorridas();
 
+            resultados.add("#" + (jogadores.indexOf(jogador) + 1) + " " + nome + ", " + nomeEspecie + ", " + posicaoDeChegada + ", " + distancia);
+        }
 
         return resultados;
     }
@@ -679,7 +670,7 @@ public class GameManager {
         return null;
     }
 
-    private boolean validarVelocidadeEspecie(int velocidade) {
+    public boolean validarVelocidadeEspecie(int velocidade) {
         String especieID = jogadorAtual.getEspecie().getId();
 
         return switch (especieID) { // Elefante
