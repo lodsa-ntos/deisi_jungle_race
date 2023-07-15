@@ -19,7 +19,7 @@ public class GameManager {
 
     ArrayList<Jogador> jogadores = new ArrayList<>();
     ArrayList<Alimento> alimentos = new ArrayList<>();
-    Jogador jogadorAtual = new Jogador();
+    Jogador jogadorAtual;
     int posicaoFinalJogo;
     int casaPartida = 1;
     int turnoAtual = 0;
@@ -166,17 +166,21 @@ public class GameManager {
             Especie especieJogadorEmJogo = Especie.identificarEspecie(idEspecieJogador);
             jogadorAtual = new Jogador(idJogador, nomeJogador, idEspecieJogador, casaPartida, especieJogadorEmJogo);
 
-            jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
             jogadores.add(jogadorAtual);
             jogadores.sort(Comparator.comparing(Jogador::getId)); // Ordenar IDs por ordem crescente
+            jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
 
 
             System.out.println("Jogador ⇒ " + jogadorAtual);
             System.out.println(jogadorAtual.getEspecie().toString());
+            //System.out.println(getPlayerIds(1));
+
         }
 
-        System.out.println("ALIMENTOS");
 
+
+
+        System.out.println("ALIMENTOS");
         /**
          * ALIMENTOS
          * ‘loop’ foreach para guardar informação do foodsInfo
@@ -212,6 +216,8 @@ public class GameManager {
             alimentos.add(tipoAlimento);
             System.out.println(tipoAlimento.toolTip());
         }
+
+
     }
 
     public void createInitialJungle(int jungleSize, String[][] playersInfo) throws InvalidInitialJungleException {
@@ -579,9 +585,6 @@ public class GameManager {
             ● A distância entre o jogador mais perto da meta e o segundo jogador mais perto da meta
             é superior à metade do tamanho do mapa. Neste caso, ganha o segundo jogador mais perto da meta.
 
-
-
-        }
          */
 
 
@@ -598,7 +601,6 @@ public class GameManager {
 
 
         ArrayList<String> resultados = new ArrayList<>();
-
 
 
         return resultados;
