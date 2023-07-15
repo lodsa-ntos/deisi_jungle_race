@@ -512,8 +512,6 @@ public class GameManager {
 
             // Se as espécies não se movimentarem nas velocidades mínima e máxima = INVALID_MOVEMENT
             if (!validarVelocidadeEspecie(Math.abs(nrSquares))) {
-                // Atualizar o turno
-                incrementarTurno();
                 return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
             }
         }
@@ -526,15 +524,11 @@ public class GameManager {
 
         // Se tentar recuar estando na casa de partida = INVALID_MOVEMENT
         if (novaPosicaoJogador < casaPartida) {
-            // Atualizar o turno
-            incrementarTurno();
             return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
         }
 
         // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
         if (energiaAtual < consumoEnergia * Math.abs(nrSquares)) {
-            // Atualizar o turno
-            incrementarTurno();
             return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
 
@@ -544,8 +538,6 @@ public class GameManager {
         // Alimento
         String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
         if (alimentoConsumido != null) {
-            // Atualizar o turno
-            incrementarTurno();
             return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
         }
 
