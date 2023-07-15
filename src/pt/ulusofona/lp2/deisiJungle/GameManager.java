@@ -487,7 +487,7 @@ public class GameManager {
 
     public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
 
-        // null para movimentos inválidos e movimento válido
+        // null para movimentos inválidos e movimento válidos
        //jogadores.sort(Comparator.comparing(Jogador::getId));
         // A cada turno alterno o jogador atual de acordo a quantidade dos jogadores em jogo
         // Quando chega a casa A + M alterna o jogador
@@ -507,8 +507,6 @@ public class GameManager {
         // Verificar se o movimento é válido
         if (!bypassValidations) {
             if (nrSquares < -6 || nrSquares > 6) {
-                // Atualizar o turno
-                incrementarTurno();
                 return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
             }
 
@@ -706,6 +704,4 @@ public class GameManager {
             default -> false; // Espécie desconhecida, velocidade inválida
         };
     }
-
-
 }
