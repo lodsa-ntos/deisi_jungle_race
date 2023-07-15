@@ -394,18 +394,21 @@ public class GameManager {
     public String[] getCurrentPlayerInfo() {
 
         /*
-        Devolve informação do jogador que se
-        encontra ativo no turno atual.
-        A informação retornada está no mesmo
-        formato da função getPlayerInfo().
+        Devolve informação do jogador que se encontra ativo no turno atual.
+        A informação retornada está no mesmo formato da função getPlayerInfo().
          */
 
         String[] InfoJogadorAtual = new String[5];
-        InfoJogadorAtual[0] = Integer.toString(jogadorAtual.getId());
-        InfoJogadorAtual[1] = jogadorAtual.getNome();
-        InfoJogadorAtual[2] = jogadorAtual.getIdEspecie();
-        InfoJogadorAtual[3] = Integer.toString(jogadorAtual.getEspecie().getEnergiaInicial());
-        InfoJogadorAtual[4] = jogadorAtual.getEspecie().getVelocidadeMinima() + ".." + jogadorAtual.getEspecie().getVelocidadeMaxima();
+
+        for (Jogador jogador : jogadores) {
+
+            InfoJogadorAtual[0] = Integer.toString(jogador.getId());
+            InfoJogadorAtual[1] = jogador.getNome();
+            InfoJogadorAtual[2] = jogador.getIdEspecie();
+            InfoJogadorAtual[3] = Integer.toString(jogador.getEspecie().getEnergiaInicial());
+            InfoJogadorAtual[4] = jogador.getEspecie().getVelocidadeMinima() + ".." + jogador.getEspecie().getVelocidadeMaxima();
+
+        }
 
         return InfoJogadorAtual;
     }
