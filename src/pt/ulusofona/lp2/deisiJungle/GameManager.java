@@ -444,9 +444,9 @@ public class GameManager {
         }
          */
 
-        int idJogadorAtual = turnoAtual % jogadores.size();
-        Jogador jogadorAtual = jogadores.get(idJogadorAtual);
-        int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * nrPositions;
+        // Math.abs(nrPositions) se sair um valor negativo, modificar para positivo
+
+        int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrPositions);
         int ganhoEnergiaDescanso = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
 
         infoEnergia[0] = String.valueOf(consumoEnergia);
@@ -561,13 +561,33 @@ public class GameManager {
             }
         }
 
+        String[] infoJogadorVencedor = new String[5];
+
+        /*
+        Caso o jogo tenha terminado, deve devolver informação do jogador que ganhou o jogo, no
+        mesmo formato devolvido pela função getPlayerInfo. Caso o jogo ainda não tenha terminado, deve retornar null.
+
+
+         */
+
+
+
+
+
+
 
 
         return null; // Nenhum jogador venceu ainda
     }
 
     public ArrayList<String> getGameResults() {
-        return new ArrayList<>();
+
+
+        ArrayList<String> resultados = new ArrayList<>();
+
+
+
+        return resultados;
     }
 
     public JPanel getAuthorsPanel() {
