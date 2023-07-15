@@ -22,7 +22,7 @@ public class GameManager {
     Jogador jogadorAtual = new Jogador();
     int posicaoFinalJogo;
     int casaPartida = 1;
-    int turnoAtual;
+    int turnoAtual = 0;
     boolean existeVencedor;
 
     public GameManager() {}
@@ -168,7 +168,6 @@ public class GameManager {
 
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
             jogadores.add(jogadorAtual);
-            jogadorAtual = jogadores.get(0); // Jogador atual = 1.ª posição da lista de jogadores = ‘id’ = 1
             jogadores.sort(Comparator.comparing(Jogador::getId)); // Ordenar IDs por ordem crescente
 
 
@@ -266,7 +265,6 @@ public class GameManager {
             jogadorAtual = new Jogador(idJogador, nomeJogador, idEspecieJogador, casaPartida, especieJogadorEmJogo);
 
             jogadores.add(jogadorAtual);
-            jogadorAtual = jogadores.get(0); // Jogador atual = 1.ª posição da lista de jogadores = ‘id’ = 1
             jogadores.sort(Comparator.comparing(Jogador::getId)); // Ordenar IDs por ordem crescente
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
 
@@ -403,16 +401,13 @@ public class GameManager {
          */
 
         String[] InfoJogadorAtual = new String[5];
+        InfoJogadorAtual[0] = Integer.toString(jogadorAtual.getId());
+        InfoJogadorAtual[1] = jogadorAtual.getNome();
+        InfoJogadorAtual[2] = jogadorAtual.getIdEspecie();
+        InfoJogadorAtual[3] = Integer.toString(jogadorAtual.getEspecie().getEnergiaInicial());
+        InfoJogadorAtual[4] = jogadorAtual.getEspecie().getVelocidadeMinima() + ".." + jogadorAtual.getEspecie().getVelocidadeMaxima();
 
-        for (Jogador jogadorAtualEmJogo: jogadores) {
-            InfoJogadorAtual[0] = String.valueOf(jogadorAtualEmJogo.getId());
-            InfoJogadorAtual[1] = jogadorAtualEmJogo.getNome();
-            InfoJogadorAtual[2] = jogadorAtualEmJogo.getIdEspecie();
-            InfoJogadorAtual[3] = String.valueOf(jogadorAtualEmJogo.getEspecie().getEnergiaInicial());
-            InfoJogadorAtual[4] = jogadorAtualEmJogo.getEspecie().getVelocidadeMinima() + ".." + jogadorAtualEmJogo.getEspecie().getVelocidadeMaxima();
-            return InfoJogadorAtual;
-        }
-        return null;
+        return InfoJogadorAtual;
     }
 
     public String[] getCurrentPlayerEnergyInfo(int nrPositions) {
@@ -446,6 +441,8 @@ public class GameManager {
         }
          */
 
+        int idJogadorAtual = turnoAtual % jogadores.size();
+        Jogador jogadorAtual = jogadores.get(idJogadorAtual);
         int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * nrPositions;
         int ganhoEnergiaDescanso = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
 
@@ -480,7 +477,7 @@ public class GameManager {
     public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
 
         // null para movimentos inválidos e movimento válido
-
+        jogadores.sort(Comparator.comparing(Jogador::getId));
         // A cada turno alterno o jogador atual de acordo a quantidade dos jogadores em jogo
         // Quando chega a casa A + M alterna o jogador
         jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
@@ -603,55 +600,40 @@ public class GameManager {
     public String verificarConsumoDeAlimento(int posicao) {
         for (Alimento alimento : alimentos) {
             if (alimento.getPosicaoAlimento() == posicao) {
-
-                boolean isHerbivoro = Boolean.parseBoolean(String.valueOf(jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie().equals("herbívoro")));
-                boolean isOmnivoro = Boolean.parseBoolean(String.valueOf(jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie().equals("omnívoro")));
-                boolean isCarnivoro = Boolean.parseBoolean(String.valueOf(jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie().equals("carnívoro")));
                 String idAlimento = alimento.getId();
                 String tipoAlimentacao = jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie();
 
                 switch (idAlimento) {
                     case "e" -> { /** ERVA */
-                        if (isHerbivoro || isOmnivoro) {
+                        if (tipoAlimentacao.equals("herbívoro") || tipoAlimentacao.equals("omnívoro")) {
                             jogadorAtual.consumirErva(tipoAlimentacao, jogadorAtual, alimento);
                             return alimento.getNome();
-
-                        } else if (isCarnivoro) {
+                        } else if (tipoAlimentacao.equals("carnívoro")) {
                             jogadorAtual.consumirErva(tipoAlimentacao, jogadorAtual, alimento);
                             return alimento.getNome();
                         }
                     }
                     case "a" -> { /** ÁGUA */
-                        if (isCarnivoro || isHerbivoro) {
-                            // Se ingerido por carnívoros ou herbívoros, aumenta a energia em 15 unidades
+                        if (tipoAlimentacao.equals("carnívoro") || tipoAlimentacao.equals("herbívoro")) {
                             jogadorAtual.consumirAgua(tipoAlimentacao, jogadorAtual, alimento);
                             return alimento.getNome();
-
-                        } else if (isOmnivoro) {
-                            // Se ingerido por omnívoros, aumenta a energia em 20%
+                        } else if (tipoAlimentacao.equals("omnívoro")) {
                             jogadorAtual.consumirAgua(tipoAlimentacao, jogadorAtual, alimento);
                             return alimento.getNome();
                         }
                     }
                     case "b" -> { /** BANANA */
-                        if (isCarnivoro || isHerbivoro || isOmnivoro) {
-                            // Se ingerido por carnívoros ou herbívoros, aumenta a energia em 15 unidades
-                            jogadorAtual.consumirBanana(tipoAlimentacao, jogadorAtual, alimento);
-                        }
+                        jogadorAtual.consumirBanana(tipoAlimentacao, jogadorAtual, alimento);
                         return alimento.getNome();
                     }
                     case "c" -> { /** CARNE */
-                        if (isCarnivoro || isOmnivoro) {
-                            // Se ingerido por carnívoros ou herbívoros, aumenta a energia em 15 unidades
+                        if (tipoAlimentacao.equals("carnívoro") || tipoAlimentacao.equals("omnívoro")) {
                             jogadorAtual.consumirCarne(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
                             return alimento.getNome();
                         }
                     }
                     case "m" -> { /** COGUMELO MÁGICO */
-                        if (isCarnivoro || isHerbivoro || isOmnivoro) {
-                            // Se ingerido por carnívoros ou herbívoros, aumenta a energia em 15 unidades
-                            jogadorAtual.consumirCogumeloMagico(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
-                        }
+                        jogadorAtual.consumirCogumeloMagico(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
                         return alimento.getNome();
                     }
                 }
