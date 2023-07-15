@@ -480,7 +480,7 @@ public class GameManager {
     public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
 
         // null para movimentos inválidos e movimento válido
-        jogadores.sort(Comparator.comparing(Jogador::getId));
+       //jogadores.sort(Comparator.comparing(Jogador::getId));
         // A cada turno alterno o jogador atual de acordo a quantidade dos jogadores em jogo
         // Quando chega a casa A + M alterna o jogador
         jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
@@ -547,27 +547,41 @@ public class GameManager {
 
     public String[] getWinnerInfo() {
 
-        /*
-        — O jogo termina quando for atingida uma das seguintes condições:
-            ● Um dos jogadores chega à casa final do jogo. Nesse caso, esse jogador é o vencedor.
-            ● A distância entre o jogador mais perto da meta e o segundo jogador mais perto da meta
-            é superior à metade do tamanho do mapa. Neste caso, ganha o segundo jogador mais perto da meta.
-         */
-
-        // Verificar se algum jogador já chegou à posicão final do jogo
-        for (Jogador jogadorVencedor : jogadores) {
-            if (jogadorVencedor.getPosicaoAtual() == posicaoFinalJogo) {
-                return getPlayerInfo(jogadorVencedor.getId());
-            }
-        }
-
-        String[] infoJogadorVencedor = new String[5];
 
         /*
         Caso o jogo tenha terminado, deve devolver informação do jogador que ganhou o jogo, no
         mesmo formato devolvido pela função getPlayerInfo. Caso o jogo ainda não tenha terminado, deve retornar null.
 
+        — O jogo termina quando for atingida uma das seguintes condições:
+            ● Um dos jogadores chega à casa final do jogo. Nesse caso, esse jogador é o vencedor.
+         */
 
+        String[] infoJogadorVencedor = new String[4];
+
+        // Verificar se algum jogador já chegou à posicão final do jogo
+        for (Jogador jogadorVencedor : jogadores) {
+            if (jogadorVencedor.getPosicaoAtual() == posicaoFinalJogo) {
+
+                infoJogadorVencedor[0] = String.valueOf(jogadorVencedor.getId());
+                infoJogadorVencedor[1] = jogadorVencedor.getNome();
+                infoJogadorVencedor[2] = jogadorVencedor.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(jogadorVencedor.getEspecie().getEnergiaInicial());
+
+                return infoJogadorVencedor;
+            }
+        }
+
+        /*
+        Caso o jogo tenha terminado, deve devolver informação do jogador que ganhou o jogo, no
+        mesmo formato devolvido pela função getPlayerInfo. Caso o jogo ainda não tenha terminado, deve retornar null.
+
+        — O jogo termina quando for atingida uma das seguintes condições:
+            ● A distância entre o jogador mais perto da meta e o segundo jogador mais perto da meta
+            é superior à metade do tamanho do mapa. Neste caso, ganha o segundo jogador mais perto da meta.
+
+
+
+        }
          */
 
 
