@@ -65,7 +65,7 @@ public class TestGameOnJungle {
     }
 
     @Test
-    public void testGetSquareInfo_JogadoresNaCasa4() throws InvalidInitialJungleException {
+    public void testGetSquareInfo_JogadoresNaCasa3() throws InvalidInitialJungleException {
         // Criação de uma instância do jogo
         GameManager jogo = new GameManager();
 
