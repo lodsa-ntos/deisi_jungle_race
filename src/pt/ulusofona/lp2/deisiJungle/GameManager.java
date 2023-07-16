@@ -631,6 +631,12 @@ public class GameManager {
                 String idAlimento = alimento.getId();
                 String tipoAlimentacao = jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie();
 
+                // Verificar se o jogador é um unicórnio
+                if (tipoAlimentacao.equals("") && jogadorAtual.getEspecie().getId().equals("U")) {
+                    // Se o jogador é um unicórnio e encontra alimento, ignorar o efeito do alimento
+                    return null;
+                }
+
                 switch (idAlimento) {
                     case "e" -> { /** ERVA */
                         if (tipoAlimentacao.equals("herbívoro") || tipoAlimentacao.equals("omnívoro")) {
