@@ -407,7 +407,7 @@ public class GameManager {
          */
 
         String[] infoJogadorAtual = new String[5];
-
+        // Alternar o jogador
         Jogador jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
 
         infoJogadorAtual[0] = Integer.toString(jogadorAtual.getId());
@@ -458,7 +458,7 @@ public class GameManager {
         infoEnergia[0] = String.valueOf(consumoEnergia);
         infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);
 
-        System.out.println(Arrays.toString(infoEnergia));
+        //System.out.println(Arrays.toString(infoEnergia));
 
         return infoEnergia;
     }
