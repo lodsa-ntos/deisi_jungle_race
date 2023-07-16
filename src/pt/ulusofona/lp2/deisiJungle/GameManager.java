@@ -362,14 +362,31 @@ public class GameManager {
         //
         // [2] => Uma String contendo os identificadores dos jogadores que estão nessa posição, separados por
         // vírgula (ex: “3,5” — estão lá os jogadores 3 e 5).
-        for (int i = 0; i < jogadores.size(); i++) {
-            Jogador jogador = jogadores.get(i);
+
+        String jogadoresNaCasa = "";
+
+        for (Jogador jogador : jogadores) {
             if (jogador.getPosicaoAtual() == squareNr) {
-                infoPosCaixasNoMapa[2] += jogador.getId();
-                if (i < jogadores.size() - 1) {
-                    infoPosCaixasNoMapa[2] += ",";
+
+                // se a posição do mapa tem mais do que um jogador,
+                if (!jogadoresNaCasa.isEmpty()) {
+                    jogadoresNaCasa += ","; // serão separados por vírgula “3,5”
                 }
+                // É adicionado o primeiro jogador encontrado
+                jogadoresNaCasa += jogador.getId();
             }
+        }
+
+        // se no mapa...
+        if (!jogadoresNaCasa.isEmpty()) {
+            // ...houver apenas um jogador numa posição específica, a vírgula é retirada da última posição.
+            infoPosCaixasNoMapa[2] = jogadoresNaCasa.substring(0, 1);
+        }
+
+        // se no mapa...
+        if (!jogadoresNaCasa.isEmpty()) {
+            // ...houver mais do que um jogador numa posição específica, a vírgula será mantida.
+            infoPosCaixasNoMapa[2] = jogadoresNaCasa;
         }
 
         return infoPosCaixasNoMapa;
