@@ -634,8 +634,7 @@ public class GameManager {
                 // Verificar se o jogador é um unicórnio
                 if (jogadorAtual.getEspecie().getId().equals("U")) {
                     // Se o jogador é um unicórnio e o alimento é água, ignorar o efeito da água
-                    if (idAlimento.equals("e") || idAlimento.equals("a") || idAlimento.equals("b")
-                    || idAlimento.equals("c") || idAlimento.equals("m") ) {
+                    if (idAlimento.equals("a")) {
                         return null;
                     }
                 }

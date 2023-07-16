@@ -163,6 +163,6 @@ public class CogumeloMagico extends Alimento {
          */
 
         //int numeroAleatorio = 0;
-        return "Cogumelo Magico: +- " + numeroAleatorioCog + "% energia";
+        return "Cogumelo Magico : +- " + numeroAleatorioCog + "% energia";
     }
 }
