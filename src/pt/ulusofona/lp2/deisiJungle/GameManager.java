@@ -171,8 +171,8 @@ public class GameManager {
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
 
 
-            System.out.println("Jogador ⇒ " + jogadorAtual);
-            System.out.println(jogadorAtual.getEspecie().toString());
+            //System.out.println("Jogador ⇒ " + jogadorAtual);
+            //System.out.println(jogadorAtual.getEspecie().toString());
             //System.out.println(getPlayerIds(1));
 
         }
@@ -182,7 +182,7 @@ public class GameManager {
          * ALIMENTOS
          * ‘loop’ foreach para guardar informação do foodsInfo
          */
-        System.out.println("ALIMENTOS");
+        //System.out.println("ALIMENTOS");
         for (String[] infoAlimento: foodsInfo) {
 
             String idTipo = infoAlimento[0];
@@ -212,7 +212,7 @@ public class GameManager {
 
             Alimento tipoAlimento = Alimento.identificarAlimento(idTipo, posicaoAtualAlimento);
             alimentos.add(tipoAlimento);
-            System.out.println(tipoAlimento.toolTip());
+            //System.out.println(tipoAlimento.toolTip());
         }
     }
 
@@ -272,8 +272,8 @@ public class GameManager {
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
 
 
-            System.out.println("Jogador ⇒ " + jogadorAtual);
-            System.out.println(jogadorAtual.getEspecie().toString());
+            //System.out.println("Jogador ⇒ " + jogadorAtual);
+            //System.out.println(jogadorAtual.getEspecie().toString());
             //System.out.println(getPlayerIds(1));
 
         }
@@ -621,8 +621,8 @@ public class GameManager {
     public void incrementarTurno() {
         turnoAtual++;
 
-        System.out.println();
-        System.out.println("> turno atual: " + turnoAtual);
+        //System.out.println();
+       // System.out.println("> turno atual: " + turnoAtual);
     }
 
     public String verificarConsumoDeAlimento(int posicao) {
