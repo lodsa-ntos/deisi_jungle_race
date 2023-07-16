@@ -8,7 +8,7 @@ public class Unicornio extends Especie {
         this.id = "U";
         this.nome = "Unicórnio";
         this.imagem = "unicorn.png";
-        this.tipoAlimentacaoDaEspecie = "herbívoro";
+        this.tipoAlimentacaoDaEspecie = "";
         this.energiaInicial = 200;
         this.consumoEnergia = 8;
         this.ganhoEnergiaDescanso = 20;
