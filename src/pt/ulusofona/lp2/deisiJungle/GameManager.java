@@ -19,9 +19,10 @@ public class GameManager {
 
     ArrayList<Jogador> jogadores = new ArrayList<>();
     ArrayList<Alimento> alimentos = new ArrayList<>();
+    HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
     Jogador jogadorAtual;
     int posicaoFinalJogo;
-    int casaPartida = 1;
+    int casaPartida;
     int turnoAtual;
     boolean existeVencedor;
 
@@ -117,7 +118,8 @@ public class GameManager {
 
     public void createInitialJungle(int jungleSize, String[][] playersInfo, String[][] foodsInfo) throws InvalidInitialJungleException {
 
-        HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
+        // Cada vez que o jogo é criado o programa vai fazer a reinicialização das variaveis para o valor inicial
+        incrementarReset();
         posicaoFinalJogo = jungleSize;
 
         // TODO O MAPA — duas posições por cada jogador
@@ -217,67 +219,8 @@ public class GameManager {
     }
 
     public void createInitialJungle(int jungleSize, String[][] playersInfo) throws InvalidInitialJungleException {
-
-        HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
-        posicaoFinalJogo = jungleSize;
-
-        // TODO O MAPA — duas posições por cada jogador
-        ValidadorJogador.validarDimensaoMapa(posicaoFinalJogo, playersInfo.length);
-
-        // TODO JOGADOR — O jogo terá entre 2 e 4 jogadores
-        ValidadorJogador.validarNumJogadorEmJogo(playersInfo.length);
-
-        /**
-         * JOGADORES
-         * loop’ foreach para guardar informação do playersInfo
-         */
-        for (String[] infoJogador: playersInfo) {
-
-            String oldIDJogador = infoJogador[0];
-            String nomeJogador = infoJogador[1];
-            String idEspecieJogador = infoJogador[2];
-
-            // TODO IDs - é null ou vazio?
-            if (oldIDJogador == null || oldIDJogador.isEmpty()) {
-                throw new InvalidInitialJungleException("O ID do jogador é null ou vazio, logo, não é válido.", true, false);
-            }
-
-            // TODO IDs — é um valor numérico?
-            boolean isNumericValue = oldIDJogador.matches("-?\\d+(\\.\\d+)?");
-
-            if (!isNumericValue) {
-                throw new InvalidInitialJungleException("O ID do jogador não é válido.", true, false);
-            }
-
-            int idJogador = Integer.parseInt(oldIDJogador);
-
-            // TODO IDs — não pode haver dois jogadores com o mesmo id
-            ValidadorJogador.validarNumeroIDs(idJogadoresEmJogo, idJogador);
-
-            // TODO O NOME — não podem ser null ou vazios
-            ValidadorJogador.validarNomeJogadores(nomeJogador);
-
-            // TODO TARZAN — Apenas poderá existir um jogador da espécie Tarzan a competir
-            ValidadorJogador.validarEspecieTarzan(idEspecieJogador);
-
-            // TODO O ESPÉCIES — A espécie tem que ser uma das que foi retornada da função getSpecies()
-            ValidadorJogador.validarEspecieJogador(idEspecieJogador, getSpecies());
-
-
-            Especie especieJogadorEmJogo = Especie.identificarEspecie(idEspecieJogador);
-            jogadorAtual = new Jogador(idJogador, nomeJogador, idEspecieJogador, casaPartida, especieJogadorEmJogo);
-
-            jogadores.add(jogadorAtual);
-            jogadores.sort(Comparator.comparing(Jogador::getId)); // Ordenar IDs por ordem crescente
-            jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
-
-
-            //System.out.println("Jogador ⇒ " + jogadorAtual);
-            //System.out.println(jogadorAtual.getEspecie().toString());
-            //System.out.println(getPlayerIds(1));
-
-        }
-
+        String[][] foodsInfo = new String[0][2];
+        createInitialJungle(jungleSize, playersInfo, foodsInfo);
     }
 
     public int[] getPlayerIds(int squareNr) {
@@ -640,13 +583,6 @@ public class GameManager {
         return false;
     }
 
-    public void incrementarTurno() {
-        turnoAtual++;
-
-        //System.out.println();
-       // System.out.println("> turno atual: " + turnoAtual);
-    }
-
     public String verificarConsumoDeAlimento(int posicao) {
         for (Alimento alimento : alimentos) {
             if (alimento.getPosicaoAlimento() == posicao) {
@@ -716,5 +652,24 @@ public class GameManager {
                     velocidade >= 3 && velocidade <= 6;
             default -> false; // Espécie desconhecida, velocidade inválida
         };
+    }
+
+    public void incrementarTurno() {
+        turnoAtual++;
+
+        //System.out.println();
+        // System.out.println("> turno atual: " + turnoAtual);
+    }
+
+    public void incrementarReset() {
+
+        jogadores = new ArrayList<>(); // reset da lista de jogadores.
+        alimentos = new ArrayList<>(); // reset da lista de alimentos
+        jogadorAtual = null; // reset do jogadorAtual
+        idJogadoresEmJogo = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores no início do jogo
+
+        casaPartida = 1; // reset casa partida de todos os jogadores
+        turnoAtual = 0; // reset do turno atual do jogo.
+        posicaoFinalJogo = 0; // reset posicão final do mapa de jogo
     }
 }
