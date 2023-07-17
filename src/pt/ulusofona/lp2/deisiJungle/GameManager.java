@@ -421,6 +421,12 @@ public class GameManager {
         int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrPositions);
         int ganhoEnergiaDescanso = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
 
+        if (nrPositions < 0) { // Recuou?
+            consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrPositions);
+        } else { // Avançou?
+            consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * nrPositions;
+        }
+
         infoEnergia[0] = String.valueOf(consumoEnergia);
         infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);
 
@@ -470,7 +476,7 @@ public class GameManager {
         // Se decidir ficar na posição
         if (nrSquares == 0) {
 
-            // Verificar se o jogador recuou, ficou ou avançou
+            // Verificar se o jogador ficou e aumentar energia
             verificarSeRecuouFicouAvancou(nrSquares, energiaAtual, consumoEnergia, ganhoEnergia);
 
             // Atualizar o turno
@@ -483,7 +489,53 @@ public class GameManager {
                 return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
             }
 
-            return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
+            // Se decidir Avançar
+        }  else if (nrSquares > 0) {
+
+
+            if (novaPosicaoJogador >= posicaoFinalJogo) {
+                novaPosicaoJogador = posicaoFinalJogo;
+            }
+
+            jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
+
+            // Verificar se o jogador ficou e aumentar energia
+            verificarSeRecuouFicouAvancou(nrSquares, energiaAtual, consumoEnergia, ganhoEnergia);
+
+            // Verificar se o jogador consumiu algum alimento
+            String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
+            if (alimentoConsumido != null) {
+                jogadorAtual.setNumeroAlimento(1);
+                return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
+            }
+
+            // Se decidir Recuar
+        } else {
+
+            novaPosicaoJogador = casaAtual - Math.abs(nrSquares);
+
+            if (novaPosicaoJogador < casaPartida) {
+                novaPosicaoJogador = casaPartida;
+            }
+
+            // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
+            if (energiaAtual < consumoEnergia * Math.abs(nrSquares)) {
+                // Atualizar o turno
+                incrementarTurno();
+                return new MovementResult(MovementResultCode.NO_ENERGY, null);
+            }
+
+            // Verificar se o jogador ficou e aumentar energia
+            verificarSeRecuouFicouAvancou(nrSquares, energiaAtual, consumoEnergia, ganhoEnergia);
+
+            jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
+
+            // Verificar se o jogador consumiu algum alimento
+            String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
+            if (alimentoConsumido != null) {
+                jogadorAtual.setNumeroAlimento(1);
+                return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
+            }
         }
 
         // O argumento nrSquares tem que estar contido entre -6 e 6
@@ -509,11 +561,6 @@ public class GameManager {
 
         }
 
-        // Se o jogador tentar ultrapassar a casa final do jogo, deve ficar na posição final do jogo
-        if (novaPosicaoJogador > posicaoFinalJogo) {
-            novaPosicaoJogador = posicaoFinalJogo;
-        }
-
         // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
         if (energiaAtual < consumoEnergia * Math.abs(nrSquares)) {
             // Atualizar o turno
@@ -521,13 +568,8 @@ public class GameManager {
             return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
 
-        // Movimento do jogador para a casa A + M
-        jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
         jogadorAtual.setNumeroPosicoesPercorridas(Math.abs(nrSquares));
         System.out.println(jogadorAtual.toString());
-
-        // Verificar se o jogador recuou, ficou ou avançou
-        verificarSeRecuouFicouAvancou(nrSquares, energiaAtual, consumoEnergia, ganhoEnergia);
 
         // Verficar qual o alimento consumido
         String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
