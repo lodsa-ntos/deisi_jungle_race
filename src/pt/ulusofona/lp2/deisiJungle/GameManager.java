@@ -17,14 +17,16 @@ import java.util.*;
 // Classe responsável por gerir o jogo
 public class GameManager {
 
-    ArrayList<Jogador> jogadores = new ArrayList<>();
-    ArrayList<Alimento> alimentos = new ArrayList<>();
-    HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
-    Jogador jogadorAtual;
-    int posicaoFinalJogo;
-    int casaPartida;
-    int turnoAtual;
-    boolean existeVencedor;
+    private ArrayList<Jogador> jogadores = new ArrayList<>();
+    private ArrayList<Alimento> alimentos = new ArrayList<>();
+    private HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
+    private Jogador jogadorAtual;
+    private int posicaoFinalJogo;
+    private int casaPartida;
+    private int turnoAtual;
+    boolean jogadorAvancou;
+    boolean jogadorRecuou;
+    boolean jogadorFicou;
 
     public GameManager() {}
 
@@ -308,8 +310,7 @@ public class GameManager {
 
         String jogadoresNaCasa = "";
 
-        for (int i = 0; i < jogadores.size(); i++) {
-            Jogador jogador = jogadores.get(i);
+        for (Jogador jogador : jogadores) {
             if (jogador.getPosicaoAtual() == squareNr) {
                 // se a posição do mapa tem mais do que um jogador,
                 if (!jogadoresNaCasa.isEmpty()) {
@@ -451,49 +452,66 @@ public class GameManager {
     public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
 
         // null para movimentos inválidos e movimento válidos
-       //jogadores.sort(Comparator.comparing(Jogador::getId));
+        //jogadores.sort(Comparator.comparing(Jogador::getId));
         // A cada turno alterno o jogador atual de acordo a quantidade dos jogadores em jogo
         // Quando chega a casa A + M alterna o jogador
         jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
         //System.out.println(jogadorAtual);
-       // jogadorAtual = jogadores.get(0);
+        // jogadorAtual = jogadores.get(0);
 
         int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1
         int novaPosicaoJogador = casaAtual + nrSquares; // A + M
         int energiaAtual = jogadorAtual.getEspecie().getEnergiaInicial();
         int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia();
+        int ganhoEnergia = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
 
         //int recuar = casaAtual - nrSquares; // A — M
 
-        // O argumento nrSquares não pode ser menor que 1 ou maior do que 6, porque o dado tem 6 lados.
+        // Se decidir ficar na posição
+        if (nrSquares == 0) {
+
+            // Verificar se o jogador recuou, ficou ou avançou
+            verificarSeRecuouFicouAvancou(nrSquares, energiaAtual, consumoEnergia, ganhoEnergia);
+
+            // Atualizar o turno
+            incrementarTurno();
+
+            // Verificar se o jogador consumiu algum alimento
+            String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
+            if (alimentoConsumido != null) {
+                jogadorAtual.setNumeroAlimento(1);
+                return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
+            }
+
+            return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
+        }
+
+        // O argumento nrSquares tem que estar contido entre -6 e 6
         // No entanto, se o parâmetro bypassValidations tiver o valor true, a regra anterior não é aplicada.
-        // Verificar se o movimento é válido
         if (!bypassValidations) {
             if (nrSquares < -6 || nrSquares > 6) {
-                // Atualizar o turno
                 incrementarTurno();
                 return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
             }
 
-            // Se as espécies não se movimentarem nas velocidades mínima e máxima = INVALID_MOVEMENT
+            // Se tentar recuar estando na casa de partida = INVALID_MOVEMENT
+            if (novaPosicaoJogador < casaPartida) {
+                incrementarTurno();
+                return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
+            }
+
+            // Verificar se as espécies se movimentarem nas respetivas velocidades mínima e máxima = INVALID_MOVEMENT
             if (!validarVelocidadeEspecie(Math.abs(nrSquares))) {
                 // Atualizar o turno
                 incrementarTurno();
                 return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
             }
+
         }
 
         // Se o jogador tentar ultrapassar a casa final do jogo, deve ficar na posição final do jogo
-        if (novaPosicaoJogador >= posicaoFinalJogo) {
+        if (novaPosicaoJogador > posicaoFinalJogo) {
             novaPosicaoJogador = posicaoFinalJogo;
-            //System.out.println("Vencedor");
-        }
-
-        // Se tentar recuar estando na casa de partida = INVALID_MOVEMENT
-        if (novaPosicaoJogador < casaPartida) {
-            // Atualizar o turno
-            incrementarTurno();
-            return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
         }
 
         // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
@@ -505,17 +523,20 @@ public class GameManager {
 
         // Movimento do jogador para a casa A + M
         jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
+        jogadorAtual.setNumeroPosicoesPercorridas(Math.abs(nrSquares));
+        System.out.println(jogadorAtual.toString());
 
-        // Alimento
+        // Verificar se o jogador recuou, ficou ou avançou
+        verificarSeRecuouFicouAvancou(nrSquares, energiaAtual, consumoEnergia, ganhoEnergia);
+
+        // Verficar qual o alimento consumido
         String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
         if (alimentoConsumido != null) {
+            jogadorAtual.setNumeroAlimento(1);
             // Atualizar o turno
             incrementarTurno();
             return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
         }
-
-        // Durante o movimento, o jogador consome 2 unidades de energia
-        jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - 2);
 
         // Atualizar o turno
         incrementarTurno();
@@ -548,13 +569,30 @@ public class GameManager {
 
         ArrayList<String> resultados = new ArrayList<>();
 
-        for (Jogador jogador : jogadores) {
-            String nome = jogador.getNome();
-            String nomeEspecie = jogador.getEspecie().getNome();
-            int posicaoDeChegada = jogador.getPosicaoAtual();
-            int distancia = jogador.getNumeroPosicoesPercorridas();
+        if (jogadorAtual.getPosicaoAtual() == posicaoFinalJogo) {
+            for (Jogador jogador : jogadores) {
+                String nome = jogador.getNome();
+                String nomeEspecie = jogador.getEspecie().getNome();
+                int posicaoDeChegada = jogador.getPosicaoAtual();
+                int distancia = jogador.getNumeroPosicoesPercorridas();
+                int numAlimento = jogador.getNumeroAlimento();
 
-            resultados.add("#" + (jogadores.indexOf(jogador) + 1) + " " + nome + ", " + nomeEspecie + ", " + posicaoDeChegada + ", " + distancia);
+                resultados.add("#" + (jogadores.indexOf(jogador) + 1) + " " + nome + ", " + nomeEspecie
+                        + ", " + posicaoDeChegada + ", " + distancia + ", " + numAlimento);
+            }
+
+        } else {
+
+            for (Jogador jogador : jogadores) {
+                String nome = jogador.getNome();
+                String nomeEspecie = jogador.getEspecie().getNome();
+                int posicaoDeChegada = jogador.getPosicaoAtual();
+                int distancia = jogador.getNumeroPosicoesPercorridas();
+                int numAlimento = jogador.getNumeroAlimento();
+
+                resultados.add("#" + (jogadores.indexOf(jogador) + 1) + " " + nome + ", " + nomeEspecie
+                        + ", " + posicaoDeChegada + ", " + distancia + ", " + numAlimento);
+            }
         }
 
         return resultados;
@@ -598,7 +636,7 @@ public class GameManager {
                 }
 
                 switch (idAlimento) {
-                    case "e" -> { /** ERVA */
+                    case "e" -> { // ERVA
                         if (tipoAlimentacao.equals("herbívoro") || tipoAlimentacao.equals("omnívoro")) {
                             jogadorAtual.consumirErva(tipoAlimentacao, jogadorAtual, alimento);
                             return alimento.getNome();
@@ -607,7 +645,7 @@ public class GameManager {
                             return alimento.getNome();
                         }
                     }
-                    case "a" -> { /** ÁGUA */
+                    case "a" -> { // ÁGUA
                         if (tipoAlimentacao.equals("carnívoro") || tipoAlimentacao.equals("herbívoro")) {
                             jogadorAtual.consumirAgua(tipoAlimentacao, jogadorAtual, alimento);
                             return alimento.getNome();
@@ -616,17 +654,17 @@ public class GameManager {
                             return alimento.getNome();
                         }
                     }
-                    case "b" -> { /** BANANA */
+                    case "b" -> { // BANANA
                         jogadorAtual.consumirBanana(tipoAlimentacao, jogadorAtual, alimento);
                         return alimento.getNome();
                     }
-                    case "c" -> { /** CARNE */
+                    case "c" -> { // CARNE
                         if (tipoAlimentacao.equals("carnívoro") || tipoAlimentacao.equals("omnívoro")) {
                             jogadorAtual.consumirCarne(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
                             return alimento.getNome();
                         }
                     }
-                    case "m" -> { /** COGUMELO MÁGICO */
+                    case "m" -> { // COGUMELO MÁGICO
                         jogadorAtual.consumirCogumeloMagico(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
                         return alimento.getNome();
                     }
@@ -650,8 +688,34 @@ public class GameManager {
                     velocidade >= 5 && velocidade <= 6;
             case "U" -> // Unicórnio
                     velocidade >= 3 && velocidade <= 6;
-            default -> false; // Espécie desconhecida, velocidade inválida
+            default -> false;
         };
+    }
+
+    private void verificarSeRecuouFicouAvancou(int nrSquares, int energiaAtual, int consumoEnergia, int ganhoEnergia) {
+        String especieID = jogadorAtual.getEspecie().getId();
+
+        switch (especieID) {
+            case "E":
+            case "L":
+            case "T":
+            case "P":
+            case "Z":
+            case "U":
+                if (nrSquares != 0) {
+                    // O jogador avançou ou recou
+                    jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - consumoEnergia);
+                    jogadorAvancou = true;
+                    jogadorRecuou = true;
+                } else {
+                    // O jogador ficou no mesmo lugar
+                    jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual + ganhoEnergia);
+                    jogadorFicou = true;
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     public void incrementarTurno() {
@@ -667,6 +731,10 @@ public class GameManager {
         alimentos = new ArrayList<>(); // reset da lista de alimentos
         jogadorAtual = null; // reset do jogadorAtual
         idJogadoresEmJogo = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores no início do jogo
+
+        jogadorRecuou = false;
+        jogadorFicou = false;
+        jogadorAvancou = false;
 
         casaPartida = 1; // reset casa partida de todos os jogadores
         turnoAtual = 0; // reset do turno atual do jogo.

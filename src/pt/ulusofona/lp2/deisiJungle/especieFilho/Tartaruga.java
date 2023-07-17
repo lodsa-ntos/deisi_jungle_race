@@ -8,7 +8,7 @@ public class Tartaruga extends Especie {
         this.id = "T";
         this.nome = "Tartaruga";
         this.imagem = "turtle.png";
-        this.tipoAlimentacaoDaEspecie = "herbívoro";
+        this.tipoAlimentacaoDaEspecie = "omnívoro";
         this.energiaInicial = 150;
         this.consumoEnergia = 1;
         this.ganhoEnergiaDescanso = 5;

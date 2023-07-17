@@ -10,6 +10,8 @@ public class Jogador {
     private  String idEspecie;
     private int posicaoAtual;
     private int numeroPosicoesPercorridas;
+
+    private int numeroAlimento;
     private Especie especie;
     private int manterEnergia;
     private boolean consumiuCachoDeBanana;
@@ -246,11 +248,20 @@ public class Jogador {
     }
 
     public void setNumeroPosicoesPercorridas(int numeroPosicoesMovimentadas) {
-        this.numeroPosicoesPercorridas = numeroPosicoesMovimentadas;
+        this.numeroPosicoesPercorridas += numeroPosicoesMovimentadas;
+    }
+
+    public int getNumeroAlimento() {
+        return numeroAlimento;
+    }
+
+    public void setNumeroAlimento(int numeroAlimento) {
+        this.numeroAlimento += numeroAlimento;
     }
 
     @Override
     public String toString() {
-        return id + ":" + nome + ":" + idEspecie + ":" + especie.getEnergiaInicial() + ":" + posicaoAtual;
+        return id + ":" + nome + ":" + idEspecie + ":" + especie.getEnergiaInicial()
+                + ":" + posicaoAtual + ":" + numeroPosicoesPercorridas + ":" + numeroAlimento;
     }
 }
