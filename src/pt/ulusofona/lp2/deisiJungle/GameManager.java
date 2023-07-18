@@ -479,6 +479,14 @@ public class GameManager {
             return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
         }
 
+        /***/
+        // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
+        if (energiaAtual < consumoEnergia * Math.abs(nrSquares)) {
+            // Atualizar o turno
+            incrementarTurno();
+            return new MovementResult(MovementResultCode.NO_ENERGY, null);
+        }
+
         // O argumento nrSquares tem que estar contido entre -6 e 6
         // No entanto, se o parâmetro bypassValidations tiver o valor true, a regra anterior não é aplicada.
         if (!bypassValidations) {
@@ -501,18 +509,18 @@ public class GameManager {
             }
 
         }
-
+        /***/
         // Se o jogador tentar ultrapassar a casa final do jogo, deve ficar na posição final do jogo
-        if (novaPosicaoJogador > posicaoFinalJogo) {
+        if (novaPosicaoJogador >= posicaoFinalJogo) {
+            // ...o jogador deve fica na posição final do jogo
             novaPosicaoJogador = posicaoFinalJogo;
+            // Movimentar o jogador para a casa A + M
+            jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
+            return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
         }
+        /***/
 
-        // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
-        if (energiaAtual < consumoEnergia * Math.abs(nrSquares)) {
-            // Atualizar o turno
-            incrementarTurno();
-            return new MovementResult(MovementResultCode.NO_ENERGY, null);
-        }
+        /***/
 
         // Movimento do jogador para a casa A + M
         jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
