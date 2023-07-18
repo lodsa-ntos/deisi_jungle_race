@@ -255,7 +255,7 @@ public class Jogador {
         return numeroAlimento;
     }
 
-    public void setNumeroAlimento(int numeroAlimento) {
+    public void contarNumAlimentoApanhado(int numeroAlimento) {
         this.numeroAlimento += numeroAlimento;
     }
 
