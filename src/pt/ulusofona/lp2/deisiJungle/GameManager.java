@@ -418,12 +418,20 @@ public class GameManager {
 
         // Math.abs(nrPositions) se sair um valor negativo, modificar para positivo
 
-        int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrPositions);
+        int consumoEnergia;
+
+        if (nrPositions > 0) {
+            consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * nrPositions;
+        } else {
+            consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrPositions);
+        }
+
         int ganhoEnergiaDescanso = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
 
         infoEnergia[0] = String.valueOf(consumoEnergia);
         infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);
 
+        //System.out.println(consumoEnergia);
         //System.out.println(Arrays.toString(infoEnergia));
 
         return infoEnergia;
