@@ -475,8 +475,6 @@ public class GameManager {
                 jogadorAtual.contarNumAlimentoApanhado(1);
                 return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
             }
-
-            return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
 
         // O argumento nrSquares tem que estar contido entre -6 e 6
