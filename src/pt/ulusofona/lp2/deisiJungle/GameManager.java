@@ -17,13 +17,13 @@ import java.util.*;
 // Classe responsável por gerir o jogo
 public class GameManager {
 
-    private ArrayList<Jogador> jogadores = new ArrayList<>();
-    private ArrayList<Alimento> alimentos = new ArrayList<>();
-    private HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
-    private Jogador jogadorAtual;
-    private int posicaoFinalJogo;
-    private int casaPartida;
-    private int turnoAtual;
+    ArrayList<Jogador> jogadores = new ArrayList<>();
+    ArrayList<Alimento> alimentos = new ArrayList<>();
+    HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
+    Jogador jogadorAtual;
+    int posicaoFinalJogo;
+    int casaPartida;
+    int turnoAtual;
     boolean jogadorAvancou;
     boolean jogadorRecuou;
     boolean jogadorFicou;
@@ -450,13 +450,8 @@ public class GameManager {
     }
 
     public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
-
-        // null para movimentos inválidos e movimento válidos
-        //jogadores.sort(Comparator.comparing(Jogador::getId));
         // A cada turno alterno o jogador atual de acordo a quantidade dos jogadores em jogo
-        // Quando chega a casa A + M alterna o jogador
         jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
-        //System.out.println(jogadorAtual);
         // jogadorAtual = jogadores.get(0);
 
         int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1
@@ -464,8 +459,6 @@ public class GameManager {
         int energiaAtual = jogadorAtual.getEspecie().getEnergiaInicial();
         int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia();
         int ganhoEnergia = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
-
-        //int recuar = casaAtual - nrSquares; // A — M
 
         // Se decidir ficar na posição
         if (nrSquares == 0) {
@@ -483,7 +476,7 @@ public class GameManager {
                 return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
             }
 
-            return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
+            return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
 
         // O argumento nrSquares tem que estar contido entre -6 e 6
