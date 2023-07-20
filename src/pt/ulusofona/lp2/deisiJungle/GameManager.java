@@ -523,6 +523,13 @@ public class GameManager {
         // Verificar se o jogador recuou, ficou ou avançou
         verificarSeRecuouFicouAvancou(nrSquares, energiaAtual, consumoEnergia, ganhoEnergia);
 
+        // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
+        if (energiaAtual < consumoEnergia * Math.abs(nrSquares)) {
+            // Atualizar o turno
+            incrementarTurno();
+            return new MovementResult(MovementResultCode.NO_ENERGY, null);
+        }
+
         // Verficar qual o alimento consumido
         String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
         if (alimentoConsumido != null) {
@@ -680,6 +687,7 @@ public class GameManager {
         return false;
     }
 
+
     /*
     private List<Jogador> obterJogadoresNaMesmaCasa(int posicao) {
         List<Jogador> jogadoresNaMesmaCasa = new ArrayList<>();
@@ -694,6 +702,7 @@ public class GameManager {
     }
      */
 
+    /*
     public Jogador getJogadorMaisProximoDaMeta() {
         int meta = posicaoFinalJogo - 1;
         int menorDistancia = meta;
@@ -711,6 +720,7 @@ public class GameManager {
 
         return jogadorMaisProximoDaMeta;
     }
+     */
 
     public String verificarConsumoDeAlimento(int posicao) {
         for (Alimento alimento : alimentos) {

@@ -356,6 +356,4 @@ public class TestGameOnJungle {
         MovementResult resultJoaquin = gameOnJungle.moveCurrentPlayer(3, false);
         assertEquals(MovementResultCode.VALID_MOVEMENT, resultJoaquin.code());
     }
-
-
 }
