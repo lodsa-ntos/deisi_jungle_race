@@ -261,7 +261,7 @@ public class TestGameOnJungle {
 
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
 
-        assertNull(infoJogadorVencedor); // Espera-se que seja null, pois não há vencedor quando todos estão sem energia.
+        assertNull(infoJogadorVencedor);
     }
 
 }
