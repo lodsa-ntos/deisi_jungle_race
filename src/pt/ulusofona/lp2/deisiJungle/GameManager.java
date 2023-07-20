@@ -24,9 +24,6 @@ public class GameManager {
     int posicaoFinalJogo;
     int casaPartida;
     int turnoAtual;
-    boolean jogadorAvancou;
-    boolean jogadorRecuou;
-    boolean jogadorFicou;
 
     public GameManager() {}
 
@@ -174,10 +171,9 @@ public class GameManager {
             jogadores.sort(Comparator.comparing(Jogador::getId)); // Ordenar IDs por ordem crescente
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
 
-
-            //System.out.println("Jogador ⇒ " + jogadorAtual);
-            //System.out.println(jogadorAtual.getEspecie().toString());
-            //System.out.println(getPlayerIds(1));
+            if (jogadores.size() >= 2) {
+                jogadorAtual.saberNumJogadoresEmJogo(jogadores.size());
+            }
 
         }
 
@@ -418,14 +414,7 @@ public class GameManager {
 
         // Math.abs(nrPositions) se sair um valor negativo, modificar para positivo
 
-        int consumoEnergia;
-
-        if (nrPositions > 0) {
-            consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * nrPositions;
-        } else {
-            consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrPositions);
-        }
-
+        int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrPositions);
         int ganhoEnergiaDescanso = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
 
         infoEnergia[0] = String.valueOf(consumoEnergia);
@@ -487,7 +476,6 @@ public class GameManager {
             return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
         }
 
-        /***/
         // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
         if (energiaAtual < consumoEnergia * Math.abs(nrSquares)) {
             // Atualizar o turno
@@ -517,7 +505,7 @@ public class GameManager {
             }
 
         }
-        /***/
+
         // Se o jogador tentar ultrapassar a casa final do jogo, deve ficar na posição final do jogo
         if (novaPosicaoJogador >= posicaoFinalJogo) {
             // ...o jogador deve fica na posição final do jogo
@@ -526,9 +514,6 @@ public class GameManager {
             jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
             return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
         }
-        /***/
-
-        /***/
 
         // Movimento do jogador para a casa A + M
         jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
@@ -559,15 +544,50 @@ public class GameManager {
         mesmo formato devolvido pela função getPlayerInfo. Caso o jogo ainda não tenha terminado, deve retornar null.
 
         — O jogo termina quando for atingida uma das seguintes condições:
-            ● Um dos jogadores chega à casa final do jogo. Nesse caso, esse jogador é o vencedor.
+            ● Todos os jogadores ficaram impossibilitados de se movimentarem por falta de energia.
+            Nesse caso o vencedor é o jogador que está mais próximo da meta. Caso existam 2 ou
+            mais jogadores na mesma casa, vence o jogador com o ‘id’ mais baixo
             ● A distância entre o jogador mais perto da meta e o segundo jogador mais perto da meta
               é superior à metade do tamanho do mapa. Neste caso, ganha o segundo jogador mais perto da meta.
+
+            Qual a distância que viajou? Isto é, quantas posições se movimentou até ao final do
+            jogo. Este número não é necessariamente igual à posição a que chegou, pois, pode ter
+            recuado.
+
+            A distância entre o jogador mais perto da meta e o segundo jogador mais perto da meta
+            é superior à metade do tamanho do mapa. Neste caso, ganha o segundo jogador mais
+            perto da meta.
          */
 
-        // Verificar se algum jogador já chegou à posição final do jogo
+        String[] infoJogadorVencedor = new String[4];
+
+        boolean todosSemEnergia = true;
+        for (Jogador jogador : jogadores) {
+            if (jogador.getEspecie().getEnergiaInicial() > 0) {
+                todosSemEnergia = false;
+                break;
+            }
+        }
+
+        if (todosSemEnergia) {
+            Jogador vencedorPelaDistancia = getJogadorMaisProximoDaMeta();
+            if (vencedorPelaDistancia != null) {
+                infoJogadorVencedor[0] = String.valueOf(vencedorPelaDistancia.getId());
+                infoJogadorVencedor[1] = vencedorPelaDistancia.getNome();
+                infoJogadorVencedor[2] = vencedorPelaDistancia.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(vencedorPelaDistancia.getEspecie().getEnergiaInicial());
+                return infoJogadorVencedor;
+            }
+        }
+
+        // Se algum jogador chegou à posição final do jogo mostrar a info do jopgador vencedor
         for (Jogador jogador : jogadores) {
             if (jogador.getPosicaoAtual() == posicaoFinalJogo) {
-                return getPlayerInfo(jogador.getId()); // Retornar informação do jogador vencedor
+                infoJogadorVencedor[0] = String.valueOf(jogador.getId());
+                infoJogadorVencedor[1] = jogador.getNome();
+                infoJogadorVencedor[2] = jogador.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
+                return infoJogadorVencedor;
             }
         }
 
@@ -575,33 +595,61 @@ public class GameManager {
     }
 
     public ArrayList<String> getGameResults() {
+        ArrayList<Jogador> jogadoresEmJogo = new ArrayList<>();
+        ArrayList<Jogador> jogadoresSemEnergia = new ArrayList<>();
+
+        for (Jogador jogador : jogadores) {
+            if (jogador.getEspecie().getEnergiaInicial() > 0) {
+                jogadoresEmJogo.add(jogador);
+            } else if (jogador.getPosicaoAtual() != posicaoFinalJogo) {
+                jogadoresSemEnergia.add(jogador);
+            }
+        }
+
+        // Ordenar os jogadores em jogo mais perto da posição final do jogo
+        jogadoresEmJogo.sort(Comparator.comparingInt(j -> Math.abs(j.getPosicaoAtual() - posicaoFinalJogo)));
+
+        // Ordenar os jogadores sem energia mais perto da posição final e pelo ID em caso de empate
+        jogadoresSemEnergia.sort((j1, j2) -> {
+            /*
+             Se "diferencaEntreJogadores" for positivo, o jogador 1 está mais próximo da meta;
+             se for negativo, o jogador 2 está mais próximo;
+             Se for zero, ambos estão na mesma distância da meta.
+             */
+            int diferencaEntreJogadores = Math.abs(j1.getPosicaoAtual() - posicaoFinalJogo) - Math.abs(j2.getPosicaoAtual() - posicaoFinalJogo);
+
+            //  Caso existam 2 ou mais jogadores na mesma casa, vence o jogador com o ‘id’ mais baixo
+            return diferencaEntreJogadores != 0 ? diferencaEntreJogadores : j1.getId() - j2.getId();
+        });
 
         ArrayList<String> resultados = new ArrayList<>();
 
-        if (jogadorAtual.getPosicaoAtual() == posicaoFinalJogo) {
-            for (Jogador jogador : jogadores) {
-                String nome = jogador.getNome();
-                String nomeEspecie = jogador.getEspecie().getNome();
-                int posicaoDeChegada = jogador.getPosicaoAtual();
-                int distancia = jogador.getNumeroPosicoesPercorridas();
-                int numAlimento = jogador.getNumeroAlimento();
+        int posicaoChegada = 1;
+        for (Jogador jogador : jogadoresEmJogo) {
+            String nome = jogador.getNome();
+            String nomeEspecie = jogador.getEspecie().getNome();
+            int posicaoAtual = jogador.getPosicaoAtual();
+            int distancia = jogador.getNumeroPosicoesPercorridas();
+            int numAlimento = jogador.getNumeroAlimento();
 
-                resultados.add("#" + (jogadores.indexOf(jogador) + 1) + " " + nome + ", " + nomeEspecie
-                        + ", " + posicaoDeChegada + ", " + distancia + ", " + numAlimento);
-            }
+            resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                    + ", " + distancia + ", " + numAlimento);
 
-        } else {
+            posicaoChegada++;
+        }
 
-            for (Jogador jogador : jogadores) {
-                String nome = jogador.getNome();
-                String nomeEspecie = jogador.getEspecie().getNome();
-                int posicaoDeChegada = jogador.getPosicaoAtual();
-                int distancia = jogador.getNumeroPosicoesPercorridas();
-                int numAlimento = jogador.getNumeroAlimento();
+        // Adicionar jogadores sem energia ao final da lista de resultados
+        for (Jogador jogador : jogadoresSemEnergia) {
+            String nome = jogador.getNome();
+            String nomeEspecie = jogador.getEspecie().getNome();
+            int posicaoAtual = jogador.getPosicaoAtual();
+            int distancia = jogador.getNumeroPosicoesPercorridas();
+            int numAlimento = jogador.getNumeroAlimento();
 
-                resultados.add("#" + (jogadores.indexOf(jogador) + 1) + " " + nome + ", " + nomeEspecie
-                        + ", " + posicaoDeChegada + ", " + distancia + ", " + numAlimento);
-            }
+            resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                    + ", " + distancia + ", " + numAlimento);
+
+            posicaoChegada++;
         }
 
         return resultados;
@@ -628,6 +676,38 @@ public class GameManager {
 
     public boolean loadGame(File file) {
         return false;
+    }
+
+    /*
+    private List<Jogador> obterJogadoresNaMesmaCasa(int posicao) {
+        List<Jogador> jogadoresNaMesmaCasa = new ArrayList<>();
+
+        for (Jogador jogador : jogadores) {
+            if (jogador.getPosicaoAtual() == posicao) {
+                jogadoresNaMesmaCasa.add(jogador);
+            }
+        }
+
+        return jogadoresNaMesmaCasa;
+    }
+     */
+
+    public Jogador getJogadorMaisProximoDaMeta() {
+        int meta = posicaoFinalJogo - 1;
+        int menorDistancia = meta;
+        Jogador jogadorMaisProximoDaMeta = null;
+
+        // Calcular a distância entre os jogadores e a posição final do jogo
+        for (Jogador jogador : jogadores) {
+            int distancia = Math.abs(meta - jogador.getPosicaoAtual());
+
+            if (distancia < menorDistancia) {
+                menorDistancia = distancia;
+                jogadorMaisProximoDaMeta = jogador;
+            }
+        }
+
+        return jogadorMaisProximoDaMeta;
     }
 
     public String verificarConsumoDeAlimento(int posicao) {
@@ -701,7 +781,7 @@ public class GameManager {
         };
     }
 
-    private void verificarSeRecuouFicouAvancou(int nrSquares, int energiaAtual, int consumoEnergia, int ganhoEnergia) {
+    public void verificarSeRecuouFicouAvancou(int nrSquares, int energiaAtual, int consumoEnergia, int ganhoEnergia) {
         String especieID = jogadorAtual.getEspecie().getId();
 
         switch (especieID) {
@@ -714,12 +794,9 @@ public class GameManager {
                 if (nrSquares != 0) {
                     // O jogador avançou ou recou
                     jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - consumoEnergia);
-                    jogadorAvancou = true;
-                    jogadorRecuou = true;
                 } else {
                     // O jogador ficou no mesmo lugar
                     jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual + ganhoEnergia);
-                    jogadorFicou = true;
                 }
                 break;
             default:
@@ -729,9 +806,6 @@ public class GameManager {
 
     public void incrementarTurno() {
         turnoAtual++;
-
-        //System.out.println();
-        // System.out.println("> turno atual: " + turnoAtual);
     }
 
     public void incrementarReset() {
@@ -740,10 +814,6 @@ public class GameManager {
         alimentos = new ArrayList<>(); // reset da lista de alimentos
         jogadorAtual = null; // reset do jogadorAtual
         idJogadoresEmJogo = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores no início do jogo
-
-        jogadorRecuou = false;
-        jogadorFicou = false;
-        jogadorAvancou = false;
 
         casaPartida = 1; // reset casa partida de todos os jogadores
         turnoAtual = 0; // reset do turno atual do jogo.

@@ -11,6 +11,7 @@ public class Jogador {
     private int posicaoAtual;
     private int numeroPosicoesPercorridas;
     private int numeroAlimento;
+    private int numJogadoresEmJogo;
     private Especie especie;
     private int manterEnergia;
     private boolean consumiuCachoDeBanana;
@@ -210,12 +211,24 @@ public class Jogador {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getNome() {
         return nome;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public String getIdEspecie() {
         return idEspecie;
+    }
+
+    public void setIdEspecie(String idEspecie) {
+        this.idEspecie = idEspecie;
     }
 
     public int getPosicaoAtual() {
@@ -256,6 +269,14 @@ public class Jogador {
 
     public void contarNumAlimentoApanhado(int numeroAlimento) {
         this.numeroAlimento += numeroAlimento;
+    }
+
+    public int getNumJogadoresEmJogo() {
+        return numJogadoresEmJogo;
+    }
+
+    public void saberNumJogadoresEmJogo(int numJogadoresEmJogo) {
+        this.numJogadoresEmJogo = numJogadoresEmJogo;
     }
 
     @Override
