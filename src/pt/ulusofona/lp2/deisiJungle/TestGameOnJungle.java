@@ -6,8 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TestGameOnJungle {
 
@@ -225,7 +224,7 @@ public class TestGameOnJungle {
 
 
     @Test
-    public void testGetWinnerInfo_TodosJogadoresSemEnergia() throws InvalidInitialJungleException {
+    public void testGetWinnerInfo_NoEnergy_NoLonger_A_Tie() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
 
         String[][] playerInfo = new String[3][3];
@@ -255,15 +254,14 @@ public class TestGameOnJungle {
         jogador2.getEspecie().setEnergiaInicial(0);
         jogador2.setPosicaoAtual(4);
 
-        // Jogador3
+        // Jogador 3
         Jogador jogador3 = jogadores.get(2);
         jogador3.getEspecie().setEnergiaInicial(0);
         jogador3.setPosicaoAtual(3);
 
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
 
-        assertNotNull(infoJogadorVencedor);
-        assertEquals("[#1 Sara, Tartaruga, 4, 0, 0, #2 Joaquin, Tarzan, 3, 0, 0, #3 Pedro, Elefante, 1, 0, 0]",
-                Arrays.toString(gameOnJungle.getGameResults().toArray()));
+        assertNull(infoJogadorVencedor); // Espera-se que seja null, pois não há vencedor quando todos estão sem energia.
     }
+
 }

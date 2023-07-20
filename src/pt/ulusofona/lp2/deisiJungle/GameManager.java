@@ -570,13 +570,15 @@ public class GameManager {
         }
 
         if (todosSemEnergia) {
-            Jogador vencedorPelaDistancia = getJogadorMaisProximoDaMeta();
-            if (vencedorPelaDistancia != null) {
-                infoJogadorVencedor[0] = String.valueOf(vencedorPelaDistancia.getId());
-                infoJogadorVencedor[1] = vencedorPelaDistancia.getNome();
-                infoJogadorVencedor[2] = vencedorPelaDistancia.getIdEspecie();
-                infoJogadorVencedor[3] = String.valueOf(vencedorPelaDistancia.getEspecie().getEnergiaInicial());
-                return infoJogadorVencedor;
+            // Verificar se algum jogador chegou à posição final
+            for (Jogador jogador : jogadores) {
+                if (jogador.getPosicaoAtual() == posicaoFinalJogo) {
+                    infoJogadorVencedor[0] = String.valueOf(jogador.getId());
+                    infoJogadorVencedor[1] = jogador.getNome();
+                    infoJogadorVencedor[2] = jogador.getIdEspecie();
+                    infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
+                    return infoJogadorVencedor;
+                }
             }
         }
 
