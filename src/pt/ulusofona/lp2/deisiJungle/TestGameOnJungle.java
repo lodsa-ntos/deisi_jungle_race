@@ -264,4 +264,98 @@ public class TestGameOnJungle {
         assertNull(infoJogadorVencedor);
     }
 
+    @Test
+    public void testMoveCurrentPlayer_NoEnergy() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[3][3];
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Pedro";
+        playerInfo[0][2] = "E";
+
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Sara";
+        playerInfo[1][2] = "T";
+
+        playerInfo[2][0] = "3";
+        playerInfo[2][1] = "Joaquin";
+        playerInfo[2][2] = "Z";
+
+        gameOnJungle.createInitialJungle(12, playerInfo);
+
+        List<Jogador> jogadores = gameOnJungle.jogadores;
+
+        // Jogador 1
+        Jogador jogador1 = jogadores.get(0);
+        jogador1.getEspecie().setEnergiaInicial(0);
+        jogador1.setPosicaoAtual(1);
+
+        // Jogador 2
+        Jogador jogador2 = jogadores.get(1);
+        jogador2.getEspecie().setEnergiaInicial(0);
+        jogador2.setPosicaoAtual(4);
+
+        // Jogador 3
+        Jogador jogador3 = jogadores.get(2);
+        jogador3.getEspecie().setEnergiaInicial(0);
+        jogador3.setPosicaoAtual(3);
+
+        // Tentar mover o jogador para 6 casas à frente, mas ele não tem energia suficiente
+        MovementResult resultadoMovimento = gameOnJungle.moveCurrentPlayer(6, false);
+
+        // Verificar se o resultado é NO_ENERGY
+        assertEquals(MovementResultCode.NO_ENERGY, resultadoMovimento.code());
+    }
+
+    @Test
+    public void test_011_NoEnergy_NoLonger_Terminates_Game() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[3][3];
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Pedro";
+        playerInfo[0][2] = "E";
+
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Sara";
+        playerInfo[1][2] = "T";
+
+        playerInfo[2][0] = "3";
+        playerInfo[2][1] = "Joaquin";
+        playerInfo[2][2] = "Z";
+
+        gameOnJungle.createInitialJungle(6, playerInfo);
+
+        List<Jogador> jogadores = gameOnJungle.jogadores;
+
+        // Definir energia inicial para 0 para os dois primeiros jogadores
+        // Jogador 1
+        Jogador jogador1 = jogadores.get(0);
+        jogador1.getEspecie().setEnergiaInicial(0);
+        jogador1.setPosicaoAtual(1);
+
+        // Jogador 2
+        Jogador jogador2 = jogadores.get(1);
+        jogador2.getEspecie().setEnergiaInicial(0);
+        jogador2.setPosicaoAtual(4);
+
+        // Jogador 3
+        Jogador jogador3 = jogadores.get(2);
+        jogador3.getEspecie().setEnergiaInicial(14);
+        jogador3.setPosicaoAtual(3);
+
+        // Tentar fazer um movimento com o jogador Pedro, que não tem energia suficiente
+        MovementResult resultPedro = gameOnJungle.moveCurrentPlayer(2, false);
+        assertEquals(MovementResultCode.NO_ENERGY, resultPedro.code());
+
+        // Tentar fazer um movimento com a jogadora Sara, que não tem energia suficiente
+        MovementResult resultSara = gameOnJungle.moveCurrentPlayer(1, false);
+        assertEquals(MovementResultCode.NO_ENERGY, resultSara.code());
+
+        // Tentar fazer um movimento com o jogador Joaquin, que tem energia suficiente
+        MovementResult resultJoaquin = gameOnJungle.moveCurrentPlayer(3, false);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, resultJoaquin.code());
+    }
+
+
 }
