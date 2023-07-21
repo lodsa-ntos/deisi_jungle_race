@@ -352,4 +352,60 @@ public class TestGameOnJungle {
         MovementResult resultJoaquin = gameOnJungle.moveCurrentPlayer(3, false);
         assertEquals(MovementResultCode.VALID_MOVEMENT, resultJoaquin.code());
     }
+
+    @Test
+    public void testConsumo_AlimentacaoDoLeao1() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[2][3];
+
+        // Alimentos
+        foodInfo[0][0] = "c";
+        foodInfo[0][1] = "5";
+
+        foodInfo[1][0] = "c";
+        foodInfo[1][1] = "6";
+
+        // Jogadores
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Leão";
+        playerInfo[0][2] = "L";
+
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Mowgli";
+        playerInfo[1][2] = "L";
+
+        // Adicionar jogadores
+        gameOnJungle.createInitialJungle(10, playerInfo, foodInfo);
+
+        List<Jogador> jogadores = gameOnJungle.jogadores;
+
+        // Jogador 1
+        Jogador jogador1 = jogadores.get(0);
+        jogador1.getEspecie().setEnergiaInicial(74);
+        jogador1.setPosicaoAtual(1);
+
+        // Jogador 2
+        Jogador jogador2 = jogadores.get(1);
+        jogador2.getEspecie().setEnergiaInicial(80);
+        jogador2.setPosicaoAtual(1);
+
+        // Fazer um movimento com o jogador Leão
+        MovementResult resultPedro = gameOnJungle.moveCurrentPlayer(4, false);
+        assertEquals(MovementResultCode.CAUGHT_FOOD, resultPedro.code());
+
+        // Fazer um movimento com o jogador Mowgli
+        MovementResult resultSara = gameOnJungle.moveCurrentPlayer(5, false);
+        assertEquals(MovementResultCode.CAUGHT_FOOD, resultSara.code());
+
+        // Verificar se a energia de Leão está correta
+        int energiaEsperadaJogadorLeao1 = 122;
+        int energiaAtual = jogador1.getEspecie().getEnergiaInicial();
+        int energiaEsperadaJogadorLeao2 = 128;
+        int energiaAtual2 = jogador2.getEspecie().getEnergiaInicial();
+
+        assertEquals(energiaEsperadaJogadorLeao1, energiaAtual);
+        assertEquals(energiaEsperadaJogadorLeao2, energiaAtual2);
+    }
 }
