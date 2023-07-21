@@ -175,14 +175,10 @@ public class Carne extends Alimento {
                 deve mostrar “Carne toxica”
          */
 
-        if (isCarneToxica()) {
-
-            return "Carne toxica";
-
-        } else {
-
+        if (numroJogadasCarne <= 12) {
             return "Carne : + 50 energia : " + numroJogadasCarne + " jogadas";
-
+        } else {
+            return "Carne toxica";
         }
     }
 }
