@@ -280,16 +280,20 @@ public class GameManager {
         infoPosCaixasNoMapa[2] = "";
 
         for (Alimento alimento : alimentos) {
-
             int posicaoAlimento = alimento.getPosicaoAlimento();
             String idAlimento = alimento.getId();
             String mostrarToolTip = alimento.toolTip();
             String imagemAlimento = alimento.getImagem();
 
+            // Atualizar o valor de numeroJogadas se o alimento for do tipo "c" carne
+            if (idAlimento.equals("c")) {
+                int numeroJogadas = turnoAtual;
+                alimento.setNumroJogadasCarne(numeroJogadas);
+            }
+
             //TODO deve passar a retornar informação do alimento, quando nesse slot esteja algum alimento.
             // Mostrar uma tooltip quando se passa o rato por cima de um alimento
-            if (squareNr == posicaoAlimento) { // Até a posição dos alimentos
-
+            if (squareNr == posicaoAlimento) {
                 switch (idAlimento) {
                     case "e", "a", "b", "m", "c" -> infoPosCaixasNoMapa[1] = mostrarToolTip;
                 }
