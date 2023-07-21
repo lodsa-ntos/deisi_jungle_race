@@ -130,7 +130,7 @@ public class TestGameOnJungle {
 
         boolean jogadorExiste = false;
 
-        for (String[] jogador: jogadores) {
+        for (String[] jogador : jogadores) {
             // Se contem o jogador com 1
             if (jogador[0].contains("1")) {
                 jogadorExiste = true;
@@ -141,7 +141,6 @@ public class TestGameOnJungle {
 
         assertTrue("A função getPlayersInfo() não devolveu o jogador com ID=1", jogadorExiste);
     }
-
 
     @Test
     public void testGetWinnerInfo_PrimeiroChegarNaMeta() throws InvalidInitialJungleException {
@@ -177,7 +176,6 @@ public class TestGameOnJungle {
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
 
     }
-
 
     @Test
     public void testGetWinnerInfo_ApenasUmJogadorSemEnergia() throws InvalidInitialJungleException {
@@ -221,7 +219,6 @@ public class TestGameOnJungle {
         assertEquals("[#1 Sara, Tartaruga, 6, 0, 0, #2 Joaquin, Tarzan, 3, 0, 0, #3 Pedro, Elefante, 1, 0, 0]",
                 gameOnJungle.getGameResults().toString());
     }
-
 
     @Test
     public void testGetWinnerInfo_NoEnergy_NoLonger_A_Tie() throws InvalidInitialJungleException {

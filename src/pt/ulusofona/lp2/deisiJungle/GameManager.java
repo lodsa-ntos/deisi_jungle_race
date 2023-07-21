@@ -217,6 +217,8 @@ public class GameManager {
     }
 
     public void createInitialJungle(int jungleSize, String[][] playersInfo) throws InvalidInitialJungleException {
+        // Cada vez que o jogo é criado o programa vai fazer a reinicialização das variaveis para o valor inicial
+        incrementarReset();
         String[][] foodsInfo = new String[0][2];
         createInitialJungle(jungleSize, playersInfo, foodsInfo);
     }
