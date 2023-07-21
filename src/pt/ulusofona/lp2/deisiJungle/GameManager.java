@@ -586,10 +586,10 @@ public class GameManager {
             int distanciaEntreJogadores = Math.abs(primeiroJogador.getPosicaoAtual() - segundoJogador.getPosicaoAtual());
 
             if (distanciaEntreJogadores > metadeDoMapa) {
-                infoJogadorVencedor[0] = String.valueOf(segundoJogador.getId());
-                infoJogadorVencedor[1] = segundoJogador.getNome();
-                infoJogadorVencedor[2] = segundoJogador.getIdEspecie();
-                infoJogadorVencedor[3] = String.valueOf(segundoJogador.getEspecie().getEnergiaInicial());
+                infoJogadorVencedor[0] = String.valueOf(primeiroJogador.getId());
+                infoJogadorVencedor[1] = primeiroJogador.getNome();
+                infoJogadorVencedor[2] = primeiroJogador.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(primeiroJogador.getEspecie().getEnergiaInicial());
                 return infoJogadorVencedor;
             }
         }
