@@ -217,8 +217,6 @@ public class GameManager {
     }
 
     public void createInitialJungle(int jungleSize, String[][] playersInfo) throws InvalidInitialJungleException {
-        // Cada vez que o jogo é criado o programa vai fazer a reinicialização das variaveis para o valor inicial
-        incrementarReset();
         String[][] foodsInfo = new String[0][2];
         createInitialJungle(jungleSize, playersInfo, foodsInfo);
     }
@@ -557,18 +555,56 @@ public class GameManager {
             Nesse caso o vencedor é o jogador que está mais próximo da meta. Caso existam 2 ou
             mais jogadores na mesma casa, vence o jogador com o ‘id’ mais baixo
             ● A distância entre o jogador mais perto da meta e o segundo jogador mais perto da meta
-              é superior à metade do tamanho do mapa. Neste caso, ganha o segundo jogador mais perto da meta.
-
-            Qual a distância que viajou? Isto é, quantas posições se movimentou até ao final do
-            jogo. Este número não é necessariamente igual à posição a que chegou, pois, pode ter
-            recuado.
-
-            A distância entre o jogador mais perto da meta e o segundo jogador mais perto da meta
-            é superior à metade do tamanho do mapa. Neste caso, ganha o segundo jogador mais
-            perto da meta.
+            é superior à metade do tamanho do mapa. Neste caso, ganha o segundo jogador mais perto da meta.
          */
 
         String[] infoJogadorVencedor = new String[4];
+
+        // Se algum jogador chegou à posição final do jogo mostrar a info do jopgador vencedor
+        for (Jogador jogador : jogadores) {
+            // Verificar se algum jogador chegou à posição final
+            if (jogador.getPosicaoAtual() == posicaoFinalJogo) {
+                infoJogadorVencedor[0] = String.valueOf(jogador.getId());
+                infoJogadorVencedor[1] = jogador.getNome();
+                infoJogadorVencedor[2] = jogador.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
+                return infoJogadorVencedor;
+            }
+
+            // Se nenhum jogador chegou à meta e existe uma grande distância entre os jogadores
+            if (existeGrandeDistanciaEntreJogadores()) {
+                Jogador vencedor = getJogadorMaisProximoDaMeta();
+                infoJogadorVencedor[0] = String.valueOf(vencedor.getId());
+                infoJogadorVencedor[1] = vencedor.getNome();
+                infoJogadorVencedor[2] = vencedor.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(vencedor.getEspecie().getEnergiaInicial());
+                return infoJogadorVencedor;
+            }
+        }
+
+        // Verificar se existe uma grande distância entre os jogadores
+        Jogador primeiroJogador = jogadores.stream()
+                .max(Comparator.comparing(Jogador::getPosicaoAtual))
+                .orElse(null);
+
+        Jogador segundoJogador = jogadores.stream()
+                .filter(i -> i != primeiroJogador) // garantir que o segundo jogador selecionado não será igual ao primeiro
+                .max(Comparator.comparing(Jogador::getPosicaoAtual))
+                .orElse(null); // se não houver mais nenhum jogador mais próximo da meta = null
+
+        if (primeiroJogador != null && segundoJogador != null) {
+
+            int distanciaEntreJogadores = Math.abs(primeiroJogador.getPosicaoAtual() - segundoJogador.getPosicaoAtual());
+            int metadeDoMapa = posicaoFinalJogo / 2;
+
+            if (distanciaEntreJogadores > metadeDoMapa) {
+                infoJogadorVencedor[0] = String.valueOf(segundoJogador.getId());
+                infoJogadorVencedor[1] = segundoJogador.getNome();
+                infoJogadorVencedor[2] = segundoJogador.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(segundoJogador.getEspecie().getEnergiaInicial());
+                return infoJogadorVencedor;
+            }
+        }
 
         boolean todosSemEnergia = true;
         for (Jogador jogador : jogadores) {
@@ -588,17 +624,6 @@ public class GameManager {
                     infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
                     return infoJogadorVencedor;
                 }
-            }
-        }
-
-        // Se algum jogador chegou à posição final do jogo mostrar a info do jopgador vencedor
-        for (Jogador jogador : jogadores) {
-            if (jogador.getPosicaoAtual() == posicaoFinalJogo) {
-                infoJogadorVencedor[0] = String.valueOf(jogador.getId());
-                infoJogadorVencedor[1] = jogador.getNome();
-                infoJogadorVencedor[2] = jogador.getIdEspecie();
-                infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
-                return infoJogadorVencedor;
             }
         }
 
@@ -690,21 +715,33 @@ public class GameManager {
     }
 
 
-    /*
-    private List<Jogador> obterJogadoresNaMesmaCasa(int posicao) {
-        List<Jogador> jogadoresNaMesmaCasa = new ArrayList<>();
+    /**
+    ------------------------------------------------Novas Funções---------------------------------------------
+    */
 
+    public boolean existeGrandeDistanciaEntreJogadores() {
+        int menorDistancia = Integer.MAX_VALUE;
+        int segundoMenorDistancia = Integer.MAX_VALUE;
+
+        // Verificar as duas menores distâncias entre os jogadores e a posição final do jogo
         for (Jogador jogador : jogadores) {
-            if (jogador.getPosicaoAtual() == posicao) {
-                jogadoresNaMesmaCasa.add(jogador);
+            int distancia = Math.abs(posicaoFinalJogo - jogador.getPosicaoAtual());
+
+            if (distancia < menorDistancia) {
+                segundoMenorDistancia = menorDistancia;
+                menorDistancia = distancia;
+            } else if (distancia < segundoMenorDistancia) {
+                segundoMenorDistancia = distancia;
             }
         }
 
-        return jogadoresNaMesmaCasa;
-    }
-     */
+        int metadeDaMeta = posicaoFinalJogo / 2;
+        int distanciaEntreJogadores = (segundoMenorDistancia - menorDistancia);
 
-    /*
+        // Verificar se a distância entre os jogadores é maior que a metade do tamanho do mapa
+        return distanciaEntreJogadores > metadeDaMeta;
+    }
+
     public Jogador getJogadorMaisProximoDaMeta() {
         int meta = posicaoFinalJogo - 1;
         int menorDistancia = meta;
@@ -722,7 +759,6 @@ public class GameManager {
 
         return jogadorMaisProximoDaMeta;
     }
-     */
 
     public String verificarConsumoDeAlimento(int posicao) {
         for (Alimento alimento : alimentos) {

@@ -325,7 +325,6 @@ public class TestGameOnJungle {
 
         List<Jogador> jogadores = gameOnJungle.jogadores;
 
-        // Definir energia inicial para 0 para os dois primeiros jogadores
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
         jogador1.getEspecie().setEnergiaInicial(0);
