@@ -10,7 +10,7 @@ public class Elefante extends Especie {
         this.imagem = "elephant.png";
         this.tipoAlimentacaoDaEspecie = "herbívoro";
         this.energiaInicial = 180;
-        this.consumoEnergia = 4;
+        this.consumoEnergia = 1;
         this.ganhoEnergiaDescanso = 10;
         this.velocidadeMinima = 1;
         this.velocidadeMaxima = 6;
