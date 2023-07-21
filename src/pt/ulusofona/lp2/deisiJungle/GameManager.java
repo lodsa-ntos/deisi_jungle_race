@@ -546,18 +546,9 @@ public class GameManager {
     }
 
     public String[] getWinnerInfo() {
-        /*
-        Caso o jogo tenha terminado, deve devolver informação do jogador que ganhou o jogo, no
-        mesmo formato devolvido pela função getPlayerInfo. Caso o jogo ainda não tenha terminado, deve retornar null.
-
-        — O jogo termina quando for atingida uma das seguintes condições:
-            ● Todos os jogadores ficaram impossibilitados de se movimentarem por falta de energia.
-            Nesse caso o vencedor é o jogador que está mais próximo da meta. Caso existam 2 ou
-            mais jogadores na mesma casa, vence o jogador com o ‘id’ mais baixo
-            ● A distância entre o jogador mais perto da meta e o segundo jogador mais perto da meta
-            é superior à metade do tamanho do mapa. Neste caso, ganha o segundo jogador mais perto da meta.
-         */
-
+        Jogador primeiroJogador = null;
+        Jogador segundoJogador = null;
+        int metadeDoMapa = posicaoFinalJogo / 2;
         String[] infoJogadorVencedor = new String[4];
 
         // Se algum jogador chegou à posição final do jogo mostrar a info do jopgador vencedor
@@ -582,20 +573,17 @@ public class GameManager {
             }
         }
 
-        // Verificar se existe uma grande distância entre os jogadores
-        Jogador primeiroJogador = jogadores.stream()
-                .max(Comparator.comparing(Jogador::getPosicaoAtual))
-                .orElse(null);
-
-        Jogador segundoJogador = jogadores.stream()
-                .filter(i -> i != primeiroJogador) // garantir que o segundo jogador selecionado não será igual ao primeiro
-                .max(Comparator.comparing(Jogador::getPosicaoAtual))
-                .orElse(null); // se não houver mais nenhum jogador mais próximo da meta = null
+        for (Jogador jogador : jogadores) {
+            if (primeiroJogador == null || jogador.getPosicaoAtual() > primeiroJogador.getPosicaoAtual()) {
+                segundoJogador = primeiroJogador;
+                primeiroJogador = jogador;
+            } else if (segundoJogador == null || jogador.getPosicaoAtual() > segundoJogador.getPosicaoAtual()) {
+                segundoJogador = jogador;
+            }
+        }
 
         if (primeiroJogador != null && segundoJogador != null) {
-
             int distanciaEntreJogadores = Math.abs(primeiroJogador.getPosicaoAtual() - segundoJogador.getPosicaoAtual());
-            int metadeDoMapa = posicaoFinalJogo / 2;
 
             if (distanciaEntreJogadores > metadeDoMapa) {
                 infoJogadorVencedor[0] = String.valueOf(segundoJogador.getId());
