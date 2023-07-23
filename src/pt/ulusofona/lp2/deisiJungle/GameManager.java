@@ -287,8 +287,7 @@ public class GameManager {
 
             // Atualizar o valor de numeroJogadas se o alimento for do tipo "c" carne
             if (idAlimento.equals("c")) {
-                int numeroJogadas = turnoAtual;
-                alimento.setNumroJogadasCarne(numeroJogadas);
+                alimento.setNumroJogadasCarne(turnoAtual);
             }
 
             //TODO deve passar a retornar informação do alimento, quando nesse slot esteja algum alimento.
