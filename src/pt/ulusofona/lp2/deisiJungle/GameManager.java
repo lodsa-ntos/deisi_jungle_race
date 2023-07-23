@@ -23,7 +23,7 @@ public class GameManager {
     Jogador jogadorAtual;
     int posicaoFinalJogo;
     int casaPartida;
-    int turnoAtual;
+    int turnoAtual = 1;
 
     public GameManager() {}
 
