@@ -43,7 +43,6 @@ public abstract class Especie {
         }
     }
 
-
     public abstract String getId();
 
     public abstract void setId(String id);

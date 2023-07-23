@@ -418,16 +418,16 @@ public class GameManager {
 
         // Math.abs(nrPositions) se sair um valor negativo, modificar para positivo
 
-        //jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
-
+        // Atualizar o turno e o jogador atual a se movimentar
+        jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
         int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrPositions);
         int ganhoEnergiaDescanso = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
-
         infoEnergia[0] = String.valueOf(consumoEnergia);
         infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);
 
         //System.out.println(consumoEnergia);
         //System.out.println(Arrays.toString(infoEnergia));
+
 
         return infoEnergia;
     }
@@ -461,13 +461,13 @@ public class GameManager {
         int novaPosicaoJogador = casaAtual + nrSquares; // A + M
         int energiaAtual = jogadorAtual.getEspecie().getEnergiaInicial();
         int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia();
-        int ganhoEnergia = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
 
         // Se decidir ficar na posição
         if (nrSquares == 0) {
 
-            // Verificar se o jogador recuou, ficou ou avançou
-            verificarSeRecuouFicouAvancou(nrSquares, energiaAtual, consumoEnergia, ganhoEnergia);
+            // Aumentar o ganhoEnergia se decidir ficar na posição
+            limitarEnergia(false, true, jogadorAtual.getEspecie().getGanhoEnergiaDescanso());
+            //verificarSeRecuouFicouAvancou(nrSquares, energiaAtual, consumoEnergia, ganhoEnergia);
 
             // Atualizar o turno
             incrementarTurno();
@@ -523,11 +523,13 @@ public class GameManager {
 
         // Movimento do jogador para a casa A + M
         jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
+
         jogadorAtual.setNumeroPosicoesPercorridas(Math.abs(nrSquares));
+        //limitarEnergia(true, false, jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrSquares));
         System.out.println(jogadorAtual.toString());
 
         // Verificar se o jogador recuou, ficou ou avançou
-        verificarSeRecuouFicouAvancou(nrSquares, energiaAtual, consumoEnergia, ganhoEnergia);
+        verificarSeRecuouEAvancou(nrSquares, energiaAtual, consumoEnergia);
 
         // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
         if (energiaAtual < consumoEnergia * Math.abs(nrSquares)) {
@@ -708,7 +710,6 @@ public class GameManager {
         return false;
     }
 
-
     /**
     ------------------------------------------------Novas Funções---------------------------------------------
     */
@@ -760,48 +761,34 @@ public class GameManager {
                 String idAlimento = alimento.getId();
                 String tipoAlimentacao = jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie();
 
-                // Verificar se o jogador é um unicórnio
-                if (jogadorAtual.getEspecie().getId().equals("U")) {
-                    // Se o jogador é um unicórnio e o alimento é água, ignorar o efeito da água
-                    if (idAlimento.equals("a")) {
-                        return null;
-                    }
+                // Verificar se o jogador é um unicórnio e o alimento é água
+                if (jogadorAtual.getEspecie().getId().equals("U") && idAlimento.equals("a")) {
+                    return null;
                 }
 
-                switch (idAlimento) {
-                    case "e" -> { // ERVA
-                        if (tipoAlimentacao.equals("herbívoro") || tipoAlimentacao.equals("omnívoro")) {
+                int alteracaoEnergia = switch (idAlimento) {
+                    case "e" -> // ERVA
                             jogadorAtual.consumirErva(tipoAlimentacao, jogadorAtual, alimento);
-                            return alimento.getNome();
-                        } else if (tipoAlimentacao.equals("carnívoro")) {
-                            jogadorAtual.consumirErva(tipoAlimentacao, jogadorAtual, alimento);
-                            return alimento.getNome();
-                        }
-                    }
-                    case "a" -> { // ÁGUA
-                        if (tipoAlimentacao.equals("carnívoro") || tipoAlimentacao.equals("herbívoro")) {
+                    case "a" -> // ÁGUA
                             jogadorAtual.consumirAgua(tipoAlimentacao, jogadorAtual, alimento);
-                            return alimento.getNome();
-                        } else if (tipoAlimentacao.equals("omnívoro")) {
-                            jogadorAtual.consumirAgua(tipoAlimentacao, jogadorAtual, alimento);
-                            return alimento.getNome();
-                        }
-                    }
-                    case "b" -> { // BANANA
-                        jogadorAtual.consumirBanana(tipoAlimentacao, jogadorAtual, alimento);
-                        return alimento.getNome();
-                    }
-                    case "c" -> { // CARNE
-                        if (tipoAlimentacao.equals("carnívoro") || tipoAlimentacao.equals("omnívoro")) {
+                    case "b" -> // BANANA
+                            jogadorAtual.consumirBanana(tipoAlimentacao, jogadorAtual, alimento);
+                    case "c" -> // CARNE
                             jogadorAtual.consumirCarne(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
-                            return alimento.getNome();
-                        }
-                    }
-                    case "m" -> { // COGUMELO MÁGICO
-                        jogadorAtual.consumirCogumeloMagico(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
-                        return alimento.getNome();
-                    }
+                    case "m" -> // COGUMELO MÁGICO
+                            jogadorAtual.consumirCogumeloMagico(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
+                    default -> 0;
+                };
+
+                // Se o valor após consumir algum alimento for acima de zero ou igual (agua) aumenta...
+                // ...o ganho de energia após consumir o alimento
+                if (alteracaoEnergia >= 0) {
+                    limitarEnergia(false, true, alteracaoEnergia);
+                    // Se não diminui o ganho de energia dependendo da espécie.
+                } else {
+                    limitarEnergia(true, false, alteracaoEnergia);
                 }
+                return alimento.getNome();
             }
         }
         return null;
@@ -825,27 +812,32 @@ public class GameManager {
         };
     }
 
-    public void verificarSeRecuouFicouAvancou(int nrSquares, int energiaAtual, int consumoEnergia, int ganhoEnergia) {
-        String especieID = jogadorAtual.getEspecie().getId();
-
-        switch (especieID) {
-            case "E":
-            case "L":
-            case "T":
-            case "P":
-            case "Z":
-            case "U":
-                if (nrSquares != 0) {
-                    // O jogador avançou ou recou
-                    jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - consumoEnergia);
-                } else {
-                    // O jogador ficou no mesmo lugar
-                    jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual + ganhoEnergia);
-                }
-                break;
-            default:
-                break;
+    public void verificarSeRecuouEAvancou(int nrSquares, int energiaAtual, int consumoEnergia) {
+        if (nrSquares != 0) {
+            // O jogador avançou ou recuou
+            jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares)));
         }
+    }
+
+    public void limitarEnergia(boolean avancou, boolean ficou, int valorAlteracaoEnergia) {
+        /*
+        A energia de qualquer jogador nunca pode ultrapassar os 200, seja por descansar, seja
+        por efeito de alimentos. Caso isso aconteça, a energia mantém-se nos 200.
+         */
+        int limiteEnergia = 200;
+
+        int novaEnergia = jogadorAtual.getEspecie().getEnergiaInicial();
+
+        if (avancou) {
+            novaEnergia -= Math.abs(valorAlteracaoEnergia);
+            novaEnergia = Math.max(novaEnergia, 0); // Garantir que a energia não fica negativa
+
+        } else if (ficou) {
+            novaEnergia += valorAlteracaoEnergia;
+            novaEnergia = Math.min(novaEnergia, limiteEnergia); // Garantir que a energia não ultrapassa o limite
+        }
+
+        jogadorAtual.getEspecie().setEnergiaInicial(novaEnergia);
     }
 
     public void incrementarTurno() {

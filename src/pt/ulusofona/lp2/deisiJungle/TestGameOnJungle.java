@@ -1,5 +1,6 @@
 package pt.ulusofona.lp2.deisiJungle;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -400,12 +401,81 @@ public class TestGameOnJungle {
         assertEquals(MovementResultCode.CAUGHT_FOOD, resultSara.code());
 
         // Verificar se a energia de Leão está correta
-        int energiaEsperadaJogadorLeao1 = 122;
+        int energiaEsperadaJogadorLeao1 = 116;
         int energiaAtual = jogador1.getEspecie().getEnergiaInicial();
-        int energiaEsperadaJogadorLeao2 = 128;
+        int energiaEsperadaJogadorLeao2 = 120;
         int energiaAtual2 = jogador2.getEspecie().getEnergiaInicial();
 
         assertEquals(energiaEsperadaJogadorLeao1, energiaAtual);
         assertEquals(energiaEsperadaJogadorLeao2, energiaAtual2);
+    }
+
+    @Test
+    public void testConsumoEnergia1() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[2][3];
+
+        // Alimentos
+        foodInfo[0][0] = "e";
+        foodInfo[0][1] = "5";
+
+        foodInfo[1][0] = "e";
+        foodInfo[1][1] = "6";
+
+        // Jogadores
+        playerInfo[0][0] = "3";
+        playerInfo[0][1] = "Balu";
+        playerInfo[0][2] = "Z";
+
+        // Jogador turno atual = 0
+        playerInfo[1][0] = "1";
+        playerInfo[1][1] = "Mowgli";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        String[] infoEnergia = gameOnJungle.getCurrentPlayerEnergyInfo(20);
+        Assert.assertEquals("[40, 10]", Arrays.toString(infoEnergia));
+
+        infoEnergia = gameOnJungle.getCurrentPlayerEnergyInfo(12);
+        Assert.assertEquals("[24, 10]", Arrays.toString(infoEnergia));
+    }
+
+    @Test
+    public void testConsumoEnergia2() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[2][3];
+
+        // Alimentos
+        foodInfo[0][0] = "c";
+        foodInfo[0][1] = "5";
+
+        foodInfo[1][0] = "c";
+        foodInfo[1][1] = "6";
+
+        // Jogadores
+        // Jogador turno atual = 0
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Ranjan";
+        playerInfo[0][2] = "P";
+
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Mowgli";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        String[] infoEnergia = gameOnJungle.getCurrentPlayerEnergyInfo(20);
+        Assert.assertEquals("[80, 50]", Arrays.toString(infoEnergia));
+
+        infoEnergia = gameOnJungle.getCurrentPlayerEnergyInfo(14);
+        Assert.assertEquals("[56, 50]", Arrays.toString(infoEnergia));
+
+        infoEnergia = gameOnJungle.getCurrentPlayerEnergyInfo(4);
+        Assert.assertEquals("[16, 50]", Arrays.toString(infoEnergia));
     }
 }

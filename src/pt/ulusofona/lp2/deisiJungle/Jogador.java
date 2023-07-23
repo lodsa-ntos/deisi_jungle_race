@@ -59,45 +59,46 @@ public class Jogador {
     /**
      * Efeitos ao consumir Erva
      */
-    public void consumirErva(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento) {
+    public int consumirErva(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento) {
+        int alteracaoEnergia = 0;
 
         if (alimento.getId().equals("e")) {
             switch (tipoAlimentacaoEspecie) {
                 case "herbívoro", "omnívoro" -> {
-                    int aumentaEnergia = (jogador.getEspecie().getEnergiaInicial() + 40);
-                    jogador.getEspecie().setEnergiaInicial(aumentaEnergia);
-                    System.out.println(aumentaEnergia);
+                    alteracaoEnergia = 20;
                 }
                 case "carnívoro" -> {
-                    int diminuiEnergia = (jogador.getEspecie().getEnergiaInicial() - 40);
-                    jogador.getEspecie().setEnergiaInicial(diminuiEnergia);
+                    alteracaoEnergia = -20;
                 }
             }
         }
+        return alteracaoEnergia;
     }
 
     /**
      * Efeitos ao consumir Água
      */
-    public void consumirAgua(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento) {
+    public int consumirAgua(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento) {
+        int alteracaoEnergia = 0;
+
         if (alimento.getId().equals("a")) {
             switch (tipoAlimentacaoEspecie) {
                 case "carnívoro", "herbívoro" -> {
-                    int aumentaEnergia = (jogador.getEspecie().getEnergiaInicial() + 15);
-                    jogador.getEspecie().setEnergiaInicial(aumentaEnergia);
+                    alteracaoEnergia = 15;
                 }
                 case "omnívoro" -> {
-                    int diminuiEnergia = ((int) (jogador.getEspecie().getEnergiaInicial() * 0.20));
-                    jogador.getEspecie().setEnergiaInicial(diminuiEnergia);
+                    alteracaoEnergia = ((int) (jogador.getEspecie().getEnergiaInicial() * 0.20));
                 }
             }
         }
+        return alteracaoEnergia;
     }
 
     /**
      * Efeitos ao consumir bananas
      */
-    public void consumirBanana(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento) {
+    public int consumirBanana(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento) {
+        int alteracaoEnergia = 0;
 
         if (alimento.getId().equals("b")) {
             switch (tipoAlimentacaoEspecie) {
@@ -107,13 +108,11 @@ public class Jogador {
 
                     if (alimento.getNumeroBananasON() > 0 && !jogador.isConsumiuCachoDeBanana()) {
 
-                        if (alimento.getNumeroBananasON() <= 1) {
-                            int aumentaEnergia = (jogador.getEspecie().getEnergiaInicial() + 40);
-                            jogador.getEspecie().setEnergiaInicial(aumentaEnergia);
+                        if (alimento.getNumeroBananasON() <= 3) {
+                            alteracaoEnergia = 40;
 
                         } else {
-                            int diminuiEnergia = (jogador.getEspecie().getEnergiaInicial() - 40);
-                            jogador.getEspecie().setEnergiaInicial(diminuiEnergia);
+                            alteracaoEnergia = (-40);
                         }
                         alimento.setNumeroBananasON(alimento.getNumeroBananasON()-1);
 
@@ -122,89 +121,68 @@ public class Jogador {
             }
         }
 
+        return alteracaoEnergia;
     }
 
     /**
      * Efeitos ao consumir carne
      */
-    public void consumirCarne(String tipoAlimentacaoEspecie, Jogador jogador, int turnosRestantes, Alimento alimento) {
+    public int consumirCarne(String tipoAlimentacaoEspecie, Jogador jogador, int turnosRestantes, Alimento alimento) {
+        int alteracaoEnergia = 0;
 
         if (alimento.getId().equals("c")) {
             // Só é comestível nas primeiras 12 jogadas
             if (turnosRestantes <= 12) {
-
-                alimento.setNumroJogadasCarne(turnosRestantes);
-
                 // Se ingerido por carnívoros (ex: Leão) ou omnívoros (ex: Tarzan)...
                 switch (tipoAlimentacaoEspecie) {
                     case "carnívoro", "omnívoro" -> {
-                        int aumentaEnergia = (jogador.getEspecie().getEnergiaInicial() + 50);
                         // aumenta a energia em 50 unidades
-                        jogador.getEspecie().setEnergiaInicial(aumentaEnergia);
+                        alteracaoEnergia = 50;
                     }
-                    default ->
-                        // Os herbívoros ignoram esta comida, por isso não lhes acontece nada.
-                            jogador.manterEnergia(0);
                 }
-
             } else {
-
-                alimento.setNumroJogadasCarne(turnosRestantes);
-
-                // A partir daí é tóxica — se fôr ingerida, reduz para metade a energia do animal
+                // A partir daí é tóxica — se for ingerida, reduz para metade a energia do animal
                 alimento.setCarneToxica(true);
 
                 switch (tipoAlimentacaoEspecie) {
                     case "carnívoro", "omnívoro" -> {
-                        int diminuiEnergia = (jogador.getEspecie().getEnergiaInicial() / 2);
-                        jogador.getEspecie().setEnergiaInicial(jogador.getEspecie().getEnergiaInicial() - diminuiEnergia);
+                        int diminuiEnergia = jogador.getEspecie().getEnergiaInicial() / 2;
+                        alteracaoEnergia = -diminuiEnergia;
                     }
-                    default ->
-                        // Os herbívoros ignoram esta comida, por isso não lhes acontece nada.
-                            jogador.manterEnergia(0);
                 }
             }
         }
+        return alteracaoEnergia;
     }
+
 
     /**
      * Efeitos ao consumir cogumelos magicos
      */
-    public void consumirCogumeloMagico(String tipoAlimentacaoEspecie, Jogador jogador, int turnoCogumelo, Alimento alimento) {
+    public int consumirCogumeloMagico(String tipoAlimentacaoEspecie, Jogador jogador, int turnoCogumelo, Alimento alimento) {
+        int alteracaoEnergia = 0;
 
         if (alimento.getId().equals("m")) {
             // Todos os animais podem ingerir -> "carnívoro", "herbívoro", "omnívoro"
             switch (tipoAlimentacaoEspecie) {
-                case "carnívoro":
-                case "herbívoro":
-                case "omnívoro":
+                case "carnívoro", "herbívoro", "omnívoro" -> {
+                    int energiaJogador = jogador.getEspecie().getEnergiaInicial();
+                    float valorAlteracaoEnergia = (float) alimento.getNumeroAleatorioCog() / 100;
 
-                    // Se comerem o cogumelo nas jogadas pares
+                    // Se comerem o cogumelo nas jogadas pares, aumentam em N% a energia
                     if (turnoCogumelo % 2 == 0) {
+                        alteracaoEnergia = (int) (energiaJogador * valorAlteracaoEnergia);
 
-                        int energiaJogador = jogador.getEspecie().getEnergiaInicial();
-                        float aumentaEnergia = (float) alimento.getNumeroAleatorioCog() / 100;
-
-                        // os animais aumentam em N% a sua energia
-                        jogador.getEspecie().setEnergiaInicial((int) (energiaJogador * aumentaEnergia));
-
-                        // Se comerem o cogumelo nas jogadas ímpares
+                    // Se comerem o cogumelo nas jogadas ímpares, reduzem em N% a energia
                     } else {
-
-                        // torna-se venenos
+                        // Torna-se venenoso e reduzem em N% a sua energia
                         alimento.setVenenoso(true);
-
-                        int energiaJogador = jogador.getEspecie().getEnergiaInicial();
-                        float diminuiEnergia = (float) alimento.getNumeroAleatorioCog() / 100;
-
-                        // reduzem em N% a sua energia
-                        jogador.getEspecie().setEnergiaInicial((int) -(energiaJogador * diminuiEnergia));
-
+                        alteracaoEnergia = -(int) (energiaJogador * valorAlteracaoEnergia);
                     }
-
-                    break;
+                }
             }
         }
+        return alteracaoEnergia;
     }
 
     public final int getId() {
@@ -237,6 +215,11 @@ public class Jogador {
 
     public void setPosicaoAtual(int posicaoAtual) {
         this.posicaoAtual = posicaoAtual;
+    }
+
+    // TIRAR
+    public void novaPosicao(int posicao) {
+        this.posicaoAtual += posicao;
     }
 
     public Especie getEspecie() {
