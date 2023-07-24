@@ -478,4 +478,48 @@ public class TestGameOnJungle {
         infoEnergia = gameOnJungle.getCurrentPlayerEnergyInfo(4);
         Assert.assertEquals("[16, 50]", Arrays.toString(infoEnergia));
     }
+
+    @Test
+    public void testConsumoCarne() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[2][2];
+
+        // Alimentos
+        foodInfo[0][0] = "c";
+        foodInfo[0][1] = "5";
+
+        foodInfo[1][0] = "m";
+        foodInfo[1][1] = "6";
+
+        // Jogadores
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Ranjan";
+        playerInfo[0][2] = "P";
+
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Mowgli";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        String[] infoEnergia = gameOnJungle.getCurrentPlayerEnergyInfo(20);
+        Assert.assertEquals("[80, 50]", Arrays.toString(infoEnergia));
+
+        // Movimentar o jogador 4 posições para que o alimento seja consumido
+        MovementResult res1 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals("CAUGHT_FOOD", res1.code().toString());
+
+        // Consumir a carne
+        Alimento carne = gameOnJungle.alimentos.get(0);
+        //carne.setNumroJogadasCarne(gameOnJungle.turnoAtual);
+        String mensagem = carne.toolTip();
+        assertEquals("Carne : + 50 energia : 1 jogadas", mensagem);
+
+        // Verificar se a energia foi atualizada corretamente
+        infoEnergia = gameOnJungle.getCurrentPlayerEnergyInfo(24);
+        assertEquals("[96, 50]", Arrays.toString(infoEnergia));
+    }
+
 }

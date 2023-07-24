@@ -1,6 +1,7 @@
 package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 
 import pt.ulusofona.lp2.deisiJungle.Alimento;
+import pt.ulusofona.lp2.deisiJungle.GameManager;
 import pt.ulusofona.lp2.deisiJungle.Jogador;
 
 import java.util.Random;

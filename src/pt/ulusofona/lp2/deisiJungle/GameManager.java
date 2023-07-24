@@ -23,7 +23,7 @@ public class GameManager {
     Jogador jogadorAtual;
     int posicaoFinalJogo;
     int casaPartida;
-    int turnoAtual = 1;
+    int turnoAtual;
 
     public GameManager() {}
 
@@ -119,6 +119,7 @@ public class GameManager {
 
         // Cada vez que o jogo é criado o programa vai fazer a reinicialização das variaveis para o valor inicial
         incrementarReset();
+        turnoAtual = 1;
         posicaoFinalJogo = jungleSize;
 
         // TODO O MAPA — duas posições por cada jogador
@@ -170,6 +171,11 @@ public class GameManager {
             jogadores.add(jogadorAtual);
             jogadores.sort(Comparator.comparing(Jogador::getId)); // Ordenar IDs por ordem crescente
             jogadorAtual.caracterizarEspecieJogador(jogadorAtual);
+            //jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
+
+            // Definir o jogador atual como o primeiro da lista
+            jogadorAtual = jogadores.get(0);
+
 
             if (jogadores.size() >= 2) {
                 jogadorAtual.saberNumJogadoresEmJogo(jogadores.size());
@@ -212,6 +218,7 @@ public class GameManager {
 
             Alimento tipoAlimento = Alimento.identificarAlimento(idTipo, posicaoAtualAlimento);
             alimentos.add(tipoAlimento);
+
             //System.out.println(tipoAlimento.toolTip());
         }
     }
@@ -373,7 +380,7 @@ public class GameManager {
 
         String[] infoJogadorAtual = new String[5];
         // Alternar o jogador
-        Jogador jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
+        Jogador jogadorAtual = jogadores.get((turnoAtual - 1) % jogadores.size());
 
         infoJogadorAtual[0] = Integer.toString(jogadorAtual.getId());
         infoJogadorAtual[1] = jogadorAtual.getNome();
@@ -418,7 +425,7 @@ public class GameManager {
         // Math.abs(nrPositions) se sair um valor negativo, modificar para positivo
 
         // Atualizar o turno e o jogador atual a se movimentar
-        jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
+        //jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
         int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrPositions);
         int ganhoEnergiaDescanso = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
         infoEnergia[0] = String.valueOf(consumoEnergia);
@@ -452,8 +459,9 @@ public class GameManager {
     }
 
     public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
+
         // A cada turno alterno o jogador atual de acordo a quantidade dos jogadores em jogo
-        jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
+        jogadorAtual = jogadores.get((turnoAtual - 1) % jogadores.size());
         // jogadorAtual = jogadores.get(0);
 
         int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1
@@ -701,7 +709,6 @@ public class GameManager {
     }
 
     public boolean saveGame(File file) {
-
         return false;
     }
 
@@ -765,19 +772,24 @@ public class GameManager {
                     return null;
                 }
 
-                int alteracaoEnergia = switch (idAlimento) {
-                    case "e" -> // ERVA
-                            jogadorAtual.consumirErva(tipoAlimentacao, jogadorAtual, alimento);
-                    case "a" -> // ÁGUA
-                            jogadorAtual.consumirAgua(tipoAlimentacao, jogadorAtual, alimento);
-                    case "b" -> // BANANA
-                            jogadorAtual.consumirBanana(tipoAlimentacao, jogadorAtual, alimento);
-                    case "c" -> // CARNE
-                            jogadorAtual.consumirCarne(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
-                    case "m" -> // COGUMELO MÁGICO
-                            jogadorAtual.consumirCogumeloMagico(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
-                    default -> 0;
-                };
+                int alteracaoEnergia;
+                switch (idAlimento) {
+                    // ERVA
+                    case "e" -> alteracaoEnergia = jogadorAtual.consumirErva(tipoAlimentacao, jogadorAtual, alimento);
+                    // ÁGUA
+                    case "a" -> alteracaoEnergia = jogadorAtual.consumirAgua(tipoAlimentacao, jogadorAtual, alimento);
+                    // BANANA
+                    case "b" -> alteracaoEnergia = jogadorAtual.consumirBanana(tipoAlimentacao, jogadorAtual, alimento);
+                    // CARNE
+                    case "c" -> {
+                        alteracaoEnergia = jogadorAtual.consumirCarne(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
+                        alimento.setNumroJogadasCarne(turnoAtual);
+                    }
+                    // COGUMELO MÁGICO
+                    case "m" ->
+                            alteracaoEnergia = jogadorAtual.consumirCogumeloMagico(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
+                    default -> alteracaoEnergia = 0;
+                }
 
                 // Se o valor após consumir algum alimento for acima de zero ou igual (agua) aumenta...
                 // ...o ganho de energia após consumir o alimento

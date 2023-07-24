@@ -129,7 +129,6 @@ public class Jogador {
      */
     public int consumirCarne(String tipoAlimentacaoEspecie, Jogador jogador, int turnosRestantes, Alimento alimento) {
         int alteracaoEnergia = 0;
-
         if (alimento.getId().equals("c")) {
             // Só é comestível nas primeiras 12 jogadas
             if (turnosRestantes <= 12) {
