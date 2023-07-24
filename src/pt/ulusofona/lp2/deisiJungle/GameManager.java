@@ -293,9 +293,7 @@ public class GameManager {
             String imagemAlimento = alimento.getImagem();
 
             // Atualizar o valor de numeroJogadas se o alimento for do tipo "c" carne
-            if (idAlimento.equals("c")) {
-                alimento.setNumroJogadasCarne(turnoAtual);
-            }
+            atualizarContagemJogadasCarne(turnoAtual);
 
             //TODO deve passar a retornar informação do alimento, quando nesse slot esteja algum alimento.
             // Mostrar uma tooltip quando se passa o rato por cima de um alimento
@@ -549,6 +547,7 @@ public class GameManager {
         String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
         if (alimentoConsumido != null) {
             jogadorAtual.contarNumAlimentoApanhado(1);
+
             // Atualizar o turno
             incrementarTurno();
             return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
@@ -556,6 +555,7 @@ public class GameManager {
 
         // Atualizar o turno
         incrementarTurno();
+        atualizarContagemJogadasCarne(turnoAtual);
 
         return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
     }
@@ -783,7 +783,8 @@ public class GameManager {
                     // CARNE
                     case "c" -> {
                         alteracaoEnergia = jogadorAtual.consumirCarne(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
-                        alimento.setNumroJogadasCarne(turnoAtual);
+                        //alimento.setNumroJogadasCarne(turnoAtual);
+                        atualizarContagemJogadasCarne(turnoAtual);
                     }
                     // COGUMELO MÁGICO
                     case "m" ->
@@ -803,6 +804,14 @@ public class GameManager {
             }
         }
         return null;
+    }
+
+    public void atualizarContagemJogadasCarne(int turnoAtual) {
+        for (Alimento alimento : alimentos) {
+            if (alimento.getId().equals("c")) {
+                alimento.setNumroJogadasCarne(turnoAtual);
+            }
+        }
     }
 
     public boolean validarVelocidadeEspecie(int velocidade) {

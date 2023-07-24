@@ -140,7 +140,7 @@ public class Jogador {
                     }
                 }
             } else {
-                // A partir daí é tóxica — se for ingerida, reduz para metade a energia do animal
+                // A partir daí é tóxica. — se for ingerida, reduz para metade a energia do animal
                 alimento.setCarneToxica(true);
 
                 switch (tipoAlimentacaoEspecie) {
@@ -153,7 +153,6 @@ public class Jogador {
         }
         return alteracaoEnergia;
     }
-
 
     /**
      * Efeitos ao consumir cogumelos magicos
