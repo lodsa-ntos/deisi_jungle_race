@@ -788,8 +788,6 @@ public class GameManager {
                     // CARNE
                     case "c" -> {
                         alteracaoEnergia = jogadorAtual.consumirCarne(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
-                        //alimento.setNumroJogadasCarne(turnoAtual);
-                        //atualizarContagemJogadasCarne(turnoAtual);
                     }
                     // COGUMELO MÁGICO
                     case "m" ->
