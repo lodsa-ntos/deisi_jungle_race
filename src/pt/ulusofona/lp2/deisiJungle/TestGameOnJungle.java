@@ -522,4 +522,39 @@ public class TestGameOnJungle {
         assertEquals("[96, 50]", Arrays.toString(infoEnergia));
     }
 
+    @Test
+    public void testJogadasCarneCount() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[2][2];
+
+        // Alimentos
+        foodInfo[0][0] = "c";
+        foodInfo[0][1] = "2";
+
+        foodInfo[1][0] = "m";
+        foodInfo[1][1] = "6";
+
+        // Jogadores
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Ranjan";
+        playerInfo[0][2] = "P";
+
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Mowgli";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        gameOnJungle.moveCurrentPlayer(2, true);
+        gameOnJungle.moveCurrentPlayer(-1, true);
+
+        String[] squareInfo = gameOnJungle.getSquareInfo(2);
+
+        String expectedToolTip = "Carne : + 50 energia : 2 jogadas";
+        String actualToolTip = squareInfo[1];
+        Assert.assertEquals("O número de jogadas da carne não está a ser atualizado corretamente.", expectedToolTip, actualToolTip);
+    }
+
 }

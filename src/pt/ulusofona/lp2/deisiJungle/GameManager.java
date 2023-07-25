@@ -218,6 +218,7 @@ public class GameManager {
 
             Alimento tipoAlimento = Alimento.identificarAlimento(idTipo, posicaoAtualAlimento);
             alimentos.add(tipoAlimento);
+            atualizarContagemJogadasCarne(turnoAtual);
 
             //System.out.println(tipoAlimento.toolTip());
         }
@@ -292,8 +293,10 @@ public class GameManager {
             String mostrarToolTip = alimento.toolTip();
             String imagemAlimento = alimento.getImagem();
 
-            // Atualizar o valor de numeroJogadas se o alimento for do tipo "c" carne
-            atualizarContagemJogadasCarne(turnoAtual);
+            //incrementarTurno();
+            // Atualizar o valor de numeroJogadas se o alimento for carne
+            //atualizarContagemJogadasCarne(turnoAtual);
+
 
             //TODO deve passar a retornar informação do alimento, quando nesse slot esteja algum alimento.
             // Mostrar uma tooltip quando se passa o rato por cima de um alimento
@@ -460,6 +463,8 @@ public class GameManager {
 
         // A cada turno alterno o jogador atual de acordo a quantidade dos jogadores em jogo
         jogadorAtual = jogadores.get((turnoAtual - 1) % jogadores.size());
+
+        atualizarContagemJogadasCarne(turnoAtual);
         // jogadorAtual = jogadores.get(0);
 
         int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1
@@ -553,9 +558,9 @@ public class GameManager {
             return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
         }
 
+        //atualizarContagemJogadasCarne(turnoAtual);
         // Atualizar o turno
         incrementarTurno();
-        atualizarContagemJogadasCarne(turnoAtual);
 
         return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
     }
@@ -784,7 +789,7 @@ public class GameManager {
                     case "c" -> {
                         alteracaoEnergia = jogadorAtual.consumirCarne(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
                         //alimento.setNumroJogadasCarne(turnoAtual);
-                        atualizarContagemJogadasCarne(turnoAtual);
+                        //atualizarContagemJogadasCarne(turnoAtual);
                     }
                     // COGUMELO MÁGICO
                     case "m" ->
@@ -808,9 +813,7 @@ public class GameManager {
 
     public void atualizarContagemJogadasCarne(int turnoAtual) {
         for (Alimento alimento : alimentos) {
-            if (alimento.getId().equals("c")) {
-                alimento.setNumroJogadasCarne(turnoAtual);
-            }
+            alimento.setNumroJogadasCarne(turnoAtual);
         }
     }
 

@@ -167,7 +167,6 @@ public class Carne extends Alimento {
         this.random = random;
     }
 
-
     @Override
     public String toolTip() {
         /*
