@@ -116,7 +116,7 @@ public class GameManager {
     }
 
     public void createInitialJungle(int jungleSize, String[][] playersInfo, String[][] foodsInfo) throws InvalidInitialJungleException {
-
+        atualizarContagemJogadasCarne(0);
         // Cada vez que o jogo é criado o programa vai fazer a reinicialização das variaveis para o valor inicial
         incrementarReset();
         turnoAtual = 1;
@@ -218,7 +218,7 @@ public class GameManager {
 
             Alimento tipoAlimento = Alimento.identificarAlimento(idTipo, posicaoAtualAlimento);
             alimentos.add(tipoAlimento);
-            atualizarContagemJogadasCarne(turnoAtual);
+
 
             //System.out.println(tipoAlimento.toolTip());
         }
@@ -294,8 +294,8 @@ public class GameManager {
             String imagemAlimento = alimento.getImagem();
 
             //incrementarTurno();
-            // Atualizar o valor de numeroJogadas se o alimento for carne
-            //atualizarContagemJogadasCarne(turnoAtual);
+            //atualizarContagemJogadasCarne(0);
+
 
 
             //TODO deve passar a retornar informação do alimento, quando nesse slot esteja algum alimento.
@@ -877,5 +877,6 @@ public class GameManager {
         casaPartida = 1; // reset casa partida de todos os jogadores
         turnoAtual = 0; // reset do turno atual do jogo.
         posicaoFinalJogo = 0; // reset posicão final do mapa de jogo
+        atualizarContagemJogadasCarne(0);
     }
 }
