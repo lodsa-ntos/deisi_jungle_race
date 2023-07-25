@@ -119,7 +119,7 @@ public class GameManager {
 
         // Cada vez que o jogo é criado o programa vai fazer a reinicialização das variaveis para o valor inicial
         incrementarReset();
-        turnoAtual = 1;
+        //turnoAtual = 1;
         posicaoFinalJogo = jungleSize;
 
         // TODO O MAPA — duas posições por cada jogador
@@ -176,7 +176,6 @@ public class GameManager {
             // Definir o jogador atual como o primeiro da lista
             jogadorAtual = jogadores.get(0);
 
-
             if (jogadores.size() >= 2) {
                 jogadorAtual.saberNumJogadoresEmJogo(jogadores.size());
             }
@@ -218,8 +217,6 @@ public class GameManager {
 
             Alimento tipoAlimento = Alimento.identificarAlimento(idTipo, posicaoAtualAlimento);
             alimentos.add(tipoAlimento);
-            atualizarContagemJogadasCarne(turnoAtual);
-
             //System.out.println(tipoAlimento.toolTip());
         }
     }
@@ -295,7 +292,7 @@ public class GameManager {
 
             //incrementarTurno();
             // Atualizar o valor de numeroJogadas se o alimento for carne
-            //atualizarContagemJogadasCarne(turnoAtual);
+            atualizarContagemJogadasCarne(turnoAtual);
 
 
             //TODO deve passar a retornar informação do alimento, quando nesse slot esteja algum alimento.
@@ -381,7 +378,7 @@ public class GameManager {
 
         String[] infoJogadorAtual = new String[5];
         // Alternar o jogador
-        Jogador jogadorAtual = jogadores.get((turnoAtual - 1) % jogadores.size());
+        Jogador jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
 
         infoJogadorAtual[0] = Integer.toString(jogadorAtual.getId());
         infoJogadorAtual[1] = jogadorAtual.getNome();
@@ -462,9 +459,8 @@ public class GameManager {
     public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
 
         // A cada turno alterno o jogador atual de acordo a quantidade dos jogadores em jogo
-        jogadorAtual = jogadores.get((turnoAtual - 1) % jogadores.size());
+        jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
 
-        atualizarContagemJogadasCarne(turnoAtual);
         // jogadorAtual = jogadores.get(0);
 
         int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1
@@ -527,7 +523,7 @@ public class GameManager {
             // ...o jogador deve fica na posição final do jogo
             novaPosicaoJogador = posicaoFinalJogo;
             // Movimentar o jogador para a casa A + M
-            jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
+            //jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
             return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
         }
 
@@ -558,9 +554,10 @@ public class GameManager {
             return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
         }
 
-        //atualizarContagemJogadasCarne(turnoAtual);
         // Atualizar o turno
         incrementarTurno();
+
+        atualizarContagemJogadasCarne(turnoAtual);
 
         return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
     }
