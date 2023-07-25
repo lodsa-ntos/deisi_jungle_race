@@ -460,10 +460,8 @@ public class GameManager {
     }
 
     public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
-
         // A cada turno alterno o jogador atual de acordo a quantidade dos jogadores em jogo
         jogadorAtual = jogadores.get((turnoAtual - 1) % jogadores.size());
-
         atualizarContagemJogadasCarne(turnoAtual);
         // jogadorAtual = jogadores.get(0);
 
@@ -488,7 +486,6 @@ public class GameManager {
                 jogadorAtual.contarNumAlimentoApanhado(1);
                 return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
             }
-
             return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
         }
 
@@ -571,10 +568,8 @@ public class GameManager {
             return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
         }
 
-        //atualizarContagemJogadasCarne(turnoAtual);
         // Atualizar o turno
         incrementarTurno();
-
         return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
     }
 
