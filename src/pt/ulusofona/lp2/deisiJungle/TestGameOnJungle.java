@@ -603,4 +603,56 @@ public class TestGameOnJungle {
         Assert.assertEquals("O número de jogadas da carne não está a ser atualizado corretamente.", expectedToolTip, actualToolTip);
     }
 
+    @Test
+    public void testMoveCurrentPlayer_CalhaNaCarneHerbivoro() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[5][2];
+
+        // Alimentos
+        foodInfo[0][0] = "e";
+        foodInfo[0][1] = "2";
+
+        foodInfo[1][0] = "a";
+        foodInfo[1][1] = "5";
+
+        foodInfo[2][0] = "c";
+        foodInfo[2][1] = "7";
+
+        foodInfo[3][0] = "m";
+        foodInfo[3][1] = "9";
+
+        foodInfo[4][0] = "b";
+        foodInfo[4][1] = "12";
+
+        // Jogadores
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Ranjan";
+        playerInfo[0][2] = "E";
+
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Mowgli";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        List<Jogador> jogadores = gameOnJungle.jogadores;
+
+        // Jogador 1
+        Jogador jogador1 = jogadores.get(0);
+        jogador1.getEspecie().setEnergiaInicial(50);
+        jogador1.setPosicaoAtual(1);
+
+        // Jogador 2
+        Jogador jogador2 = jogadores.get(1);
+        jogador2.getEspecie().setEnergiaInicial(70);
+        jogador2.setPosicaoAtual(3);
+
+        // Jogador herbívoro calha na carne
+        // Tentar fazer um movimento com o jogador com espécie "herbívoro" para cima da carne
+        MovementResult resultRanjan = gameOnJungle.moveCurrentPlayer(6, false);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, resultRanjan.code());
+    }
+
 }
