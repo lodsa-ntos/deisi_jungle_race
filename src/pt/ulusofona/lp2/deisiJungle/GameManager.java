@@ -534,7 +534,7 @@ public class GameManager {
             boolean isUnicornio = jogadorAtual.getEspecie().getId().equals("U");
 
             for (Alimento alimento: alimentos) {
-                if (isUnicornio && alimentoConsumido.contains(alimento.getNome())) {
+                if (isUnicornio && alimentoConsumido.contains(alimento.getNome()) && alimentoConsumido.equals("Cogumelo Magico")) {
                     incrementarTurno();
                     return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
                 }
@@ -776,7 +776,7 @@ public class GameManager {
 
                 // Verificar se o jogador é um unicórnio ignora o cogumelo
                 if (jogadorAtual.getEspecie().getId().equals("U") && idAlimento.equals("m")) {
-                    continue;
+                    return null;
                 }
 
                 int alteracaoEnergia;
