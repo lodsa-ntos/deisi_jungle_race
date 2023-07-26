@@ -813,22 +813,182 @@ public class TestGameOnJungle {
         playerInfo[1][2] = "L";
 
 
-        gameOnJungle.createInitialJungle(10, playerInfo, foodInfo);
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
 
         List<Jogador> jogadores = gameOnJungle.jogadores;
 
-        // Jogador Unicórnio
+        // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
         jogadorUnicornio.getEspecie().setEnergiaInicial(50);
         jogadorUnicornio.setPosicaoAtual(1);
 
-        // Movimentar o jogador Unicórnio 3 unidades
         MovementResult result = gameOnJungle.moveCurrentPlayer(3, false);
 
         // Verificar se o resultado é uma movimentação válida
         assertEquals(MovementResultCode.VALID_MOVEMENT, result.code());
 
-        // Verificar se o jogador Unicórnio ignorou a carne
+        // Jogador1 ignora alimento
+        assertEquals(0, jogadorUnicornio.getNumeroAlimento());
+    }
+
+    @Test
+    public void testUnicornioIgnoraCogumelo() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[1][2];
+
+        // Alimentos (bananas)
+        foodInfo[0][0] = "m";
+        foodInfo[0][1] = "4";
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Ranjan";
+        playerInfo[0][2] = "U";
+
+        // Jogador 2
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Balu";
+        playerInfo[1][2] = "L";
+
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        List<Jogador> jogadores = gameOnJungle.jogadores;
+
+        // Jogador 1
+        Jogador jogadorUnicornio = jogadores.get(0);
+        jogadorUnicornio.getEspecie().setEnergiaInicial(50);
+        jogadorUnicornio.setPosicaoAtual(1);
+
+        MovementResult result = gameOnJungle.moveCurrentPlayer(3, false);
+
+        // Verificar se o resultado é uma movimentação válida
+        assertEquals(MovementResultCode.VALID_MOVEMENT, result.code());
+
+        // Jogador1 ignora alimento
+        assertEquals(0, jogadorUnicornio.getNumeroAlimento());
+    }
+
+    @Test
+    public void testUnicornioIgnoraAgua() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[1][2];
+
+        // Alimentos (bananas)
+
+        foodInfo[0][0] = "a";
+        foodInfo[0][1] = "6";
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Ranjan";
+        playerInfo[0][2] = "U";
+
+        // Jogador 2
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Balu";
+        playerInfo[1][2] = "L";
+
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        List<Jogador> jogadores = gameOnJungle.jogadores;
+
+        // Jogador 1
+        Jogador jogadorUnicornio = jogadores.get(0);
+        jogadorUnicornio.getEspecie().setEnergiaInicial(50);
+        jogadorUnicornio.setPosicaoAtual(1);
+
+        MovementResult result = gameOnJungle.moveCurrentPlayer(3, false);
+
+        // Verificar se o resultado é uma movimentação válida
+        assertEquals(MovementResultCode.VALID_MOVEMENT, result.code());
+
+        // Jogador1 ignora alimento
+        assertEquals(0, jogadorUnicornio.getNumeroAlimento());
+    }
+
+    @Test
+    public void testUnicornioIgnoraBanana() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[1][2];
+
+        // Alimentos (bananas)
+        foodInfo[0][0] = "b";
+        foodInfo[0][1] = "8";
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Ranjan";
+        playerInfo[0][2] = "U";
+
+        // Jogador 2
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Balu";
+        playerInfo[1][2] = "L";
+
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        List<Jogador> jogadores = gameOnJungle.jogadores;
+
+        // Jogador 1
+        Jogador jogadorUnicornio = jogadores.get(0);
+        jogadorUnicornio.getEspecie().setEnergiaInicial(50);
+        jogadorUnicornio.setPosicaoAtual(1);
+
+        MovementResult result = gameOnJungle.moveCurrentPlayer(3, false);
+
+        // Verificar se o resultado é uma movimentação válida
+        assertEquals(MovementResultCode.VALID_MOVEMENT, result.code());
+
+        // Jogador1 ignora alimento
+        assertEquals(0, jogadorUnicornio.getNumeroAlimento());
+    }
+
+    @Test
+    public void testUnicornioIgnoraErva() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[1][2];
+
+        // Alimentos (bananas)
+        foodInfo[0][0] = "e";
+        foodInfo[0][1] = "10";
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Ranjan";
+        playerInfo[0][2] = "U";
+
+        // Jogador 2
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Balu";
+        playerInfo[1][2] = "L";
+
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        List<Jogador> jogadores = gameOnJungle.jogadores;
+
+        // Jogador 1
+        Jogador jogadorUnicornio = jogadores.get(0);
+        jogadorUnicornio.getEspecie().setEnergiaInicial(50);
+        jogadorUnicornio.setPosicaoAtual(1);
+
+        MovementResult result = gameOnJungle.moveCurrentPlayer(3, false);
+
+        // Verificar se o resultado é uma movimentação válida
+        assertEquals(MovementResultCode.VALID_MOVEMENT, result.code());
+
+        // Jogador1 ignora alimento
         assertEquals(0, jogadorUnicornio.getNumeroAlimento());
     }
 
