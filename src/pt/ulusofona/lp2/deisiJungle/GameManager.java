@@ -20,8 +20,11 @@ public class GameManager {
     ArrayList<Jogador> jogadores = new ArrayList<>();
     ArrayList<Alimento> alimentos = new ArrayList<>();
     HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
+    HashMap<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
 
-    Map<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
+    // Lista de alimentos que o jogador não deve consumir (no caso do unicórnio, todos os alimentos)
+    List<String> alimentosIgnorados = Arrays.asList("c", "e", "a", "m", "b");
+
     Jogador jogadorAtual;
     int posicaoFinalJogo;
     int casaPartida;
@@ -529,9 +532,8 @@ public class GameManager {
         String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
         if (alimentoConsumido != null) {
             boolean isUnicornio = jogadorAtual.getEspecie().getId().equals("U");
-            boolean isCarne = alimentoConsumido.equals("Carne");
 
-            if (isUnicornio && isCarne) {
+            if (isUnicornio) {
                 incrementarTurno();
                 return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
             }
