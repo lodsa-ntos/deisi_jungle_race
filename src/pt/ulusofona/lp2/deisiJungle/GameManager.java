@@ -528,6 +528,13 @@ public class GameManager {
         // Verficar qual o alimento consumido
         String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
         if (alimentoConsumido != null) {
+            boolean isUnicornio = jogadorAtual.getEspecie().getId().equals("U");
+            boolean isCarne = alimentoConsumido.equals("Carne");
+
+            if (isUnicornio && isCarne) {
+                incrementarTurno();
+                return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
+            }
             // Se for carnívoro, omnivoro ou se for herbivoro e o alimento consumido não é carne
             // contar o número de alimento apanhado.
             if (!jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie().equals("herbívoro") ||
@@ -537,13 +544,6 @@ public class GameManager {
                 jogadorAtual.contarNumAlimentoApanhado(1);
                 // senão se for herbivoro e o alimento consumido é carne...
             } else {
-                boolean isUnicornio = jogadorAtual.getEspecie().getId().equals("U");
-                boolean isCarne = alimentoConsumido.equals("Carne");
-
-                if (isUnicornio && isCarne) {
-                    incrementarTurno();
-                    return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
-                }
                 // ...atualizar o turno e
                 incrementarTurno();
                 // ...ignorar o consumo de carne por herbívoros
