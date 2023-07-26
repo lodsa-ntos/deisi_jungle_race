@@ -20,6 +20,8 @@ public class GameManager {
     ArrayList<Jogador> jogadores = new ArrayList<>();
     ArrayList<Alimento> alimentos = new ArrayList<>();
     HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
+
+    Map<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
     Jogador jogadorAtual;
     int posicaoFinalJogo;
     int casaPartida;
@@ -220,6 +222,7 @@ public class GameManager {
             alimentos.add(tipoAlimento);
 
 
+            //System.out.println(Arrays.toString(getPlayerInfo(2)));
             //System.out.println(tipoAlimento.toolTip());
         }
     }
@@ -729,41 +732,42 @@ public class GameManager {
         return false;
     }
 
+
+
     /**
      ------------------------------------------------Novas Funções---------------------------------------------
      */
 
     public boolean existeGrandeDistanciaEntreJogadores() {
         int menorDistancia = Integer.MAX_VALUE;
-        int segundoMenorDistancia = Integer.MAX_VALUE;
+        int segundaMenorDistancia = Integer.MAX_VALUE;
 
         // Verificar as duas menores distâncias entre os jogadores e a posição final do jogo
         for (Jogador jogador : jogadores) {
             int distancia = Math.abs(posicaoFinalJogo - jogador.getPosicaoAtual());
 
             if (distancia < menorDistancia) {
-                segundoMenorDistancia = menorDistancia;
+                segundaMenorDistancia = menorDistancia;
                 menorDistancia = distancia;
-            } else if (distancia < segundoMenorDistancia) {
-                segundoMenorDistancia = distancia;
+            } else if (distancia < segundaMenorDistancia) {
+                segundaMenorDistancia = distancia;
             }
         }
 
         int metadeDaMeta = posicaoFinalJogo / 2;
-        int distanciaEntreJogadores = (segundoMenorDistancia - menorDistancia);
+        int distanciaEntreJogadores = (segundaMenorDistancia - menorDistancia);
 
         // Verificar se a distância entre os jogadores é maior que a metade do tamanho do mapa
         return distanciaEntreJogadores > metadeDaMeta;
     }
 
     public Jogador getJogadorMaisProximoDaMeta() {
-        int meta = posicaoFinalJogo - 1;
-        int menorDistancia = meta;
+        int menorDistancia  = Integer.MAX_VALUE;
         Jogador jogadorMaisProximoDaMeta = null;
 
         // Calcular a distância entre os jogadores e a posição final do jogo
         for (Jogador jogador : jogadores) {
-            int distancia = Math.abs(meta - jogador.getPosicaoAtual());
+            int distancia = Math.abs(posicaoFinalJogo - jogador.getPosicaoAtual());
 
             if (distancia < menorDistancia) {
                 menorDistancia = distancia;
@@ -792,7 +796,7 @@ public class GameManager {
                     // ÁGUA
                     case "a" -> alteracaoEnergia = jogadorAtual.consumirAgua(tipoAlimentacao, jogadorAtual, alimento);
                     // BANANA
-                    case "b" -> alteracaoEnergia = jogadorAtual.consumirBanana(tipoAlimentacao, jogadorAtual, alimento);
+                    case "b" -> alteracaoEnergia = jogadorAtual.consumirBanana(tipoAlimentacao, jogadorAtual, alimento,jogadoresQueConsumiramBanana);
                     // CARNE
                     case "c" -> {
                         alteracaoEnergia = jogadorAtual.consumirCarne(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
@@ -879,6 +883,7 @@ public class GameManager {
         alimentos = new ArrayList<>(); // reset da lista de alimentos
         jogadorAtual = null; // reset do jogadorAtual
         idJogadoresEmJogo = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores no início do jogo
+        jogadoresQueConsumiramBanana = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores consumiram bananas
 
         casaPartida = 1; // reset casa partida de todos os jogadores
         turnoAtual = 0; // reset do turno atual do jogo.

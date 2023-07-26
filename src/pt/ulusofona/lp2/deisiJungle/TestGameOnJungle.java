@@ -4,7 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.*;
@@ -653,6 +655,140 @@ public class TestGameOnJungle {
         // Tentar fazer um movimento com o jogador com espécie "herbívoro" para cima da carne
         MovementResult resultRanjan = gameOnJungle.moveCurrentPlayer(6, false);
         assertEquals(MovementResultCode.VALID_MOVEMENT, resultRanjan.code());
+    }
+
+    @Test
+    public void testConsumir1CachoBanana() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[1][2];
+
+        // Alimento (banana)
+        foodInfo[0][0] = "b";
+        foodInfo[0][1] = "3";
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Ranjan";
+        playerInfo[0][2] = "E";
+
+        // Jogador 2
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Balu";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        List<Jogador> jogadores = gameOnJungle.jogadores;
+
+        // Jogador 1
+        Jogador jogador1 = jogadores.get(0);
+        jogador1.getEspecie().setEnergiaInicial(100);
+        jogador1.setPosicaoAtual(1);
+
+        // Jogador 2
+        Jogador jogador2 = jogadores.get(1);
+        jogador2.getEspecie().setEnergiaInicial(200);
+        jogador2.setPosicaoAtual(1);
+
+        // HashMap para ficar a saber os jogadores que consumiram bananas
+        Map<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
+
+        // Consumir banana pela priemeira vez
+        int energiaConsumida = jogador1.consumirBanana("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        assertEquals(40, energiaConsumida);
+
+        // Consumir banana pela priemeira vez
+        energiaConsumida = jogador2.consumirBanana("carnívoro", jogador2, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        assertEquals(40, energiaConsumida);
+
+        // Consumir banana pela segunda vez
+        energiaConsumida = jogador1.consumirBanana("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        assertEquals(-40, energiaConsumida);
+
+        // Consumir quando o cacho estiver vazio
+        energiaConsumida = jogador2.consumirBanana("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        assertEquals(0, energiaConsumida);
+    }
+
+    @Test
+    public void testConsumir2CachoBanana() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[3][3];
+        String[][] foodInfo = new String[2][2];
+
+        // Alimentos (bananas)
+        foodInfo[0][0] = "b";
+        foodInfo[0][1] = "3";
+
+        foodInfo[1][0] = "b";
+        foodInfo[1][1] = "5";
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Ranjan";
+        playerInfo[0][2] = "E";
+
+        // Jogador 2
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Balu";
+        playerInfo[1][2] = "L";
+
+        // Jogador 3
+        playerInfo[2][0] = "3";
+        playerInfo[2][1] = "Lod";
+        playerInfo[2][2] = "T";
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        List<Jogador> jogadores = gameOnJungle.jogadores;
+
+        // Jogador 1
+        Jogador jogador1 = jogadores.get(0);
+        jogador1.getEspecie().setEnergiaInicial(20);
+
+        // Jogador 2
+        Jogador jogador2 = jogadores.get(1);
+        jogador2.getEspecie().setEnergiaInicial(30);
+
+        // Jogador 3
+        Jogador jogador3 = jogadores.get(2);
+        jogador3.getEspecie().setEnergiaInicial(60);
+
+        // HashMap para ficar a saber os jogadores que consumiram bananas
+        Map<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
+
+        // Jogador1 consumir banana pela primeira vez
+        int energiaConsumida = jogador1.consumirBanana("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        int energiaEsperada1 = jogador1.getEspecie().getEnergiaInicial() + energiaConsumida;
+        assertEquals(40, energiaConsumida);
+        assertEquals(60, energiaEsperada1);
+
+        // Jogador2 consumir banana pela primeira vez
+        energiaConsumida = jogador2.consumirBanana("carnívoro", jogador2, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        int energiaEsperada2 = jogador2.getEspecie().getEnergiaInicial() + energiaConsumida;
+        assertEquals(40, energiaConsumida);
+        assertEquals(70, energiaEsperada2);
+
+        // Jogador1 consumir banana pela segunda vez
+        energiaConsumida = jogador1.consumirBanana("herbívoro", jogador1, gameOnJungle.alimentos.get(1), jogadoresQueConsumiramBanana);
+        int novaEnergia = energiaEsperada1 + energiaConsumida;
+        assertEquals(-40, energiaConsumida);
+        assertEquals(20, novaEnergia);
+
+        // Jogador2 consumir banana pela segunda vez
+        energiaConsumida = jogador2.consumirBanana("carnívoro", jogador2, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        novaEnergia = energiaEsperada2 + energiaConsumida;
+        assertEquals(-40, energiaConsumida);
+        assertEquals(30, novaEnergia);
+
+        // Jogador3 consumir banana pela primeira vez
+        energiaConsumida = jogador3.consumirBanana("omnívoro", jogador3, gameOnJungle.alimentos.get(1), jogadoresQueConsumiramBanana);
+        int energiaEsperada3 = jogador3.getEspecie().getEnergiaInicial() + energiaConsumida;
+        assertEquals(40, energiaConsumida);
+        assertEquals(100, energiaEsperada3);
     }
 
 }

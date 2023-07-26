@@ -3,6 +3,7 @@ package pt.ulusofona.lp2.deisiJungle;
 import pt.ulusofona.lp2.deisiJungle.especieFilho.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Jogador {
     private  int id;
@@ -97,7 +98,7 @@ public class Jogador {
     /**
      * Efeitos ao consumir bananas
      */
-    public int consumirBanana(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento) {
+    public int consumirBanana(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador) {
         int alteracaoEnergia = 0;
 
         if (alimento.getId().equals("b")) {
@@ -106,16 +107,18 @@ public class Jogador {
                 case "herbívoro":
                 case "omnívoro":
 
-                    if (alimento.getNumeroBananasON() > 0 && !jogador.isConsumiuCachoDeBanana()) {
+                    if (alimento.getNumeroBananasON() > 0) {
+                        int bananasConsumidas = bananasConsumidasPorJogador.getOrDefault(jogador.getId(), 0);
 
-                        if (alimento.getNumeroBananasON() <= 3) {
+                        if (bananasConsumidas == 0) {
                             alteracaoEnergia = 40;
+                            bananasConsumidasPorJogador.put(jogador.getId(), bananasConsumidas + 1);
 
-                        } else {
-                            alteracaoEnergia = (-40);
+                        } else if (bananasConsumidas == 1) {
+                            alteracaoEnergia = -40;
                         }
-                        alimento.setNumeroBananasON(alimento.getNumeroBananasON()-1);
 
+                        alimento.setNumeroBananasON(alimento.getNumeroBananasON() - 1);
                     }
                     break;
             }
