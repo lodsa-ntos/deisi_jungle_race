@@ -531,17 +531,6 @@ public class GameManager {
         // Verficar qual o alimento consumido
         String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
         if (alimentoConsumido != null) {
-            boolean isUnicornio = jogadorAtual.getEspecie().getId().equals("U");
-            if (isUnicornio) {
-                if (alimentoConsumido.equals("Cogumelo Magico") || alimentoConsumido.equals("Carne") ||
-                        alimentoConsumido.equals("Erva") || alimentoConsumido.equals("Agua") ||
-                        alimentoConsumido.equals("Bananas")) {
-                    incrementarTurno();
-                    //...ignorar alimentos
-                    return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
-                }
-            }
-
             // Se for carnívoro, omnivoro ou se for herbivoro e o alimento consumido não é carne
             // contar o número de alimento apanhado.
             if (!jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie().equals("herbívoro") ||
