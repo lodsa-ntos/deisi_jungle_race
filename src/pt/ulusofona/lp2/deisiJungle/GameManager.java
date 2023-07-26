@@ -466,7 +466,6 @@ public class GameManager {
         // A cada turno alterno o jogador atual de acordo a quantidade dos jogadores em jogo
         jogadorAtual = jogadores.get((turnoAtual - 1) % jogadores.size());
         atualizarContagemJogadasCarne(turnoAtual);
-        // jogadorAtual = jogadores.get(0);
 
         int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1
         int novaPosicaoJogador = casaAtual + nrSquares; // A + M
@@ -475,14 +474,10 @@ public class GameManager {
 
         // Se decidir ficar na posição
         if (nrSquares == 0) {
-
             // Aumentar o ganhoEnergia se decidir ficar na posição
             limitarEnergia(false, true, jogadorAtual.getEspecie().getGanhoEnergiaDescanso());
-            //verificarSeRecuouFicouAvancou(nrSquares, energiaAtual, consumoEnergia, ganhoEnergia);
-
             // Atualizar o turno
             incrementarTurno();
-
             // Verificar se o jogador consumiu algum alimento
             String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
             if (alimentoConsumido != null) {
@@ -501,25 +496,9 @@ public class GameManager {
 
         // O argumento nrSquares tem que estar contido entre -6 e 6
         // No entanto, se o parâmetro bypassValidations tiver o valor true, a regra anterior não é aplicada.
-        if (!bypassValidations) {
-            if (nrSquares < -6 || nrSquares > 6) {
-                incrementarTurno();
-                return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
-            }
-
-            // Se tentar recuar estando na casa de partida = INVALID_MOVEMENT
-            if (novaPosicaoJogador < casaPartida) {
-                incrementarTurno();
-                return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
-            }
-
-            // Verificar se as espécies se movimentarem nas respetivas velocidades mínima e máxima = INVALID_MOVEMENT
-            if (!validarVelocidadeEspecie(Math.abs(nrSquares))) {
-                // Atualizar o turno
-                incrementarTurno();
-                return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
-            }
-
+        if (!isMovimentoValido(nrSquares, novaPosicaoJogador, casaPartida, bypassValidations)) {
+            incrementarTurno();
+            return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
         }
 
         // Se o jogador tentar ultrapassar a casa final do jogo, deve ficar na posição final do jogo
@@ -535,8 +514,6 @@ public class GameManager {
         jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
 
         jogadorAtual.setNumeroPosicoesPercorridas(Math.abs(nrSquares));
-        //limitarEnergia(true, false, jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrSquares));
-        System.out.println(jogadorAtual.toString());
 
         // Verificar se o jogador recuou, ficou ou avançou
         verificarSeRecuouEAvancou(nrSquares, energiaAtual, consumoEnergia);
@@ -560,6 +537,13 @@ public class GameManager {
                 jogadorAtual.contarNumAlimentoApanhado(1);
                 // senão se for herbivoro e o alimento consumido é carne...
             } else {
+                boolean isUnicornio = jogadorAtual.getEspecie().getId().equals("U");
+                boolean isCarne = alimentoConsumido.equals("Carne");
+
+                if (isUnicornio && isCarne) {
+                    incrementarTurno();
+                    return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
+                }
                 // ...atualizar o turno e
                 incrementarTurno();
                 // ...ignorar o consumo de carne por herbívoros
@@ -762,12 +746,13 @@ public class GameManager {
     }
 
     public Jogador getJogadorMaisProximoDaMeta() {
-        int menorDistancia  = Integer.MAX_VALUE;
+        int meta = posicaoFinalJogo - 1;
+        int menorDistancia = meta;
         Jogador jogadorMaisProximoDaMeta = null;
 
         // Calcular a distância entre os jogadores e a posição final do jogo
         for (Jogador jogador : jogadores) {
-            int distancia = Math.abs(posicaoFinalJogo - jogador.getPosicaoAtual());
+            int distancia = Math.abs(meta - jogador.getPosicaoAtual());
 
             if (distancia < menorDistancia) {
                 menorDistancia = distancia;
@@ -871,6 +856,17 @@ public class GameManager {
         }
 
         jogadorAtual.getEspecie().setEnergiaInicial(novaEnergia);
+    }
+
+    public boolean isMovimentoValido(int nrSquares, int novaPosicaoJogador, int casaPartida, boolean bypassValidations) {
+        if (!bypassValidations) {
+            if (nrSquares < -6 || nrSquares > 6 || novaPosicaoJogador < casaPartida) {
+                return false;
+            }
+            // Verificar se as espécies se movimentarem nas respetivas velocidades mínima e máxima
+            return validarVelocidadeEspecie(Math.abs(nrSquares));
+        }
+        return true;
     }
 
     public void incrementarTurno() {
