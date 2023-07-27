@@ -506,12 +506,12 @@ public class GameManager {
             // ...o jogador deve fica na posição final do jogo
             novaPosicaoJogador = posicaoFinalJogo;
             // Movimentar o jogador para a casa A + M
-            jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
+            jogadorAtual.alterarPosicaoAtual(novaPosicaoJogador);
             return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
         }
 
         // Movimento do jogador para a casa A + M
-        jogadorAtual.setPosicaoAtual(novaPosicaoJogador);
+        jogadorAtual.alterarPosicaoAtual(novaPosicaoJogador);
 
         jogadorAtual.setNumeroPosicoesPercorridas(Math.abs(nrSquares));
 
@@ -535,7 +535,7 @@ public class GameManager {
                             && !alimentoConsumido.equals("Carne"))) {
 
                 jogadorAtual.contarNumAlimentoApanhado(1);
-                // senão se for herbivoro e o alimento consumido é carne...
+                // senão se for herbívoro e o alimento consumido é carne...
             } else {
                 // ...atualizar o turno e
                 incrementarTurno();
@@ -546,8 +546,15 @@ public class GameManager {
             // Atualizar o turno
             incrementarTurno();
             return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
-        }
+        } else {
 
+            if (jogadorAtual.getEspecie().getId().equals("U")) {
+                jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual + (2 * Math.abs(nrSquares)));
+                // Ignorar o consumo de alimentos pelo unicórnio
+                incrementarTurno();
+                return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
+            }
+        }
         // Atualizar o turno
         incrementarTurno();
         return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);

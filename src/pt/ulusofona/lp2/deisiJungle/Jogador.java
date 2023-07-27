@@ -214,7 +214,7 @@ public class Jogador {
         return posicaoAtual;
     }
 
-    public void setPosicaoAtual(int posicaoAtual) {
+    public void alterarPosicaoAtual(int posicaoAtual) {
         this.posicaoAtual = posicaoAtual;
     }
 
