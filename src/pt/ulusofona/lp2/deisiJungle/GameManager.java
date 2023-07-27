@@ -839,6 +839,10 @@ public class GameManager {
 
     public void verificarSeRecuouEAvancou(int nrSquares, int energiaAtual, int consumoEnergia) {
         if (nrSquares != 0) {
+            if (jogadorAtual.getEspecie().getId().equals("U")) {
+                // se o jogador se movimentar para uma casa sem alimento, a sua energia aumenta 2 unidades.
+                jogadorAtual.getEspecie().setEnergiaInicial((energiaAtual +2) - (consumoEnergia * Math.abs(nrSquares)));
+            }
             // O jogador avançou ou recuou
             jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares)));
         }
