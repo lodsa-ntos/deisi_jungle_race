@@ -11,7 +11,7 @@ public class Unicornio extends Especie {
         this.tipoAlimentacaoDaEspecie = "";
         this.energiaInicial = 200;
         this.consumoEnergia = 8;
-        this.ganhoEnergiaDescanso = 20;
+        this.ganhoEnergiaDescanso = 40; // a testar
         this.velocidadeMinima = 3;
         this.velocidadeMaxima = 6;
     }

@@ -545,13 +545,15 @@ public class GameManager {
             // Atualizar o turno
             incrementarTurno();
             return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
-        } else {
+        } /* else {
             if (jogadorAtual.getEspecie().getId().equals("U")) {
                 // se o jogador se movimentar para uma casa sem alimento, a sua energia aumenta 2 unidades.
-                jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual + 2);
+                //jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual + 2);
+                jogadorAtual.getEspecie().setEnergiaInicial(200);
                 limitarEnergia(true, false, jogadorAtual.getEspecie().getGanhoEnergiaDescanso());
             }
         }
+        */
 
         // Atualizar o turno
         incrementarTurno();
@@ -839,10 +841,6 @@ public class GameManager {
         if (nrSquares != 0) {
             // O jogador avançou ou recuou
             jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares)));
-
-            if (jogadorAtual.getEspecie().getId().equals("U")) {
-                jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual + 2);
-            }
         }
     }
 
