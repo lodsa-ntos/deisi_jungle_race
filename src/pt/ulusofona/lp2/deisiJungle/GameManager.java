@@ -22,9 +22,6 @@ public class GameManager {
     HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
     HashMap<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
 
-    // Lista de alimentos que o jogador não deve consumir (no caso do unicórnio, todos os alimentos)
-    List<String> alimentosIgnorados = Arrays.asList("c", "e", "a", "m", "b");
-
     Jogador jogadorAtual;
     int posicaoFinalJogo;
     int casaPartida;
