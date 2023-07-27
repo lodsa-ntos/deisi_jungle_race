@@ -838,7 +838,7 @@ public class TestGameOnJungle {
         String[][] playerInfo = new String[2][3];
         String[][] foodInfo = new String[1][2];
 
-        // Alimentos (bananas)
+        // Alimentos (cogumelo)
         foodInfo[0][0] = "m";
         foodInfo[0][1] = "4";
 
