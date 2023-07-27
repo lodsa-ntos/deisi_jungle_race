@@ -546,15 +546,8 @@ public class GameManager {
             // Atualizar o turno
             incrementarTurno();
             return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
-        } else {
-
-            if (jogadorAtual.getEspecie().getId().equals("U")) {
-                jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual + (2 * Math.abs(nrSquares)));
-                // Ignorar o consumo de alimentos pelo unicórnio
-                incrementarTurno();
-                return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
-            }
         }
+
         // Atualizar o turno
         incrementarTurno();
         return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
