@@ -769,18 +769,6 @@ public class GameManager {
                 String idAlimento = alimento.getId();
                 String tipoAlimentacao = jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie();
 
-                // Verificar se o jogador é um unicórnio ignora o cogumelo
-                if (jogadorAtual.getEspecie().getId().equals("U")) {
-                    switch (idAlimento) {
-                        case "m":
-                        case "a":
-                        case "e":
-                        case "c":
-                        case "b":
-                            return null;
-                    }
-                }
-
                 int alteracaoEnergia;
                 switch (idAlimento) {
                     // ERVA
@@ -798,10 +786,16 @@ public class GameManager {
                             alteracaoEnergia = jogadorAtual.consumirCogumeloMagico(tipoAlimentacao, jogadorAtual, turnoAtual, alimento);
                     default -> alteracaoEnergia = 0;
                 }
+                // Verificar se o jogador é um unicórnio ignorar todos os alimentos
+                if (jogadorAtual.getEspecie().getId().equals("U")) {
+                    if (alteracaoEnergia == 0) {
+                        return null;
+                    }
+                }
 
                 // Se o valor após consumir algum alimento for acima de zero ou igual (agua) aumenta...
                 // ...o ganho de energia após consumir o alimento
-                if (alteracaoEnergia >= 0) {
+                if (alteracaoEnergia > 0) {
                     limitarEnergia(false, true, alteracaoEnergia);
                     // Se não diminui o ganho de energia dependendo da espécie.
                 } else {
@@ -811,12 +805,6 @@ public class GameManager {
             }
         }
         return null;
-    }
-
-    public void atualizarContagemJogadasCarne(int turnoAtual) {
-        for (Alimento alimento : alimentos) {
-            alimento.setNumroJogadasCarne(turnoAtual);
-        }
     }
 
     public boolean validarVelocidadeEspecie(int velocidade) {
@@ -878,6 +866,12 @@ public class GameManager {
             return validarVelocidadeEspecie(Math.abs(nrSquares));
         }
         return true;
+    }
+
+    public void atualizarContagemJogadasCarne(int turnoAtual) {
+        for (Alimento alimento : alimentos) {
+            alimento.setNumroJogadasCarne(turnoAtual);
+        }
     }
 
     public void incrementarTurno() {
