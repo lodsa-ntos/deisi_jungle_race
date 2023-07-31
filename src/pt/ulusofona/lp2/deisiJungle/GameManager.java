@@ -829,7 +829,7 @@ public class GameManager {
         if (nrSquares != 0) {
             // se o jogador se movimentar para uma casa sem alimento, a sua energia aumenta 2 unidades.
             if (jogadorAtual.getEspecie().getId().equals("U")) {
-                // ignorar a energia do cogumelo
+                // casa cogumelo, sai da casa cogumelo e vai para uma casa vazia, ganha 2 unidades de energia???
                 jogadorAtual.getEspecie().setEnergiaInicial((energiaAtual + 2) - (consumoEnergia * Math.abs(nrSquares)));
                 limitarEnergia(true, false, consumoEnergia);
             } else {
