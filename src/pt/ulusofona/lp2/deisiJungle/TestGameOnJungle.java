@@ -798,7 +798,7 @@ public class TestGameOnJungle {
         String[][] playerInfo = new String[2][3];
         String[][] foodInfo = new String[1][2];
 
-        // Alimentos (bananas)
+        // Alimentos (carne)
         foodInfo[0][0] = "c";
         foodInfo[0][1] = "4";
 
@@ -878,8 +878,7 @@ public class TestGameOnJungle {
         String[][] playerInfo = new String[2][3];
         String[][] foodInfo = new String[1][2];
 
-        // Alimentos (bananas)
-
+        // Alimentos (água)
         foodInfo[0][0] = "a";
         foodInfo[0][1] = "6";
 
@@ -959,7 +958,7 @@ public class TestGameOnJungle {
         String[][] playerInfo = new String[2][3];
         String[][] foodInfo = new String[1][2];
 
-        // Alimentos (bananas)
+        // Alimentos (erva)
         foodInfo[0][0] = "e";
         foodInfo[0][1] = "10";
 
