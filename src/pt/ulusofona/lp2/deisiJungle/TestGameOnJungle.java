@@ -1012,7 +1012,6 @@ public class TestGameOnJungle {
         playerInfo[1][1] = "Balu";
         playerInfo[1][2] = "L";
 
-
         gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
 
         List<Jogador> jogadores = gameOnJungle.jogadores;
