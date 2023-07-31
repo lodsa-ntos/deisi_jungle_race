@@ -992,7 +992,44 @@ public class TestGameOnJungle {
     }
 
     @Test
-    public void testUnicornioIgnora() throws InvalidInitialJungleException {
+    public void testUnicornioIgnoraEnergiaAgua() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[1][2];
+
+        // Alimentos (erva)
+        foodInfo[0][0] = "a";
+        foodInfo[0][1] = "10";
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Ranjan";
+        playerInfo[0][2] = "U";
+
+        // Jogador 2
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Balu";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        List<Jogador> jogadores = gameOnJungle.jogadores;
+
+        // Jogador 1
+        Jogador jogadorUnicornio = jogadores.get(0);
+        jogadorUnicornio.getEspecie().setEnergiaInicial(200);
+
+        jogadorUnicornio.alterarPosicaoAtual(1); gameOnJungle.verificarSeRecuouEAvancou(4, jogadorUnicornio.getEspecie().getEnergiaInicial(), 8);
+
+        assertEquals(160, jogadorUnicornio.getEspecie().getEnergiaInicial());
+
+        // Jogador1 ignora alimento, não atualiza o historico
+        assertEquals(0, jogadorUnicornio.getNumeroAlimento());
+    }
+
+    @Test
+    public void testUnicornioIgnoraEnergiaCogumelo() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
 
         String[][] playerInfo = new String[2][3];
@@ -1020,9 +1057,9 @@ public class TestGameOnJungle {
         Jogador jogadorUnicornio = jogadores.get(0);
         jogadorUnicornio.getEspecie().setEnergiaInicial(200);
 
-        jogadorUnicornio.alterarPosicaoAtual(1); gameOnJungle.verificarSeRecuouEAvancou(4, jogadorUnicornio.getEspecie().getEnergiaInicial(), 8);
+        jogadorUnicornio.alterarPosicaoAtual(1); gameOnJungle.verificarSeRecuouEAvancou(19, jogadorUnicornio.getEspecie().getEnergiaInicial(), 8);
 
-        assertEquals(160, jogadorUnicornio.getEspecie().getEnergiaInicial());
+        assertEquals(42, jogadorUnicornio.getEspecie().getEnergiaInicial());
 
         // Jogador1 ignora alimento, não atualiza o historico
         assertEquals(0, jogadorUnicornio.getNumeroAlimento());

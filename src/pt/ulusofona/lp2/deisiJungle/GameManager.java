@@ -829,7 +829,8 @@ public class GameManager {
         if (nrSquares != 0) {
             // se o jogador se movimentar para uma casa sem alimento, a sua energia aumenta 2 unidades.
             if (jogadorAtual.getEspecie().getId().equals("U")) {
-                jogadorAtual.getEspecie().setEnergiaInicial((energiaAtual + 2 -2) - (consumoEnergia * Math.abs(nrSquares)));
+                // ignorar a energia do cogumelo
+                jogadorAtual.getEspecie().setEnergiaInicial((energiaAtual + 2) - (consumoEnergia * Math.abs(nrSquares)));
                 limitarEnergia(true, false, consumoEnergia);
             } else {
                 // O jogador avançou ou recuou
@@ -838,7 +839,7 @@ public class GameManager {
         }
     }
 
-    public void limitarEnergia(boolean avancou, boolean ficou, int valorAlteracaoEnergia) {
+    public void limitarEnergia(boolean avancouOuRecou, boolean ficou, int valorAlteracaoEnergia) {
         /*
         A energia de qualquer jogador nunca pode ultrapassar os 200, seja por descansar, seja
         por efeito de alimentos. Caso isso aconteça, a energia mantém-se nos 200.
@@ -847,7 +848,7 @@ public class GameManager {
 
         int novaEnergia = jogadorAtual.getEspecie().getEnergiaInicial();
 
-        if (avancou) {
+        if (avancouOuRecou) {
             novaEnergia -= Math.abs(valorAlteracaoEnergia);
             novaEnergia = Math.max(novaEnergia, 0); // Garantir que a energia não fica negativa
 
