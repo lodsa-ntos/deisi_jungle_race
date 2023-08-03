@@ -507,7 +507,7 @@ public class GameManager {
             novaPosicaoJogador = posicaoFinalJogo;
             // Movimentar o jogador para a casa A + M
             jogadorAtual.alterarPosicaoAtual(novaPosicaoJogador);
-            return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
+            //return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
         }
 
         // Movimento do jogador para a casa A + M
