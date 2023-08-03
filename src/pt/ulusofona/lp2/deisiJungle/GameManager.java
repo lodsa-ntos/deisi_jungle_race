@@ -580,7 +580,7 @@ public class GameManager {
             // Se nenhum jogador chegou à meta e existe uma grande distância entre os jogadores
             // Ganha o jogador mais distante da meta
             if (existeGrandeDistanciaEntreJogadores()) {
-                Jogador vencedor = getJogadorMaisDistanteDaMeta(jogadores);
+                Jogador vencedor = getJogadorMaisProximoDaMeta();
                 infoJogadorVencedor[0] = String.valueOf(vencedor.getId());
                 infoJogadorVencedor[1] = vencedor.getNome();
                 infoJogadorVencedor[2] = vencedor.getIdEspecie();
@@ -665,36 +665,18 @@ public class GameManager {
         ArrayList<String> resultados = new ArrayList<>();
 
         int posicaoChegada = 1;
-        if (existeGrandeDistanciaEntreJogadores()) {
-            // Resultado do jogador vencedor após grande distância, ganha o jogador mais distante da meta
-            Collections.reverse(jogadoresEmJogo);
-            for (Jogador jogador : jogadoresEmJogo) {
-                String nome = jogador.getNome();
-                String nomeEspecie = jogador.getEspecie().getNome();
-                int posicaoAtual = jogador.getPosicaoAtual();
-                int distancia = jogador.getNumeroPosicoesPercorridas();
-                int numAlimento = jogador.getNumeroAlimento();
+        // Se alguém chegou a meta numa corrida normal e todos com energia
+        for (Jogador jogador : jogadoresEmJogo) {
+            String nome = jogador.getNome();
+            String nomeEspecie = jogador.getEspecie().getNome();
+            int posicaoAtual = jogador.getPosicaoAtual();
+            int distancia = jogador.getNumeroPosicoesPercorridas();
+            int numAlimento = jogador.getNumeroAlimento();
 
-                resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
-                        + ", " + distancia + ", " + numAlimento);
+            resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                    + ", " + distancia + ", " + numAlimento);
 
-                posicaoChegada++;
-            }
-
-        } else {
-            // Se alguém chegou a meta numa corrida normal e todos com energia
-            for (Jogador jogador : jogadoresEmJogo) {
-                String nome = jogador.getNome();
-                String nomeEspecie = jogador.getEspecie().getNome();
-                int posicaoAtual = jogador.getPosicaoAtual();
-                int distancia = jogador.getNumeroPosicoesPercorridas();
-                int numAlimento = jogador.getNumeroAlimento();
-
-                resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
-                        + ", " + distancia + ", " + numAlimento);
-
-                posicaoChegada++;
-            }
+            posicaoChegada++;
         }
 
         // Adicionar jogadores sem energia no final da lista de resultados
@@ -764,6 +746,7 @@ public class GameManager {
         return distanciaEntreJogadores > metadeDaMeta;
     }
 
+    /*
     public Jogador getJogadorMaisDistanteDaMeta(List<Jogador> jogadores) {
         int maiorDistancia = Integer.MIN_VALUE;
         Jogador jogadorMaisDistante = null;
@@ -779,8 +762,8 @@ public class GameManager {
 
         return jogadorMaisDistante;
     }
+     */
 
-   /*
     public Jogador getJogadorMaisProximoDaMeta() {
         int meta = posicaoFinalJogo - 1;
         int menorDistancia = meta;
@@ -798,7 +781,6 @@ public class GameManager {
 
         return jogadorMaisProximoDaMeta;
     }
-    */
 
     public String verificarConsumoDeAlimento(int posicao) {
         for (Alimento alimento : alimentos) {
