@@ -576,6 +576,16 @@ public class GameManager {
 
             // Se algum jogador chegou à posição final do jogo mostrar a info do jogador vencedor
             if (alguemChegouNaMeta) {
+                jogadores.sort(
+                        Comparator.comparingInt(Jogador::getPosicaoAtual)
+                                // inverter com base na posição atual dos jogadores.
+                                .reversed()
+                                // Se as posições são iguais, ordena por ID
+                                .thenComparingInt(Jogador::getId)
+                );
+
+                jogador = jogadores.get(0);
+
                 infoJogadorVencedor[0] = String.valueOf(jogador.getId());
                 infoJogadorVencedor[1] = jogador.getNome();
                 infoJogadorVencedor[2] = jogador.getIdEspecie();
@@ -601,7 +611,6 @@ public class GameManager {
     public ArrayList<String> getGameResults() {
         ArrayList<Jogador> jogadoresEmJogo = new ArrayList<>();
         ArrayList<Jogador> jogadoresSemEnergia = new ArrayList<>();
-
         for (Jogador jogador : jogadores) {
             if (jogador.getEspecie().getEnergiaInicial() > 0) {
                 jogadoresEmJogo.add(jogador);
@@ -622,7 +631,6 @@ public class GameManager {
             //  Caso existam 2 ou mais jogadores na mesma casa, vence o jogador com o ‘id’ mais baixo
             return diferencaEntreJogadores != 0 ? diferencaEntreJogadores : j1.getId() - j2.getId();
         });
-
         ArrayList<String> resultados = new ArrayList<>();
         int posicaoChegada = 1;
         if (alguemChegouNaMeta) {
@@ -635,13 +643,11 @@ public class GameManager {
 
                 resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
                         + ", " + distancia + ", " + numAlimento);
-
                 posicaoChegada++;
             }
         } else {
             if (existeGrandeDistanciaEntreJogadores()) {
                 ArrayList<Jogador> jogadoresEmLongaDistancia = new ArrayList<>(jogadoresEmJogo);
-
                 for (Jogador jogador : jogadoresEmJogo) {
                     Jogador jogadorMaisDistante = getJogadorMaisDistanteDaMeta(jogadoresEmLongaDistancia);
                     String nome = jogadorMaisDistante.getNome();
@@ -658,9 +664,7 @@ public class GameManager {
                     posicaoChegada++;
                 }
             }
-
         }
-
         // Adicionar jogadores sem energia no final da lista de resultados
         for (Jogador jogador : jogadoresSemEnergia) {
             String nome = jogador.getNome();
@@ -671,10 +675,8 @@ public class GameManager {
 
             resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
                     + ", " + distancia + ", " + numAlimento);
-
             posicaoChegada++;
         }
-
         return resultados;
     }
 
