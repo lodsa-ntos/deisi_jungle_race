@@ -622,11 +622,9 @@ public class GameManager {
         jogadoresEmJogo.sort(Comparator.comparingInt(j -> Math.abs(j.getPosicaoAtual() - posicaoFinalJogo)));
         // Ordenar os jogadores sem energia mais perto da posição final e pelo ID em caso de empate
         jogadoresSemEnergia.sort((j1, j2) -> {
-            /*
-             Se "diferencaEntreJogadores" for positivo, o jogador 1 está mais próximo da meta;
-             se for negativo, o jogador 2 está mais próximo;
-             Se for zero, ambos estão na mesma distância da meta.
-             */
+             //Se "diferencaEntreJogadores" for positivo, o jogador 1 está mais próximo da meta;
+             //se for negativo, o jogador 2 está mais próximo;
+             //Se for zero, ambos estão na mesma distância da meta.
             int diferencaEntreJogadores = Math.abs(j1.getPosicaoAtual() - posicaoFinalJogo) - Math.abs(j2.getPosicaoAtual() - posicaoFinalJogo);
             //  Caso existam 2 ou mais jogadores na mesma casa, vence o jogador com o ‘id’ mais baixo
             return diferencaEntreJogadores != 0 ? diferencaEntreJogadores : j1.getId() - j2.getId();
