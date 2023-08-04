@@ -1176,4 +1176,62 @@ public class TestGameOnJungle {
 
     }
 
+    @Test
+    public void testExisteGrandeDistanciaEntreJogadores() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[0][0];
+
+        // Jogador 1
+        playerInfo[0][0] = "2";
+        playerInfo[0][1] = "Mogli";
+        playerInfo[0][2] = "Z";
+
+        // Jogador 2
+        playerInfo[1][0] = "1";
+        playerInfo[1][1] = "Bagheera";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(17, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
+
+        String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
+
+        assertNotNull(infoJogadorVencedor);
+        assertEquals("[2, Mogli, Z, 70]", Arrays.toString(gameOnJungle.getWinnerInfo()));
+
+    }
+
+    @Test
+    public void testExisteGrandeDistanciaEntreJogadores2() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[0][0];
+
+        // Jogador 1
+        playerInfo[0][0] = "4";
+        playerInfo[0][1] = "Mogli";
+        playerInfo[0][2] = "Z";
+
+        // Jogador 2
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Bagheera";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(10, playerInfo, foodInfo);
+
+        MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(7, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
+
+        String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
+
+        assertNotNull(infoJogadorVencedor);
+        assertEquals("[4, Mogli, Z, 70]", Arrays.toString(gameOnJungle.getWinnerInfo()));
+
+    }
+
 }
