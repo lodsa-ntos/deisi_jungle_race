@@ -563,9 +563,9 @@ public class GameManager {
     }
 
     public String[] getWinnerInfo() {
-        //Jogador primeiroJogador = null;
-        //Jogador segundoJogador = null;
-        //int metadeDoMapa = posicaoFinalJogo / 2;
+        Jogador primeiroJogador = null;
+        Jogador segundoJogador = null;
+        int casaDoMeio = posicaoFinalJogo / 2;
         String[] infoJogadorVencedor = new String[4];
 
         for (Jogador jogador : jogadores) {
@@ -578,9 +578,9 @@ public class GameManager {
             if (alguemChegouNaMeta) {
                 jogadores.sort(
                         Comparator.comparingInt(Jogador::getPosicaoAtual)
-                                // inverter com base na posição atual dos jogadores.
+                                // inverter com base na posição atual dos jogadores
                                 .reversed()
-                                // Se as posições são iguais, ordena por ID
+                                // Se as posições forem iguais, ordena por ID
                                 .thenComparingInt(Jogador::getId)
                 );
 
@@ -603,6 +603,37 @@ public class GameManager {
                 infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
                 return infoJogadorVencedor;
             }
+            /*
+            Quando estiverem presentes dois jogadores na “casa do meio” e existir, pelo menos, um
+            jogador entre a “casa do meio” e a meta, o vencedor do jogo é o jogador com mais energia na “casa do meio”.
+             */
+            if (primeiroJogador == null || jogador.getPosicaoAtual() > primeiroJogador.getPosicaoAtual()) {
+                segundoJogador = primeiroJogador;
+                primeiroJogador = jogador;
+            } else if (segundoJogador == null || jogador.getPosicaoAtual() > segundoJogador.getPosicaoAtual()) {
+                segundoJogador = jogador;
+            }
+
+            if (primeiroJogador != null && segundoJogador != null) {
+                int distanciaEntreJogadores = Math.abs(primeiroJogador.getPosicaoAtual() - segundoJogador.getPosicaoAtual());
+
+                if (distanciaEntreJogadores == 0) {
+                    if (primeiroJogador.getPosicaoAtual() == casaDoMeio && segundoJogador.getPosicaoAtual() == casaDoMeio) {
+                        if (primeiroJogador.getEspecie().getEnergiaInicial() > segundoJogador.getEspecie().getEnergiaInicial()) {
+                            infoJogadorVencedor[0] = String.valueOf(primeiroJogador.getId());
+                            infoJogadorVencedor[1] = primeiroJogador.getNome();
+                            infoJogadorVencedor[2] = primeiroJogador.getIdEspecie();
+                            infoJogadorVencedor[3] = String.valueOf(primeiroJogador.getEspecie().getEnergiaInicial());
+                        } else {
+                            infoJogadorVencedor[0] = String.valueOf(segundoJogador.getId());
+                            infoJogadorVencedor[1] = segundoJogador.getNome();
+                            infoJogadorVencedor[2] = segundoJogador.getIdEspecie();
+                            infoJogadorVencedor[3] = String.valueOf(segundoJogador.getEspecie().getEnergiaInicial());
+                        }
+                        return infoJogadorVencedor;
+                    }
+                }
+            }
         }
 
         return null; // Nenhum jogador venceu ainda
@@ -618,17 +649,6 @@ public class GameManager {
                 jogadoresSemEnergia.add(jogador);
             }
         }
-        // Ordenar os jogadores em jogo mais perto da posição final do jogo
-        jogadoresEmJogo.sort(Comparator.comparingInt(j -> Math.abs(j.getPosicaoAtual() - posicaoFinalJogo)));
-        // Ordenar os jogadores sem energia mais perto da posição final e pelo ID em caso de empate
-        jogadoresSemEnergia.sort((j1, j2) -> {
-             //Se "diferencaEntreJogadores" for positivo, o jogador 1 está mais próximo da meta;
-             //se for negativo, o jogador 2 está mais próximo;
-             //Se for zero, ambos estão na mesma distância da meta.
-            int diferencaEntreJogadores = Math.abs(j1.getPosicaoAtual() - posicaoFinalJogo) - Math.abs(j2.getPosicaoAtual() - posicaoFinalJogo);
-            //  Caso existam 2 ou mais jogadores na mesma casa, vence o jogador com o ‘id’ mais baixo
-            return diferencaEntreJogadores != 0 ? diferencaEntreJogadores : j1.getId() - j2.getId();
-        });
         ArrayList<String> resultados = new ArrayList<>();
         int posicaoChegada = 1;
         if (alguemChegouNaMeta) {
