@@ -1258,13 +1258,81 @@ public class TestGameOnJungle {
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaInicial(17);
+        jogador2.getEspecie().setEnergiaInicial(25);
         jogador2.alterarPosicaoAtual(5);
 
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
 
         assertNotNull(infoJogadorVencedor);
-        assertEquals("[#1 Pedro, Elefante, 1, 0, 0, #2 Sara, Tartaruga, 6, 0, 0]",
+        assertEquals("[#1 Sara, Tartaruga, 5, 0, 0, #2 Pedro, Elefante, 5, 0, 0]",
+                gameOnJungle.getGameResults().toString());
+    }
+
+    @Test
+    public void testGetWinnerInfo_ApenasUmJogadorSemEnergia3() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Pedro";
+        playerInfo[0][2] = "E";
+
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Sara";
+        playerInfo[1][2] = "T";
+
+        gameOnJungle.createInitialJungle(10, playerInfo);
+
+        List<Jogador> jogadores = gameOnJungle.jogadores;
+
+        // Jogador 1
+        Jogador jogador1 = jogadores.get(0);
+        jogador1.getEspecie().setEnergiaInicial(45);
+        jogador1.alterarPosicaoAtual(5);
+
+        // Jogador 2
+        Jogador jogador2 = jogadores.get(1);
+        jogador2.getEspecie().setEnergiaInicial(0);
+        jogador2.alterarPosicaoAtual(5);
+
+        String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
+
+        assertNotNull(infoJogadorVencedor);
+        assertEquals("[#1 Pedro, Elefante, 5, 0, 0, #2 Sara, Tartaruga, 5, 0, 0]",
+                gameOnJungle.getGameResults().toString());
+    }
+
+    @Test
+    public void testGetWinnerInfo_ApenasUmJogadorSemEnergia4() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Pedro";
+        playerInfo[0][2] = "E";
+
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Sara";
+        playerInfo[1][2] = "T";
+
+        gameOnJungle.createInitialJungle(10, playerInfo);
+
+        List<Jogador> jogadores = gameOnJungle.jogadores;
+
+        // Jogador 1
+        Jogador jogador1 = jogadores.get(0);
+        jogador1.getEspecie().setEnergiaInicial(1);
+        jogador1.alterarPosicaoAtual(5);
+
+        // Jogador 2
+        Jogador jogador2 = jogadores.get(1);
+        jogador2.getEspecie().setEnergiaInicial(34);
+        jogador2.alterarPosicaoAtual(5);
+
+        String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
+
+        assertNotNull(infoJogadorVencedor);
+        assertEquals("[#1 Sara, Tartaruga, 5, 0, 0, #2 Pedro, Elefante, 5, 0, 0]",
                 gameOnJungle.getGameResults().toString());
     }
 
