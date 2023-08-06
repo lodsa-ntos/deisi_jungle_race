@@ -650,7 +650,7 @@ public class GameManager {
                     resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
                             + ", " + distancia + ", " + numAlimento);
 
-                    // remover o jogadorMaisDistante da lista, para ser evitado na próxima iteração (reset)
+                    // remover o jogadorMaisDistante da lista, atualizar a lista (reset)
                     jogadoresEmLongaDistancia.remove(jogadorMaisDistante);
                     posicaoChegada++;
                 }
