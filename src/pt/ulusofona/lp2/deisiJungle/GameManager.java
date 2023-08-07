@@ -607,10 +607,12 @@ public class GameManager {
         Quando estiverem presentes dois jogadores na “casa do meio” e existir, pelo menos, um
         jogador entre a “casa do meio” e a meta, o vencedor do jogo é o jogador com mais energia na “casa do meio”.
         */
-        infoJogadorVencedor = getVencedorDoisJogadoresCasaDoMeio(null, null, casaDoMeio, infoJogadorVencedor);
+        //infoJogadorVencedor = getVencedorDoisJogadoresCasaDoMeio(null, null, casaDoMeio, infoJogadorVencedor);
+        /*
         if (infoJogadorVencedor != null) {
             return infoJogadorVencedor;
         }
+         */
 
         return null; // Nenhum jogador venceu ainda
     }
@@ -656,6 +658,7 @@ public class GameManager {
                 }
             }
         }
+        /*
         // Ordenar a lista de jogadores com energia por ordem decrescente
         jogadoresEmJogo.sort((jogador1, jogador2) ->
                 jogador2.getEspecie().getEnergiaInicial() - jogador1.getEspecie().getEnergiaInicial());
@@ -673,6 +676,7 @@ public class GameManager {
                 posicaoChegada++;
             }
         }
+         */
         return resultados;
     }
 
