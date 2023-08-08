@@ -603,11 +603,13 @@ public class GameManager {
         }
 
         // Verificar a nova condição de vitória
+        /*
         String[] jogadorComMaisEnergia = verificarJogadorComMaisEnergia();
         if (jogadorComMaisEnergia != null) {
             return jogadorComMaisEnergia;
         }
 
+         */
         return null; // Nenhum jogador venceu ainda
     }
 
