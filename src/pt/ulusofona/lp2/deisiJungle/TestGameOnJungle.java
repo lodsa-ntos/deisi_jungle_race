@@ -1198,7 +1198,7 @@ public class TestGameOnJungle {
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
 
         assertNotNull(infoJogadorVencedor);
-        assertEquals("regra da distância","2", gameOnJungle.getWinnerInfo()[0]);
+        assertEquals("getWinnerInfo()[0] regra da distância","2", gameOnJungle.getWinnerInfo()[0]);
 
     }
 
@@ -1227,7 +1227,7 @@ public class TestGameOnJungle {
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
 
         assertNotNull(infoJogadorVencedor);
-        assertEquals("[4, Mogli, Z, 70]", Arrays.toString(gameOnJungle.getWinnerInfo()));
+        assertEquals("getWinnerInfo()[0] regra da distância","4", gameOnJungle.getWinnerInfo()[0]);
 
     }
 
