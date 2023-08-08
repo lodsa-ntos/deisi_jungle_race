@@ -563,7 +563,6 @@ public class GameManager {
     }
 
     public String[] getWinnerInfo() {
-        int casaDoMeio = posicaoFinalJogo / 2;
         String[] infoJogadorVencedor = new String[4];
 
         for (Jogador jogador : jogadores) {
@@ -601,6 +600,7 @@ public class GameManager {
                 infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
                 return infoJogadorVencedor;
             }
+
         }
 
         /*
@@ -760,19 +760,18 @@ public class GameManager {
     }
 
     public Jogador getJogadorMaisDistanteDaMeta(List<Jogador> jogadores) {
-        int maiorDistancia = Integer.MIN_VALUE;
-        Jogador jogadorMaisDistante = null;
 
-        // Encontrar o jogador com a maior distância à meta
-        for (Jogador jogador : jogadores) {
-            int distancia = Math.abs(posicaoFinalJogo - jogador.getPosicaoAtual());
-            if (distancia > maiorDistancia) {
-                maiorDistancia = distancia;
-                jogadorMaisDistante = jogador;
-            }
+        jogadores.sort(Comparator.comparingInt(jogador -> Math.abs(posicaoFinalJogo - jogador.getPosicaoAtual())));
+
+        int distanciaPrimeiroJogador = Math.abs(posicaoFinalJogo - jogadores.get(0).getPosicaoAtual());
+        int distanciaSegundoJogador = Math.abs(posicaoFinalJogo - jogadores.get(1).getPosicaoAtual());
+        int casaDoMeio = posicaoFinalJogo / 2;
+
+        if (distanciaSegundoJogador > casaDoMeio && distanciaPrimeiroJogador > distanciaSegundoJogador) {
+            return jogadores.get(1); // Segundo jogador mais próximo da meta é o vencedor
+        } else {
+            return jogadores.get(0); // Primeiro jogador mais próximo da meta é o vencedor
         }
-
-        return jogadorMaisDistante;
     }
 
     public String verificarConsumoDeAlimento(int posicao) {
