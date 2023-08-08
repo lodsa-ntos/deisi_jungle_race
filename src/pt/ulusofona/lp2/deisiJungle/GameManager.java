@@ -874,7 +874,10 @@ public class GameManager {
 
     public boolean isMovimentoValido(int nrSquares, int novaPosicaoJogador, int casaPartida, boolean bypassValidations) {
         if (!bypassValidations) {
-            if (nrSquares < -6 || nrSquares > 6 || novaPosicaoJogador < casaPartida) {
+            if (nrSquares < -6 || nrSquares > 6) {
+                return false;
+            }
+            if (novaPosicaoJogador < casaPartida) {
                 return false;
             }
             // Verificar se as espécies se movimentarem nas respetivas velocidades mínima e máxima
