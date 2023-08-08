@@ -1202,6 +1202,7 @@ public class TestGameOnJungle {
 
     }
 
+    /*
     @Test
     public void testNovaCondicaoDeVitoria() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
@@ -1260,5 +1261,6 @@ public class TestGameOnJungle {
 
         assertNull(vencedor);
     }
+     */
 
 }
