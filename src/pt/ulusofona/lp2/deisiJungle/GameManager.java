@@ -623,8 +623,6 @@ public class GameManager {
                 return infoJogadorVencedor;
             }
         }
-
-
         return null; // Nenhum jogador venceu ainda
     }
 
@@ -787,19 +785,21 @@ public class GameManager {
     }
 
     public Jogador getJogadorComMaiorEnergia(List<Jogador> jogadores) {
-        int casaDoMeio = posicaoFinalJogo/2;
-        Jogador jogadorComMaisEnergia = jogadores.get(0);
+        int casaDoMeio = posicaoFinalJogo / 2;
+        Jogador jogadorComMaisEnergia = null;
 
-        for (int i = 1; i < jogadores.size(); i++) {
-            Jogador jogadorAtual = jogadores.get(i);
-            if (jogadorAtual.getPosicaoAtual() == casaDoMeio && jogadorAtual.getPosicaoAtual() < posicaoFinalJogo &&
-                    jogadorAtual.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
+        for (Jogador jogadorAtual : jogadores) {
+            // Verificar se os jogadores estão na casa do meio e verifcar o que tem maior energia
+            if (jogadorAtual.getPosicaoAtual() == casaDoMeio &&
+                    jogadorAtual.getEspecie().getEnergiaInicial() >
+                            (jogadorComMaisEnergia != null ? jogadorComMaisEnergia.getEspecie().getEnergiaInicial() : 0)) {
                 jogadorComMaisEnergia = jogadorAtual;
             }
         }
 
         return jogadorComMaisEnergia;
     }
+
 
     public String verificarConsumoDeAlimento(int posicao) {
         for (Alimento alimento : alimentos) {
