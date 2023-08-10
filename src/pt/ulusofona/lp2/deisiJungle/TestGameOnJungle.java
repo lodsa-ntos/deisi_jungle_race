@@ -1351,7 +1351,6 @@ public class TestGameOnJungle {
         assertNull("getWinnerInfo() devia ter dado null porque o jogo ainda não tem vencedor", infoJogadorVencedor);
     }
 
-
     /*
     @Test
     public void testNovaCondicaoDeVitoria() throws InvalidInitialJungleException {
