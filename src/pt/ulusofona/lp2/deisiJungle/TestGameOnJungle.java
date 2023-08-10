@@ -1267,7 +1267,39 @@ public class TestGameOnJungle {
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
 
         assertNotNull(infoJogadorVencedor);
-        assertEquals("A vitória deveria ser do jogador Mogli","4", gameOnJungle.getWinnerInfo()[0]);
+        assertEquals("A vitória deveria ser do jogador Bagheera","4", gameOnJungle.getWinnerInfo()[0]);
+    }
+
+    @Test
+    public void testGetWinnerInfo_NovaCondicaoVencedor2() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+
+        // Jogador 1
+        playerInfo[0][0] = "2";
+        playerInfo[0][1] = "Mogli";
+        playerInfo[0][2] = "Z";
+
+        // Jogador 2
+        playerInfo[1][0] = "4";
+        playerInfo[1][1] = "Bagheera";
+        playerInfo[1][2] = "P";
+
+        gameOnJungle.createInitialJungle(10, playerInfo);
+
+        // Jogador 1 joga
+        MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
+
+        // Jogador 2 joga
+        MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
+
+        String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
+
+        assertNotNull(infoJogadorVencedor);
+        assertEquals("A vitória deveria ser do jogador Mogli","2", gameOnJungle.getWinnerInfo()[0]);
     }
 
     /*

@@ -564,6 +564,8 @@ public class GameManager {
 
     public String[] getWinnerInfo() {
         int casaDoMeio = posicaoFinalJogo/2;
+        int jogadoresNaCasaDoMeio = 0;
+        int jogadoresEntreCasaDoMeioEMeta = 0;
         String[] infoJogadorVencedor = new String[4];
 
         for (Jogador jogador : jogadores) {
@@ -600,10 +602,13 @@ public class GameManager {
                 infoJogadorVencedor[2] = jogador.getIdEspecie();
                 infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
                 return infoJogadorVencedor;
+            }
 
-                // Senão se existir, pelo menos, um jogador entre a “casa do meio” e a meta,
-                // o vencedor do jogo é o jogador com mais energia na “casa do meio”.
-            } else if (jogadores.get(0).getPosicaoAtual() ==  casaDoMeio && jogadores.get(1).getPosicaoAtual() == casaDoMeio) {
+            if (jogador.getPosicaoAtual() == casaDoMeio) {
+                jogadoresNaCasaDoMeio++;
+            }
+
+            if (jogadoresNaCasaDoMeio >= 2) {
                 if (jogadores.get(0).getEspecie().getEnergiaInicial() > jogadores.get(1).getEspecie().getEnergiaInicial()) {
                     infoJogadorVencedor[0] = String.valueOf(jogadores.get(0).getId());
                     infoJogadorVencedor[1] = jogadores.get(0).getNome();
