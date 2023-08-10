@@ -1181,12 +1181,12 @@ public class TestGameOnJungle {
         String[][] foodInfo = new String[0][0];
 
         // Jogador 1
-        playerInfo[0][0] = "4";
+        playerInfo[0][0] = "2";
         playerInfo[0][1] = "Mogli";
         playerInfo[0][2] = "Z";
 
         // Jogador 2
-        playerInfo[1][0] = "2";
+        playerInfo[1][0] = "4";
         playerInfo[1][1] = "Bagheera";
         playerInfo[1][2] = "L";
 

@@ -574,14 +574,6 @@ public class GameManager {
                 alguemChegouNaMeta = true;
             }
 
-            /*
-            if (jogador.getPosicaoAtual() == casaDoMeio) {
-                jogadoresNaCasaDoMeio++;
-            } else if (jogador.getPosicaoAtual() > casaDoMeio && jogador.getPosicaoAtual() < posicaoFinalJogo) {
-                jogadoresEntreCasaDoMeioEMeta++;
-            }
-             */
-
             // Se algum jogador chegou à posição final do jogo mostrar a info do jogador vencedor
             if (alguemChegouNaMeta) {
                 jogadores.sort(
@@ -611,12 +603,18 @@ public class GameManager {
                 infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
                 return infoJogadorVencedor;
             }
-
-            /*
             // Quando estiverem presentes dois jogadores na “casa do meio” e existir, pelo menos, um
             // jogador entre a “casa do meio” e a meta, o vencedor do jogo é o jogador com mais energia
             // na “casa do meio”.
-            If (jogadoresNaCasaDoMeio >= 2 && jogadoresEntreCasaDoMeioEMeta >= 1) {
+        }
+        for (Jogador jogador : jogadores) {
+            if (jogador.getPosicaoAtual() == casaDoMeio) {
+                jogadoresNaCasaDoMeio++;
+            } else if (jogador.getPosicaoAtual() > casaDoMeio && jogador.getPosicaoAtual() < posicaoFinalJogo) {
+                jogadoresEntreCasaDoMeioEMeta++;
+            }
+
+            if (jogadoresNaCasaDoMeio >= 2 && jogadoresEntreCasaDoMeioEMeta >= 1) {
                 jogador = getJogadorComMaiorEnergia(jogadores);
                 infoJogadorVencedor[0] = String.valueOf(jogador.getId());
                 infoJogadorVencedor[1] = jogador.getNome();
@@ -624,8 +622,8 @@ public class GameManager {
                 infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
                 return infoJogadorVencedor;
             }
-             */
         }
+
 
         return null; // Nenhum jogador venceu ainda
     }
