@@ -610,14 +610,7 @@ public class GameManager {
             // Quando estiverem presentes dois jogadores na “casa do meio” e existir, pelo menos, um
             // jogador entre a “casa do meio” e a meta, o vencedor do jogo é o jogador com mais energia
             // na “casa do meio”.
-            if (jogadoresNaCasaDoMeio >= 2) {
-                jogador = getJogadorComMaiorEnergia(jogadores);
-                infoJogadorVencedor[0] = String.valueOf(jogador.getId());
-                infoJogadorVencedor[1] = jogador.getNome();
-                infoJogadorVencedor[2] = jogador.getIdEspecie();
-                infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
-                return infoJogadorVencedor;
-            }
+
         }
 
         return null; // Nenhum jogador venceu ainda
