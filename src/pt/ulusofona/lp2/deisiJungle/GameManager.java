@@ -565,6 +565,7 @@ public class GameManager {
     public String[] getWinnerInfo() {
         int casaDoMeio = posicaoFinalJogo/2;
         int jogadoresNaCasaDoMeio = 0;
+        int jogadoresEntreCasaDoMeioEMeta = 0;
         String[] infoJogadorVencedor = new String[4];
 
         for (Jogador jogador : jogadores) {
@@ -575,6 +576,8 @@ public class GameManager {
 
             if (jogador.getPosicaoAtual() == casaDoMeio) {
                 jogadoresNaCasaDoMeio++;
+            } else if (jogador.getPosicaoAtual() > casaDoMeio && jogador.getPosicaoAtual() < posicaoFinalJogo) {
+                jogadoresEntreCasaDoMeioEMeta++;
             }
 
             // Se algum jogador chegou à posição final do jogo mostrar a info do jogador vencedor
@@ -610,7 +613,7 @@ public class GameManager {
             // Quando estiverem presentes dois jogadores na “casa do meio” e existir, pelo menos, um
             // jogador entre a “casa do meio” e a meta, o vencedor do jogo é o jogador com mais energia
             // na “casa do meio”.
-            if (jogadoresNaCasaDoMeio >= 2) {
+            if (jogadoresNaCasaDoMeio >= 2 && jogadoresEntreCasaDoMeioEMeta >= 1) {
                 jogador = getJogadorComMaiorEnergia(jogadores);
                 infoJogadorVencedor[0] = String.valueOf(jogador.getId());
                 infoJogadorVencedor[1] = jogador.getNome();
