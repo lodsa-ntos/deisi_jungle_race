@@ -786,9 +786,10 @@ public class GameManager {
 
     public Jogador getJogadorComMaiorEnergia(List<Jogador> jogadores) {
         int casaDoMeio = posicaoFinalJogo/2;
-        Jogador jogadorComMaisEnergia = jogadores.get(0);
+        Jogador jogadorComMaisEnergia = null;
 
         for (int i = 1; i < jogadores.size(); i++) {
+            jogadorComMaisEnergia = jogadores.get(0);
             Jogador jogadorAtual = jogadores.get(i);
             if (jogadorAtual.getPosicaoAtual() == casaDoMeio &&
                     jogadorAtual.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
