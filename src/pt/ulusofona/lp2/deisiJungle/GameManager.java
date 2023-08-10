@@ -608,22 +608,6 @@ public class GameManager {
             // na “casa do meio”.
         }
 
-        for (Jogador jogador : jogadores) {
-            if (jogador.getPosicaoAtual() == casaDoMeio) {
-                jogadoresNaCasaDoMeio++;
-            } else if (jogador.getPosicaoAtual() > casaDoMeio && jogador.getPosicaoAtual() < posicaoFinalJogo) {
-                jogadoresEntreCasaDoMeioEMeta++;
-            }
-
-            if (jogadoresNaCasaDoMeio >= 2) {
-                infoJogadorVencedor[0] = String.valueOf(jogador.getId());
-                infoJogadorVencedor[1] = jogador.getNome();
-                infoJogadorVencedor[2] = jogador.getIdEspecie();
-                infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
-                return infoJogadorVencedor;
-            }
-        }
-
         return null; // Nenhum jogador venceu ainda
     }
 
