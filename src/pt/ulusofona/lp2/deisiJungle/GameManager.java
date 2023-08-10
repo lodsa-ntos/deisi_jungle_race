@@ -600,6 +600,22 @@ public class GameManager {
                 infoJogadorVencedor[2] = jogador.getIdEspecie();
                 infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
                 return infoJogadorVencedor;
+
+                // Senão se existir, pelo menos, um jogador entre a “casa do meio” e a meta,
+                // o vencedor do jogo é o jogador com mais energia na “casa do meio”.
+            } else if (jogadores.get(0).getPosicaoAtual() ==  casaDoMeio && jogadores.get(1).getPosicaoAtual() == casaDoMeio) {
+                if (jogadores.get(0).getEspecie().getEnergiaInicial() > jogadores.get(1).getEspecie().getEnergiaInicial()) {
+                    infoJogadorVencedor[0] = String.valueOf(jogadores.get(0).getId());
+                    infoJogadorVencedor[1] = jogadores.get(0).getNome();
+                    infoJogadorVencedor[2] = jogadores.get(0).getIdEspecie();
+                    infoJogadorVencedor[3] = String.valueOf(jogadores.get(0).getEspecie().getEnergiaInicial());
+                } else {
+                    infoJogadorVencedor[0] = String.valueOf(jogadores.get(1).getId());
+                    infoJogadorVencedor[1] = jogadores.get(1).getNome();
+                    infoJogadorVencedor[2] = jogadores.get(1).getIdEspecie();
+                    infoJogadorVencedor[3] = String.valueOf(jogadores.get(1).getEspecie().getEnergiaInicial());
+                }
+                return infoJogadorVencedor;
             }
         }
 
@@ -746,22 +762,6 @@ public class GameManager {
 
         // Verificar se a distância entre os jogadores é maior que a metade do tamanho do mapa
         return distanciaEntreJogadores > metadeDaMeta;
-    }
-
-    private boolean existeJogadoresNaCasaDoMeio() {
-        int jogadoresNaCasaDoMeio = 0;
-        int jogadoresEntreCasaDoMeioEMeta = 0;
-        int casaDoMeio = posicaoFinalJogo/2;
-
-        for (Jogador jogador : jogadores) {
-            if (jogador.getPosicaoAtual() == casaDoMeio) {
-                jogadoresNaCasaDoMeio++;
-            } else if (jogador.getPosicaoAtual() > casaDoMeio && jogador.getPosicaoAtual() < posicaoFinalJogo) {
-                jogadoresEntreCasaDoMeioEMeta++;
-            }
-        }
-
-        return jogadoresNaCasaDoMeio >= 2 && jogadoresEntreCasaDoMeioEMeta >= 1;
     }
 
     public Jogador getJogadorMaisDistanteDaMeta(List<Jogador> jogadores) {
