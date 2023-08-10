@@ -565,7 +565,6 @@ public class GameManager {
     public String[] getWinnerInfo() {
         int casaDoMeio = posicaoFinalJogo/2;
         int jogadoresNaCasaDoMeio = 0;
-        int jogadoresEntreCasaDoMeioEMeta = 0;
         String[] infoJogadorVencedor = new String[4];
 
         for (Jogador jogador : jogadores) {
@@ -783,11 +782,13 @@ public class GameManager {
     }
 
     public Jogador getJogadorComMaiorEnergia(List<Jogador> jogadores) {
+        int casaDoMeio = posicaoFinalJogo/2;
         Jogador jogadorComMaisEnergia = jogadores.get(0);
 
         for (int i = 1; i < jogadores.size(); i++) {
             Jogador jogadorAtual = jogadores.get(i);
-            if (jogadorAtual.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
+            if (jogadorAtual.getPosicaoAtual() == casaDoMeio &&
+                    jogadorAtual.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
                 jogadorComMaisEnergia = jogadorAtual;
             }
         }
