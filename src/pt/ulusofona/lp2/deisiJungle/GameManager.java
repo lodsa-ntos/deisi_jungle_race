@@ -574,6 +574,10 @@ public class GameManager {
                 alguemChegouNaMeta = true;
             }
 
+            if (jogador.getPosicaoAtual() == casaDoMeio) {
+                jogadoresNaCasaDoMeio++;
+            }
+
             // Se algum jogador chegou à posição final do jogo mostrar a info do jogador vencedor
             if (alguemChegouNaMeta) {
                 jogadores.sort(
@@ -604,22 +608,15 @@ public class GameManager {
                 return infoJogadorVencedor;
             }
 
-            if (jogador.getPosicaoAtual() == casaDoMeio) {
-                jogadoresNaCasaDoMeio++;
-            }
-
+            // Quando estiverem presentes dois jogadores na “casa do meio” e existir, pelo menos, um
+            // jogador entre a “casa do meio” e a meta, o vencedor do jogo é o jogador com mais energia
+            // na “casa do meio”.
             if (jogadoresNaCasaDoMeio >= 2) {
-                if (jogadores.get(0).getEspecie().getEnergiaInicial() > jogadores.get(1).getEspecie().getEnergiaInicial()) {
-                    infoJogadorVencedor[0] = String.valueOf(jogadores.get(0).getId());
-                    infoJogadorVencedor[1] = jogadores.get(0).getNome();
-                    infoJogadorVencedor[2] = jogadores.get(0).getIdEspecie();
-                    infoJogadorVencedor[3] = String.valueOf(jogadores.get(0).getEspecie().getEnergiaInicial());
-                } else {
-                    infoJogadorVencedor[0] = String.valueOf(jogadores.get(1).getId());
-                    infoJogadorVencedor[1] = jogadores.get(1).getNome();
-                    infoJogadorVencedor[2] = jogadores.get(1).getIdEspecie();
-                    infoJogadorVencedor[3] = String.valueOf(jogadores.get(1).getEspecie().getEnergiaInicial());
-                }
+                jogador = getJogadorComMaiorEnergia(jogadores);
+                infoJogadorVencedor[0] = String.valueOf(jogador.getId());
+                infoJogadorVencedor[1] = jogador.getNome();
+                infoJogadorVencedor[2] = jogador.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
                 return infoJogadorVencedor;
             }
         }
@@ -783,6 +780,19 @@ public class GameManager {
         }
 
         return jogadorMaisDistante;
+    }
+
+    public Jogador getJogadorComMaiorEnergia(List<Jogador> jogadores) {
+        Jogador jogadorComMaisEnergia = jogadores.get(0);
+
+        for (int i = 1; i < jogadores.size(); i++) {
+            Jogador jogadorAtual = jogadores.get(i);
+            if (jogadorAtual.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
+                jogadorComMaisEnergia = jogadorAtual;
+            }
+        }
+
+        return jogadorComMaisEnergia;
     }
 
     public String verificarConsumoDeAlimento(int posicao) {
