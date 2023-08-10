@@ -218,11 +218,6 @@ public class Jogador {
         this.posicaoAtual = posicaoAtual;
     }
 
-    // TIRAR
-    public void novaPosicao(int posicao) {
-        this.posicaoAtual += posicao;
-    }
-
     public Especie getEspecie() {
         return especie;
     }

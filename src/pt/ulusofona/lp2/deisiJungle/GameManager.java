@@ -607,6 +607,7 @@ public class GameManager {
             // jogador entre a “casa do meio” e a meta, o vencedor do jogo é o jogador com mais energia
             // na “casa do meio”.
         }
+
         for (Jogador jogador : jogadores) {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
                 jogadoresNaCasaDoMeio++;
@@ -614,8 +615,7 @@ public class GameManager {
                 jogadoresEntreCasaDoMeioEMeta++;
             }
 
-            if (jogadoresNaCasaDoMeio >= 2 && jogadoresEntreCasaDoMeioEMeta >= 1) {
-                jogador = getJogadorComMaiorEnergia(jogadores);
+            if (jogadoresNaCasaDoMeio >= 2) {
                 infoJogadorVencedor[0] = String.valueOf(jogador.getId());
                 infoJogadorVencedor[1] = jogador.getNome();
                 infoJogadorVencedor[2] = jogador.getIdEspecie();
@@ -623,6 +623,7 @@ public class GameManager {
                 return infoJogadorVencedor;
             }
         }
+
         return null; // Nenhum jogador venceu ainda
     }
 
@@ -799,7 +800,6 @@ public class GameManager {
 
         return jogadorComMaisEnergia;
     }
-
 
     public String verificarConsumoDeAlimento(int posicao) {
         for (Alimento alimento : alimentos) {

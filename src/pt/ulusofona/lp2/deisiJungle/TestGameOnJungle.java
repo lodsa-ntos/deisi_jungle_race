@@ -1277,6 +1277,7 @@ public class TestGameOnJungle {
 
         assertNotNull(infoJogadorVencedor);
         assertEquals("A vitória deveria ser do jogador Bagheera","4", gameOnJungle.getWinnerInfo()[0]);
+
     }
 
     @Test
