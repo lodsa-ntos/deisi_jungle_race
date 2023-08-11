@@ -1322,7 +1322,7 @@ public class TestGameOnJungle {
     }
 
     @Test
-    public void testGetWinnerInfo_AindaSemVencedor() throws InvalidInitialJungleException {
+    public void testGetWinnerInfo_AindaNaoExisteUmVencedor() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
 
         String[][] playerInfo = new String[2][3];
@@ -1337,7 +1337,7 @@ public class TestGameOnJungle {
         playerInfo[1][1] = "Bagheera";
         playerInfo[1][2] = "P";
 
-        gameOnJungle.createInitialJungle(10, playerInfo);
+        gameOnJungle.createInitialJungle(11, playerInfo);
 
         // Jogador 1 joga
         MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(4, true);

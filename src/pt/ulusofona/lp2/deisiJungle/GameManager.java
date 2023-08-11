@@ -27,6 +27,7 @@ public class GameManager {
     int casaPartida;
     int turnoAtual;
     boolean alguemChegouNaMeta;
+    int casaDoMeio;
 
     public GameManager() {}
 
@@ -563,19 +564,15 @@ public class GameManager {
     }
 
     public String[] getWinnerInfo() {
-        int casaDoMeio = posicaoFinalJogo/2;
-        int jogadoresNaCasaDoMeio = 0;
-        int jogadoresEntreCasaDoMeioEMeta = 0;
+        Jogador jogadorComMaisEnergia = null;
+        boolean jaExisteUmVencedor = false;
         String[] infoJogadorVencedor = new String[4];
+        ArrayList<Jogador> vencedoresEmNovasCondicoes = new ArrayList<>();
 
         for (Jogador jogador : jogadores) {
 
             if (jogador.getPosicaoAtual() == posicaoFinalJogo) {
                 alguemChegouNaMeta = true;
-            }
-
-            if (jogador.getPosicaoAtual() == casaDoMeio) {
-                jogadoresNaCasaDoMeio++;
             }
 
             // Se algum jogador chegou à posição final do jogo mostrar a info do jogador vencedor
@@ -607,10 +604,34 @@ public class GameManager {
                 infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
                 return infoJogadorVencedor;
             }
-            // Quando estiverem presentes dois jogadores na “casa do meio” e existir, pelo menos, um
-            // jogador entre a “casa do meio” e a meta, o vencedor do jogo é o jogador com mais energia
-            // na “casa do meio”.
+            // TODO Nova Condição Vencedor:
+            // Qual é a “casa do meio” do tabuleiro?
+            // Se o tabuleiro tem tamanho 11, considera-se que a casa do meio é a casa 6.
+            if (posicaoFinalJogo % 2 != 0) {
+                casaDoMeio = ((posicaoFinalJogo / 2) + 1);
+            } else {
+                // Se o tabuleiro tem tamanho 10, considera-se que a casa do meio é a casa 5.
+                casaDoMeio = (posicaoFinalJogo / 2);
+            }
 
+            // Quando estiverem presentes dois jogadores na “casa do meio”
+            if (jogador.getPosicaoAtual() == casaDoMeio) {
+                vencedoresEmNovasCondicoes.add(jogador);
+                if (jogadorComMaisEnergia == null || jogador.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
+                    jogadorComMaisEnergia = jogador;
+                    jaExisteUmVencedor = true;
+                }
+            }
+
+            // Se existir, pelo menos, um jogador entre a “casa do meio” e a meta (vencedoresEmNovasCondicoes)
+            // O vencedor do jogo é o jogador com mais energia na “casa do meio”
+            if (jaExisteUmVencedor && vencedoresEmNovasCondicoes.size() >= 2) {
+                infoJogadorVencedor[0] = String.valueOf(jogadorComMaisEnergia.getId());
+                infoJogadorVencedor[1] = jogadorComMaisEnergia.getNome();
+                infoJogadorVencedor[2] = jogadorComMaisEnergia.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(jogadorComMaisEnergia.getEspecie().getEnergiaInicial());
+                return infoJogadorVencedor;
+            }
         }
 
         return null; // Nenhum jogador venceu ainda
@@ -706,6 +727,7 @@ public class GameManager {
      * -----------------------------------------------Novas Funções--------------------------------------------
      */
 
+    /*
     public String[] getVencedorDoisJogadoresCasaDoMeio(Jogador primeiroJogador, Jogador segundoJogador, int casaDoMeio, String[] infoJogadorVencedor) {
         for (Jogador jogador : jogadores) {
             if (primeiroJogador == null || jogador.getPosicaoAtual() > primeiroJogador.getPosicaoAtual()) {
@@ -734,6 +756,7 @@ public class GameManager {
         }
         return null;
     }
+     */
 
     public boolean existeUmJogadorMuitoDistanteDaMeta() {
         int distanciaPrimeiroJogador = Integer.MAX_VALUE;
@@ -774,6 +797,7 @@ public class GameManager {
         return jogadorMaisDistante;
     }
 
+    /*
     public Jogador getJogadorComMaiorEnergia(List<Jogador> jogadores) {
         int casaDoMeio = posicaoFinalJogo / 2;
         Jogador jogadorComMaisEnergia = null;
@@ -789,6 +813,7 @@ public class GameManager {
 
         return jogadorComMaisEnergia;
     }
+     */
 
     public String verificarConsumoDeAlimento(int posicao) {
         for (Alimento alimento : alimentos) {
@@ -923,6 +948,7 @@ public class GameManager {
         casaPartida = 1; // reset casa partida de todos os jogadores
         turnoAtual = 0; // reset do turno atual do jogo.
         posicaoFinalJogo = 0; // reset posicão final do mapa de jogo
+        casaDoMeio = 0; // reset casa do meio do mapa de jogo
         atualizarContagemJogadasCarne(0);
     }
 }
