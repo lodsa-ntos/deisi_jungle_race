@@ -564,7 +564,7 @@ public class GameManager {
     }
 
     public String[] getWinnerInfo() {
-        Jogador jogadorComMaisEnergia = null;
+        Jogador jogadorComMaisEnergia = jogadores.get(0);
         boolean jaExisteUmVencedor = false;
         String[] infoJogadorVencedor = new String[4];
         ArrayList<Jogador> vencedoresEmNovasCondicoes = new ArrayList<>();
