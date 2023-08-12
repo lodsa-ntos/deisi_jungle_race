@@ -677,8 +677,9 @@ public class GameManager {
         }
         // TODO Nova Condição Vencedor:
         calcularCasaDoMeio();
-        jogadorComMaisEnergia = null;
-        obterResultadoVencedorNovaCondicao(jogadoresEmJogo, vencedoresEmNovasCondicoes, jaExisteUmVencedor, posicaoChegada, resultados);
+        jogadorComMaisEnergia = jogadoresEmJogo.get(0);
+        obterResultadoVencedorNovaCondicao(jogadoresEmJogo, vencedoresEmNovasCondicoes,
+                jaExisteUmVencedor, posicaoChegada, resultados);
 
         return resultados;
     }
