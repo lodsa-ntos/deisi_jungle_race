@@ -564,7 +564,6 @@ public class GameManager {
     }
 
     public String[] getWinnerInfo() {
-        Jogador jogadorComMaisEnergia = jogadores.get(0);
         boolean jaExisteUmVencedor = false;
         String[] infoJogadorVencedor = new String[4];
         ArrayList<Jogador> vencedoresEmNovasCondicoes = new ArrayList<>();
@@ -613,6 +612,8 @@ public class GameManager {
                 // Se o tabuleiro tem tamanho 10, considera-se que a casa do meio é a casa 5.
                 casaDoMeio = (posicaoFinalJogo / 2);
             }
+
+            Jogador jogadorComMaisEnergia = jogadores.get(0);
 
             // Quando estiverem presentes dois jogadores na “casa do meio”
             if (jogador.getPosicaoAtual() == casaDoMeio) {

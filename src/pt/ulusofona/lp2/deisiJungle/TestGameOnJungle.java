@@ -1352,6 +1352,16 @@ public class TestGameOnJungle {
         assertNull("getWinnerInfo() devia ter dado null porque o jogo ainda não tem vencedor", infoJogadorVencedor);
     }
 
+    @Test
+    public void testGetWinnerInfo_IndexOutOfBoundsException() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
+
+        assertNull("getWinnerInfo() devia ter dado null porque não há jogadores", infoJogadorVencedor);
+    }
+
+
     /*
     @Test
     public void testNovaCondicaoDeVitoria() throws InvalidInitialJungleException {
