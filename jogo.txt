@@ -1,0 +1,29 @@
+Turno atual: 24
+Dimenção do mapa: 47
+Jogador atual: 3:sdfsd:Z:86:21:20:2
+Jogador com mais energia: null
+IDs em jogo: {1=1, 2=1, 3=1, 4=1}
+Jogadores que consumiram bananas: {3=1}
+Casa do meio do mapa: 24
+Já existe vencedor: false
+
+Informação geral dos jogadores em jogo: 
+Quantidade de jogadores em jogo: 4
+1 : fsdfsd : 17 : P : 6
+2 : fsdfsdf : 24 : L : 11
+3 : sdfsd : 21 : Z : 86
+4 : fsdfsdf : 20 : U : 18
+
+Informação geral dos alimentos em jogo: 
+Quantidade de alimentos em jogo: 10
+
+e : Erva : 20 : 0 : 23 : 0 : Erva : +- 20 energia
+a : Agua : 35 : 0 : 23 : 0 : Agua : + 15U|20% energia
+b : Bananas : 13 : 2 : 23 : 0 : Bananas : 2 : + 40 energia
+c : Carne : 18 : 0 : 23 : 0 : Carne toxica
+m : Cogumelo Magico : 41 : 0 : 23 : 40 : Cogumelo Magico : +- 40% energia
+e : Erva : 38 : 0 : 23 : 0 : Erva : +- 20 energia
+a : Agua : 15 : 0 : 23 : 0 : Agua : + 15U|20% energia
+b : Bananas : 8 : 3 : 23 : 0 : Bananas : 3 : + 40 energia
+c : Carne : 34 : 0 : 23 : 0 : Carne toxica
+m : Cogumelo Magico : 11 : 0 : 23 : 43 : Cogumelo Magico : +- 43% energia

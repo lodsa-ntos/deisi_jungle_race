@@ -4,9 +4,7 @@ import pt.ulusofona.lp2.deisiJungle.validar.ValidadorJogador;
 import pt.ulusofona.lp2.deisiJungle.validar.ValidatorAlimento;
 
 import javax.swing.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 /*-------------------------------------------------DEISI JUNGLE----------------------------------------------------
     Certo dia, numa savana muito (muito) longe daqui, os animais decidiram descobrir quem seria o melhor atleta entre
@@ -708,6 +706,7 @@ public class GameManager {
             FileWriter guardarJogo = new FileWriter(file.getAbsoluteFile());
 
             // Guardar a informação geral
+            guardarJogo.write("------------------DEISI JUNGLE--------------------" + nextLine);
             guardarJogo.write("Turno atual: " + turnoAtual + nextLine);
             guardarJogo.write("Dimenção do mapa: " + posicaoFinalJogo + nextLine);
             guardarJogo.write("Jogador atual: " + jogadorAtual + nextLine);
@@ -715,15 +714,35 @@ public class GameManager {
             guardarJogo.write("IDs em jogo: " + idJogadoresEmJogo + nextLine);
             guardarJogo.write("Jogadores que consumiram bananas: " + jogadoresQueConsumiramBanana + nextLine);
             guardarJogo.write("Casa do meio do mapa: " + casaDoMeio + nextLine);
-            guardarJogo.write("Vencedor: " + alguemChegouNaMeta + nextLine);
-            guardarJogo.write("Quantidade de jogadores em jogo: " + jogadores.size() + nextLine);
+            guardarJogo.write("Já existe vencedor: " + alguemChegouNaMeta + nextLine);
 
             // Guardar a informação geral dos jogadores
             guardarJogo.write(nextLine);
             guardarJogo.write("Informação geral dos jogadores em jogo: " + nextLine);
+            guardarJogo.write("Quantidade de jogadores em jogo: " + jogadores.size() + nextLine);
+            guardarJogo.write(nextLine);
+
             for(Jogador jogador : jogadores) {
                 guardarJogo.write(jogador.getId() + " : " + jogador.getNome() + " : " + jogador.getPosicaoAtual() + " : "
-                        + jogador.getIdEspecie() + " : " + jogador.getEspecie().getEnergiaInicial());
+                        + jogador.getEspecie().getNome() + " : " + jogador.getEspecie().getEnergiaInicial() + " : " +
+                        jogador.getNumeroPosicoesPercorridas() + " : " + jogador.getNumeroAlimento() + " : " +
+                        jogador.getEspecie().getTipoAlimentacaoDaEspecie() + " : " + jogador.getEspecie().getConsumoEnergia()
+                        + " : " + jogador.getEspecie().getGanhoEnergiaDescanso() + " : " + jogador.getEspecie().getVelocidadeMinima()
+                        + " : " + jogador.getEspecie().getVelocidadeMaxima());
+
+                guardarJogo.write(nextLine);
+            }
+
+            // Guardar a informação geral dos alimentos
+            guardarJogo.write(nextLine);
+            guardarJogo.write("Informação geral dos alimentos em jogo: " + nextLine);
+            guardarJogo.write("Quantidade de alimentos em jogo: " + alimentos.size() + nextLine);
+            guardarJogo.write(nextLine);
+
+            for(Alimento alimento : alimentos) {
+                guardarJogo.write(alimento.getId() + " : " + alimento.getPosicaoAlimento() + " : "
+                        + alimento.getNumeroBananasON() + " : " + alimento.getNumroJogadasCarne()
+                        + " : " + alimento.getNumeroAleatorioCog() + " : " + alimento.toolTip());
 
                 guardarJogo.write(nextLine);
             }
@@ -737,7 +756,7 @@ public class GameManager {
     }
 
     public boolean loadGame(File file) {
-        return false;
+        return true;
     }
 
 
@@ -994,19 +1013,19 @@ public class GameManager {
                     jaExisteUmVencedor = true;
                 }
             }
-        }
 
-        if (jaExisteUmVencedor && vencedoresEmNovasCondicoes.size() >= 1) {
-            String nome = jogadorComMaisEnergia.getNome();
-            String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
-            int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
-            int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
-            int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
+            if (jaExisteUmVencedor && vencedoresEmNovasCondicoes.size() >= 1) {
+                String nome = jogadorComMaisEnergia.getNome();
+                String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
+                int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
+                int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
+                int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
 
-            resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
-                    + ", " + distancia + ", " + numAlimento);
+                resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                        + ", " + distancia + ", " + numAlimento);
 
-            posicaoChegada++;
+                posicaoChegada++;
+            }
         }
     }
 }
