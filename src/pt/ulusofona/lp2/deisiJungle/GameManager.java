@@ -709,16 +709,18 @@ public class GameManager {
 
             // Guardar a informação geral
             guardarJogo.write("Turno atual: " + turnoAtual + nextLine);
-            guardarJogo.write("Nº de casas: " + posicaoFinalJogo + nextLine);
-            guardarJogo.write("Jogador atual: " + jogadorAtual.getId() + nextLine);
-            guardarJogo.write("Jogador com energia: " + jogadorComMaisEnergia + nextLine);
+            guardarJogo.write("Dimenção do mapa: " + posicaoFinalJogo + nextLine);
+            guardarJogo.write("Jogador atual: " + jogadorAtual + nextLine);
+            guardarJogo.write("Jogador com mais energia: " + jogadorComMaisEnergia + nextLine);
             guardarJogo.write("IDs em jogo: " + idJogadoresEmJogo + nextLine);
             guardarJogo.write("Jogadores que consumiram bananas: " + jogadoresQueConsumiramBanana + nextLine);
-            guardarJogo.write("Metade do mapa: " + casaDoMeio + nextLine);
+            guardarJogo.write("Casa do meio do mapa: " + casaDoMeio + nextLine);
             guardarJogo.write("Vencedor: " + alguemChegouNaMeta + nextLine);
-            guardarJogo.write("Nº de jogadores em jogos: " + jogadores.size() + nextLine);
+            guardarJogo.write("Quantidade de jogadores em jogo: " + jogadores.size() + nextLine);
 
-            // Guardar a informações dos jogadores
+            // Guardar a informação geral dos jogadores
+            guardarJogo.write(nextLine);
+            guardarJogo.write("Informação geral dos jogadores em jogo: " + nextLine);
             for(Jogador jogador : jogadores) {
                 guardarJogo.write(jogador.getId() + " : " + jogador.getNome() + " : " + jogador.getPosicaoAtual() + " : "
                         + jogador.getIdEspecie() + " : " + jogador.getEspecie().getEnergiaInicial());
