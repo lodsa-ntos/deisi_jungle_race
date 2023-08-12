@@ -5,6 +5,8 @@ import pt.ulusofona.lp2.deisiJungle.validar.ValidatorAlimento;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 /*-------------------------------------------------DEISI JUNGLE----------------------------------------------------
     Certo dia, numa savana muito (muito) longe daqui, os animais decidiram descobrir quem seria o melhor atleta entre
@@ -28,7 +30,6 @@ public class GameManager {
     int turnoAtual;
     boolean alguemChegouNaMeta;
     int casaDoMeio;
-
     Jogador jogadorComMaisEnergia;
 
     public GameManager() {}
@@ -699,7 +700,38 @@ public class GameManager {
     }
 
     public boolean saveGame(File file) {
-        return false;
+
+        // Quebrar a linha
+        String nextLine = System.lineSeparator();
+
+        try {
+            FileWriter guardarJogo = new FileWriter(file.getAbsoluteFile());
+
+            // Guardar a informação geral
+            guardarJogo.write("Turno atual: " + turnoAtual + nextLine);
+            guardarJogo.write("Nº de casas: " + posicaoFinalJogo + nextLine);
+            guardarJogo.write("Jogador atual: " + jogadorAtual.getId() + nextLine);
+            guardarJogo.write("Jogador com energia: " + jogadorComMaisEnergia + nextLine);
+            guardarJogo.write("IDs em jogo: " + idJogadoresEmJogo + nextLine);
+            guardarJogo.write("Jogadores que consumiram bananas: " + jogadoresQueConsumiramBanana + nextLine);
+            guardarJogo.write("Metade do mapa: " + casaDoMeio + nextLine);
+            guardarJogo.write("Vencedor: " + alguemChegouNaMeta + nextLine);
+            guardarJogo.write("Nº de jogadores em jogos: " + jogadores.size() + nextLine);
+
+            // Guardar a informações dos jogadores
+            for(Jogador jogador : jogadores) {
+                guardarJogo.write(jogador.getId() + " : " + jogador.getNome() + " : " + jogador.getPosicaoAtual() + " : "
+                        + jogador.getIdEspecie() + " : " + jogador.getEspecie().getEnergiaInicial());
+
+                guardarJogo.write(nextLine);
+            }
+
+            guardarJogo.close();
+            return true;
+
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     public boolean loadGame(File file) {
@@ -955,24 +987,24 @@ public class GameManager {
             // Quando estiverem presentes dois jogadores na “casa do meio”
             if (jogador.getPosicaoAtual() == casaDoMeio) {
                 vencedoresEmNovasCondicoes.add(jogador);
-                if (jogadorComMaisEnergia == null || jogador.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
+                if (jogador.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
                     jogadorComMaisEnergia = jogador;
                     jaExisteUmVencedor = true;
                 }
             }
+        }
 
-            if (jaExisteUmVencedor && vencedoresEmNovasCondicoes.size() >= 1) {
-                String nome = jogador.getNome();
-                String nomeEspecie = jogador.getEspecie().getNome();
-                int posicaoAtual = jogador.getPosicaoAtual();
-                int distancia = jogador.getNumeroPosicoesPercorridas();
-                int numAlimento = jogador.getNumeroAlimento();
+        if (jaExisteUmVencedor && jogadorComMaisEnergia != null) {
+            String nome = jogadorComMaisEnergia.getNome();
+            String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
+            int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
+            int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
+            int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
 
-                resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
-                        + ", " + distancia + ", " + numAlimento);
+            resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                    + ", " + distancia + ", " + numAlimento);
 
-                posicaoChegada++;
-            }
+            posicaoChegada++;
         }
     }
 }
