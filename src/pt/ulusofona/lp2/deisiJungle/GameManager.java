@@ -640,6 +640,8 @@ public class GameManager {
 
     public ArrayList<String> getGameResults() {
         ArrayList<Jogador> jogadoresEmJogo = new ArrayList<>();
+        ArrayList<Jogador> vencedoresEmNovasCondicoes = new ArrayList<>();
+        boolean jaExisteUmVencedor = false;
         for (Jogador jogador : jogadores) {
             if (jogador.getEspecie().getEnergiaInicial() >= 0) {
                 jogadoresEmJogo.add(jogador);
@@ -679,13 +681,28 @@ public class GameManager {
                 }
             }
         }
-        /*
-        // Ordenar a lista de jogadores com energia por ordem decrescente
-        jogadoresEmJogo.sort((jogador1, jogador2) ->
-                jogador2.getEspecie().getEnergiaInicial() - jogador1.getEspecie().getEnergiaInicial());
-        // Adicionar jogadores com ou sem energia e estejam na mesma posição do mapa
+        // TODO Nova Condição Vencedor:
+        // Qual é a “casa do meio” do tabuleiro?
+        // Se o tabuleiro tem tamanho 11, considera-se que a casa do meio é a casa 6.
+        if (posicaoFinalJogo % 2 != 0) {
+            casaDoMeio = ((posicaoFinalJogo / 2) + 1);
+        } else {
+            // Se o tabuleiro tem tamanho 10, considera-se que a casa do meio é a casa 5.
+            casaDoMeio = (posicaoFinalJogo / 2);
+        }
+
+        Jogador jogadorComMaisEnergia = jogadores.get(0);
         for (Jogador jogador : jogadoresEmJogo) {
-            if (!alguemChegouNaMeta && !existeGrandeDistanciaEntreJogadores()) {
+            // Quando estiverem presentes dois jogadores na “casa do meio”
+            if (jogador.getPosicaoAtual() == casaDoMeio) {
+                vencedoresEmNovasCondicoes.add(jogador);
+                if (jogadorComMaisEnergia == null || jogador.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
+                    jogadorComMaisEnergia = jogador;
+                    jaExisteUmVencedor = true;
+                }
+            }
+
+            if (jaExisteUmVencedor && vencedoresEmNovasCondicoes.size() >= 2) {
                 String nome = jogador.getNome();
                 String nomeEspecie = jogador.getEspecie().getNome();
                 int posicaoAtual = jogador.getPosicaoAtual();
@@ -697,7 +714,7 @@ public class GameManager {
                 posicaoChegada++;
             }
         }
-         */
+
         return resultados;
     }
 
