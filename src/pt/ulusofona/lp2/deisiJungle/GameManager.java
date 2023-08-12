@@ -677,6 +677,7 @@ public class GameManager {
         }
         // TODO Nova Condição Vencedor:
         calcularCasaDoMeio();
+        jogadorComMaisEnergia = null;
         obterResultadoVencedorNovaCondicao(jogadoresEmJogo, vencedoresEmNovasCondicoes, jaExisteUmVencedor, posicaoChegada, resultados);
 
         return resultados;
@@ -948,8 +949,8 @@ public class GameManager {
                                                    ArrayList<Jogador> vencedoresEmNovasCondicoes,
                                                    boolean jaExisteUmVencedor, int posicaoChegada,
                                                    ArrayList<String> resultados) {
+
         for (Jogador jogador : jogadoresEmJogo) {
-            jogadorComMaisEnergia = jogadores.get(0);
             // Quando estiverem presentes dois jogadores na “casa do meio”
             if (jogador.getPosicaoAtual() == casaDoMeio) {
                 vencedoresEmNovasCondicoes.add(jogador);
@@ -960,14 +961,15 @@ public class GameManager {
             }
 
             if (jaExisteUmVencedor && vencedoresEmNovasCondicoes.size() >= 2) {
-                String nome = jogadorComMaisEnergia.getNome();
-                String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
-                int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
-                int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
-                int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
+                String nome = jogador.getNome();
+                String nomeEspecie = jogador.getEspecie().getNome();
+                int posicaoAtual = jogador.getPosicaoAtual();
+                int distancia = jogador.getNumeroPosicoesPercorridas();
+                int numAlimento = jogador.getNumeroAlimento();
 
                 resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
                         + ", " + distancia + ", " + numAlimento);
+
                 posicaoChegada++;
             }
         }

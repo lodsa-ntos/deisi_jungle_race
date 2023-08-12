@@ -1361,7 +1361,7 @@ public class TestGameOnJungle {
         assertNull("getWinnerInfo() devia ter dado null porque não há jogadores", infoJogadorVencedor);
     }
 
-    /*
+
     @Test
     public void testgetGameResults_NovaCondicaoVencedor() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
@@ -1400,7 +1400,7 @@ public class TestGameOnJungle {
         assertEquals("[#1 Akela, Unicórnio, 5, 4, 0, #2 Bagheera, Pássaro, 7, 6, 0]",
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
-     */
+
 
     @Test
     public void testgetGameResults_IndexOutOfBoundsException() throws InvalidInitialJungleException {
