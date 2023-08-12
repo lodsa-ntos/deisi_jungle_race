@@ -29,6 +29,8 @@ public class GameManager {
     boolean alguemChegouNaMeta;
     int casaDoMeio;
 
+    Jogador jogadorComMaisEnergia;
+
     public GameManager() {}
 
     public String[][] getSpecies() {
@@ -604,15 +606,7 @@ public class GameManager {
                 return infoJogadorVencedor;
             }
             // TODO Nova Condição Vencedor:
-            // Qual é a “casa do meio” do tabuleiro?
-            // Se o tabuleiro tem tamanho 11, considera-se que a casa do meio é a casa 6.
-            if (posicaoFinalJogo % 2 != 0) {
-                casaDoMeio = ((posicaoFinalJogo / 2) + 1);
-            } else {
-                // Se o tabuleiro tem tamanho 10, considera-se que a casa do meio é a casa 5.
-                casaDoMeio = (posicaoFinalJogo / 2);
-            }
-
+            calcularCasaDoMeio();
             Jogador jogadorComMaisEnergia = jogadores.get(0);
 
             // Quando estiverem presentes dois jogadores na “casa do meio”
@@ -682,17 +676,9 @@ public class GameManager {
             }
         }
         // TODO Nova Condição Vencedor:
-        // Qual é a “casa do meio” do tabuleiro?
-        // Se o tabuleiro tem tamanho 11, considera-se que a casa do meio é a casa 6.
-        if (posicaoFinalJogo % 2 != 0) {
-            casaDoMeio = ((posicaoFinalJogo / 2) + 1);
-        } else {
-            // Se o tabuleiro tem tamanho 10, considera-se que a casa do meio é a casa 5.
-            casaDoMeio = (posicaoFinalJogo / 2);
-        }
-
-        Jogador jogadorComMaisEnergia = jogadores.get(0);
+        calcularCasaDoMeio();
         for (Jogador jogador : jogadoresEmJogo) {
+            jogadorComMaisEnergia = jogadores.get(0);
             // Quando estiverem presentes dois jogadores na “casa do meio”
             if (jogador.getPosicaoAtual() == casaDoMeio) {
                 vencedoresEmNovasCondicoes.add(jogador);
@@ -959,6 +945,7 @@ public class GameManager {
         jogadores = new ArrayList<>(); // reset da lista de jogadores.
         alimentos = new ArrayList<>(); // reset da lista de alimentos
         jogadorAtual = null; // reset do jogadorAtual
+        jogadorComMaisEnergia = null; // reset do jogadorComMaisEnergia
         idJogadoresEmJogo = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores no início do jogo
         jogadoresQueConsumiramBanana = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores consumiram bananas
 
@@ -968,5 +955,14 @@ public class GameManager {
         posicaoFinalJogo = 0; // reset posicão final do mapa de jogo
         casaDoMeio = 0; // reset casa do meio do mapa de jogo
         atualizarContagemJogadasCarne(0);
+    }
+
+    public void calcularCasaDoMeio() {
+        if (posicaoFinalJogo % 2 != 0) {
+            casaDoMeio = ((posicaoFinalJogo / 2) + 1);
+        } else {
+            // Se o tabuleiro tem tamanho 10, considera-se que a casa do meio é a casa 5.
+            casaDoMeio = (posicaoFinalJogo / 2);
+        }
     }
 }
