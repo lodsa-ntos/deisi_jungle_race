@@ -961,7 +961,7 @@ public class GameManager {
                 }
             }
 
-            if (jaExisteUmVencedor && vencedoresEmNovasCondicoes.size() > 2) {
+            if (jaExisteUmVencedor && vencedoresEmNovasCondicoes.size() >= 1) {
                 String nome = jogador.getNome();
                 String nomeEspecie = jogador.getEspecie().getNome();
                 int posicaoAtual = jogador.getPosicaoAtual();
