@@ -708,8 +708,8 @@ public class GameManager {
             // Guardar a informação geral
             guardarJogo.write("------------------DEISI JUNGLE--------------------" + nextLine);
             guardarJogo.write("Turno atual: " + turnoAtual + nextLine);
-            guardarJogo.write("Dimenção do mapa: " + posicaoFinalJogo + nextLine);
-            guardarJogo.write("Jogador atual: " + jogadorAtual + nextLine);
+            guardarJogo.write("Dimensão do mapa: " + posicaoFinalJogo + nextLine);
+            guardarJogo.write("Jogador atual: " + jogadorAtual.getId() + nextLine);
             guardarJogo.write("Jogador com mais energia: " + jogadorComMaisEnergia + nextLine);
             guardarJogo.write("IDs em jogo: " + idJogadoresEmJogo + nextLine);
             guardarJogo.write("Jogadores que consumiram bananas: " + jogadoresQueConsumiramBanana + nextLine);
@@ -720,11 +720,10 @@ public class GameManager {
             guardarJogo.write(nextLine);
             guardarJogo.write("Informação geral dos jogadores em jogo: " + nextLine);
             guardarJogo.write("Quantidade de jogadores em jogo: " + jogadores.size() + nextLine);
-            guardarJogo.write(nextLine);
 
             for(Jogador jogador : jogadores) {
                 guardarJogo.write(jogador.getId() + " : " + jogador.getNome() + " : " + jogador.getPosicaoAtual() + " : "
-                        + jogador.getEspecie().getNome() + " : " + jogador.getEspecie().getEnergiaInicial() + " : " +
+                        + jogador.getIdEspecie() + " : " + jogador.getEspecie().getEnergiaInicial() + " : " +
                         jogador.getNumeroPosicoesPercorridas() + " : " + jogador.getNumeroAlimento() + " : " +
                         jogador.getEspecie().getTipoAlimentacaoDaEspecie() + " : " + jogador.getEspecie().getConsumoEnergia()
                         + " : " + jogador.getEspecie().getGanhoEnergiaDescanso() + " : " + jogador.getEspecie().getVelocidadeMinima()
@@ -737,7 +736,6 @@ public class GameManager {
             guardarJogo.write(nextLine);
             guardarJogo.write("Informação geral dos alimentos em jogo: " + nextLine);
             guardarJogo.write("Quantidade de alimentos em jogo: " + alimentos.size() + nextLine);
-            guardarJogo.write(nextLine);
 
             for(Alimento alimento : alimentos) {
                 guardarJogo.write(alimento.getId() + " : " + alimento.getPosicaoAlimento() + " : "
@@ -756,13 +754,153 @@ public class GameManager {
     }
 
     public boolean loadGame(File file) {
-        return true;
+        try  {
+            BufferedReader carregarFicheiroGuardado = new BufferedReader(new FileReader(file));
+            String linha;
+            boolean infoJogador = false;
+            boolean infoAlimento = false;
+            ArrayList<Jogador> jogadoresCarregados = new ArrayList<>();
+            ArrayList<Alimento> alimentosCarregados = new ArrayList<>();
+            HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
+            HashMap<Integer,Integer> jogadoresQueConsumiramBananas = new HashMap<>();
+            int turnoAtual = 0;
+            int dimensaoMapa = 0;
+            int quantJogadoresEmJogo = 0;
+            int quantAlimentosEmJogo = 0;
+            int jogadorAjogar = 0;
+            int carregarCasaDoMeio = 0;
+            Jogador jogadorComMaisEnergia = null;
+            boolean vencedor = false;
+
+            while ((linha = carregarFicheiroGuardado.readLine()) != null) {
+
+                // Carregar informação geral do jogo (Turno, Dimensão do mapa, Jogador atual, etc.)
+                if (linha.startsWith("Turno atual: ")) {
+                    turnoAtual = Integer.parseInt(linha.split(":")[1].trim());
+
+                } else if (linha.startsWith("Dimensão do mapa: ")) {
+                    dimensaoMapa = Integer.parseInt(linha.split(":")[1].trim());
+
+                } else if (linha.startsWith("Jogador atual: ")) {
+                    jogadorAjogar = Integer.parseInt(linha.split(":")[1].trim());
+
+                } else if (linha.startsWith("Jogador com mais energia: ")) {
+                    String jogadorId = linha.split(":")[1].trim();
+                    if (jogadorComMaisEnergia != null) {
+                        int id = Integer.parseInt(jogadorId);
+
+                        // Encontrar o jogador que corresponde ao seu ‘id’
+                        for (Jogador jogador : jogadoresCarregados) {
+                            if (jogador.getId() == id) {
+                                jogadorComMaisEnergia = jogador;
+                                break;
+                            }
+                        }
+                    } else {
+                        System.out.println("Não foi encontrado nenhum jogador com mais energia.");
+                    }
+
+                } else if (linha.startsWith("IDs em jogo: ")) {
+                    String hashMapID = linha.substring(linha.indexOf("{") + 1, linha.indexOf("}"));
+                    String[] chaveValorIDs = hashMapID.split(", ");
+
+                    for (String apenasUmId : chaveValorIDs) {
+                        String[] separadorEntreChaveValor = apenasUmId.split("=");
+                        int chave = Integer.parseInt(separadorEntreChaveValor[0]);
+                        int valor = Integer.parseInt(separadorEntreChaveValor[1]);
+                        idJogadoresEmJogo.put(chave, valor);
+                    }
+
+                } else if (linha.startsWith("Jogadores que consumiram bananas: ")) {
+                    String hashMapBanana = linha.substring(linha.indexOf("{") + 1, linha.indexOf("}"));
+                    String[] chaveValorBananas = hashMapBanana.split(", ");
+
+                    for (String banana : chaveValorBananas) {
+                        String[] separadorEntreChaveValor = banana.split("=");
+                        int chave = Integer.parseInt(separadorEntreChaveValor[0]);
+                        int valor = Integer.parseInt(separadorEntreChaveValor[1]);
+                        jogadoresQueConsumiramBananas.put(chave, valor);
+                    }
+
+                } else if (linha.startsWith("Casa do meio do mapa: ")) {
+                    carregarCasaDoMeio = Integer.parseInt(linha.split(":")[1].trim());
+
+                } else if (linha.startsWith("Já existe vencedor: ")) {
+                    vencedor = Boolean.parseBoolean(linha.split(":")[1].trim());
+
+                } else {
+
+                    if (linha.equals("Informação geral dos jogadores em jogo: ")) {
+                        infoJogador = true;
+                        continue;
+                    }
+
+                    if (linha.equals("Informação geral dos alimentos em jogo: ")) {
+                        infoJogador = false;
+                        infoAlimento = true;
+                        continue;
+                    }
+
+                    // Carregar informação dos jogadores
+                    if (infoJogador) {
+                        String[] playerInfo = linha.split(" : ");
+                        if (linha.startsWith("Quantidade de jogadores em jogo: ")) {
+                            quantJogadoresEmJogo = Integer.parseInt(linha.split(":")[1].trim());
+
+                        } else {
+                            if (linha.trim().isEmpty()) {
+                                // Linha vazia, próxima iteração
+                                continue;
+                            }
+                            Jogador novoJogador = carregarDadosDoJogador(playerInfo);
+
+                            jogadoresCarregados.add(novoJogador);
+                        }
+
+                    } else if (linha.trim().isEmpty()) {
+                        // Linha vazia, próxima iteração
+                        continue;
+
+                        // Carregar informação dos alimentos
+                    } else if (infoAlimento) {
+                        String[] foodInfo = linha.split(" : ");
+
+                        if (linha.startsWith("Quantidade de alimentos em jogo: ")) {
+                            quantAlimentosEmJogo = Integer.parseInt(linha.split(":")[1].trim());
+
+                        } else {
+                            if (linha.trim().isEmpty()) {
+                                // Linha vazia, próxima iteração
+                                continue;
+                            }
+                            Alimento novoAlimento = carregarDadosAlimento(foodInfo);
+
+                            alimentosCarregados.add(novoAlimento);
+                        }
+                    }
+                }
+            }
+
+            carregarFicheiroGuardado.close();
+
+            jogadores.clear();
+            jogadores.addAll(jogadoresCarregados);
+
+            alimentos.clear();
+            alimentos.addAll(alimentosCarregados);
+
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
 
+
     /**
-     * -----------------------------------------------Novas Funções--------------------------------------------
+     * -----------------------------------------Novas Funções GETWINNERINFO()--------------------------------------
      */
+
 
     /*
     public String[] getVencedorDoisJogadoresCasaDoMeio(Jogador primeiroJogador, Jogador segundoJogador, int casaDoMeio, String[] infoJogadorVencedor) {
@@ -851,6 +989,11 @@ public class GameManager {
         return jogadorComMaisEnergia;
     }
      */
+
+    /**
+     * --------------------------------------Novas Funções moveCurrentPlayer()-------------------------------------
+     */
+
 
     public String verificarConsumoDeAlimento(int posicao) {
         for (Alimento alimento : alimentos) {
@@ -969,26 +1112,11 @@ public class GameManager {
         }
     }
 
-    public void incrementarTurno() {
-        turnoAtual++;
-    }
 
-    public void incrementarReset() {
 
-        jogadores = new ArrayList<>(); // reset da lista de jogadores.
-        alimentos = new ArrayList<>(); // reset da lista de alimentos
-        jogadorAtual = null; // reset do jogadorAtual
-        jogadorComMaisEnergia = null; // reset do jogadorComMaisEnergia
-        idJogadoresEmJogo = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores no início do jogo
-        jogadoresQueConsumiramBanana = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores consumiram bananas
-
-        alguemChegouNaMeta = false;
-        casaPartida = 1; // reset casa partida de todos os jogadores
-        turnoAtual = 0; // reset do turno atual do jogo.
-        posicaoFinalJogo = 0; // reset posicão final do mapa de jogo
-        casaDoMeio = 0; // reset casa do meio do mapa de jogo
-        atualizarContagemJogadasCarne(0);
-    }
+    /**
+     * ------------------------------Novas Funções GETGAMERESULTS e GETWINNERINFO()--------------------------------
+     */
 
     public void calcularCasaDoMeio() {
         if (posicaoFinalJogo % 2 != 0) {
@@ -1028,4 +1156,86 @@ public class GameManager {
             }
         }
     }
+
+
+    /**
+     * -----------------------------------------Novas Funções LOADGAME()-------------------------------------------
+     */
+
+    public Jogador carregarDadosDoJogador(String[] playerInfo) {
+        int novoIdJogador = Integer.parseInt(playerInfo[0]);
+        String novoNomeJogador = playerInfo[1];
+        int novaPosicaoJogador = Integer.parseInt(playerInfo[2]);
+        String novoIdEspecie = playerInfo[3];
+        int novaEnergiaAtual = Integer.parseInt(playerInfo[4]);
+        int novaPosicaoPercorridas = Integer.parseInt(playerInfo[5]);
+        int novoNumAlimento = Integer.parseInt(playerInfo[6]);
+        String novoTipoAlimentacaoEspecie = playerInfo[7];
+        int novoConsumoEnergia = Integer.parseInt(playerInfo[8]);
+        int novoGanhoEnergia = Integer.parseInt(playerInfo[9]);
+        int novaVelocidadeMinima = Integer.parseInt(playerInfo[10]);
+        int novaVelocidadeMaxima = Integer.parseInt(playerInfo[11]);
+
+        Especie especieJogadorCarregado = Especie.identificarEspecie(novoIdEspecie);
+        Jogador novoJogador = new Jogador(novoIdJogador, novoNomeJogador, novoIdEspecie, novaPosicaoJogador, especieJogadorCarregado);
+
+        novoJogador.setId(novoIdJogador);
+        novoJogador.setNome(novoNomeJogador);
+        novoJogador.alterarPosicaoAtual(novaPosicaoJogador);
+        novoJogador.setIdEspecie(novoIdEspecie);
+        novoJogador.getEspecie().setEnergiaInicial(novaEnergiaAtual);
+        novoJogador.setNumeroPosicoesPercorridas(novaPosicaoPercorridas);
+        novoJogador.contarNumAlimentoApanhado(novoNumAlimento);
+        novoJogador.getEspecie().setTipoAlimentacaoDaEspecie(novoTipoAlimentacaoEspecie);
+        novoJogador.getEspecie().setConsumoEnergia(novoConsumoEnergia);
+        novoJogador.getEspecie().setGanhoEnergiaDescanso(novoGanhoEnergia);
+        novoJogador.getEspecie().setVelocidadeMinima(novaVelocidadeMinima);
+        novoJogador.getEspecie().setVelocidadeMaxima(novaVelocidadeMaxima);
+
+        return novoJogador;
+    }
+
+    public Alimento carregarDadosAlimento(String[] foodInfo) {
+        String novoIdAlimento = foodInfo[0];
+        int novaPosicaoAlimento = Integer.parseInt(foodInfo[1]);
+        int novoNumeroBananasON = Integer.parseInt(foodInfo[2]);
+        int novoNumroJogadasCarne= Integer.parseInt(foodInfo[3]);
+        int novoNumeroAleatorioCog = Integer.parseInt(foodInfo[4]);
+
+        Alimento carregarAlimento = Alimento.identificarAlimento(novoIdAlimento,novaPosicaoAlimento);
+
+        carregarAlimento.setNumeroBananasON(novoNumeroBananasON);
+        carregarAlimento.setNumroJogadasCarne(novoNumroJogadasCarne);
+        carregarAlimento.setNumeroAleatorioCog(novoNumeroAleatorioCog);
+
+        return carregarAlimento;
+    }
+
+
+    /**
+     * ------------------------------------------Novas Funções GERAL()---------------------------------------------
+     */
+
+
+    public void incrementarTurno() {
+        turnoAtual++;
+    }
+
+    public void incrementarReset() {
+
+        jogadores = new ArrayList<>(); // reset da lista de jogadores.
+        alimentos = new ArrayList<>(); // reset da lista de alimentos
+        jogadorAtual = null; // reset do jogadorAtual
+        jogadorComMaisEnergia = null; // reset do jogadorComMaisEnergia
+        idJogadoresEmJogo = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores no início do jogo
+        jogadoresQueConsumiramBanana = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores consumiram bananas
+
+        alguemChegouNaMeta = false;
+        casaPartida = 1; // reset casa partida de todos os jogadores
+        turnoAtual = 0; // reset do turno atual do jogo.
+        posicaoFinalJogo = 0; // reset posicão final do mapa de jogo
+        casaDoMeio = 0; // reset casa do meio do mapa de jogo
+        atualizarContagemJogadasCarne(0);
+    }
+
 }
