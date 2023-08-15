@@ -1,0 +1,26 @@
+------------------DEISI JUNGLE--------------------
+Turno atual: 4
+Dimensão do mapa: 47
+Jogador atual: 2
+Jogador com mais energia: 2
+Jogadores que consumiram bananas: {}
+Casa do meio do mapa: 24
+Já existe vencedor: false
+
+Informação geral dos jogadores em jogo: 
+Quantidade de jogadores em jogo: 2
+1 : sdf : 3 : Z : 66 : 2 : 0 : omnívoro : 2 : 20 : 1 : 6
+2 : sdfsdfs : 5 : L : 72 : 4 : 0 : carnívoro : 2 : 10 : 4 : 6
+
+Informação geral dos alimentos em jogo: 
+Quantidade de alimentos em jogo: 10
+e : 27 : 0 : 3 : 0 : Erva : +- 20 energia
+a : 39 : 0 : 3 : 0 : Agua : + 15U|20% energia
+b : 35 : 3 : 3 : 0 : Bananas : 3 : + 40 energia
+c : 13 : 0 : 3 : 0 : Carne : + 50 energia : 3 jogadas
+m : 20 : 0 : 3 : 18 : Cogumelo Magico : +- 18% energia
+e : 12 : 0 : 3 : 0 : Erva : +- 20 energia
+a : 8 : 0 : 3 : 0 : Agua : + 15U|20% energia
+b : 7 : 3 : 3 : 0 : Bananas : 3 : + 40 energia
+c : 16 : 0 : 3 : 0 : Carne : + 50 energia : 3 jogadas
+m : 21 : 0 : 3 : 15 : Cogumelo Magico : +- 15% energia

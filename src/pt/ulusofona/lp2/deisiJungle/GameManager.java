@@ -704,14 +704,22 @@ public class GameManager {
 
         try {
             FileWriter guardarJogo = new FileWriter(file.getAbsoluteFile());
+            Jogador jogadorAtual = jogadores.get((turnoAtual - 1) % jogadores.size());
+            jogadorComMaisEnergia = jogadores.get(0);
+
+            for (Jogador jogador : jogadores) {
+                if (jogador.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
+                    jogadorComMaisEnergia = jogador;
+                    break;
+                }
+            }
 
             // Guardar a informação geral
             guardarJogo.write("------------------DEISI JUNGLE--------------------" + nextLine);
             guardarJogo.write("Turno atual: " + turnoAtual + nextLine);
             guardarJogo.write("Dimensão do mapa: " + posicaoFinalJogo + nextLine);
             guardarJogo.write("Jogador atual: " + jogadorAtual.getId() + nextLine);
-            guardarJogo.write("Jogador com mais energia: " + jogadorComMaisEnergia + nextLine);
-            guardarJogo.write("IDs em jogo: " + idJogadoresEmJogo + nextLine);
+            guardarJogo.write("Jogador com mais energia: " + jogadorComMaisEnergia.getId() + nextLine);
             guardarJogo.write("Jogadores que consumiram bananas: " + jogadoresQueConsumiramBanana + nextLine);
             guardarJogo.write("Casa do meio do mapa: " + casaDoMeio + nextLine);
             guardarJogo.write("Já existe vencedor: " + alguemChegouNaMeta + nextLine);
@@ -754,130 +762,32 @@ public class GameManager {
     }
 
     public boolean loadGame(File file) {
-        try  {
+        try {
             BufferedReader carregarFicheiroGuardado = new BufferedReader(new FileReader(file));
-            String linha;
-            boolean infoJogador = false;
-            boolean infoAlimento = false;
             ArrayList<Jogador> jogadoresCarregados = new ArrayList<>();
             ArrayList<Alimento> alimentosCarregados = new ArrayList<>();
-            HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
-            HashMap<Integer,Integer> jogadoresQueConsumiramBananas = new HashMap<>();
-            int turnoAtual = 0;
-            int dimensaoMapa = 0;
-            int quantJogadoresEmJogo = 0;
-            int quantAlimentosEmJogo = 0;
+            HashMap<Integer, Integer> jogadoresQueConsumiramBananas = new HashMap<>();
+            String linha;
             int jogadorAjogar = 0;
-            int carregarCasaDoMeio = 0;
-            Jogador jogadorComMaisEnergia = null;
-            boolean vencedor = false;
+            int jogadorComMaisEnergia = 0;
 
             while ((linha = carregarFicheiroGuardado.readLine()) != null) {
-
-                // Carregar informação geral do jogo (Turno, Dimensão do mapa, Jogador atual, etc.)
-                if (linha.startsWith("Turno atual: ")) {
-                    turnoAtual = Integer.parseInt(linha.split(":")[1].trim());
-
-                } else if (linha.startsWith("Dimensão do mapa: ")) {
-                    dimensaoMapa = Integer.parseInt(linha.split(":")[1].trim());
-
-                } else if (linha.startsWith("Jogador atual: ")) {
+                if (linha.startsWith("Jogador atual: ")) {
                     jogadorAjogar = Integer.parseInt(linha.split(":")[1].trim());
 
                 } else if (linha.startsWith("Jogador com mais energia: ")) {
-                    String jogadorId = linha.split(":")[1].trim();
-                    if (jogadorComMaisEnergia != null) {
-                        int id = Integer.parseInt(jogadorId);
-
-                        // Encontrar o jogador que corresponde ao seu ‘id’
-                        for (Jogador jogador : jogadoresCarregados) {
-                            if (jogador.getId() == id) {
-                                jogadorComMaisEnergia = jogador;
-                                break;
-                            }
-                        }
-                    } else {
-                        System.out.println("Não foi encontrado nenhum jogador com mais energia.");
-                    }
-
-                } else if (linha.startsWith("IDs em jogo: ")) {
-                    String hashMapID = linha.substring(linha.indexOf("{") + 1, linha.indexOf("}"));
-                    String[] chaveValorIDs = hashMapID.split(", ");
-
-                    for (String apenasUmId : chaveValorIDs) {
-                        String[] separadorEntreChaveValor = apenasUmId.split("=");
-                        int chave = Integer.parseInt(separadorEntreChaveValor[0]);
-                        int valor = Integer.parseInt(separadorEntreChaveValor[1]);
-                        idJogadoresEmJogo.put(chave, valor);
-                    }
+                    jogadorComMaisEnergia = Integer.parseInt(linha.split(":")[1].trim());
 
                 } else if (linha.startsWith("Jogadores que consumiram bananas: ")) {
-                    String hashMapBanana = linha.substring(linha.indexOf("{") + 1, linha.indexOf("}"));
-                    String[] chaveValorBananas = hashMapBanana.split(", ");
+                    carregarBananas(jogadoresQueConsumiramBananas, linha);
 
-                    for (String banana : chaveValorBananas) {
-                        String[] separadorEntreChaveValor = banana.split("=");
-                        int chave = Integer.parseInt(separadorEntreChaveValor[0]);
-                        int valor = Integer.parseInt(separadorEntreChaveValor[1]);
-                        jogadoresQueConsumiramBananas.put(chave, valor);
-                    }
+                } else if (linha.startsWith("Quantidade de jogadores em jogo: ")) {
+                    int quantJogadoresEmJogo = Integer.parseInt(linha.split(":")[1].trim());
+                    carregarJogadores(carregarFicheiroGuardado, quantJogadoresEmJogo, jogadoresCarregados);
 
-                } else if (linha.startsWith("Casa do meio do mapa: ")) {
-                    carregarCasaDoMeio = Integer.parseInt(linha.split(":")[1].trim());
-
-                } else if (linha.startsWith("Já existe vencedor: ")) {
-                    vencedor = Boolean.parseBoolean(linha.split(":")[1].trim());
-
-                } else {
-
-                    if (linha.equals("Informação geral dos jogadores em jogo: ")) {
-                        infoJogador = true;
-                        continue;
-                    }
-
-                    if (linha.equals("Informação geral dos alimentos em jogo: ")) {
-                        infoJogador = false;
-                        infoAlimento = true;
-                        continue;
-                    }
-
-                    // Carregar informação dos jogadores
-                    if (infoJogador) {
-                        String[] playerInfo = linha.split(" : ");
-                        if (linha.startsWith("Quantidade de jogadores em jogo: ")) {
-                            quantJogadoresEmJogo = Integer.parseInt(linha.split(":")[1].trim());
-
-                        } else {
-                            if (linha.trim().isEmpty()) {
-                                // Linha vazia, próxima iteração
-                                continue;
-                            }
-                            Jogador novoJogador = carregarDadosDoJogador(playerInfo);
-
-                            jogadoresCarregados.add(novoJogador);
-                        }
-
-                    } else if (linha.trim().isEmpty()) {
-                        // Linha vazia, próxima iteração
-                        continue;
-
-                        // Carregar informação dos alimentos
-                    } else if (infoAlimento) {
-                        String[] foodInfo = linha.split(" : ");
-
-                        if (linha.startsWith("Quantidade de alimentos em jogo: ")) {
-                            quantAlimentosEmJogo = Integer.parseInt(linha.split(":")[1].trim());
-
-                        } else {
-                            if (linha.trim().isEmpty()) {
-                                // Linha vazia, próxima iteração
-                                continue;
-                            }
-                            Alimento novoAlimento = carregarDadosAlimento(foodInfo);
-
-                            alimentosCarregados.add(novoAlimento);
-                        }
-                    }
+                } else if (linha.startsWith("Quantidade de alimentos em jogo: ")) {
+                    int quantAlimentosEmJogo = Integer.parseInt(linha.split(":")[1].trim());
+                    carregarAlimentos(carregarFicheiroGuardado, quantAlimentosEmJogo, alimentosCarregados);
                 }
             }
 
@@ -896,11 +806,9 @@ public class GameManager {
     }
 
 
-
     /**
      * -----------------------------------------Novas Funções GETWINNERINFO()--------------------------------------
      */
-
 
     /*
     public String[] getVencedorDoisJogadoresCasaDoMeio(Jogador primeiroJogador, Jogador segundoJogador, int casaDoMeio, String[] infoJogadorVencedor) {
@@ -1211,11 +1119,45 @@ public class GameManager {
         return carregarAlimento;
     }
 
+    public void carregarBananas(HashMap<Integer, Integer> jogadoresBananas, String linha) {
+        String hashMapBanana = linha.substring(linha.indexOf("{") + 1, linha.indexOf("}"));
+        String[] chaveValorBananas = hashMapBanana.split(", ");
+        for (String banana : chaveValorBananas) {
+            String[] chaveValor = banana.split("=");
+            if (chaveValor.length == 2) {
+                int chave = Integer.parseInt(chaveValor[0].trim());
+                int valor = Integer.parseInt(chaveValor[1].trim());
+                jogadoresBananas.put(chave, valor);
+            }
+        }
+    }
+
+    public void carregarJogadores(BufferedReader reader, int quantidadeJogadoresEmJogo, ArrayList<Jogador> jogadores) throws IOException {
+        for (int i = 0; i < quantidadeJogadoresEmJogo; i++) {
+            String linha = reader.readLine();
+            if (linha.trim().isEmpty()) {
+                continue;
+            }
+            Jogador novoJogador = carregarDadosDoJogador(linha.split(" : "));
+            jogadores.add(novoJogador);
+        }
+    }
+
+    public void carregarAlimentos(BufferedReader reader, int quantidadeAlimentosEmJogo, ArrayList<Alimento> alimentos) throws IOException {
+        for (int i = 0; i < quantidadeAlimentosEmJogo; i++) {
+            String linha = reader.readLine();
+            if (linha.trim().isEmpty()) {
+                continue;
+            }
+            Alimento novoAlimento = carregarDadosAlimento(linha.split(" : "));
+            alimentos.add(novoAlimento);
+        }
+    }
+
 
     /**
      * ------------------------------------------Novas Funções GERAL()---------------------------------------------
      */
-
 
     public void incrementarTurno() {
         turnoAtual++;
