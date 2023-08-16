@@ -1402,6 +1402,36 @@ public class TestGameOnJungle {
     }
 
     @Test
+    public void testgetGameResults_NovaCondicaoVencedor2() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Goiaba";
+        playerInfo[0][2] = "E";
+
+        // Jogador 2
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Pato Donald";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(10, playerInfo);
+
+        // Jogador 1 joga
+        MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
+
+        // Jogador 2 joga
+        MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
+
+        assertEquals("[#1 Pato Donald, Leão, 5, 4, 0]",
+                Arrays.toString(gameOnJungle.getGameResults().toArray()));
+    }
+
+    @Test
     public void testgetGameResults_IndexOutOfBoundsException() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
 

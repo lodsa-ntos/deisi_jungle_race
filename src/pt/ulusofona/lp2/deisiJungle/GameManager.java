@@ -676,9 +676,8 @@ public class GameManager {
         }
         // TODO Nova Condição Vencedor:
         calcularCasaDoMeio();
-        jogadorComMaisEnergia = jogadoresEmJogo.get(0);
-        obterResultadoVencedorNovaCondicao(jogadoresEmJogo, vencedoresEmNovasCondicoes,
-                jaExisteUmVencedor, posicaoChegada, resultados);
+        //jogadorComMaisEnergia = jogadoresEmJogo.get(0);
+        obterResultadoVencedorNovaCondicao(jogadoresEmJogo, vencedoresEmNovasCondicoes, resultados);
 
         return resultados;
     }
@@ -1047,28 +1046,27 @@ public class GameManager {
 
     public void obterResultadoVencedorNovaCondicao(List<Jogador> jogadoresEmJogo,
                                                    ArrayList<Jogador> vencedoresEmNovasCondicoes,
-                                                   boolean jaExisteUmVencedor, int posicaoChegada,
                                                    ArrayList<String> resultados) {
 
-        //Jogador jogadorComMaisEnergia = null;
-        calcularCasaDoMeio();
+        Jogador jogadorComMaisEnergia = null;
 
         for (Jogador jogador : jogadoresEmJogo) {
-            // Quando estiverem presentes dois jogadores na “casa do meio”
             if (jogador.getPosicaoAtual() == casaDoMeio) {
                 vencedoresEmNovasCondicoes.add(jogador);
                 if (jogadorComMaisEnergia == null || jogador.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
                     jogadorComMaisEnergia = jogador;
-                    jaExisteUmVencedor = true;
                 }
             }
+        }
 
-            if (jaExisteUmVencedor && vencedoresEmNovasCondicoes.size() >= 1) {
-                String nome = jogadorComMaisEnergia.getNome();
-                String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
-                int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
-                int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
-                int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
+        if (!vencedoresEmNovasCondicoes.isEmpty()) {
+            int posicaoChegada = 1;
+            for (Jogador jogador : vencedoresEmNovasCondicoes) {
+                String nome = jogador.getNome();
+                String nomeEspecie = jogador.getEspecie().getNome();
+                int posicaoAtual = jogador.getPosicaoAtual();
+                int distancia = jogador.getNumeroPosicoesPercorridas();
+                int numAlimento = jogador.getNumeroAlimento();
 
                 resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
                         + ", " + distancia + ", " + numAlimento);
