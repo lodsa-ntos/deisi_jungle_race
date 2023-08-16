@@ -568,7 +568,6 @@ public class GameManager {
         boolean jaExisteUmVencedor = false;
         String[] infoJogadorVencedor = new String[4];
         ArrayList<Jogador> vencedoresEmNovasCondicoes = new ArrayList<>();
-        Jogador jogadorComMaisEnergia = null;
 
         for (Jogador jogador : jogadores) {
 
@@ -607,7 +606,7 @@ public class GameManager {
             }
             // TODO Nova Condição Vencedor:
             calcularCasaDoMeio();
-            //jogadorComMaisEnergia = jogadores.get(0);
+            jogadorComMaisEnergia = jogadores.get(0);
 
             // Quando estiverem presentes dois jogadores na “casa do meio”
             if (jogador.getPosicaoAtual() == casaDoMeio) {
