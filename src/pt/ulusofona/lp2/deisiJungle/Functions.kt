@@ -8,16 +8,12 @@ enum class CommandType {
 fun router(): (CommandType) -> Unit {
     return { commandType ->
         when (commandType) {
-            CommandType.GET -> TODO()
-            CommandType.POST -> TODO()
+            CommandType.GET -> null
+            CommandType.POST -> null
         }
     }
 }
 
-fun TODO(): Unit? {
-    //TODO falta implementar alguma coisa aqui;
-    return null;
-}
 
 
 
