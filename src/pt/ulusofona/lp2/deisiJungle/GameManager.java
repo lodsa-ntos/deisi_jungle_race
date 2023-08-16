@@ -715,7 +715,6 @@ public class GameManager {
             }
 
             // Guardar a informação geral
-            guardarJogo.write("------------------DEISI JUNGLE--------------------" + nextLine);
             guardarJogo.write("Turno atual: " + turnoAtual + nextLine);
             guardarJogo.write("Dimensão do mapa: " + posicaoFinalJogo + nextLine);
             guardarJogo.write("Jogador atual: " + jogadorAtual.getId() + nextLine);
@@ -772,12 +771,24 @@ public class GameManager {
             int jogadorComMaisEnergia = 0;
 
             while ((linha = carregarFicheiroGuardado.readLine()) != null) {
-                if (linha.startsWith("Jogador atual: ")) {
+                if (linha.startsWith("Turno atual: ")) {
+                    turnoAtual = Integer.parseInt(linha.split(":")[1].trim());
+
+                } else if (linha.startsWith("Dimensão do mapa: ")) {
+                    posicaoFinalJogo = Integer.parseInt(linha.split(":")[1].trim());
+
+                } else if (linha.startsWith("Jogador atual: ")) {
                     jogadorAjogar = Integer.parseInt(linha.split(":")[1].trim());
-                    getPlayerIds(jogadorAjogar);
+                    definirJogadorAtualLoadGame(jogadorAjogar, jogadoresCarregados);
 
                 } else if (linha.startsWith("Jogador com mais energia: ")) {
                     jogadorComMaisEnergia = Integer.parseInt(linha.split(":")[1].trim());
+
+                } else if (linha.startsWith("Casa do meio do mapa: ")) {
+                    casaDoMeio = Integer.parseInt(linha.split(":")[1].trim());
+
+                } else if (linha.startsWith("Já existe vencedor: ")) {
+                    alguemChegouNaMeta = Boolean.parseBoolean(linha.split(":")[1].trim());
 
                 } else if (linha.startsWith("Jogadores que consumiram bananas: ")) {
                     carregarBananas(jogadoresQueConsumiramBananas, linha);
@@ -793,7 +804,6 @@ public class GameManager {
             }
 
             carregarFicheiroGuardado.close();
-            definirJogadorAtualLoadGame(jogadorAjogar, jogadoresCarregados);
 
             jogadores.clear();
             jogadores.addAll(jogadoresCarregados);

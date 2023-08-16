@@ -1,4 +1,3 @@
-------------------DEISI JUNGLE--------------------
 Turno atual: 2
 Dimensão do mapa: 10
 Jogador atual: 3
