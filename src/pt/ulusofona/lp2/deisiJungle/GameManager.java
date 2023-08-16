@@ -435,12 +435,17 @@ public class GameManager {
         //jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
         int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrPositions);
         int ganhoEnergiaDescanso = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
-        infoEnergia[0] = String.valueOf(consumoEnergia);
-        infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);
+
+        if (jogadorAtual.getEspecie().getId().equals("U")) {
+            infoEnergia[0] = String.valueOf(consumoEnergia+2);
+            infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);
+        } else {
+            infoEnergia[0] = String.valueOf(consumoEnergia);
+            infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);
+        }
 
         //System.out.println(consumoEnergia);
         //System.out.println(Arrays.toString(infoEnergia));
-
 
         return infoEnergia;
     }
