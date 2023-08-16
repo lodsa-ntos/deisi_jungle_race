@@ -682,7 +682,7 @@ public class GameManager {
             }
         }
 
-        if (!vencedoresEmNovasCondicoes.isEmpty()) {
+        if (!vencedoresEmNovasCondicoes.isEmpty() && vencedoresEmNovasCondicoes.size() >= 1) {
             jogadorComMaisEnergia = jogadoresEmJogo.get(0);
             obterResultadoVencedorNovaCondicao(jogadoresEmJogo, vencedoresEmNovasCondicoes,
                     jaExisteUmVencedor, posicaoChegada, resultados);
