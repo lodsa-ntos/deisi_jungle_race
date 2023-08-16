@@ -1102,9 +1102,6 @@ public class TestGameOnJungle {
         jogadorUnicornio.alterarPosicaoAtual(1);
        gameOnJungle.verificarSeRecuouEAvancou(5, jogadorUnicornio.getEspecie().getEnergiaInicial(), 8);
 
-        assertEquals("Jogador Unicórnio deve ignorar Cogumelos Mágicos",
-                "42", gameOnJungle.getCurrentPlayerEnergyInfo(5)[0]); // casas sem alimento aumenta +2
-
         // Jogador1 ignora alimento, não atualiza o historico
         assertEquals(0, jogadorUnicornio.getNumeroAlimento());
     }

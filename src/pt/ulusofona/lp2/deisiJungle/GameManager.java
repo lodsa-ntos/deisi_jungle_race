@@ -220,7 +220,6 @@ public class GameManager {
             // TODO POSIÇÃO - Os alimentos têm que estar posicionados dentro dos limites do terreno.
             ValidatorAlimento.validarPosicaoAlimentos(posicaoAtualAlimento, casaPartida, posicaoFinalJogo);
 
-
             Alimento tipoAlimento = Alimento.identificarAlimento(idTipo, posicaoAtualAlimento);
             alimentos.add(tipoAlimento);
 
@@ -436,11 +435,7 @@ public class GameManager {
         int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrPositions);
         int ganhoEnergiaDescanso = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
 
-        if (jogadorAtual.getEspecie().getId().equals("U")) {
-            infoEnergia[0] = String.valueOf(consumoEnergia+2);
-        } else {
-            infoEnergia[0] = String.valueOf(consumoEnergia);
-        }
+        infoEnergia[0] = String.valueOf(consumoEnergia);
         infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);
 
         //System.out.println(consumoEnergia);
@@ -992,14 +987,30 @@ public class GameManager {
         if (nrSquares != 0) {
             // se o jogador se movimentar para uma casa sem alimento, a sua energia aumenta 2 unidades.
             if (jogadorAtual.getEspecie().getId().equals("U")) {
-                // Unicornio tem de ter energia equilibrada ???
-                jogadorAtual.getEspecie().setEnergiaInicial((energiaAtual) - (consumoEnergia * Math.abs(nrSquares) + 2));
+                if (casaAtualPossuiAlimento(nrSquares)) {
+                    jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares) + 2));
+                } else {
+                    jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares)));
+                }
+
                 //limitarEnergia(true, false, consumoEnergia);
             } else {
                 // O jogador avançou ou recuou
                 jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares)));
             }
         }
+    }
+
+    public boolean casaAtualPossuiAlimento(int nrSquares) {
+        // Verificar se a casa atual contém algum alimento (a, e, b, c, m).
+        for (Alimento alimento : alimentos) {
+            if (jogadorAtual.getEspecie().getId().equals("U")) {
+                if ((jogadorAtual.getPosicaoAtual() + nrSquares) == alimento.getPosicaoAlimento()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public void limitarEnergia(boolean avancouOuRecou, boolean ficou, int valorAlteracaoEnergia) {
