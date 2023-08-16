@@ -1464,6 +1464,8 @@ public class TestGameOnJungle {
         assertTrue(gameOnJungle.saveGame(ficheiroTeste));
         assertTrue(gameOnJungle.loadGame(ficheiroTeste));
 
+        assertEquals("4", gameOnJungle.getCurrentPlayerInfo()[0]);
+
         assertEquals(4, gameOnJungle.jogadorAtual.getId());
     }
 
@@ -1494,6 +1496,8 @@ public class TestGameOnJungle {
 
         assertTrue(gameOnJungle.saveGame(ficheiroTeste));
         assertTrue(gameOnJungle.loadGame(ficheiroTeste));
+
+        assertEquals("3", gameOnJungle.getCurrentPlayerInfo()[0]);
 
         assertEquals(3, gameOnJungle.jogadorAtual.getId());
 
