@@ -568,6 +568,7 @@ public class GameManager {
         boolean jaExisteUmVencedor = false;
         String[] infoJogadorVencedor = new String[4];
         ArrayList<Jogador> vencedoresEmNovasCondicoes = new ArrayList<>();
+        Jogador jogadorComMaisEnergia = null;
 
         for (Jogador jogador : jogadores) {
 
@@ -606,7 +607,7 @@ public class GameManager {
             }
             // TODO Nova Condição Vencedor:
             calcularCasaDoMeio();
-            Jogador jogadorComMaisEnergia = jogadores.get(0);
+            //jogadorComMaisEnergia = jogadores.get(0);
 
             // Quando estiverem presentes dois jogadores na “casa do meio”
             if (jogador.getPosicaoAtual() == casaDoMeio) {
@@ -705,12 +706,10 @@ public class GameManager {
         try {
             FileWriter guardarJogo = new FileWriter(file.getAbsoluteFile());
             Jogador jogadorAtual = jogadores.get((turnoAtual - 1) % jogadores.size());
-            jogadorComMaisEnergia = jogadores.get(0);
 
             for (Jogador jogador : jogadores) {
-                if (jogador.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
+                if (jogadorComMaisEnergia == null || jogador.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
                     jogadorComMaisEnergia = jogador;
-                    break;
                 }
             }
 
@@ -1052,11 +1051,14 @@ public class GameManager {
                                                    boolean jaExisteUmVencedor, int posicaoChegada,
                                                    ArrayList<String> resultados) {
 
+        //Jogador jogadorComMaisEnergia = null;
+        calcularCasaDoMeio();
+
         for (Jogador jogador : jogadoresEmJogo) {
             // Quando estiverem presentes dois jogadores na “casa do meio”
             if (jogador.getPosicaoAtual() == casaDoMeio) {
                 vencedoresEmNovasCondicoes.add(jogador);
-                if (jogador.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
+                if (jogadorComMaisEnergia == null || jogador.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
                     jogadorComMaisEnergia = jogador;
                     jaExisteUmVencedor = true;
                 }
