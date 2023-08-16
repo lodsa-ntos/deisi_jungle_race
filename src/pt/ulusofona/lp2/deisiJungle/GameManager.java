@@ -682,7 +682,8 @@ public class GameManager {
             }
         }
 
-        if (!vencedoresEmNovasCondicoes.isEmpty() && vencedoresEmNovasCondicoes.size() >= 1) {
+        // (vencedoresEmNovasCondicoes) Index 1 out of bounds for length 1??
+        if (vencedoresEmNovasCondicoes.size() >= 1) {
             jogadorComMaisEnergia = jogadoresEmJogo.get(0);
             obterResultadoVencedorNovaCondicao(jogadoresEmJogo, vencedoresEmNovasCondicoes,
                     jaExisteUmVencedor, posicaoChegada, resultados);
@@ -1073,6 +1074,7 @@ public class GameManager {
             }
         }
 
+        // (vencedoresEmNovasCondicoes) Index 1 out of bounds for length 1 ??
         if (jaExisteUmVencedor && jogadorComMaisEnergia != null && vencedoresEmNovasCondicoes.size() >= 1) {
             String nome = jogadorComMaisEnergia.getNome();
             String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();

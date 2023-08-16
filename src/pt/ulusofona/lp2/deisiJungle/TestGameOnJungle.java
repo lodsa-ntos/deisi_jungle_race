@@ -989,7 +989,6 @@ public class TestGameOnJungle {
         assertEquals(0, jogadorUnicornio.getNumeroAlimento());
     }
 
-   /*
     @Test
     public void testUnicornioIgnoraEnergiaAgua() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
@@ -997,7 +996,7 @@ public class TestGameOnJungle {
         String[][] playerInfo = new String[2][3];
         String[][] foodInfo = new String[1][2];
 
-        // Alimentos (erva)
+        // Alimentos (água)
         foodInfo[0][0] = "a";
         foodInfo[0][1] = "10";
 
@@ -1014,21 +1013,22 @@ public class TestGameOnJungle {
         gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
 
         List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Alimento> alimentos = gameOnJungle.alimentos;
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
         jogadorUnicornio.getEspecie().setEnergiaInicial(200);
+        Alimento agua = alimentos.get(0);
 
         jogadorUnicornio.alterarPosicaoAtual(1);
         gameOnJungle.verificarSeRecuouEAvancou(4, jogadorUnicornio.getEspecie().getEnergiaInicial(), 8);
 
-        assertEquals("Jogador Unicórnio deve ignorar Água",
-                160, jogadorUnicornio.getEspecie().getEnergiaInicial());
+        assertEquals("Jogador Unicórnio deve ignorar a água",
+                0, jogadorUnicornio.consumirAgua("", jogadorUnicornio, agua));
 
         // Jogador1 ignora alimento, não atualiza o historico
         assertEquals(0, jogadorUnicornio.getNumeroAlimento());
     }
-    */
 
     @Test
     public void testUnicornioIgnoraEnergiaCogumelo() throws InvalidInitialJungleException {
