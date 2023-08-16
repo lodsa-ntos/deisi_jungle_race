@@ -17,7 +17,7 @@ fun router(): (CommandType) -> ((manager: GameManager, args: List<String>) -> St
 fun TODO(): (GameManager, List<String>) -> String? {
     return { _, _ ->
         // TODO: Implementar alguma coisa aqui
-        "Por implementar..."
+        "Falta implementar alguma coisa aqui."
     }
 }
 
