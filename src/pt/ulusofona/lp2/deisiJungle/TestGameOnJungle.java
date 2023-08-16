@@ -1077,7 +1077,7 @@ public class TestGameOnJungle {
         String[][] playerInfo = new String[2][3];
         String[][] foodInfo = new String[1][2];
 
-        // Alimentos (erva)
+        // Alimentos (cogumelo)
         foodInfo[0][0] = "m";
         foodInfo[0][1] = "10";
 
@@ -1100,7 +1100,7 @@ public class TestGameOnJungle {
         jogadorUnicornio.getEspecie().setEnergiaInicial(200);
 
         jogadorUnicornio.alterarPosicaoAtual(1);
-        gameOnJungle.verificarSeRecuouEAvancou(5, jogadorUnicornio.getEspecie().getEnergiaInicial(), 8);
+       gameOnJungle.verificarSeRecuouEAvancou(5, jogadorUnicornio.getEspecie().getEnergiaInicial(), 8);
 
         assertEquals("Jogador Unicórnio deve ignorar Cogumelos Mágicos",
                 "42", gameOnJungle.getCurrentPlayerEnergyInfo(5)[0]); // casas sem alimento aumenta +2
