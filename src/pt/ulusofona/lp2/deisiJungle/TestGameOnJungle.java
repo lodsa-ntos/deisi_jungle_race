@@ -3,6 +3,7 @@ package pt.ulusofona.lp2.deisiJungle;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.*;
 
 import static junit.framework.TestCase.assertEquals;
@@ -1406,7 +1407,7 @@ public class TestGameOnJungle {
     public void testgetGameResults_IndexOutOfBoundsException() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
 
-        String[][] playerInfo = new String[2][3];  // Modificando para 1 jogador apenas
+        String[][] playerInfo = new String[2][3];
 
         // Jogador 1
         playerInfo[0][0] = "2";
@@ -1420,14 +1421,83 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(10, playerInfo);
 
-        // Jogador 1 joga (aqui ocorre a exceção)
+        // Jogador 1 joga
         MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(4, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
 
         gameOnJungle.getGameResults().toArray();
     }
 
+    @Test
+    public void testSaveAndLoadGame_WithoutFood() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
 
+        String[][] playerInfo = new String[2][3];
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Mogli";
+        playerInfo[0][2] = "Z";
+
+        // Jogador 2
+        playerInfo[1][0] = "4";
+        playerInfo[1][1] = "Bagheera";
+        playerInfo[1][2] = "P";
+
+        gameOnJungle.createInitialJungle(10, playerInfo);
+
+        // Joga jogador 1
+        MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
+
+        // Joga jogador 2
+        MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(5, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
+
+        // Joga jogador 1
+        MovementResult movementResult3 = gameOnJungle.moveCurrentPlayer(2, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult3.code());
+
+        // Guardar o jogo
+        File ficheiroTeste = new File("jogoGuardadoTest.txt");
+
+        assertTrue(gameOnJungle.saveGame(ficheiroTeste));
+        assertTrue(gameOnJungle.loadGame(ficheiroTeste));
+
+        assertEquals(4, gameOnJungle.jogadorAtual.getId());
+    }
+
+    @Test
+    public void testSaveAndLoadGame_WithoutFood2() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Mogli";
+        playerInfo[0][2] = "Z";
+
+        // Jogador 2
+        playerInfo[1][0] = "3";
+        playerInfo[1][1] = "Bagheera";
+        playerInfo[1][2] = "P";
+
+        gameOnJungle.createInitialJungle(10, playerInfo);
+
+        // Joga jogador 1
+        MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
+
+        // Guardar o jogo
+        File ficheiroTeste = new File("jogoGuardadoTest.txt");
+
+        assertTrue(gameOnJungle.saveGame(ficheiroTeste));
+        assertTrue(gameOnJungle.loadGame(ficheiroTeste));
+
+        assertEquals(3, gameOnJungle.jogadorAtual.getId());
+
+    }
 
     /*
     @Test

@@ -774,6 +774,7 @@ public class GameManager {
             while ((linha = carregarFicheiroGuardado.readLine()) != null) {
                 if (linha.startsWith("Jogador atual: ")) {
                     jogadorAjogar = Integer.parseInt(linha.split(":")[1].trim());
+                    getPlayerIds(jogadorAjogar);
 
                 } else if (linha.startsWith("Jogador com mais energia: ")) {
                     jogadorComMaisEnergia = Integer.parseInt(linha.split(":")[1].trim());
@@ -792,6 +793,7 @@ public class GameManager {
             }
 
             carregarFicheiroGuardado.close();
+            definirJogadorAtualLoadGame(jogadorAjogar, jogadoresCarregados);
 
             jogadores.clear();
             jogadores.addAll(jogadoresCarregados);
@@ -1154,6 +1156,14 @@ public class GameManager {
         }
     }
 
+    public void definirJogadorAtualLoadGame(int idJogador, ArrayList<Jogador> jogadores) {
+        for (Jogador jogador : jogadores) {
+            if (jogador.getId() == idJogador) {
+                jogadorAtual = jogador;
+                break;
+            }
+        }
+    }
 
     /**
      * ------------------------------------------Novas Funções GERAL()---------------------------------------------
