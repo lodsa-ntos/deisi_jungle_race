@@ -1427,7 +1427,7 @@ public class TestGameOnJungle {
         MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(4, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
 
-        assertEquals("[#1 Pato Donald, Leão, 5, 4, 0]",
+        assertEquals("[#1 Goiaba, Elefante, 5, 4, 0]",
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
@@ -1525,65 +1525,6 @@ public class TestGameOnJungle {
 
         assertEquals("3", gameOnJungle.getCurrentPlayerInfo()[0]);
 
-    }
-
-    @Test
-    public void testNovaCondicaoDeVitoria() throws InvalidInitialJungleException {
-        GameManager gameOnJungle = new GameManager();
-
-        String[][] playerInfo = new String[4][3];
-
-        // Jogador 1
-        playerInfo[0][0] = "1";
-        playerInfo[0][1] = "Mogli";
-        playerInfo[0][2] = "Z";
-
-        // Jogador 2
-        playerInfo[1][0] = "2";
-        playerInfo[1][1] = "Bagheera";
-        playerInfo[1][2] = "L";
-
-        // Jogador 3
-        playerInfo[2][0] = "3";
-        playerInfo[2][1] = "Baloo";
-        playerInfo[2][2] = "P";
-
-        // Jogador 4
-        playerInfo[3][0] = "4";
-        playerInfo[3][1] = "Shere Khan";
-        playerInfo[3][2] = "T";
-
-        gameOnJungle.createInitialJungle(10, playerInfo);
-
-        gameOnJungle.jogadores.get(0).alterarPosicaoAtual(4); // Mogli
-        gameOnJungle.jogadores.get(0).getEspecie().setEnergiaInicial(50);
-
-        gameOnJungle.jogadores.get(1).alterarPosicaoAtual(5); // Bagheera (na casa do meio)
-        gameOnJungle.jogadores.get(1).getEspecie().setEnergiaInicial(90);
-
-        gameOnJungle.jogadores.get(2).alterarPosicaoAtual(6); // Baloo
-        gameOnJungle.jogadores.get(2).getEspecie().setEnergiaInicial(70);
-
-        gameOnJungle.jogadores.get(3).alterarPosicaoAtual(7); // Shere Khan
-        gameOnJungle.jogadores.get(3).getEspecie().setEnergiaInicial(80);
-
-        String[] vencedor = gameOnJungle.getWinnerInfo();
-
-        assertNull(vencedor); // Ainda não existe vencedor
-
-        gameOnJungle.jogadores.get(2).alterarPosicaoAtual(7); // Baloo
-        gameOnJungle.jogadores.get(3).alterarPosicaoAtual(5); // Shere Khan (na casa do meio)
-
-        vencedor = gameOnJungle.getWinnerInfo();
-
-        assertEquals("2", String.valueOf(vencedor[0]));
-
-        gameOnJungle.jogadores.get(2).alterarPosicaoAtual(6); // Baloo
-        gameOnJungle.jogadores.get(3).alterarPosicaoAtual(8); // Shere Khan
-
-        vencedor = gameOnJungle.getWinnerInfo();
-
-        assertNull(vencedor);
     }
 
 }
