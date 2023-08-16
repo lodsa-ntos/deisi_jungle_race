@@ -989,8 +989,8 @@ public class GameManager {
             // se o jogador se movimentar para uma casa sem alimento, a sua energia aumenta 2 unidades.
             if (jogadorAtual.getEspecie().getId().equals("U")) {
                 // Unicornio tem de ter energia equilibrada ???
-                jogadorAtual.getEspecie().setEnergiaInicial((energiaAtual + 2) - (consumoEnergia * Math.abs(nrSquares)));
-                limitarEnergia(true, false, consumoEnergia);
+                //jogadorAtual.getEspecie().setEnergiaInicial((energiaAtual + 2) - (consumoEnergia * Math.abs(nrSquares)));
+                //limitarEnergia(true, false, consumoEnergia);
             } else {
                 // O jogador avançou ou recuou
                 jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares)));
