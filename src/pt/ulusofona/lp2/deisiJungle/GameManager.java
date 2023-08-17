@@ -987,7 +987,7 @@ public class GameManager {
         if (nrSquares != 0) {
             // se o jogador se movimentar para uma casa sem alimento, a sua energia aumenta 2 unidades.
             if (jogadorAtual.getEspecie().getId().equals("U")) {
-                if (!casaAtualPossuiAlimento(nrSquares)) {
+                if (!casaAtualPossuiAlimentoIgnorarUnicornio(nrSquares)) {
                     for (Alimento alimento : alimentos) {
                         if (alimento.getId().equals("m")) {
                             jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares) + 2));
@@ -1004,7 +1004,7 @@ public class GameManager {
         }
     }
 
-    public boolean casaAtualPossuiAlimento(int nrSquares) {
+    public boolean casaAtualPossuiAlimentoIgnorarUnicornio(int nrSquares) {
         // Verificar se a casa atual contém algum alimento (a, e, b, c, m).
         for (Alimento alimento : alimentos) {
             if (jogadorAtual.getEspecie().getId().equals("U")) {
@@ -1093,7 +1093,7 @@ public class GameManager {
         }
 
         // (vencedoresEmNovasCondicoes) Index 1 out of bounds for length 1 ??
-        if (jaExisteUmVencedor && jogadorComMaisEnergia != null && vencedoresEmNovasCondicoes.size() >= 1) {
+        if (jaExisteUmVencedor && jogadorComMaisEnergia != null && vencedoresEmNovasCondicoes.size() > 1) {
             String nome = jogadorComMaisEnergia.getNome();
             String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
             int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
