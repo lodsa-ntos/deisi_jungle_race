@@ -564,9 +564,13 @@ public class GameManager {
     }
 
     public String[] getWinnerInfo() {
-        boolean jaExisteUmVencedor = false;
+        boolean jogadorUmVencedor = false;
+        boolean jogadorDoisVencedor = false;
         String[] infoJogadorVencedor = new String[4];
         ArrayList<Jogador> vencedoresEmNovasCondicoes = new ArrayList<>();
+        ArrayList<Jogador> jogadoresForaCasaDoMeio = new ArrayList<>();
+
+        int count = 0;
 
         for (Jogador jogador : jogadores) {
 
@@ -603,26 +607,42 @@ public class GameManager {
                 infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaInicial());
                 return infoJogadorVencedor;
             }
-            // TODO Nova Condição Vencedor:
-            calcularCasaDoMeio();
-            Jogador jogadorComMaisEnergia = jogadores.get(0);
-
-            // Quando estiverem presentes dois jogadores na “casa do meio”
+        }
+        calcularCasaDoMeio();
+        // TODO Nova Condição Vencedor:
+        for (Jogador jogador : jogadores) {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
                 vencedoresEmNovasCondicoes.add(jogador);
-                if (jogador.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
-                    jogadorComMaisEnergia = jogador;
-                    jaExisteUmVencedor = true;
+            }
+        }
+
+        for (Jogador vencedor : jogadores) {
+            if (vencedoresEmNovasCondicoes.size() >= 2) {
+                Jogador vencedor1 = vencedoresEmNovasCondicoes.get(0);
+                Jogador vencedor2 = vencedoresEmNovasCondicoes.get(1);
+
+                if (vencedor1.getEspecie().getEnergiaInicial() > vencedor2.getEspecie().getEnergiaInicial()) {
+                    vencedor = vencedor1;
+                    jogadorUmVencedor = true;
+                } else {
+                    vencedor = vencedor2;
+                    jogadorDoisVencedor = true;
                 }
             }
 
             // Se existir, pelo menos, um jogador entre a “casa do meio” e a meta (vencedoresEmNovasCondicoes)
             // O vencedor do jogo é o jogador com mais energia na “casa do meio”
-            if (jaExisteUmVencedor && vencedoresEmNovasCondicoes.size() >= 1) {
-                infoJogadorVencedor[0] = String.valueOf(jogadorComMaisEnergia.getId());
-                infoJogadorVencedor[1] = jogadorComMaisEnergia.getNome();
-                infoJogadorVencedor[2] = jogadorComMaisEnergia.getIdEspecie();
-                infoJogadorVencedor[3] = String.valueOf(jogadorComMaisEnergia.getEspecie().getEnergiaInicial());
+            if (jogadorUmVencedor) {
+                infoJogadorVencedor[0] = String.valueOf(vencedor.getId());
+                infoJogadorVencedor[1] = vencedor.getNome();
+                infoJogadorVencedor[2] = vencedor.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(vencedor.getEspecie().getEnergiaInicial());
+                return infoJogadorVencedor;
+            } else if (jogadorDoisVencedor){
+                infoJogadorVencedor[0] = String.valueOf(vencedor.getId());
+                infoJogadorVencedor[1] = vencedor.getNome();
+                infoJogadorVencedor[2] = vencedor.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(vencedor.getEspecie().getEnergiaInicial());
                 return infoJogadorVencedor;
             }
         }
