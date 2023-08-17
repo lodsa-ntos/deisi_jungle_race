@@ -610,7 +610,7 @@ public class GameManager {
             // Quando estiverem presentes dois jogadores na “casa do meio”
             if (jogador.getPosicaoAtual() == casaDoMeio) {
                 vencedoresEmNovasCondicoes.add(jogador);
-                if (jogadorComMaisEnergia == null || jogador.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
+                if (jogador.getEspecie().getEnergiaInicial() > jogadorComMaisEnergia.getEspecie().getEnergiaInicial()) {
                     jogadorComMaisEnergia = jogador;
                     jaExisteUmVencedor = true;
                 }
@@ -1093,7 +1093,6 @@ public class GameManager {
             }
         }
 
-        // (vencedoresEmNovasCondicoes) Index 1 out of bounds for length 1 ??
         if (jaExisteUmVencedor && jogadorComMaisEnergia != null && vencedoresEmNovasCondicoes.size() > 1) {
             String nome = jogadorComMaisEnergia.getNome();
             String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
