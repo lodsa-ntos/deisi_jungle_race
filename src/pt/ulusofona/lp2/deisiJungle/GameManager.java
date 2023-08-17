@@ -989,7 +989,7 @@ public class GameManager {
             if (jogadorAtual.getEspecie().getId().equals("U")) {
                 if (!casaAtualPossuiAlimento(nrSquares)) {
                     for (Alimento alimento : alimentos) {
-                        if (alimento.getId().equals("m")) {
+                        if (alimento.getId().equals("m") || alimento.getId().equals("a") ) {
                             jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares) + 2));
                         } else {
                             jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares)));
