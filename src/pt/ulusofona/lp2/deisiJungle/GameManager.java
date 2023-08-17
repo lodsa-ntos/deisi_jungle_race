@@ -567,7 +567,6 @@ public class GameManager {
         boolean jaExisteUmVencedor = false;
         String[] infoJogadorVencedor = new String[4];
         ArrayList<Jogador> vencedoresEmNovasCondicoes = new ArrayList<>();
-        ArrayList<Jogador> jogadoresForaCasaDoMeio = new ArrayList<>();
 
         for (Jogador jogador : jogadores) {
 
@@ -618,6 +617,8 @@ public class GameManager {
                 }
             }
 
+            // test_003_New_Winner_Condition_OBG
+            // TODO (vencedoresEmNovasCondicoes) Index 1 out of bounds for length 1 ???
             // Se existir, pelo menos, um jogador entre a “casa do meio” e a meta (vencedoresEmNovasCondicoes)
             // O vencedor do jogo é o jogador com mais energia na “casa do meio”
             if (jaExisteUmVencedor && vencedoresEmNovasCondicoes.size() >= 2) {
@@ -685,7 +686,6 @@ public class GameManager {
             }
         }
 
-        // (vencedoresEmNovasCondicoes) Index 1 out of bounds for length 1??
         if (vencedoresEmNovasCondicoes.size() >= 1) {
             jogadorComMaisEnergia = jogadoresEmJogo.get(0);
             obterResultadoVencedorNovaCondicao(jogadoresEmJogo, vencedoresEmNovasCondicoes,
