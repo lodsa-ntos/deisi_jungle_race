@@ -1493,6 +1493,11 @@ public class TestGameOnJungle {
         MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(4, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
 
+        // Jogador 2 joga
+        MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
+
+
         gameOnJungle.getGameResults().toArray();
     }
 

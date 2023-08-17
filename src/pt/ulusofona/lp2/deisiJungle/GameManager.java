@@ -618,7 +618,7 @@ public class GameManager {
 
             // Se existir, pelo menos, um jogador entre a “casa do meio” e a meta (vencedoresEmNovasCondicoes)
             // O vencedor do jogo é o jogador com mais energia na “casa do meio”
-            if (jaExisteUmVencedor && vencedoresEmNovasCondicoes.size() >= 2) {
+            if (jaExisteUmVencedor && vencedoresEmNovasCondicoes.size() >= 1) {
                 infoJogadorVencedor[0] = String.valueOf(jogadorComMaisEnergia.getId());
                 infoJogadorVencedor[1] = jogadorComMaisEnergia.getNome();
                 infoJogadorVencedor[2] = jogadorComMaisEnergia.getIdEspecie();
@@ -989,10 +989,11 @@ public class GameManager {
             if (jogadorAtual.getEspecie().getId().equals("U")) {
                 if (!casaAtualPossuiAlimentoIgnorarUnicornio(nrSquares)) {
                     for (Alimento alimento : alimentos) {
-                        if (alimento.getId().equals("m")) {
-                            jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares) + 2));
-                        } else if (alimento.getId().equals("a") || alimento.getId().equals("e") ){
-                            jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares)));
+                        switch (alimento.getId()) {
+                            case "m" ->
+                                    jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares) + 2));
+                            case "a", "e" ->
+                                    jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares)));
                         }
                     }
                 }
