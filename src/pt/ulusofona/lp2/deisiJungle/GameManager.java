@@ -1078,7 +1078,7 @@ public class GameManager {
                                                    boolean jaExisteUmVencedor, int posicaoChegada,
                                                    ArrayList<String> resultados) {
 
-        Jogador jogadorComMaisEnergia = null;
+        //Jogador jogadorComMaisEnergia = null;
         calcularCasaDoMeio();
 
         for (Jogador jogador : jogadoresEmJogo) {
