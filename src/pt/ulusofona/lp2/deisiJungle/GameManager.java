@@ -605,7 +605,7 @@ public class GameManager {
             }
             // TODO Nova Condição Vencedor:
             calcularCasaDoMeio();
-            jogadorComMaisEnergia = jogadores.get(0);
+            Jogador jogadorComMaisEnergia = jogadores.get(0);
 
             // Quando estiverem presentes dois jogadores na “casa do meio”
             if (jogador.getPosicaoAtual() == casaDoMeio) {
@@ -1078,7 +1078,7 @@ public class GameManager {
                                                    boolean jaExisteUmVencedor, int posicaoChegada,
                                                    ArrayList<String> resultados) {
 
-        //Jogador jogadorComMaisEnergia = null;
+        Jogador jogadorComMaisEnergia = null;
         calcularCasaDoMeio();
 
         for (Jogador jogador : jogadoresEmJogo) {
