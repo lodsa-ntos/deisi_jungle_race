@@ -988,11 +988,14 @@ public class GameManager {
             // se o jogador se movimentar para uma casa sem alimento, a sua energia aumenta 2 unidades.
             if (jogadorAtual.getEspecie().getId().equals("U")) {
                 if (!casaAtualPossuiAlimento(nrSquares)) {
-                    jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares) + 2));
-                } else {
-                    jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares)));
+                    for (Alimento alimento : alimentos) {
+                        if (alimento.getId().equals("m")) {
+                            jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares) + 2));
+                        } else {
+                            jogadorAtual.getEspecie().setEnergiaInicial(energiaAtual - (consumoEnergia * Math.abs(nrSquares)));
+                        }
+                    }
                 }
-
                 //limitarEnergia(true, false, consumoEnergia);
             } else {
                 // O jogador avançou ou recuou
