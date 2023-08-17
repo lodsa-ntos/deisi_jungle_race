@@ -1022,10 +1022,10 @@ public class TestGameOnJungle {
         Alimento agua = alimentos.get(0);
 
         jogadorUnicornio.alterarPosicaoAtual(1);
-        gameOnJungle.verificarSeRecuouEAvancou(4, jogadorUnicornio.getEspecie().getEnergiaInicial(), 8);
+        gameOnJungle.verificarSeRecuouEAvancou(5, jogadorUnicornio.getEspecie().getEnergiaInicial(), 8);
 
-        assertEquals("Jogador Unicórnio deve ignorar a água",
-                0, jogadorUnicornio.consumirAgua("", jogadorUnicornio, agua));
+        assertEquals("Jogador Unicórnio deve ignorar a água\"",
+                160, jogadorUnicornio.getEspecie().getEnergiaInicial());
 
         // Jogador1 ignora alimento, não atualiza o historico
         assertEquals(0, jogadorUnicornio.getNumeroAlimento());
