@@ -694,22 +694,7 @@ public class GameManager {
                 }
             }
         }
-        // TODO Nova Condição Vencedor:
-        calcularCasaDoMeio();
-        int numJogadoresCasaDoMeio = 0;
 
-        for (Jogador jogador : jogadoresEmJogo) {
-            if (!alguemChegouNaMeta && jogador.getPosicaoAtual() == casaDoMeio) {
-                vencedoresEmNovasCondicoes.add(jogador);
-                numJogadoresCasaDoMeio++;
-            }
-        }
-
-        if (numJogadoresCasaDoMeio > 1) {
-            //jogadorComMaisEnergia = jogadoresEmJogo.get(1);
-            obterResultadoVencedorNovaCondicao(jogadoresEmJogo, vencedoresEmNovasCondicoes,
-                    posicaoChegada, resultados);
-        }
 
         return resultados;
     }
