@@ -444,7 +444,7 @@ public class GameManager {
             if (casaComAlimento) {
                 infoEnergia[0] = String.valueOf(consumoEnergia);  // Consumo normal se houver alimento
             } else {
-                int novoConsumoEnergia = consumoEnergia + 2;  // Aumenta o consumo em casa sem de alimento
+                int novoConsumoEnergia = consumoEnergia + 2;  // Aumenta o consumo em casa sem alimento
                 infoEnergia[0] = String.valueOf(novoConsumoEnergia);
             }
         } else {
@@ -1113,7 +1113,7 @@ public class GameManager {
             }
         }
 
-        if (jaExisteUmVencedor && jogadorComMaisEnergia != null && vencedoresEmNovasCondicoes.size() > 1) {
+        if (jaExisteUmVencedor && jogadorComMaisEnergia != null && vencedoresEmNovasCondicoes.size() > 0) {
             String nome = jogadorComMaisEnergia.getNome();
             String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
             int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
