@@ -661,6 +661,7 @@ public class GameManager {
             }
         }
         ArrayList<String> resultados = new ArrayList<>();
+        ArrayList<String> resultadosNovaCondicao = new ArrayList<>();
         int posicaoChegada = 1;
         if (alguemChegouNaMeta) {
             for (Jogador jogador : jogadoresEmJogo) {
@@ -695,6 +696,23 @@ public class GameManager {
             }
         }
 
+        // TODO Nova Condição Vencedor:
+        calcularCasaDoMeio();
+        int numJogadoresCasaDoMeio = 0;
+
+        for (Jogador jogador : jogadoresEmJogo) {
+            if (!alguemChegouNaMeta && jogador.getPosicaoAtual() == casaDoMeio) {
+                vencedoresEmNovasCondicoes.add(jogador);
+                numJogadoresCasaDoMeio++;
+            }
+        }
+
+        if (numJogadoresCasaDoMeio > 1) {
+            jogadorComMaisEnergia = jogadoresEmJogo.get(0);
+            obterResultadoVencedorNovaCondicao(jogadoresEmJogo, vencedoresEmNovasCondicoes,
+                    posicaoChegada, resultadosNovaCondicao);
+            return resultadosNovaCondicao;
+        }
 
         return resultados;
     }
@@ -1080,8 +1098,7 @@ public class GameManager {
 
     public void obterResultadoVencedorNovaCondicao(List<Jogador> jogadoresEmJogo,
                                                    ArrayList<Jogador> vencedoresEmNovasCondicoes,
-                                                   int posicaoChegada,
-                                                   ArrayList<String> resultados) {
+                                                   int posicaoChegada, ArrayList<String> resultados) {
 
         int numJogadoresCasaDoMeio = 0;
         Jogador jogadorComMaisEnergia = null;
