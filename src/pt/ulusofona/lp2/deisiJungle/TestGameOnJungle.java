@@ -1648,4 +1648,52 @@ public class TestGameOnJungle {
         assertEquals("42", gameOnJungle.getCurrentPlayerEnergyInfo(5)[0]);
     }
 
+    @Test
+    public void testgetGameResults_NovaCondicaoVencedor3() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[4][3];
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Mogli";
+        playerInfo[0][2] = "Z";
+
+        // Jogador 2
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Bagheera";
+        playerInfo[1][2] = "P";
+
+        // Jogador 3
+        playerInfo[2][0] = "3";
+        playerInfo[2][1] = "Akela";
+        playerInfo[2][2] = "U";
+
+        // Jogador 4
+        playerInfo[3][0] = "4";
+        playerInfo[3][1] = "Baghu";
+        playerInfo[3][2] = "P";
+
+        gameOnJungle.createInitialJungle(10, playerInfo);
+
+        // Jogador 1 joga
+        MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
+
+        // Jogador 2 joga
+        MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
+
+        // Jogador 3 joga
+        MovementResult movementResult3 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult3.code());
+
+        // Jogador 4 joga
+        MovementResult movementResult4 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult4.code());
+
+        assertEquals("[#1 Akela, Unicórnio, 5, 4, 0]",
+                Arrays.toString(gameOnJungle.getGameResults().toArray()));
+    }
+
 }
