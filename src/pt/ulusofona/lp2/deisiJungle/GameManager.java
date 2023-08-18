@@ -703,11 +703,10 @@ public class GameManager {
         for (Jogador jogador : jogadoresEmJogo) {
             if (!alguemChegouNaMeta && jogador.getPosicaoAtual() == casaDoMeio) {
                 vencedoresEmNovasCondicoes.add(jogador);
-                numJogadoresCasaDoMeio++;
             }
         }
 
-        if (numJogadoresCasaDoMeio > 1) {
+        if (vencedoresEmNovasCondicoes.size() > 0) {
             jogadorComMaisEnergia = jogadoresEmJogo.get(0);
             obterResultadoVencedorNovaCondicao(jogadoresEmJogo, vencedoresEmNovasCondicoes,
                     posicaoChegada, resultadosNovaCondicao);
@@ -1100,22 +1099,16 @@ public class GameManager {
                                                    ArrayList<Jogador> vencedoresEmNovasCondicoes,
                                                    int posicaoChegada, ArrayList<String> resultados) {
 
-        int numJogadoresCasaDoMeio = 0;
         Jogador jogadorComMaisEnergia = null;
 
-        for (Jogador jogador : jogadoresEmJogo) {
-            if (!alguemChegouNaMeta && jogador.getPosicaoAtual() == casaDoMeio) {
-                vencedoresEmNovasCondicoes.add(jogador);
-                numJogadoresCasaDoMeio++;
-
-                if (jogadorComMaisEnergia == null ||
-                        jogador.getEspecie().getEnergiaAtual() > jogadorComMaisEnergia.getEspecie().getEnergiaAtual()) {
-                    jogadorComMaisEnergia = jogador;
-                }
+        for (Jogador jogador : vencedoresEmNovasCondicoes) {
+            if (jogadorComMaisEnergia == null ||
+                    jogador.getEspecie().getEnergiaAtual() > jogadorComMaisEnergia.getEspecie().getEnergiaAtual()) {
+                jogadorComMaisEnergia = jogador;
             }
         }
 
-        if (numJogadoresCasaDoMeio > 1) {
+        if (vencedoresEmNovasCondicoes.size() > 0) {
             String nome = jogadorComMaisEnergia.getNome();
             String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
             int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
@@ -1125,6 +1118,7 @@ public class GameManager {
             resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
                     + ", " + distancia + ", " + numAlimento);
         }
+
     }
 
 
