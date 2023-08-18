@@ -1667,7 +1667,7 @@ public class TestGameOnJungle {
         // Jogador 3
         playerInfo[2][0] = "3";
         playerInfo[2][1] = "Akela";
-        playerInfo[2][2] = "U";
+        playerInfo[2][2] = "T";
 
         // Jogador 4
         playerInfo[3][0] = "4";
@@ -1692,7 +1692,7 @@ public class TestGameOnJungle {
         MovementResult movementResult4 = gameOnJungle.moveCurrentPlayer(4, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult4.code());
 
-        assertEquals("[#1 Akela, Unicórnio, 5, 4, 0]",
+        assertEquals("[#1 Akela, Tartaruga, 5, 4, 0]",
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
