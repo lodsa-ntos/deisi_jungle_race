@@ -705,8 +705,8 @@ public class GameManager {
             }
         }
 
-        if (numJogadoresCasaDoMeio > 0) {
-            jogadorComMaisEnergia = jogadoresEmJogo.get(0);
+        if (numJogadoresCasaDoMeio > 1) {
+            //jogadorComMaisEnergia = jogadoresEmJogo.get(1);
             obterResultadoVencedorNovaCondicao(jogadoresEmJogo, vencedoresEmNovasCondicoes,
                     posicaoChegada, resultados);
         }
@@ -1113,7 +1113,7 @@ public class GameManager {
             }
         }
 
-        if (numJogadoresCasaDoMeio > 0) {
+        if (numJogadoresCasaDoMeio > 1) {
             String nome = jogadorComMaisEnergia.getNome();
             String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
             int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
