@@ -708,7 +708,7 @@ public class GameManager {
         if (numJogadoresCasaDoMeio >= 2) {
             jogadorComMaisEnergia = jogadoresEmJogo.get(0);
             obterResultadoVencedorNovaCondicao(jogadoresEmJogo, vencedoresEmNovasCondicoes,
-                    jaExisteUmVencedor, posicaoChegada, resultados);
+                    posicaoChegada, resultados);
         }
 
         return resultados;
@@ -1095,31 +1095,25 @@ public class GameManager {
 
     public void obterResultadoVencedorNovaCondicao(List<Jogador> jogadoresEmJogo,
                                                    ArrayList<Jogador> vencedoresEmNovasCondicoes,
-                                                   boolean jaExisteUmVencedor, int posicaoChegada,
+                                                   int posicaoChegada,
                                                    ArrayList<String> resultados) {
 
-        int numJogadoresCasaDoMeio = 0;
         Jogador jogadorComMaisEnergia = null;
-        calcularCasaDoMeio();
+        int numJogadoresCasaDoMeio = 0;
 
         for (Jogador jogador : jogadoresEmJogo) {
-            // Quando estiverem presentes dois jogadores na “casa do meio”
-            if (jogador.getPosicaoAtual() == casaDoMeio) {
+            if (!alguemChegouNaMeta && jogador.getPosicaoAtual() == casaDoMeio) {
+                vencedoresEmNovasCondicoes.add(jogador);
                 numJogadoresCasaDoMeio++;
+
                 if (jogadorComMaisEnergia == null || jogador.getEspecie().getEnergiaAtual() >
                         jogadorComMaisEnergia.getEspecie().getEnergiaAtual()) {
                     jogadorComMaisEnergia = jogador;
-                    jaExisteUmVencedor = true;
                 }
             }
         }
 
         if (numJogadoresCasaDoMeio >= 2) {
-            vencedoresEmNovasCondicoes.addAll(jogadoresEmJogo);
-            // Resto da lógica para determinar o vencedor
-        }
-
-        if (jaExisteUmVencedor && jogadorComMaisEnergia != null && vencedoresEmNovasCondicoes.size() >= 2) {
             String nome = jogadorComMaisEnergia.getNome();
             String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
             int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
