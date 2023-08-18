@@ -433,11 +433,30 @@ public class GameManager {
 
         // Atualizar o turno e o jogador atual a se movimentar
         //jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
+        int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1
+        int novaPosicaoJogador = casaAtual + nrPositions; // A + M
         int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrPositions);
         int ganhoEnergiaDescanso = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
 
-        infoEnergia[0] = String.valueOf(consumoEnergia);
+
+        for (Alimento alimento: alimentos) {
+            if (alimento.getPosicaoAlimento() == novaPosicaoJogador) {
+                casaComAlimento = true;
+            }
+        }
+
+        if (jogadorAtual.getEspecie().getId().equals("U")) {
+            if (casaComAlimento) {
+                infoEnergia[0] = String.valueOf(consumoEnergia);
+            } else {
+                int novoConsumoEnergia = consumoEnergia + 2;
+                infoEnergia[0] = String.valueOf(novoConsumoEnergia);
+            }
+        } else {
+            infoEnergia[0] = String.valueOf(consumoEnergia);
+        }
         infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);
+
 
         //System.out.println(consumoEnergia);
         //System.out.println(Arrays.toString(infoEnergia));
@@ -519,11 +538,6 @@ public class GameManager {
 
         jogadorAtual.setNumeroPosicoesPercorridas(Math.abs(nrSquares));
 
-        for (Alimento alimento: alimentos) {
-            if (alimento.getPosicaoAlimento() == novaPosicaoJogador) {
-                casaComAlimento = true;
-            }
-        }
         // Definir a energia do jogador quando recua ou avança
         setEnergyOfNumberOfSquare(nrSquares, energiaAtual, consumoEnergia);
 
@@ -995,6 +1009,7 @@ public class GameManager {
 
     public void setEnergyOfNumberOfSquare(int nrSquares, int energiaAtual, int consumoEnergia) {
         if (nrSquares != 0) {
+
             int energiaGasta = consumoEnergia * Math.abs(nrSquares);
 
             if (jogadorAtual.getEspecie().getId().equals("U")) {

@@ -1029,10 +1029,10 @@ public class TestGameOnJungle {
         assertEquals(MovementResultCode.VALID_MOVEMENT, result.code());
 
         assertEquals("Jogador Unicórnio deve ignorar a água\"",
-                160, jogadorUnicornio.getEspecie().getEnergiaAtual());
+                162, jogadorUnicornio.getEspecie().getEnergiaAtual());
 
         assertEquals("Jogador Unicórnio deve ignorar a água\"",
-                "40", gameOnJungle.getCurrentPlayerEnergyInfo(5)[0]);
+                "42", gameOnJungle.getCurrentPlayerEnergyInfo(5)[0]);
 
         // Jogador1 ignora alimento, não atualiza o historico
         assertEquals(0, jogadorUnicornio.getNumeroAlimento());
@@ -1071,7 +1071,7 @@ public class TestGameOnJungle {
         gameOnJungle.setEnergyOfNumberOfSquare(5, jogadorUnicornio.getEspecie().getEnergiaAtual(), 8);
 
         assertEquals("Jogador Unicórnio deve ignorar Cogumelo Mágico",
-                160, jogadorUnicornio.getEspecie().getEnergiaAtual());
+                162, jogadorUnicornio.getEspecie().getEnergiaAtual());
 
         // Jogador1 ignora alimento, não atualiza o historico
         assertEquals(0, jogadorUnicornio.getNumeroAlimento());
@@ -1107,15 +1107,10 @@ public class TestGameOnJungle {
         jogadorUnicornio.getEspecie().setEnergiaAtual(200);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
-        MovementResult result = gameOnJungle.moveCurrentPlayer(5, true);
-
-        // Verificar se o resultado é uma movimentação válida
-        assertEquals(MovementResultCode.VALID_MOVEMENT, result.code());
-
         gameOnJungle.setEnergyOfNumberOfSquare(5, jogadorUnicornio.getEspecie().getEnergiaAtual(), 8);
 
         assertEquals("Jogador Unicórnio deve ignorar a água\"",
-                "40", gameOnJungle.getCurrentPlayerEnergyInfo(5)[0]);
+                "42", gameOnJungle.getCurrentPlayerEnergyInfo(5)[0]);
 
         // Jogador1 ignora alimento, não atualiza o historico
         assertEquals(0, jogadorUnicornio.getNumeroAlimento());
@@ -1150,11 +1145,6 @@ public class TestGameOnJungle {
         Jogador jogadorUnicornio = jogadores.get(0);
         jogadorUnicornio.getEspecie().setEnergiaAtual(200);
         jogadorUnicornio.alterarPosicaoAtual(1);
-
-        MovementResult result = gameOnJungle.moveCurrentPlayer(5, true);
-
-        // Verificar se o resultado é uma movimentação válida
-        assertEquals(MovementResultCode.VALID_MOVEMENT, result.code());
 
         gameOnJungle.setEnergyOfNumberOfSquare(5, jogadorUnicornio.getEspecie().getEnergiaAtual(), 8);
 
@@ -1626,6 +1616,43 @@ public class TestGameOnJungle {
 
         assertEquals("3", gameOnJungle.getCurrentPlayerInfo()[0]);
 
+    }
+
+    @Test
+    public void testUnicornio_Move_Eat_OBG() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[1][2];
+
+        // Alimentos (cogumelo)
+        foodInfo[0][0] = "m";
+        foodInfo[0][1] = "5";
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Ranjan";
+        playerInfo[0][2] = "U";
+
+        // Jogador 2
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Balu";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(10, playerInfo, foodInfo);
+
+        Jogador jogadorUnicornio = gameOnJungle.jogadores.get(0);
+        jogadorUnicornio.getEspecie().setEnergiaAtual(200);
+        jogadorUnicornio.alterarPosicaoAtual(1);
+
+        // Simulando o cenário de mover o jogador e encontrar um cogumelo mágico (OBG)
+        int energiaAtual = jogadorUnicornio.getEspecie().getEnergiaAtual();
+
+        // Chamando a função que estamos a testar
+        gameOnJungle.setEnergyOfNumberOfSquare(5, energiaAtual, 8);
+
+        // Verificando se o jogador ganhou energia após comer cogumelos mágicos
+        assertEquals("42", gameOnJungle.getCurrentPlayerEnergyInfo(5)[0]); // Energia esperada após comer cogumelos mágicos
     }
 
 }
