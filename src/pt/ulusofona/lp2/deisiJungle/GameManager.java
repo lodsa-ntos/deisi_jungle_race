@@ -706,10 +706,9 @@ public class GameManager {
             }
         }
 
-        if (vencedoresEmNovasCondicoes.size() > 0) {
+        if (vencedoresEmNovasCondicoes.size() >= 2) {
             jogadorComMaisEnergia = jogadoresEmJogo.get(0);
-            obterResultadoVencedorNovaCondicao(jogadoresEmJogo, vencedoresEmNovasCondicoes,
-                    posicaoChegada, resultadosNovaCondicao);
+            obterResultadoVencedorNovaCondicao(vencedoresEmNovasCondicoes, posicaoChegada, resultadosNovaCondicao);
             return resultadosNovaCondicao;
         }
 
@@ -1095,8 +1094,7 @@ public class GameManager {
         }
     }
 
-    public void obterResultadoVencedorNovaCondicao(List<Jogador> jogadoresEmJogo,
-                                                   ArrayList<Jogador> vencedoresEmNovasCondicoes,
+    public void obterResultadoVencedorNovaCondicao(ArrayList<Jogador> vencedoresEmNovasCondicoes,
                                                    int posicaoChegada, ArrayList<String> resultados) {
 
         Jogador jogadorComMaisEnergia = null;
@@ -1108,7 +1106,7 @@ public class GameManager {
             }
         }
 
-        if (vencedoresEmNovasCondicoes.size() > 0) {
+        if (vencedoresEmNovasCondicoes.size() >= 2) {
             String nome = jogadorComMaisEnergia.getNome();
             String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
             int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
