@@ -433,29 +433,25 @@ public class GameManager {
 
         // Atualizar o turno e o jogador atual a se movimentar
         //jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
-        int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1
-        int novaPosicaoJogador = casaAtual + nrPositions; // A + M
+        int casaAtual = jogadorAtual.getPosicaoAtual();
+        int novaPosicaoJogador = casaAtual + nrPositions;
         int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrPositions);
         int ganhoEnergiaDescanso = jogadorAtual.getEspecie().getGanhoEnergiaDescanso();
 
-
-        for (Alimento alimento: alimentos) {
-            if (alimento.getPosicaoAlimento() == novaPosicaoJogador) {
-                casaComAlimento = true;
-            }
-        }
+        boolean casaComAlimento = verificaCasaComAlimentoUnicornio(novaPosicaoJogador);  // Verifica se a casa tem alimento
 
         if (jogadorAtual.getEspecie().getId().equals("U")) {
             if (casaComAlimento) {
-                infoEnergia[0] = String.valueOf(consumoEnergia);
+                infoEnergia[0] = String.valueOf(consumoEnergia);  // Consumo normal se houver alimento
             } else {
-                int novoConsumoEnergia = consumoEnergia + 2;
+                int novoConsumoEnergia = consumoEnergia + 2;  // Aumenta o consumo em casa sem de alimento
                 infoEnergia[0] = String.valueOf(novoConsumoEnergia);
             }
         } else {
-            infoEnergia[0] = String.valueOf(consumoEnergia);
+            infoEnergia[0] = String.valueOf(consumoEnergia);  // Para outras espécies, consumo normal
         }
-        infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);
+
+        infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);  // Ganho de energia em descanso
 
 
         //System.out.println(consumoEnergia);
@@ -503,7 +499,7 @@ public class GameManager {
             // Verificar se o jogador consumiu algum alimento
             String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
             if (alimentoConsumido != null) {
-                jogadorAtual.contarNumAlimentoApanhado(1);
+                jogadorAtual.aumentarNumAlimentoApanhado(1);
                 return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
             }
             return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
@@ -532,16 +528,17 @@ public class GameManager {
             alguemChegouNaMeta = true;
             //return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
         }
+
         // Movimento do jogador para a casa A + M
         jogadorAtual.alterarPosicaoAtual(novaPosicaoJogador);
+
         jogadorAtual.setNumeroPosicoesPercorridas(Math.abs(nrSquares));
-        for (Alimento alimento: alimentos) {
-            if (alimento.getPosicaoAlimento() == novaPosicaoJogador) {
-                casaComAlimento = true;
-            }
-        }
+
+        // Verifica se o jogador Unicórnio vai para uma casa com ou sem alimento na nova posição
+        casaComAlimento = verificaCasaComAlimentoUnicornio(novaPosicaoJogador);
+
         // Definir a energia do jogador quando recua ou avança
-        setEnergyOfNumberOfSquare(nrSquares, energiaAtual, consumoEnergia);
+        setEnergyOfNumberOfSquare(nrSquares, energiaAtual, consumoEnergia, casaComAlimento);
 
         // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
         if (energiaAtual < consumoEnergia * Math.abs(nrSquares)) {
@@ -559,7 +556,7 @@ public class GameManager {
                     (jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie().equals("herbívoro")
                             && !alimentoConsumido.equals("Carne"))) {
 
-                jogadorAtual.contarNumAlimentoApanhado(1);
+                jogadorAtual.aumentarNumAlimentoApanhado(1);
                 // senão se for herbívoro e o alimento consumido é carne...
             } else {
                 // ...atualizar o turno e
@@ -1009,36 +1006,32 @@ public class GameManager {
         };
     }
 
-    public void setEnergyOfNumberOfSquare(int nrSquares, int energiaAtual, int consumoEnergia) {
+    public void setEnergyOfNumberOfSquare(int nrSquares, int energiaAtual, int consumoEnergia, boolean casaComAlimento) {
         if (nrSquares != 0) {
 
             int energiaGasta = consumoEnergia * Math.abs(nrSquares);
+            Especie especieJogador = jogadorAtual.getEspecie();
 
-            if (jogadorAtual.getEspecie().getId().equals("U")) {
-
+            if (especieJogador.getId().equals("U")) {
                 if (casaComAlimento) {
-                    jogadorAtual.getEspecie().setEnergiaAtual(energiaAtual - energiaGasta);
-
-                    //se o jogador se movimentar para uma casa sem alimento, a sua energia aumenta 2 unidades.
+                    int novaEnergia = energiaAtual - energiaGasta;
+                    especieJogador.setEnergiaAtual(novaEnergia);
                 } else {
                     int energiaAtualizada = energiaAtual + 2;
-                    jogadorAtual.getEspecie().setEnergiaAtual(energiaAtualizada - energiaGasta);
+                    int novaEnergia = energiaAtualizada - energiaGasta;
+                    especieJogador.setEnergiaAtual(novaEnergia);
                 }
-
-                // Outros animais.
             } else {
-                jogadorAtual.getEspecie().setEnergiaAtual(energiaAtual - energiaGasta);
+                int novaEnergia = energiaAtual - energiaGasta;
+                especieJogador.setEnergiaAtual(novaEnergia);
             }
         }
     }
 
-    public boolean casaAtualPossuiAlimentoIgnorarUnicornio(int nrSquares) {
-        // Verificar se a casa atual contém algum alimento (a, e, b, c, m).
+    public boolean verificaCasaComAlimentoUnicornio(int novaPosicaoJogador) {
         for (Alimento alimento : alimentos) {
-            if (jogadorAtual.getEspecie().getId().equals("U")) {
-                if ((jogadorAtual.getPosicaoAtual() + nrSquares) == alimento.getPosicaoAlimento()) {
-                    return true;
-                }
+            if (alimento.getPosicaoAlimento() == novaPosicaoJogador) {
+                return true;
             }
         }
         return false;
@@ -1160,7 +1153,7 @@ public class GameManager {
         novoJogador.setIdEspecie(novoIdEspecie);
         novoJogador.getEspecie().setEnergiaAtual(novaEnergiaAtual);
         novoJogador.setNumeroPosicoesPercorridas(novaPosicaoPercorridas);
-        novoJogador.contarNumAlimentoApanhado(novoNumAlimento);
+        novoJogador.aumentarNumAlimentoApanhado(novoNumAlimento);
         novoJogador.getEspecie().setTipoAlimentacaoDaEspecie(novoTipoAlimentacaoEspecie);
         novoJogador.getEspecie().setConsumoEnergia(novoConsumoEnergia);
         novoJogador.getEspecie().setGanhoEnergiaDescanso(novoGanhoEnergia);
@@ -1239,7 +1232,6 @@ public class GameManager {
     }
 
     public void incrementarReset() {
-
         jogadores = new ArrayList<>(); // reset da lista de jogadores.
         alimentos = new ArrayList<>(); // reset da lista de alimentos
         jogadorAtual = null; // reset do jogadorAtual
