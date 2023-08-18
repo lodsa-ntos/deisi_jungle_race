@@ -636,8 +636,6 @@ public class GameManager {
                 }
             }
 
-            // test_003_New_Winner_Condition_OBG
-            // TODO (vencedoresEmNovasCondicoes) Index 1 out of bounds for length 1 ???
             // Se existir, pelo menos, um jogador entre a “casa do meio” e a meta (vencedoresEmNovasCondicoes)
             // O vencedor do jogo é o jogador com mais energia na “casa do meio”
             if (jaExisteUmVencedor && vencedoresEmNovasCondicoes.size() >= 2) {
@@ -648,7 +646,6 @@ public class GameManager {
                 return infoJogadorVencedor;
             }
         }
-
 
 
         return null; // Nenhum jogador venceu ainda

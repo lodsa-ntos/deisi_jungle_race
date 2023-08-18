@@ -1641,14 +1641,11 @@ public class TestGameOnJungle {
         jogadorUnicornio.getEspecie().setEnergiaAtual(200);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
-        // Simulando o cenário de mover o jogador e encontrar um cogumelo mágico (OBG)
         int energiaAtual = jogadorUnicornio.getEspecie().getEnergiaAtual();
 
-        // Chamando a função que estamos a testar
         gameOnJungle.setEnergyOfNumberOfSquare(4, energiaAtual, 8, true);
 
-        // Verificando se o jogador ganhou energia após comer cogumelos mágicos
-        assertEquals("42", gameOnJungle.getCurrentPlayerEnergyInfo(5)[0]); // Energia esperada após comer cogumelos mágicos
+        assertEquals("42", gameOnJungle.getCurrentPlayerEnergyInfo(5)[0]);
     }
 
 }
