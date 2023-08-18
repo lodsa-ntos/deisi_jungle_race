@@ -1649,7 +1649,7 @@ public class TestGameOnJungle {
     }
 
     @Test
-    public void testgetGameResults_NovaCondicaoVencedor3() throws InvalidInitialJungleException {
+    public void testGetGameResults_NovaCondicaoVencedor4() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
 
         String[][] playerInfo = new String[4][3];
@@ -1691,6 +1691,9 @@ public class TestGameOnJungle {
         // Jogador 4 joga
         MovementResult movementResult4 = gameOnJungle.moveCurrentPlayer(4, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult4.code());
+
+        assertEquals("3",
+                gameOnJungle.getWinnerInfo()[0]);
 
         assertEquals("[#1 Akela, Tartaruga, 5, 4, 0]",
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
