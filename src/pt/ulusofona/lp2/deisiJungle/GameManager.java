@@ -706,7 +706,7 @@ public class GameManager {
             }
         }
 
-        if (vencedoresEmNovasCondicoes.size() >= 2) {
+        if (vencedoresEmNovasCondicoes.size() >= 1) {
             jogadorComMaisEnergia = jogadoresEmJogo.get(0);
             obterResultadoVencedorNovaCondicao(vencedoresEmNovasCondicoes, posicaoChegada, resultadosNovaCondicao);
             return resultadosNovaCondicao;
@@ -1106,14 +1106,14 @@ public class GameManager {
             }
         }
 
-        if (vencedoresEmNovasCondicoes.size() >= 2) {
+        if (vencedoresEmNovasCondicoes.size() >= 1) {
             String nome = jogadorComMaisEnergia.getNome();
             String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
             int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
             int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
             int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
 
-            resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+            resultados.add("#" + 0 + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
                     + ", " + distancia + ", " + numAlimento);
         }
 
