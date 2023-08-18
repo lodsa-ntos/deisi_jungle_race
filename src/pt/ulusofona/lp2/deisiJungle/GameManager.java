@@ -699,13 +699,16 @@ public class GameManager {
         }
         // TODO Nova Condição Vencedor:
         calcularCasaDoMeio();
+        int numJogadoresCasaDoMeio = 0;
+
         for (Jogador jogador : jogadoresEmJogo) {
             if (!alguemChegouNaMeta && jogador.getPosicaoAtual() == casaDoMeio) {
                 vencedoresEmNovasCondicoes.add(jogador);
+                numJogadoresCasaDoMeio++;
             }
         }
 
-        if (vencedoresEmNovasCondicoes.size() >= 1) {
+        if (numJogadoresCasaDoMeio >= 2) {
             jogadorComMaisEnergia = jogadoresEmJogo.get(0);
             obterResultadoVencedorNovaCondicao(jogadoresEmJogo, vencedoresEmNovasCondicoes,
                     jaExisteUmVencedor, posicaoChegada, resultados);
@@ -1098,19 +1101,25 @@ public class GameManager {
                                                    boolean jaExisteUmVencedor, int posicaoChegada,
                                                    ArrayList<String> resultados) {
 
+        int numJogadoresCasaDoMeio = 0;
         Jogador jogadorComMaisEnergia = null;
         calcularCasaDoMeio();
 
         for (Jogador jogador : jogadoresEmJogo) {
             // Quando estiverem presentes dois jogadores na “casa do meio”
             if (jogador.getPosicaoAtual() == casaDoMeio) {
-                vencedoresEmNovasCondicoes.add(jogador);
+                numJogadoresCasaDoMeio++;
                 if (jogadorComMaisEnergia == null || jogador.getEspecie().getEnergiaAtual() >
                         jogadorComMaisEnergia.getEspecie().getEnergiaAtual()) {
                     jogadorComMaisEnergia = jogador;
                     jaExisteUmVencedor = true;
                 }
             }
+        }
+
+        if (numJogadoresCasaDoMeio >= 2) {
+            vencedoresEmNovasCondicoes.addAll(jogadoresEmJogo);
+            // Resto da lógica para determinar o vencedor
         }
 
         if (jaExisteUmVencedor && jogadorComMaisEnergia != null && vencedoresEmNovasCondicoes.size() > 0) {
