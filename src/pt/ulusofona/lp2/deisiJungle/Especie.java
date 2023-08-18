@@ -8,7 +8,7 @@ public abstract class Especie {
     protected String nome;
     protected String imagem;
     protected String tipoAlimentacaoDaEspecie;
-    protected int energiaInicial;
+    protected int energiaAtual;
     protected int consumoEnergia;
     protected int ganhoEnergiaDescanso;
     protected int velocidadeMinima;
@@ -55,9 +55,9 @@ public abstract class Especie {
 
     public abstract void setImagem(String imagem);
 
-    public abstract int getEnergiaInicial();
+    public abstract int getEnergiaAtual();
 
-    public abstract void setEnergiaInicial(int energiaInicial);
+    public abstract void setEnergiaAtual(int energiaAtual);
 
     public abstract int getConsumoEnergia();
 

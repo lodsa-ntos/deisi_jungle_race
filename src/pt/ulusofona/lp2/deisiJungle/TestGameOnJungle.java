@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.*;
 
 import static junit.framework.TestCase.assertEquals;
@@ -163,12 +162,12 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaInicial(76);
+        jogador1.getEspecie().setEnergiaAtual(76);
         jogador1.alterarPosicaoAtual(6);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaInicial(30);
+        jogador2.getEspecie().setEnergiaAtual(30);
         jogador2.alterarPosicaoAtual(1);
 
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
@@ -202,17 +201,17 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaInicial(0);
+        jogador1.getEspecie().setEnergiaAtual(0);
         jogador1.alterarPosicaoAtual(1);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaInicial(76);
+        jogador2.getEspecie().setEnergiaAtual(76);
         jogador2.alterarPosicaoAtual(6);
 
         // Jogador 3
         Jogador jogador3 = jogadores.get(2);
-        jogador3.getEspecie().setEnergiaInicial(50);
+        jogador3.getEspecie().setEnergiaAtual(50);
         jogador3.alterarPosicaoAtual(3);
 
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
@@ -245,17 +244,17 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaInicial(0);
+        jogador1.getEspecie().setEnergiaAtual(0);
         jogador1.alterarPosicaoAtual(1);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaInicial(0);
+        jogador2.getEspecie().setEnergiaAtual(0);
         jogador2.alterarPosicaoAtual(4);
 
         // Jogador 3
         Jogador jogador3 = jogadores.get(2);
-        jogador3.getEspecie().setEnergiaInicial(0);
+        jogador3.getEspecie().setEnergiaAtual(0);
         jogador3.alterarPosicaoAtual(3);
 
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
@@ -286,17 +285,17 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaInicial(0);
+        jogador1.getEspecie().setEnergiaAtual(0);
         jogador1.alterarPosicaoAtual(1);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaInicial(0);
+        jogador2.getEspecie().setEnergiaAtual(0);
         jogador2.alterarPosicaoAtual(4);
 
         // Jogador 3
         Jogador jogador3 = jogadores.get(2);
-        jogador3.getEspecie().setEnergiaInicial(0);
+        jogador3.getEspecie().setEnergiaAtual(0);
         jogador3.alterarPosicaoAtual(3);
 
         // Tentar mover o jogador para 6 casas à frente, mas ele não tem energia suficiente
@@ -329,17 +328,17 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaInicial(0);
+        jogador1.getEspecie().setEnergiaAtual(0);
         jogador1.alterarPosicaoAtual(1);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaInicial(0);
+        jogador2.getEspecie().setEnergiaAtual(0);
         jogador2.alterarPosicaoAtual(4);
 
         // Jogador 3
         Jogador jogador3 = jogadores.get(2);
-        jogador3.getEspecie().setEnergiaInicial(14);
+        jogador3.getEspecie().setEnergiaAtual(14);
         jogador3.alterarPosicaoAtual(3);
 
         // Tentar fazer um movimento com o jogador Pedro, que não tem energia suficiente
@@ -385,12 +384,12 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaInicial(74);
+        jogador1.getEspecie().setEnergiaAtual(74);
         jogador1.alterarPosicaoAtual(1);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaInicial(80);
+        jogador2.getEspecie().setEnergiaAtual(80);
         jogador2.alterarPosicaoAtual(1);
 
         // Fazer um movimento com o jogador Leão
@@ -403,9 +402,9 @@ public class TestGameOnJungle {
 
         // Verificar se a energia de Leão está correta
         int energiaEsperadaJogadorLeao1 = 116;
-        int energiaAtual = jogador1.getEspecie().getEnergiaInicial();
+        int energiaAtual = jogador1.getEspecie().getEnergiaAtual();
         int energiaEsperadaJogadorLeao2 = 120;
-        int energiaAtual2 = jogador2.getEspecie().getEnergiaInicial();
+        int energiaAtual2 = jogador2.getEspecie().getEnergiaAtual();
 
         assertEquals(energiaEsperadaJogadorLeao1, energiaAtual);
         assertEquals(energiaEsperadaJogadorLeao2, energiaAtual2);
@@ -642,12 +641,12 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaInicial(50);
+        jogador1.getEspecie().setEnergiaAtual(50);
         jogador1.alterarPosicaoAtual(1);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaInicial(70);
+        jogador2.getEspecie().setEnergiaAtual(70);
         jogador2.alterarPosicaoAtual(3);
 
         // Jogador herbívoro calha na carne
@@ -683,12 +682,12 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaInicial(100);
+        jogador1.getEspecie().setEnergiaAtual(100);
         jogador1.alterarPosicaoAtual(1);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaInicial(200);
+        jogador2.getEspecie().setEnergiaAtual(200);
         jogador2.alterarPosicaoAtual(1);
 
         // HashMap para ficar a saber os jogadores que consumiram bananas
@@ -746,28 +745,28 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaInicial(20);
+        jogador1.getEspecie().setEnergiaAtual(20);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaInicial(30);
+        jogador2.getEspecie().setEnergiaAtual(30);
 
         // Jogador 3
         Jogador jogador3 = jogadores.get(2);
-        jogador3.getEspecie().setEnergiaInicial(60);
+        jogador3.getEspecie().setEnergiaAtual(60);
 
         // HashMap para ficar a saber os jogadores que consumiram bananas
         Map<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
 
         // Jogador1 consumir banana pela primeira vez
         int energiaConsumida = jogador1.consumirBanana("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
-        int energiaEsperada1 = jogador1.getEspecie().getEnergiaInicial() + energiaConsumida;
+        int energiaEsperada1 = jogador1.getEspecie().getEnergiaAtual() + energiaConsumida;
         assertEquals(40, energiaConsumida);
         assertEquals(60, energiaEsperada1);
 
         // Jogador2 consumir banana pela primeira vez
         energiaConsumida = jogador2.consumirBanana("carnívoro", jogador2, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
-        int energiaEsperada2 = jogador2.getEspecie().getEnergiaInicial() + energiaConsumida;
+        int energiaEsperada2 = jogador2.getEspecie().getEnergiaAtual() + energiaConsumida;
         assertEquals(40, energiaConsumida);
         assertEquals(70, energiaEsperada2);
 
@@ -785,7 +784,7 @@ public class TestGameOnJungle {
 
         // Jogador3 consumir banana pela primeira vez
         energiaConsumida = jogador3.consumirBanana("omnívoro", jogador3, gameOnJungle.alimentos.get(1), jogadoresQueConsumiramBanana);
-        int energiaEsperada3 = jogador3.getEspecie().getEnergiaInicial() + energiaConsumida;
+        int energiaEsperada3 = jogador3.getEspecie().getEnergiaAtual() + energiaConsumida;
         assertEquals(40, energiaConsumida);
         assertEquals(100, energiaEsperada3);
     }
@@ -818,7 +817,7 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaInicial(50);
+        jogadorUnicornio.getEspecie().setEnergiaAtual(50);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
         MovementResult result = gameOnJungle.moveCurrentPlayer(3, false);
@@ -858,7 +857,7 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaInicial(50);
+        jogadorUnicornio.getEspecie().setEnergiaAtual(50);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
         MovementResult result = gameOnJungle.moveCurrentPlayer(3, false);
@@ -898,7 +897,7 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaInicial(50);
+        jogadorUnicornio.getEspecie().setEnergiaAtual(50);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
         MovementResult result = gameOnJungle.moveCurrentPlayer(3, false);
@@ -938,7 +937,7 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaInicial(50);
+        jogadorUnicornio.getEspecie().setEnergiaAtual(50);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
         MovementResult result = gameOnJungle.moveCurrentPlayer(3, false);
@@ -978,7 +977,7 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaInicial(50);
+        jogadorUnicornio.getEspecie().setEnergiaAtual(50);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
         MovementResult result = gameOnJungle.moveCurrentPlayer(3, false);
@@ -999,7 +998,7 @@ public class TestGameOnJungle {
 
         // Alimentos (água)
         foodInfo[0][0] = "a";
-        foodInfo[0][1] = "10";
+        foodInfo[0][1] = "6";
 
         // Jogador 1
         playerInfo[0][0] = "1";
@@ -1018,14 +1017,19 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaInicial(200);
+        jogadorUnicornio.getEspecie().setEnergiaAtual(200);
         Alimento agua = alimentos.get(0);
 
         jogadorUnicornio.alterarPosicaoAtual(1);
-        gameOnJungle.verificarSeRecuouEAvancou(5, jogadorUnicornio.getEspecie().getEnergiaInicial(), 8);
+        //gameOnJungle.setEnergyOfNumberOfSquare(9, jogadorUnicornio.getEspecie().getEnergiaAtual(), 8);
+
+        MovementResult result = gameOnJungle.moveCurrentPlayer(5, true);
+
+        // Verificar se o resultado é uma movimentação válida
+        assertEquals(MovementResultCode.VALID_MOVEMENT, result.code());
 
         assertEquals("Jogador Unicórnio deve ignorar a água\"",
-                160, jogadorUnicornio.getEspecie().getEnergiaInicial());
+                160, jogadorUnicornio.getEspecie().getEnergiaAtual());
 
         assertEquals("Jogador Unicórnio deve ignorar a água\"",
                 "40", gameOnJungle.getCurrentPlayerEnergyInfo(5)[0]);
@@ -1061,20 +1065,20 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaInicial(200);
+        jogadorUnicornio.getEspecie().setEnergiaAtual(200);
 
         jogadorUnicornio.alterarPosicaoAtual(1);
-        gameOnJungle.verificarSeRecuouEAvancou(5, jogadorUnicornio.getEspecie().getEnergiaInicial(), 8);
+        gameOnJungle.setEnergyOfNumberOfSquare(5, jogadorUnicornio.getEspecie().getEnergiaAtual(), 8);
 
         assertEquals("Jogador Unicórnio deve ignorar Cogumelo Mágico",
-                160, jogadorUnicornio.getEspecie().getEnergiaInicial());
+                160, jogadorUnicornio.getEspecie().getEnergiaAtual());
 
         // Jogador1 ignora alimento, não atualiza o historico
         assertEquals(0, jogadorUnicornio.getNumeroAlimento());
     }
 
     @Test
-    public void testUnicornioIgnoraEnergiaCogumelo2() throws InvalidInitialJungleException {
+    public void testUnicornio_CasaSemAlimento() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
 
         String[][] playerInfo = new String[2][3];
@@ -1100,10 +1104,62 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaInicial(200);
-
+        jogadorUnicornio.getEspecie().setEnergiaAtual(200);
         jogadorUnicornio.alterarPosicaoAtual(1);
-       gameOnJungle.verificarSeRecuouEAvancou(5, jogadorUnicornio.getEspecie().getEnergiaInicial(), 8);
+
+        MovementResult result = gameOnJungle.moveCurrentPlayer(5, true);
+
+        // Verificar se o resultado é uma movimentação válida
+        assertEquals(MovementResultCode.VALID_MOVEMENT, result.code());
+
+        gameOnJungle.setEnergyOfNumberOfSquare(5, jogadorUnicornio.getEspecie().getEnergiaAtual(), 8);
+
+        assertEquals("Jogador Unicórnio deve ignorar a água\"",
+                "40", gameOnJungle.getCurrentPlayerEnergyInfo(5)[0]);
+
+        // Jogador1 ignora alimento, não atualiza o historico
+        assertEquals(0, jogadorUnicornio.getNumeroAlimento());
+    }
+
+    @Test
+    public void testUnicornio_CasaComAlimento() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[1][2];
+
+        // Alimentos (cogumelo)
+        foodInfo[0][0] = "m";
+        foodInfo[0][1] = "6";
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Ranjan";
+        playerInfo[0][2] = "U";
+
+        // Jogador 2
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Balu";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        List<Jogador> jogadores = gameOnJungle.jogadores;
+
+        // Jogador 1
+        Jogador jogadorUnicornio = jogadores.get(0);
+        jogadorUnicornio.getEspecie().setEnergiaAtual(200);
+        jogadorUnicornio.alterarPosicaoAtual(1);
+
+        MovementResult result = gameOnJungle.moveCurrentPlayer(5, true);
+
+        // Verificar se o resultado é uma movimentação válida
+        assertEquals(MovementResultCode.VALID_MOVEMENT, result.code());
+
+        gameOnJungle.setEnergyOfNumberOfSquare(5, jogadorUnicornio.getEspecie().getEnergiaAtual(), 8);
+
+        assertEquals("Jogador Unicórnio deve ignorar a água\"",
+                "40", gameOnJungle.getCurrentPlayerEnergyInfo(5)[0]);
 
         // Jogador1 ignora alimento, não atualiza o historico
         assertEquals(0, jogadorUnicornio.getNumeroAlimento());
@@ -1136,11 +1192,11 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorTarzan = jogadores.get(0);
-        jogadorTarzan.getEspecie().setEnergiaInicial(70);
+        jogadorTarzan.getEspecie().setEnergiaAtual(70);
 
         // Jogador 2
         Jogador jogadorLeao = jogadores.get(1);
-        jogadorLeao.getEspecie().setEnergiaInicial(80);
+        jogadorLeao.getEspecie().setEnergiaAtual(80);
 
         /**
          * Tarzan avança
@@ -1151,7 +1207,7 @@ public class TestGameOnJungle {
         // Consome 6 unidades com o movimento, ficando com 64 unidades.
         // Mas como calha numa casa com água e é um omnívoro, recupera 20% de energia. Fica, portanto, com 76 unidades de energia.
         assertEquals("O Tarzan deveria ter ficado com 76 unidades de energia.",
-                76, jogadorTarzan.getEspecie().getEnergiaInicial());
+                76, jogadorTarzan.getEspecie().getEnergiaAtual());
 
         // Jogador1 atualiza o historico ao consumir a água
         assertEquals("O historico do Tarzan deveria ter sido atualizado", 1, jogadorTarzan.getNumeroAlimento());
@@ -1167,7 +1223,7 @@ public class TestGameOnJungle {
 
         // No movimento consome 10 unidades de energia, ficando com 70.
         assertEquals("O leão deveria ter ficado com 70 unidades de energia.",
-                70, jogadorLeao.getEspecie().getEnergiaInicial());
+                70, jogadorLeao.getEspecie().getEnergiaAtual());
 
         // Verificar se o resultado é uma movimentação válida
         assertEquals(MovementResultCode.VALID_MOVEMENT, resultLeaoAcao1.code());
@@ -1183,7 +1239,7 @@ public class TestGameOnJungle {
         // Por descansar, ganha 20 unidades de energia e depois ganha mais 20% por estar numa casa com água.
         // Ou seja, termina com 115 unidades de energia.
         assertEquals("O Tarzan deveria ter ficado com 115 unidades de energia.",
-                115, jogadorTarzan.getEspecie().getEnergiaInicial());
+                115, jogadorTarzan.getEspecie().getEnergiaAtual());
 
         // Jogador1 atualiza o historico ao consumir a água
         assertEquals("O historico do Tarzan deveria ter sido atualizado", 2, jogadorTarzan.getNumeroAlimento());
@@ -1200,7 +1256,7 @@ public class TestGameOnJungle {
 
         // No movimento consome 8 unidades de energia, ficando com 62.
         assertEquals("O leão deveria ter ficado com 62 unidades de energia.",
-                62, jogadorLeao.getEspecie().getEnergiaInicial());
+                62, jogadorLeao.getEspecie().getEnergiaAtual());
 
         // Verificar se o resultado é uma movimentação válida
         assertEquals(MovementResultCode.VALID_MOVEMENT, resultLeaoAcao2.code());

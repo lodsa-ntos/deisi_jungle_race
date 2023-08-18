@@ -9,7 +9,7 @@ public class Unicornio extends Especie {
         this.nome = "Unicórnio";
         this.imagem = "unicorn.png";
         this.tipoAlimentacaoDaEspecie = "";
-        this.energiaInicial = 200;
+        this.energiaAtual = 200;
         this.consumoEnergia = 8;
         this.ganhoEnergiaDescanso = 20; // a testar
         this.velocidadeMinima = 3;
@@ -47,13 +47,13 @@ public class Unicornio extends Especie {
     }
 
     @Override
-    public int getEnergiaInicial() {
-        return energiaInicial;
+    public int getEnergiaAtual() {
+        return energiaAtual;
     }
 
     @Override
-    public void setEnergiaInicial(int energiaInicial) {
-        this.energiaInicial = energiaInicial;
+    public void setEnergiaAtual(int energiaAtual) {
+        this.energiaAtual = energiaAtual;
     }
 
     @Override
@@ -112,7 +112,7 @@ public class Unicornio extends Especie {
         return "Especie: " + nome + "\n" +
                 "Tipo de alimentação: " + tipoAlimentacaoDaEspecie + "\n" +
                 "id: " + id + "\n" +
-                "Energia: " + energiaInicial + "\n" +
+                "Energia: " + energiaAtual + "\n" +
                 "Consumo de energia: " + consumoEnergia + "\n" +
                 "Ganho de Energia Descanso: " + ganhoEnergiaDescanso + "\n" +
                 "Velocidade mínima: " + velocidadeMinima + "\n" +

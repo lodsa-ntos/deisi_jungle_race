@@ -9,7 +9,7 @@ public class Passaro extends Especie {
         this.nome = "Pássaro";
         this.imagem = "bird.png";
         this.tipoAlimentacaoDaEspecie = "omnívoro";
-        this.energiaInicial = 70;
+        this.energiaAtual = 70;
         this.consumoEnergia = 4;
         this.ganhoEnergiaDescanso = 50;
         this.velocidadeMinima = 5;
@@ -47,13 +47,13 @@ public class Passaro extends Especie {
     }
 
     @Override
-    public int getEnergiaInicial() {
-        return energiaInicial;
+    public int getEnergiaAtual() {
+        return energiaAtual;
     }
 
     @Override
-    public void setEnergiaInicial(int energiaInicial) {
-        this.energiaInicial = energiaInicial;
+    public void setEnergiaAtual(int energiaAtual) {
+        this.energiaAtual = energiaAtual;
     }
 
     @Override
@@ -112,7 +112,7 @@ public class Passaro extends Especie {
         return "Especie: " + nome + "\n" +
                 "Tipo de alimentação: " + tipoAlimentacaoDaEspecie + "\n" +
                 "id: " + id + "\n" +
-                "Energia: " + energiaInicial + "\n" +
+                "Energia: " + energiaAtual + "\n" +
                 "Consumo de energia: " + consumoEnergia + "\n" +
                 "Ganho de Energia Descanso: " + ganhoEnergiaDescanso + "\n" +
                 "Velocidade mínima: " + velocidadeMinima + "\n" +

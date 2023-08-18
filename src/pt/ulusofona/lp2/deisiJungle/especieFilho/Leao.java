@@ -9,7 +9,7 @@ public class Leao extends Especie {
         this.nome = "Leão";
         this.imagem = "lion.png";
         this.tipoAlimentacaoDaEspecie = "carnívoro";
-        this.energiaInicial = 80;
+        this.energiaAtual = 80;
         this.consumoEnergia = 2;
         this.ganhoEnergiaDescanso = 10;
         this.velocidadeMinima = 4;
@@ -47,13 +47,13 @@ public class Leao extends Especie {
     }
 
     @Override
-    public int getEnergiaInicial() {
-        return energiaInicial;
+    public int getEnergiaAtual() {
+        return energiaAtual;
     }
 
     @Override
-    public void setEnergiaInicial(int energiaInicial) {
-        this.energiaInicial = energiaInicial;
+    public void setEnergiaAtual(int energiaAtual) {
+        this.energiaAtual = energiaAtual;
     }
 
     @Override
@@ -112,7 +112,7 @@ public class Leao extends Especie {
         return "Especie: " + nome + "\n" +
                 "Tipo de alimentação: " + tipoAlimentacaoDaEspecie + "\n" +
                 "id: " + id + "\n" +
-                "Energia: " + energiaInicial + "\n" +
+                "Energia: " + energiaAtual + "\n" +
                 "Consumo de energia: " + consumoEnergia + "\n" +
                 "Ganho de Energia Descanso: " + ganhoEnergiaDescanso + "\n" +
                 "Velocidade mínima: " + velocidadeMinima + "\n" +

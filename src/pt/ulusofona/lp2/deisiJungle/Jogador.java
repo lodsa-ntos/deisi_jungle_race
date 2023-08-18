@@ -49,7 +49,7 @@ public class Jogador {
 
         if (especieJogador != null) {
             jogadorAtual.setEspecie(especieJogador);
-            jogadorAtual.getEspecie().setEnergiaInicial(especieJogador.getEnergiaInicial());
+            jogadorAtual.getEspecie().setEnergiaAtual(especieJogador.getEnergiaAtual());
             jogadorAtual.getEspecie().setConsumoEnergia(especieJogador.getConsumoEnergia());
             jogadorAtual.getEspecie().setGanhoEnergiaDescanso(especieJogador.getGanhoEnergiaDescanso());
             jogadorAtual.getEspecie().setVelocidadeMinima(especieJogador.getVelocidadeMinima());
@@ -88,7 +88,7 @@ public class Jogador {
                     alteracaoEnergia = 15;
                 }
                 case "omnívoro" -> {
-                    alteracaoEnergia = ((int) (jogador.getEspecie().getEnergiaInicial() * 0.20));
+                    alteracaoEnergia = ((int) (jogador.getEspecie().getEnergiaAtual() * 0.20));
                 }
             }
         }
@@ -148,7 +148,7 @@ public class Jogador {
 
                 switch (tipoAlimentacaoEspecie) {
                     case "carnívoro", "omnívoro" -> {
-                        int diminuiEnergia = jogador.getEspecie().getEnergiaInicial() / 2;
+                        int diminuiEnergia = jogador.getEspecie().getEnergiaAtual() / 2;
                         alteracaoEnergia = -diminuiEnergia;
                     }
                 }
@@ -167,7 +167,7 @@ public class Jogador {
             // Todos os animais podem ingerir -> "carnívoro", "herbívoro", "omnívoro"
             switch (tipoAlimentacaoEspecie) {
                 case "carnívoro", "herbívoro", "omnívoro" -> {
-                    int energiaJogador = jogador.getEspecie().getEnergiaInicial();
+                    int energiaJogador = jogador.getEspecie().getEnergiaAtual();
                     float valorAlteracaoEnergia = (float) alimento.getNumeroAleatorioCog() / 100;
 
                     // Se comerem o cogumelo nas jogadas pares, aumentam em N% a energia
@@ -260,7 +260,7 @@ public class Jogador {
 
     @Override
     public String toString() {
-        return id + ":" + nome + ":" + idEspecie + ":" + especie.getEnergiaInicial()
+        return id + ":" + nome + ":" + idEspecie + ":" + especie.getEnergiaAtual()
                 + ":" + posicaoAtual + ":" + numeroPosicoesPercorridas + ":" + numeroAlimento;
     }
 }

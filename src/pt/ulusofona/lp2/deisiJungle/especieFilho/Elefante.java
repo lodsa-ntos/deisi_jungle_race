@@ -9,7 +9,7 @@ public class Elefante extends Especie {
         this.nome = "Elefante";
         this.imagem = "elephant.png";
         this.tipoAlimentacaoDaEspecie = "herbívoro";
-        this.energiaInicial = 180;
+        this.energiaAtual = 180;
         this.consumoEnergia = 4;
         this.ganhoEnergiaDescanso = 10;
         this.velocidadeMinima = 1;
@@ -47,13 +47,13 @@ public class Elefante extends Especie {
     }
 
     @Override
-    public int getEnergiaInicial() {
-        return energiaInicial;
+    public int getEnergiaAtual() {
+        return energiaAtual;
     }
 
     @Override
-    public void setEnergiaInicial(int energiaInicial) {
-        this.energiaInicial = energiaInicial;
+    public void setEnergiaAtual(int energiaAtual) {
+        this.energiaAtual = energiaAtual;
     }
 
     @Override
@@ -112,7 +112,7 @@ public class Elefante extends Especie {
         return "Especie: " + nome + "\n" +
                 "Tipo de alimentação: " + tipoAlimentacaoDaEspecie + "\n" +
                 "id: " + id + "\n" +
-                "Energia: " + energiaInicial + "\n" +
+                "Energia: " + energiaAtual + "\n" +
                 "Consumo de energia: " + consumoEnergia + "\n" +
                 "Ganho de Energia Descanso: " + ganhoEnergiaDescanso + "\n" +
                 "Velocidade mínima: " + velocidadeMinima + "\n" +

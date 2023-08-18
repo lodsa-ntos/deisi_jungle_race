@@ -9,7 +9,7 @@ public class Tarzan extends Especie {
         this.nome = "Tarzan";
         this.imagem = "tarzan.png";
         this.tipoAlimentacaoDaEspecie = "omnívoro";
-        this.energiaInicial = 70;
+        this.energiaAtual = 70;
         this.consumoEnergia = 2;
         this.ganhoEnergiaDescanso = 20;
         this.velocidadeMinima = 1;
@@ -47,13 +47,13 @@ public class Tarzan extends Especie {
     }
 
     @Override
-    public int getEnergiaInicial() {
-        return energiaInicial;
+    public int getEnergiaAtual() {
+        return energiaAtual;
     }
 
     @Override
-    public void setEnergiaInicial(int energiaInicial) {
-        this.energiaInicial = energiaInicial;
+    public void setEnergiaAtual(int energiaAtual) {
+        this.energiaAtual = energiaAtual;
     }
 
     @Override
@@ -112,7 +112,7 @@ public class Tarzan extends Especie {
         return "Especie: " + nome + "\n" +
                 "Tipo de alimentação: " + tipoAlimentacaoDaEspecie + "\n" +
                 "id: " + id + "\n" +
-                "Energia: " + energiaInicial + "\n" +
+                "Energia: " + energiaAtual + "\n" +
                 "Consumo de energia: " + consumoEnergia + "\n" +
                 "Ganho de Energia Descanso: " + ganhoEnergiaDescanso + "\n" +
                 "Velocidade mínima: " + velocidadeMinima + "\n" +
