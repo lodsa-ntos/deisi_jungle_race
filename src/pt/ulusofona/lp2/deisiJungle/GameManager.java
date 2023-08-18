@@ -532,12 +532,14 @@ public class GameManager {
             alguemChegouNaMeta = true;
             //return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
         }
-
         // Movimento do jogador para a casa A + M
         jogadorAtual.alterarPosicaoAtual(novaPosicaoJogador);
-
         jogadorAtual.setNumeroPosicoesPercorridas(Math.abs(nrSquares));
-
+        for (Alimento alimento: alimentos) {
+            if (alimento.getPosicaoAlimento() == novaPosicaoJogador) {
+                casaComAlimento = true;
+            }
+        }
         // Definir a energia do jogador quando recua ou avança
         setEnergyOfNumberOfSquare(nrSquares, energiaAtual, consumoEnergia);
 
@@ -1246,6 +1248,7 @@ public class GameManager {
         jogadoresQueConsumiramBanana = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores consumiram bananas
 
         alguemChegouNaMeta = false;
+        casaComAlimento = false;
         casaPartida = 1; // reset casa partida de todos os jogadores
         turnoAtual = 0; // reset do turno atual do jogo.
         posicaoFinalJogo = 0; // reset posicão final do mapa de jogo
