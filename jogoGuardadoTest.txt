@@ -3,7 +3,7 @@ Dimensão do mapa: 10
 Jogador atual: 3
 Jogador com mais energia: 3
 Jogadores que consumiram bananas: {}
-Casa do meio do mapa: 0
+Casa do meio do mapa: 5
 Já existe vencedor: false
 
 Informação geral dos jogadores em jogo: 

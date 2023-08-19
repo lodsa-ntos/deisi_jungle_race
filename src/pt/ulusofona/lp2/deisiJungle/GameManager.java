@@ -28,6 +28,7 @@ public class GameManager {
     int turnoAtual;
     boolean alguemChegouNaMeta;
     boolean casaComAlimento;
+    boolean existeJogadorNoMeio;
     int casaDoMeio;
     Jogador jogadorComMaisEnergia;
 
@@ -537,6 +538,9 @@ public class GameManager {
         // Verifica se o jogador Unicórnio vai para uma casa com ou sem alimento na nova posição
         casaComAlimento = verificaCasaComAlimentoUnicornio(novaPosicaoJogador);
 
+        // Verificar se existem jogadores na casa do meio para nova condição de vitória
+        existeJogadorNoMeio = verificaJogadorNaCasaDoMeio();
+
         // Definir a energia do jogador quando recua ou avança
         setEnergyOfNumberOfSquare(nrSquares, energiaAtual, consumoEnergia, casaComAlimento);
 
@@ -695,21 +699,25 @@ public class GameManager {
                 }
             }
         }
-
         // TODO Nova Condição Vencedor:
         calcularCasaDoMeio();
-        int numJogadoresCasaDoMeio = 0;
+        if (existeJogadorNoMeio) {
+            ArrayList<Jogador> jogadoresNoMeio = new ArrayList<>(jogadoresEmJogo);
+            for (Jogador jogador : jogadoresEmJogo) {
+                Jogador jogadorComMaisEnergia = obterResultadoVencedorNovaCondicao(jogadoresNoMeio);
+                String nome = jogadorComMaisEnergia.getNome();
+                String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
+                int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
+                int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
+                int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
 
-        for (Jogador jogador : jogadoresEmJogo) {
-            if (!alguemChegouNaMeta && !existeUmJogadorMuitoDistanteDaMeta()) {
-                vencedoresEmNovasCondicoes.add(jogador);
+                resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                        + ", " + distancia + ", " + numAlimento);
+
+                // remover o jogadorComMaisEnergia da lista, atualizar a lista (reset)
+                jogadoresNoMeio.remove(jogadorComMaisEnergia);
+                posicaoChegada++;
             }
-        }
-
-        if (vencedoresEmNovasCondicoes.size() >= 1) {
-            jogadorComMaisEnergia = jogadoresEmJogo.get(0);
-            obterResultadoVencedorNovaCondicao(vencedoresEmNovasCondicoes, posicaoChegada, resultadosNovaCondicao);
-            return resultadosNovaCondicao;
         }
 
         return resultados;
@@ -1038,6 +1046,16 @@ public class GameManager {
         return false;
     }
 
+    public boolean verificaJogadorNaCasaDoMeio() {
+        calcularCasaDoMeio();
+        for (Jogador jogador : jogadores) {
+            if (jogador.getPosicaoAtual() == casaDoMeio) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void limitarEnergia(boolean avancouOuRecou, boolean ficou, int valorAlteracaoEnergia) {
         /*
         A energia de qualquer jogador nunca pode ultrapassar os 200, seja por descansar, seja
@@ -1094,8 +1112,7 @@ public class GameManager {
         }
     }
 
-    public void obterResultadoVencedorNovaCondicao(ArrayList<Jogador> vencedoresEmNovasCondicoes,
-                                                   int posicaoChegada, ArrayList<String> resultados) {
+    public Jogador obterResultadoVencedorNovaCondicao(ArrayList<Jogador> vencedoresEmNovasCondicoes) {
 
         Jogador jogadorComMaisEnergia = null;
 
@@ -1108,17 +1125,7 @@ public class GameManager {
             }
         }
 
-        if (jogadorComMaisEnergia != null) {
-            String nome = jogadorComMaisEnergia.getNome();
-            String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
-            int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
-            int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
-            int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
-
-            resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
-                    + ", " + distancia + ", " + numAlimento);
-        }
-
+        return jogadorComMaisEnergia;
     }
 
 
@@ -1237,6 +1244,7 @@ public class GameManager {
 
         alguemChegouNaMeta = false;
         casaComAlimento = false;
+        existeJogadorNoMeio = false;
         casaPartida = 1; // reset casa partida de todos os jogadores
         turnoAtual = 0; // reset do turno atual do jogo.
         posicaoFinalJogo = 0; // reset posicão final do mapa de jogo

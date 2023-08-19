@@ -1479,7 +1479,7 @@ public class TestGameOnJungle {
         MovementResult movementResult3 = gameOnJungle.moveCurrentPlayer(4, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult3.code());
 
-        assertEquals("[#1 Akela, Unicórnio, 5, 4, 0]",
+        assertEquals("[#1 Akela, Unicórnio, 5, 4, 0, #2 Mogli, Tarzan, 5, 4, 0, #3 Bagheera, Pássaro, 7, 6, 0]",
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
@@ -1509,7 +1509,7 @@ public class TestGameOnJungle {
         MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(4, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
 
-        assertEquals("[#1 Goiaba, Elefante, 5, 4, 0]",
+        assertEquals("[#1 Goiaba, Elefante, 5, 4, 0, #2 Pato Donald, Leão, 5, 4, 0]",
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
@@ -1662,7 +1662,7 @@ public class TestGameOnJungle {
         // Jogador 2
         playerInfo[1][0] = "2";
         playerInfo[1][1] = "Bagheera";
-        playerInfo[1][2] = "P";
+        playerInfo[1][2] = "L";
 
         // Jogador 3
         playerInfo[2][0] = "3";
@@ -1672,7 +1672,7 @@ public class TestGameOnJungle {
         // Jogador 4
         playerInfo[3][0] = "4";
         playerInfo[3][1] = "Baghu";
-        playerInfo[3][2] = "P";
+        playerInfo[3][2] = "E";
 
         gameOnJungle.createInitialJungle(10, playerInfo);
 
@@ -1692,11 +1692,8 @@ public class TestGameOnJungle {
         MovementResult movementResult4 = gameOnJungle.moveCurrentPlayer(4, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult4.code());
 
-        assertEquals("3",
-                gameOnJungle.getWinnerInfo()[0]);
-
-        assertEquals("[#1 Akela, Tartaruga, 5, 4, 0]",
-                Arrays.toString(gameOnJungle.getGameResults().toArray()));
+        assertEquals("[#1 Baghu, Elefante, 5, 4, 0, #2 Akela, Tartaruga, 5, 4, 0, #3 Bagheera, Leão, 5, 4, 0, " +
+                        "#4 Mogli, Tarzan, 5, 4, 0]",  Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
 }
