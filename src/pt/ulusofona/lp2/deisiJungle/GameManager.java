@@ -1115,6 +1115,7 @@ public class GameManager {
     public Jogador obterResultadoVencedorNovaCondicao(ArrayList<Jogador> vencedoresEmNovasCondicoes) {
 
         Jogador jogadorComMaisEnergia = null;
+        Jogador jogadorComMenosEnergia = null;
 
         for (Jogador jogador : vencedoresEmNovasCondicoes) {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
@@ -1122,7 +1123,19 @@ public class GameManager {
                         jogador.getEspecie().getEnergiaAtual() > jogadorComMaisEnergia.getEspecie().getEnergiaAtual()) {
                     jogadorComMaisEnergia = jogador;
                 }
+            } else {
+                if (jogadorComMenosEnergia == null ||
+                        jogador.getEspecie().getEnergiaAtual() < jogadorComMenosEnergia.getEspecie().getEnergiaAtual()) {
+                    jogadorComMenosEnergia = jogador;
+                }
             }
+        }
+
+        // Se não houver jogadores na casa do meio ...
+        // ...incluir o jogador com menos energia na classificação e...
+        // ...devolver o resultado com todos os jogadores em jogo
+        if (jogadorComMaisEnergia == null) {
+            jogadorComMaisEnergia = jogadorComMenosEnergia;
         }
 
         return jogadorComMaisEnergia;
