@@ -580,7 +580,6 @@ public class GameManager {
             }
         }
         */
-
         // Atualizar o turno
         incrementarTurno();
         return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
@@ -663,7 +662,6 @@ public class GameManager {
             }
         }
         ArrayList<String> resultados = new ArrayList<>();
-        ArrayList<String> resultadosNovaCondicao = new ArrayList<>();
         int posicaoChegada = 1;
         if (alguemChegouNaMeta) {
             for (Jogador jogador : jogadoresEmJogo) {
@@ -696,9 +694,10 @@ public class GameManager {
                     posicaoChegada++;
                 }
             }
+
+            // TODO Nova Condição Vencedor:
+            obterVencedorNovaCondicao(jogadoresEmJogo, posicaoChegada, resultados);
         }
-        // TODO Nova Condição Vencedor:
-        obterVencedorNovaCondicao(jogadoresEmJogo, posicaoChegada, resultados);
 
         return resultados;
     }
