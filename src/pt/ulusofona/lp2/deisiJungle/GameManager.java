@@ -534,13 +534,10 @@ public class GameManager {
         jogadorAtual.alterarPosicaoAtual(novaPosicaoJogador);
 
         jogadorAtual.setNumeroPosicoesPercorridas(Math.abs(nrSquares));
-
         // Verifica se o jogador Unicórnio vai para uma casa com ou sem alimento na nova posição
         casaComAlimento = verificaCasaComAlimentoUnicornio(novaPosicaoJogador);
-
         // Verificar se existem jogadores na casa do meio para nova condição de vitória
         existeJogadorNoMeio = verificaJogadorNaCasaDoMeio();
-
         // Definir a energia do jogador quando recua ou avança
         setEnergyOfNumberOfSquare(nrSquares, energiaAtual, consumoEnergia, casaComAlimento);
 
@@ -676,24 +673,6 @@ public class GameManager {
                 posicaoChegada++;
             }
         } else {
-            if (existeUmJogadorMuitoDistanteDaMeta()) {
-                ArrayList<Jogador> jogadoresEmLongaDistancia = new ArrayList<>(jogadoresEmJogo);
-                for (Jogador jogador : jogadoresEmJogo) {
-                    Jogador jogadorMaisDistante = getJogadorMaisDistanteDaMeta(jogadoresEmLongaDistancia);
-                    String nome = jogadorMaisDistante.getNome();
-                    String nomeEspecie = jogadorMaisDistante.getEspecie().getNome();
-                    int posicaoAtual = jogadorMaisDistante.getPosicaoAtual();
-                    int distancia = jogadorMaisDistante.getNumeroPosicoesPercorridas();
-                    int numAlimento = jogadorMaisDistante.getNumeroAlimento();
-
-                    resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
-                            + ", " + distancia + ", " + numAlimento);
-
-                    // remover o jogadorMaisDistante da lista, atualizar a lista (reset)
-                    jogadoresEmLongaDistancia.remove(jogadorMaisDistante);
-                    posicaoChegada++;
-                }
-            }
 
             // TODO Nova Condição Vencedor:
             obterVencedorNovaCondicao(jogadoresEmJogo, posicaoChegada, resultados);
