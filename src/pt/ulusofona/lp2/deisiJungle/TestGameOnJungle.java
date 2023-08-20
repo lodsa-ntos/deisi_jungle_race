@@ -1744,12 +1744,20 @@ public class TestGameOnJungle {
         gameOnJungle.createInitialJungle(11, playerInfo);
 
         // Jogador 1 joga
-        MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(5, true);
+        MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(1, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
 
         // Jogador 2 joga
-        MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(8, true);
+        MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(2, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
+
+        // Jogador 1 joga
+        MovementResult movementResult3 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult3.code());
+
+        // Jogador 2 joga
+        MovementResult movementResult4 = gameOnJungle.moveCurrentPlayer(6, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult4.code());
 
         assertEquals("[#1 Mogli, Leão, 6, 5, 0, #2 Bagheera, Leão, 9, 8, 0]", Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
