@@ -657,8 +657,6 @@ public class GameManager {
 
     public ArrayList<String> getGameResults() {
         ArrayList<Jogador> jogadoresEmJogo = new ArrayList<>();
-        ArrayList<Jogador> vencedoresEmNovasCondicoes = new ArrayList<>();
-        boolean jaExisteUmVencedor = false;
         for (Jogador jogador : jogadores) {
             if (jogador.getEspecie().getEnergiaAtual() >= 0) {
                 jogadoresEmJogo.add(jogador);
@@ -697,29 +695,11 @@ public class GameManager {
                     jogadoresEmLongaDistancia.remove(jogadorMaisDistante);
                     posicaoChegada++;
                 }
-            } else {
-                // TODO Nova Condição Vencedor:
-                calcularCasaDoMeio();
-                if (existeJogadorNoMeio) {
-                    ArrayList<Jogador> jogadoresNoMeio = new ArrayList<>(jogadoresEmJogo);
-                    for (Jogador jogador : jogadoresEmJogo) {
-                        Jogador jogadorComMaisEnergia = obterResultadoVencedorNovaCondicao(jogadoresNoMeio);
-                        String nome = jogadorComMaisEnergia.getNome();
-                        String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
-                        int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
-                        int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
-                        int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
-
-                        resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
-                                + ", " + distancia + ", " + numAlimento);
-
-                        // remover o jogadorComMaisEnergia da lista, atualizar a lista (reset)
-                        jogadoresNoMeio.remove(jogadorComMaisEnergia);
-                        posicaoChegada++;
-                    }
-                }
             }
         }
+        // TODO Nova Condição Vencedor:
+        obterVencedorNovaCondicao(jogadoresEmJogo, posicaoChegada, resultados);
+
         return resultados;
     }
 
@@ -1112,7 +1092,7 @@ public class GameManager {
         }
     }
 
-    public Jogador obterResultadoVencedorNovaCondicao(ArrayList<Jogador> vencedoresEmNovasCondicoes) {
+    public Jogador obterJogadorComMaisEnergiaNovaCondicao(ArrayList<Jogador> vencedoresEmNovasCondicoes) {
 
         Jogador jogadorComMaisEnergia = vencedoresEmNovasCondicoes.get(0);
         //Jogador jogadorComMenosEnergia = null;
@@ -1137,6 +1117,30 @@ public class GameManager {
 
         return jogadorComMaisEnergia;
     }
+
+    private ArrayList<String> obterVencedorNovaCondicao(ArrayList<Jogador> jogadoresEmJogo, int posicaoChegada, ArrayList<String> resultados) {
+        calcularCasaDoMeio();
+        if (existeJogadorNoMeio) {
+            ArrayList<Jogador> jogadoresNoMeio = new ArrayList<>(jogadoresEmJogo);
+            for (Jogador jogador : jogadoresEmJogo) {
+                Jogador jogadorComMaisEnergia = obterJogadorComMaisEnergiaNovaCondicao(jogadoresNoMeio);
+                String nome = jogadorComMaisEnergia.getNome();
+                String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
+                int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
+                int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
+                int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
+
+                resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                        + ", " + distancia + ", " + numAlimento);
+
+                // remover o jogadorComMaisEnergia da lista, atualizar a lista (reset)
+                jogadoresNoMeio.remove(jogadorComMaisEnergia);
+                posicaoChegada++;
+            }
+        }
+        return resultados;
+    }
+
 
 
     /**
