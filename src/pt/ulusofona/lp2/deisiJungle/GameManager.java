@@ -1082,8 +1082,7 @@ public class GameManager {
 
     public Jogador obterJogadorComMaisEnergiaNovaCondicao(ArrayList<Jogador> vencedoresEmNovasCondicoes) {
 
-        Jogador jogadorComMaisEnergia = vencedoresEmNovasCondicoes.get(0);
-        //Jogador jogadorComMenosEnergia = null;
+        Jogador jogadorComMaisEnergia = null;
 
         for (Jogador jogador : vencedoresEmNovasCondicoes) {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
@@ -1094,14 +1093,15 @@ public class GameManager {
             }
         }
 
-        // Se não houver jogadores na casa do meio ...
-        // ...incluir o jogador com menos energia na classificação e...
-        // ...devolver o resultado com todos os jogadores em jogo
-       /*
         if (jogadorComMaisEnergia == null) {
-            jogadorComMaisEnergia = jogadorComMenosEnergia;
+            // Se nenhum jogador estiver na casa do meio, verificar qual o jogador em jogo com mais energia
+            for (Jogador jogador : vencedoresEmNovasCondicoes) {
+                if (jogadorComMaisEnergia == null ||
+                        jogador.getEspecie().getEnergiaAtual() > jogadorComMaisEnergia.getEspecie().getEnergiaAtual()) {
+                    jogadorComMaisEnergia = jogador;
+                }
+            }
         }
-        */
 
         return jogadorComMaisEnergia;
     }
@@ -1109,41 +1109,29 @@ public class GameManager {
     public void obterVencedorNovaCondicao(ArrayList<Jogador> jogadoresEmJogo, int posicaoChegada, ArrayList<String> resultados) {
         // TODO Nova Condição Vencedor:
         calcularCasaDoMeio();
+        if (existeJogadorNoMeio) {
+            ArrayList<Jogador> jogadoresNoMeio = new ArrayList<>(jogadoresEmJogo);
+            for (Jogador jogador : jogadoresEmJogo) {
+                Jogador jogadorComMaisEnergia = obterJogadorComMaisEnergiaNovaCondicao(jogadoresNoMeio);
 
-        ArrayList<Jogador> jogadoresNoMeio = new ArrayList<>(jogadoresEmJogo);
-        Jogador jogadorComMaisEnergia = obterJogadorComMaisEnergiaNovaCondicao(jogadoresNoMeio);
+                // A classificação restante deve corresponder à distância que cada jogador se encontra da meta.
+                // Ordenar jogadores restantes pela distância da meta
+                jogadoresNoMeio.sort(Comparator.comparingInt(Jogador::getNumeroPosicoesPercorridas));
 
-        if (existeJogadorNoMeio && jogadorComMaisEnergia != null) {
-            String nome = jogadorComMaisEnergia.getNome();
-            String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
-            int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
-            int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
-            int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
+                String nome = jogadorComMaisEnergia.getNome();
+                String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
+                int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
+                int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
+                int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
 
-            resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
-                    + ", " + distancia + ", " + numAlimento);
+                resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                        + ", " + distancia + ", " + numAlimento);
 
-            jogadoresNoMeio.remove(jogadorComMaisEnergia);
-            posicaoChegada++;
+                // remover o jogadorComMaisEnergia da lista, atualizar a lista (reset)
+                jogadoresNoMeio.remove(jogadorComMaisEnergia);
+                posicaoChegada++;
+            }
         }
-
-        // A classificação restante deve corresponder à distância que cada jogador se encontra da meta.
-        // Ordenar jogadores restantes pela distância da meta
-        jogadoresNoMeio.sort(Comparator.comparingInt(Jogador::getNumeroPosicoesPercorridas));
-
-        for (Jogador jogador : jogadoresNoMeio) {
-            String nome = jogador.getNome();
-            String nomeEspecie = jogador.getEspecie().getNome();
-            int posicaoAtual = jogador.getPosicaoAtual();
-            int distancia = jogador.getNumeroPosicoesPercorridas();
-            int numAlimento = jogador.getNumeroAlimento();
-
-            resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
-                    + ", " + distancia + ", " + numAlimento);
-
-            posicaoChegada++;
-        }
-
     }
 
 

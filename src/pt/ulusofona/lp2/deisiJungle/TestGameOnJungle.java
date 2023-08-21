@@ -1648,7 +1648,6 @@ public class TestGameOnJungle {
         assertEquals("42", gameOnJungle.getCurrentPlayerEnergyInfo(5)[0]);
     }
 
-    /*
     @Test
     public void testGetGameResults_NovaCondicaoVencedor4() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
@@ -1696,7 +1695,7 @@ public class TestGameOnJungle {
         assertEquals("[#1 Baghu, Elefante, 5, 4, 0, #2 Akela, Tartaruga, 5, 4, 0, #3 Bagheera, Leão, 5, 4, 0, " +
                         "#4 Mogli, Tarzan, 5, 4, 0]",  Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
-     */
+
 
     @Test
     public void testGetGameResults_ClassificacaoNovaCondicao() throws InvalidInitialJungleException {
