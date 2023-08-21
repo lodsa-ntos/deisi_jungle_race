@@ -1098,13 +1098,21 @@ public class GameManager {
                         + ", " + distancia + ", " + numAlimento);
 
                 // remover o jogadorComMaisEnergia da lista, atualizar a lista (reset)
-                //jogadoresNoMeio.remove(jogadorComMaisEnergia);
+                jogadoresNoMeio.remove(jogadorComMaisEnergia);
                 posicaoChegada++;
             }
         }
     }
 
     public Jogador obterJogadorComMaisEnergiaNovaCondicao(ArrayList<Jogador> vencedoresEmNovasCondicoes) {
+
+        vencedoresEmNovasCondicoes.sort(
+                Comparator.comparingInt(Jogador::getPosicaoAtual)
+                        // inverter com base na posição atual dos jogadores
+                        .reversed()
+                        // Se as posições forem iguais, ordena por ID
+                        .thenComparingInt(Jogador::getId)
+        );
 
         Jogador jogadorComMaisEnergia = vencedoresEmNovasCondicoes.get(0);
 
