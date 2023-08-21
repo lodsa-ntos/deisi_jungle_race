@@ -1080,22 +1080,6 @@ public class GameManager {
         }
     }
 
-    public Jogador obterJogadorComMaisEnergiaNovaCondicao(ArrayList<Jogador> vencedoresEmNovasCondicoes) {
-
-        Jogador jogadorComMaisEnergia = vencedoresEmNovasCondicoes.get(0);
-
-        for (Jogador jogador : vencedoresEmNovasCondicoes) {
-            if (jogador.getPosicaoAtual() == casaDoMeio) {
-                if (jogadorComMaisEnergia == null ||
-                        jogador.getEspecie().getEnergiaAtual() > jogadorComMaisEnergia.getEspecie().getEnergiaAtual()) {
-                    jogadorComMaisEnergia = jogador;
-                }
-            }
-        }
-
-        return jogadorComMaisEnergia;
-    }
-
     public void obterVencedorNovaCondicao(ArrayList<Jogador> jogadoresEmJogo, int posicaoChegada, ArrayList<String> resultados) {
         // TODO Nova Condição Vencedor:
         calcularCasaDoMeio();
@@ -1118,6 +1102,22 @@ public class GameManager {
                 posicaoChegada++;
             }
         }
+    }
+
+    public Jogador obterJogadorComMaisEnergiaNovaCondicao(ArrayList<Jogador> vencedoresEmNovasCondicoes) {
+
+        Jogador jogadorComMaisEnergia = vencedoresEmNovasCondicoes.get(0);
+
+        for (Jogador jogador : vencedoresEmNovasCondicoes) {
+            if (jogador.getPosicaoAtual() == casaDoMeio) {
+                if (jogadorComMaisEnergia == null ||
+                        jogador.getEspecie().getEnergiaAtual() > jogadorComMaisEnergia.getEspecie().getEnergiaAtual()) {
+                    jogadorComMaisEnergia = jogador;
+                }
+            }
+        }
+
+        return jogadorComMaisEnergia;
     }
 
 
