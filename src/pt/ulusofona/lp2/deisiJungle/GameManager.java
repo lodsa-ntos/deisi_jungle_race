@@ -679,7 +679,7 @@ public class GameManager {
                             + ", " + distancia + ", " + numAlimento);
 
                     // remover o jogadorMaisDistante da lista, atualizar a lista (reset)
-                    //jogadoresEmLongaDistancia.remove(jogadorMaisDistante);
+                    jogadoresEmLongaDistancia.remove(jogadorMaisDistante);
                     posicaoChegada++;
                 }
             }
@@ -1098,7 +1098,7 @@ public class GameManager {
                         + ", " + distancia + ", " + numAlimento);
 
                 // remover o jogadorComMaisEnergia da lista, atualizar a lista (reset)
-                jogadoresNoMeio.remove(jogadorComMaisEnergia);
+                //jogadoresNoMeio.remove(jogadorComMaisEnergia);
                 posicaoChegada++;
             }
         }
