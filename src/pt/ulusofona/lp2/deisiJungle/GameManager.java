@@ -1117,11 +1117,6 @@ public class GameManager {
                 jogadoresNoMeio.remove(jogadorComMaisEnergia);
                 posicaoChegada++;
             }
-
-            // A classificação restante deve corresponder à distância que cada jogador se encontra da meta.
-            // Ordenar jogadores restantes pela distância da meta
-            jogadoresNoMeio.sort(Comparator.comparingInt(Jogador::getNumeroPosicoesPercorridas));
-
         }
     }
 
