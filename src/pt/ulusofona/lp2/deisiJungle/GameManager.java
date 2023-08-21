@@ -1098,7 +1098,7 @@ public class GameManager {
                         + ", " + distancia + ", " + numAlimento);
 
                 // remover o jogadorComMaisEnergia da lista, atualizar a lista (reset)
-                //jogadoresNoMeio.remove(jogadorComMaisEnergia);
+                jogadoresNoMeio.remove(jogadorComMaisEnergia);
                 posicaoChegada++;
             }
         }
