@@ -1763,5 +1763,34 @@ public class TestGameOnJungle {
         assertEquals("[#1 Mogli, Leão, 6, 5, 0, #2 Bagheera, Leão, 9, 8, 0]", Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
+    @Test
+    public void testgetGameResults_NovaCondicaoVencedor3() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+
+        // Jogador 1
+        playerInfo[0][0] = "2";
+        playerInfo[0][1] = "Bruninho";
+        playerInfo[0][2] = "L";
+
+        // Jogador 2
+        playerInfo[1][0] = "1";
+        playerInfo[1][1] = "Pato Donald";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(10, playerInfo);
+
+        // Jogador 1 joga
+        MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
+
+        // Jogador 2 joga
+        MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(8, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
+
+        assertEquals("#2 Bruninho, Leão, 9, 8, 0", gameOnJungle.getGameResults().get(1));
+    }
+
 
 }
