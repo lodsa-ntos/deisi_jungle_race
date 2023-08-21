@@ -1082,20 +1082,10 @@ public class GameManager {
 
     public Jogador obterJogadorComMaisEnergiaNovaCondicao(ArrayList<Jogador> vencedoresEmNovasCondicoes) {
 
-        Jogador jogadorComMaisEnergia = null;
+        Jogador jogadorComMaisEnergia = vencedoresEmNovasCondicoes.get(0);
 
         for (Jogador jogador : vencedoresEmNovasCondicoes) {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
-                if (jogadorComMaisEnergia == null ||
-                        jogador.getEspecie().getEnergiaAtual() > jogadorComMaisEnergia.getEspecie().getEnergiaAtual()) {
-                    jogadorComMaisEnergia = jogador;
-                }
-            }
-        }
-
-        if (jogadorComMaisEnergia == null) {
-            // Se nenhum jogador estiver na casa do meio, verificar qual o jogador em jogo com mais energia
-            for (Jogador jogador : vencedoresEmNovasCondicoes) {
                 if (jogadorComMaisEnergia == null ||
                         jogador.getEspecie().getEnergiaAtual() > jogadorComMaisEnergia.getEspecie().getEnergiaAtual()) {
                     jogadorComMaisEnergia = jogador;
@@ -1111,13 +1101,9 @@ public class GameManager {
         calcularCasaDoMeio();
         if (existeJogadorNoMeio) {
             ArrayList<Jogador> jogadoresNoMeio = new ArrayList<>(jogadoresEmJogo);
+
             for (Jogador jogador : jogadoresEmJogo) {
                 Jogador jogadorComMaisEnergia = obterJogadorComMaisEnergiaNovaCondicao(jogadoresNoMeio);
-
-                // A classificação restante deve corresponder à distância que cada jogador se encontra da meta.
-                // Ordenar jogadores restantes pela distância da meta
-                jogadoresNoMeio.sort(Comparator.comparingInt(Jogador::getNumeroPosicoesPercorridas));
-
                 String nome = jogadorComMaisEnergia.getNome();
                 String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
                 int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
@@ -1131,6 +1117,11 @@ public class GameManager {
                 jogadoresNoMeio.remove(jogadorComMaisEnergia);
                 posicaoChegada++;
             }
+
+            // A classificação restante deve corresponder à distância que cada jogador se encontra da meta.
+            // Ordenar jogadores restantes pela distância da meta
+            jogadoresNoMeio.sort(Comparator.comparingInt(Jogador::getNumeroPosicoesPercorridas));
+
         }
     }
 
