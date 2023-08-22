@@ -1075,7 +1075,7 @@ public class GameManager {
         if (posicaoFinalJogo % 2 != 0) {
             casaDoMeio = ((posicaoFinalJogo / 2) + 1);
         } else {
-            // Se o tabuleiro tem tamanho 10, considera-se que a casa do meio é a casa 5.
+            // Se o tabuleiro tem tamanho 10, logo, a casa do meio é a casa 5.
             casaDoMeio = (posicaoFinalJogo / 2);
         }
     }

@@ -1790,6 +1790,12 @@ public class TestGameOnJungle {
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
 
         assertEquals("#2 Bruninho, Leão, 9, 8, 0", gameOnJungle.getGameResults().get(1));
+
+        // Chamada da função para obter o vencedor
+        Jogador vencedor = gameOnJungle.obterJogadorComMaisEnergiaNovaCondicao(gameOnJungle.jogadores);
+
+        // Verificação
+        assertEquals(gameOnJungle.jogadores.get(0), vencedor);
     }
 
 
