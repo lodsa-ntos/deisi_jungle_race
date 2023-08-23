@@ -216,7 +216,7 @@ public class GameManager {
 
             int posicaoAtualAlimento = Integer.parseInt(oldPosicaoAlimento);
 
-            // TODO ID - tem que ser um dos que foi retornado pela função getFoodTypes()
+            // TODO O ID - tem que ser um dos que foi retornado pela função getFoodTypes()
             ValidatorAlimento.validarIDAlimento(idTipo, getFoodTypes());
 
             // TODO POSIÇÃO - Os alimentos têm que estar posicionados dentro dos limites do terreno.
@@ -401,19 +401,19 @@ public class GameManager {
 
     public String[] getCurrentPlayerEnergyInfo(int nrPositions) {
 
-        //Devolve informação de energia para o jogador que se encontra ativo no turno atual.
+        // Devolve informação de energia para o jogador que se encontra ativo no turno atual.
 
         /*
         - [0] => Qual será o consumo de energia deste jogador se se movimentar <nrPositions>
         - [1] => Qual será o ganho de energia se ficar no lugar
          */
 
-        //Consumo de energia — a quantidade de unidades de energia gastas para o
-        //animal se mover uma posição. Por exemplo, se o jogador se movimentar 3 posições, irá
-        //gastar 3 * N, em que N é o consumo de energia da espécie respetiva
+        // Consumo de energia — a quantidade de unidades de energia gastas para o
+        // animal se mover uma posição. Por exemplo, se o jogador se movimentar 3 posições, irá
+        // gastar 3 * N, em que N é o consumo de energia da espécie respetiva
 
         // Ganho de energia em descanso — a quantidade de unidades de energia que o jogador
-        //ganha por não avançar (seja porque assim o decidiu, seja porque já não tem energia)
+        // eganha por não avançar (seja porque assim o decidiu, seja porque já não tem energia)
 
         String[] infoEnergia = new String[2];
 
@@ -453,10 +453,6 @@ public class GameManager {
         }
 
         infoEnergia[1] = String.valueOf(ganhoEnergiaDescanso);  // Ganho de energia em descanso
-
-
-        //System.out.println(consumoEnergia);
-        //System.out.println(Arrays.toString(infoEnergia));
 
         return infoEnergia;
     }
@@ -823,8 +819,12 @@ public class GameManager {
         }
     }
 
+
+
+
+
     /**
-     * -----------------------------------------FUNÇÕES AUXILIARES--------------------------------------------------
+     * -----------------------------------------FUNÇÕES AUXILIARES---------------------------------------
      */
 
     /**
@@ -1165,6 +1165,7 @@ public class GameManager {
             }
         }
     }
+
 
     /**
      * ------------------------------------------TURNOS E RESET()---------------------------------------------
