@@ -4,6 +4,7 @@ import pt.ulusofona.lp2.deisiJungle.Alimento;
 import pt.ulusofona.lp2.deisiJungle.GameManager;
 import pt.ulusofona.lp2.deisiJungle.Jogador;
 
+import java.util.Map;
 import java.util.Random;
 
 public class Carne extends Alimento {
@@ -21,71 +22,33 @@ public class Carne extends Alimento {
     /**
      * Efeitos ao consumir carne
      */
-
-    /*
     @Override
-    protected int obterEfeitosConsumo(String tipoAlimentacaoEspecie, int energiaEspecie) {
-
-        /*
-        ● Carne (identificador: ‘c’, imagem: ‘meat.png’)
-            ○ Se ingerido por carnívoros (ex: Leão) ou omnívoros (ex: Tarzan), aumenta a energia em 50 unidades
-            ○ Os herbívoros ignoram esta comida, por isso não lhes acontece nada.
-            ○ Deteriora-se à medida que o tempo passa. Só é comestível nas primeiras 12
-            jogadas. A partir daí é tóxica — se fôr ingerida, reduz para metade a energia do
-            animal.
-
-
-    int aumentarEnergia = 50;
-
-        return switch (tipoAlimentacaoEspecie) {
-        case "carnívoro", "omnívoro" -> (energiaEspecie + aumentarEnergia);
-        default -> throw new IllegalArgumentException("");
-    };
-}
-     */
-
-    /*
-    public void consumirCarne(Jogador jogador, int turnosRestantes, Carne carne) {
-
-        // Só é comestível nas primeiras 12 jogadas
-        if (turnosRestantes <= 12) {
-
-            carne.setNumroJogadasCarne(turnosRestantes);
-
-            // Se ingerido por carnívoros (ex: Leão) ou omnívoros (ex: Tarzan)...
-            if (jogador.getEspecie().getTipoAlimentacaoDaEspecie().equals("carnívoro") ||
-                    jogador.getEspecie().getTipoAlimentacaoDaEspecie().equals("omnívoro")) {
-
-                // aumenta a energia em 50 unidades
-                jogador.aumentarEnergia(50);
-
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, int turnoAtual, Alimento alimento) {
+        int alteracaoEnergia = 0;
+        if (getId().equals("c")) {
+            // Só é comestível nas primeiras 12 jogadas
+            if (turnoAtual <= 12) {
+                // Se ingerido por carnívoros (ex: Leão) ou omnívoros (ex: Tarzan)...
+                switch (tipoAlimentacaoEspecie) {
+                    case "carnívoro", "omnívoro" -> {
+                        // aumenta a energia em 50 unidades
+                        alteracaoEnergia = 50;
+                    }
+                }
             } else {
-                // Os herbívoros ignoram esta comida, por isso não lhes acontece nada.
-                jogador.manterEnergia(0);
-            }
+                // A partir daí é tóxica. — se for ingerida, reduz para metade a energia do animal
+                alimento.setCarneToxica(true);
 
-        } else {
-
-            carne.setNumroJogadasCarne(turnosRestantes);
-
-            // A partir daí é tóxica — se fôr ingerida, reduz para metade a energia do animal
-            isCarneToxica = true;
-            carne.setCarneToxica(true);
-
-            if (jogador.getEspecie().getTipoAlimentacaoDaEspecie().equals("carnívoro") ||
-                    jogador.getEspecie().getTipoAlimentacaoDaEspecie().equals("omnívoro")) {
-
-                int energia = (jogador.getEnergiaAtual() / 2);
-                jogador.diminuirEnergia(--energia);
-
-            } else {
-                // Os herbívoros ignoram esta comida, por isso não lhes acontece nada.
-                jogador.manterEnergia(0);
+                switch (tipoAlimentacaoEspecie) {
+                    case "carnívoro", "omnívoro" -> {
+                        int diminuiEnergia = jogador.getEspecie().getEnergiaAtual() / 2;
+                        alteracaoEnergia = -diminuiEnergia;
+                    }
+                }
             }
         }
+        return alteracaoEnergia;
     }
-     */
-
 
     @Override
     public String getId() {
@@ -180,5 +143,17 @@ public class Carne extends Alimento {
         } else {
             return "Carne toxica";
         }
+    }
+
+
+    // COPORTAMENTO PARA AGUA / ERVA / BANANA
+    @Override
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador) {
+        return 0;
+    }
+
+    @Override
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador) {
+        return 0;
     }
 }

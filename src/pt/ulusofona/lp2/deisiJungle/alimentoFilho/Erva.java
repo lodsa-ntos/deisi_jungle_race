@@ -3,6 +3,7 @@ package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 import pt.ulusofona.lp2.deisiJungle.Alimento;
 import pt.ulusofona.lp2.deisiJungle.Jogador;
 
+import java.util.Map;
 import java.util.Random;
 
 public class Erva extends Alimento {
@@ -20,36 +21,22 @@ public class Erva extends Alimento {
     /**
      * Efeitos ao consumir Erva
      */
+    @Override
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador) {
+        int alteracaoEnergia = 0;
 
-    /*
-     @Override
-    public int obterEfeitosConsumo(String tipoAlimentacaoEspecie, int energiaEspecie) {
-
-        /*
-        ● Erva (identificador: ‘e’, imagem: ‘grass.png’)
-            ○ Se ingerido por herbívoros ou omnívoros, aumenta a energia em 20 unidades
-            ○ Se ingerido por carnívoros, reduz a energia em 20 unidades
-            ○ A tooltip deve mostrar “Erva : +- 20 energia”.
-
-    int restricaoEnergia = 20;
-
-        return switch (tipoAlimentacaoEspecie) {
-        case "herbívoro", "omnívoro" -> (energiaEspecie + restricaoEnergia);
-        case "carnívoro" -> (energiaEspecie - restricaoEnergia);
-        default -> throw new IllegalArgumentException("");
-    };
-
-    }
-     */
-
-    /*
-    public void consumirErva(String tipoAlimentacaoEspecie, Jogador jogador) {
-        switch (tipoAlimentacaoEspecie) {
-            case "herbívoro", "omnívoro" -> jogador.aumentarEnergia(40);
-            case "carnívoro" -> jogador.diminuirEnergia(40);
+        if (getId().equals("e")) {
+            switch (tipoAlimentacaoEspecie) {
+                case "herbívoro", "omnívoro" -> {
+                    alteracaoEnergia = 20;
+                }
+                case "carnívoro" -> {
+                    alteracaoEnergia = -20;
+                }
+            }
         }
+        return alteracaoEnergia;
     }
-     */
 
     @Override
     public String getId() {
@@ -137,5 +124,16 @@ public class Erva extends Alimento {
             ○ A tooltip deve mostrar “Agua : + 15U|20% energia”.
          */
         return "Erva : +- 20 energia";
+    }
+
+    // COPORTAMENTO PARA CARNE / COGUMELO / BANANA
+    @Override
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, int turnoAtual, Alimento alimento) {
+        return 0;
+    }
+
+    @Override
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador) {
+        return 0;
     }
 }

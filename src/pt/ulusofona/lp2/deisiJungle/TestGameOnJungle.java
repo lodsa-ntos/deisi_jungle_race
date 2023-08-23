@@ -690,23 +690,25 @@ public class TestGameOnJungle {
         jogador2.getEspecie().setEnergiaAtual(200);
         jogador2.alterarPosicaoAtual(1);
 
+        Alimento alimento = gameOnJungle.alimentos.get(0);
+
         // HashMap para ficar a saber os jogadores que consumiram bananas
         Map<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
 
         // Consumir banana pela priemeira vez
-        int energiaConsumida = jogador1.consumirBanana("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        int energiaConsumida = alimento.consumir("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
         assertEquals(40, energiaConsumida);
 
         // Consumir banana pela priemeira vez
-        energiaConsumida = jogador2.consumirBanana("carnívoro", jogador2, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        energiaConsumida = alimento.consumir("carnívoro", jogador2, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
         assertEquals(40, energiaConsumida);
 
         // Consumir banana pela segunda vez
-        energiaConsumida = jogador1.consumirBanana("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        energiaConsumida = alimento.consumir("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
         assertEquals(-40, energiaConsumida);
 
         // Consumir quando o cacho estiver vazio
-        energiaConsumida = jogador2.consumirBanana("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        energiaConsumida = alimento.consumir("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
         assertEquals(0, energiaConsumida);
     }
 
@@ -755,35 +757,37 @@ public class TestGameOnJungle {
         Jogador jogador3 = jogadores.get(2);
         jogador3.getEspecie().setEnergiaAtual(60);
 
+        Alimento alimento = gameOnJungle.alimentos.get(0);
+
         // HashMap para ficar a saber os jogadores que consumiram bananas
         Map<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
 
         // Jogador1 consumir banana pela primeira vez
-        int energiaConsumida = jogador1.consumirBanana("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        int energiaConsumida = alimento.consumir("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
         int energiaEsperada1 = jogador1.getEspecie().getEnergiaAtual() + energiaConsumida;
         assertEquals(40, energiaConsumida);
         assertEquals(60, energiaEsperada1);
 
         // Jogador2 consumir banana pela primeira vez
-        energiaConsumida = jogador2.consumirBanana("carnívoro", jogador2, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        energiaConsumida = alimento.consumir("carnívoro", jogador2, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
         int energiaEsperada2 = jogador2.getEspecie().getEnergiaAtual() + energiaConsumida;
         assertEquals(40, energiaConsumida);
         assertEquals(70, energiaEsperada2);
 
         // Jogador1 consumir banana pela segunda vez
-        energiaConsumida = jogador1.consumirBanana("herbívoro", jogador1, gameOnJungle.alimentos.get(1), jogadoresQueConsumiramBanana);
+        energiaConsumida = alimento.consumir("herbívoro", jogador1, gameOnJungle.alimentos.get(1), jogadoresQueConsumiramBanana);
         int novaEnergia = energiaEsperada1 + energiaConsumida;
         assertEquals(-40, energiaConsumida);
         assertEquals(20, novaEnergia);
 
         // Jogador2 consumir banana pela segunda vez
-        energiaConsumida = jogador2.consumirBanana("carnívoro", jogador2, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        energiaConsumida = alimento.consumir("carnívoro", jogador2, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
         novaEnergia = energiaEsperada2 + energiaConsumida;
         assertEquals(-40, energiaConsumida);
         assertEquals(30, novaEnergia);
 
         // Jogador3 consumir banana pela primeira vez
-        energiaConsumida = jogador3.consumirBanana("omnívoro", jogador3, gameOnJungle.alimentos.get(1), jogadoresQueConsumiramBanana);
+        energiaConsumida = alimento.consumir("omnívoro", jogador3, gameOnJungle.alimentos.get(1), jogadoresQueConsumiramBanana);
         int energiaEsperada3 = jogador3.getEspecie().getEnergiaAtual() + energiaConsumida;
         assertEquals(40, energiaConsumida);
         assertEquals(100, energiaEsperada3);

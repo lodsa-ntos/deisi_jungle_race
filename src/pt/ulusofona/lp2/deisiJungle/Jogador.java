@@ -14,8 +14,6 @@ public class Jogador {
     private int numeroAlimento;
     private int numJogadoresEmJogo;
     private Especie especie;
-    private int manterEnergia;
-    private boolean consumiuCachoDeBanana;
 
     public Jogador(int id, String nome, String idEspecie, int posicaoAtual, Especie especie) {
         this.id = id;
@@ -57,135 +55,6 @@ public class Jogador {
         }
     }
 
-    /**
-     * Efeitos ao consumir Erva
-     */
-    public int consumirErva(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento) {
-        int alteracaoEnergia = 0;
-
-        if (alimento.getId().equals("e")) {
-            switch (tipoAlimentacaoEspecie) {
-                case "herbívoro", "omnívoro" -> {
-                    alteracaoEnergia = 20;
-                }
-                case "carnívoro" -> {
-                    alteracaoEnergia = -20;
-                }
-            }
-        }
-        return alteracaoEnergia;
-    }
-
-    /**
-     * Efeitos ao consumir Água
-     */
-    public int consumirAgua(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento) {
-        int alteracaoEnergia = 0;
-
-        if (alimento.getId().equals("a")) {
-            switch (tipoAlimentacaoEspecie) {
-                case "carnívoro", "herbívoro" -> {
-                    alteracaoEnergia = 15;
-                }
-                case "omnívoro" -> {
-                    alteracaoEnergia = ((int) (jogador.getEspecie().getEnergiaAtual() * 0.20));
-                }
-            }
-        }
-        return alteracaoEnergia;
-    }
-
-    /**
-     * Efeitos ao consumir bananas
-     */
-    public int consumirBanana(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador) {
-        int alteracaoEnergia = 0;
-
-        if (alimento.getId().equals("b")) {
-            switch (tipoAlimentacaoEspecie) {
-                case "carnívoro":
-                case "herbívoro":
-                case "omnívoro":
-
-                    if (alimento.getNumeroBananasON() > 0) {
-                        int bananasConsumidas = bananasConsumidasPorJogador.getOrDefault(jogador.getId(), 0);
-
-                        if (bananasConsumidas == 0) {
-                            alteracaoEnergia = 40;
-                            bananasConsumidasPorJogador.put(jogador.getId(), bananasConsumidas + 1);
-
-                        } else if (bananasConsumidas == 1) {
-                            alteracaoEnergia = -40;
-                        }
-
-                        alimento.setNumeroBananasON(alimento.getNumeroBananasON() - 1);
-                    }
-                    break;
-            }
-        }
-
-        return alteracaoEnergia;
-    }
-
-    /**
-     * Efeitos ao consumir carne
-     */
-    public int consumirCarne(String tipoAlimentacaoEspecie, Jogador jogador, int turnosRestantes, Alimento alimento) {
-        int alteracaoEnergia = 0;
-        if (alimento.getId().equals("c")) {
-            // Só é comestível nas primeiras 12 jogadas
-            if (turnosRestantes <= 12) {
-                // Se ingerido por carnívoros (ex: Leão) ou omnívoros (ex: Tarzan)...
-                switch (tipoAlimentacaoEspecie) {
-                    case "carnívoro", "omnívoro" -> {
-                        // aumenta a energia em 50 unidades
-                        alteracaoEnergia = 50;
-                    }
-                }
-            } else {
-                // A partir daí é tóxica. — se for ingerida, reduz para metade a energia do animal
-                alimento.setCarneToxica(true);
-
-                switch (tipoAlimentacaoEspecie) {
-                    case "carnívoro", "omnívoro" -> {
-                        int diminuiEnergia = jogador.getEspecie().getEnergiaAtual() / 2;
-                        alteracaoEnergia = -diminuiEnergia;
-                    }
-                }
-            }
-        }
-        return alteracaoEnergia;
-    }
-
-    /**
-     * Efeitos ao consumir cogumelos magicos
-     */
-    public int consumirCogumeloMagico(String tipoAlimentacaoEspecie, Jogador jogador, int turnoCogumelo, Alimento alimento) {
-        int alteracaoEnergia = 0;
-
-        if (alimento.getId().equals("m")) {
-            // Todos os animais podem ingerir -> "carnívoro", "herbívoro", "omnívoro"
-            switch (tipoAlimentacaoEspecie) {
-                case "carnívoro", "herbívoro", "omnívoro" -> {
-                    int energiaJogador = jogador.getEspecie().getEnergiaAtual();
-                    float valorAlteracaoEnergia = (float) alimento.getNumeroAleatorioCog() / 100;
-
-                    // Se comerem o cogumelo nas jogadas pares, aumentam em N% a energia
-                    if (turnoCogumelo % 2 == 0) {
-                        alteracaoEnergia = (int) (energiaJogador * valorAlteracaoEnergia);
-
-                    // Se comerem o cogumelo nas jogadas ímpares, reduzem em N% a energia
-                    } else {
-                        // Torna-se venenoso e reduzem em N% a sua energia
-                        alimento.setVenenoso(true);
-                        alteracaoEnergia = -(int) (energiaJogador * valorAlteracaoEnergia);
-                    }
-                }
-            }
-        }
-        return alteracaoEnergia;
-    }
-
     public final int getId() {
         return id;
     }
@@ -224,14 +93,6 @@ public class Jogador {
 
     public void setEspecie(Especie especie) {
         this.especie = especie;
-    }
-
-    public boolean isConsumiuCachoDeBanana() {
-        return consumiuCachoDeBanana;
-    }
-
-    public void manterEnergia(int manterEnergia) {
-        this.manterEnergia = manterEnergia;
     }
 
     public int getNumeroPosicoesPercorridas() {

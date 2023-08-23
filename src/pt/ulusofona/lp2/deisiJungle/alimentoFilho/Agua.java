@@ -3,6 +3,7 @@ package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 import pt.ulusofona.lp2.deisiJungle.Alimento;
 import pt.ulusofona.lp2.deisiJungle.Jogador;
 
+import java.util.Map;
 import java.util.Random;
 
 public class Agua extends Alimento {
@@ -20,36 +21,22 @@ public class Agua extends Alimento {
     /**
      * Efeitos ao consumir Água
      */
-    /*
     @Override
-    public int obterEfeitosConsumo(String tipoAlimentacaoEspecie, int energiaEspecie) {
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador) {
+        int alteracaoEnergia = 0;
 
-        /*
-        ● Agua (identificador: ‘a’, imagem: ‘water.png’)
-            ○ Se ingerido por carnívoros ou herbívoros, aumenta a energia em 15 unidades
-            ○ Se ingerido por omnívoros, aumenta a energia em 20%
-
-
-    int aumentarEnergia = 15;
-    double  aumentarEnergiaPercentagem =  0.20;
-
-        return switch (tipoAlimentacaoEspecie) {
-        case "carnívoro", "herbívoro" -> (energiaEspecie + aumentarEnergia);
-        case "omnívoro" -> (int) (energiaEspecie + aumentarEnergiaPercentagem);
-        default -> throw new IllegalArgumentException("");
-    };
-
-}
-     */
-
-    /*
-    public void consumirAgua(String tipoAlimentacaoEspecie, Jogador jogador) {
-        switch (tipoAlimentacaoEspecie) {
-            case "carnívoros", "herbívoros" -> jogador.aumentarEnergia(15);
-            case "omnívoro" -> jogador.diminuirEnergia(20);
+        if (getId().equals("a")) {
+            switch (tipoAlimentacaoEspecie) {
+                case "carnívoro", "herbívoro" -> {
+                    alteracaoEnergia = 15;
+                }
+                case "omnívoro" -> {
+                    alteracaoEnergia = ((int) (jogador.getEspecie().getEnergiaAtual() * 0.20));
+                }
+            }
         }
+        return alteracaoEnergia;
     }
-     */
 
     @Override
     public String getId() {
@@ -137,5 +124,16 @@ public class Agua extends Alimento {
             ○ A tooltip deve mostrar “Agua : + 15U|20% energia”.
          */
         return "Agua : + 15U|20% energia";
+    }
+
+    // COPORTAMENTO PARA CARNE / COGUMELO / BANANA
+    @Override
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, int turnoAtual, Alimento alimento) {
+        return 0;
+    }
+
+    @Override
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador) {
+        return 0;
     }
 }

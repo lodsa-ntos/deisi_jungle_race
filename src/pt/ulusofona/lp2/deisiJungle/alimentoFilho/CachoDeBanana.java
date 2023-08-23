@@ -3,6 +3,7 @@ package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 import pt.ulusofona.lp2.deisiJungle.Alimento;
 import pt.ulusofona.lp2.deisiJungle.Jogador;
 
+import java.util.Map;
 import java.util.Random;
 
 public class CachoDeBanana extends Alimento {
@@ -17,65 +18,38 @@ public class CachoDeBanana extends Alimento {
         numeroBananasON = 3;
     }
 
-
     /**
      * Efeitos ao consumir bananas
      */
-    /*
-
     @Override
-    protected int obterEfeitosConsumo(String tipoAlimentacaoEspecie, int energiaEspecie) {
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador) {
+        int alteracaoEnergia = 0;
 
+        if (alimento.getId().equals("b")) {
+            switch (tipoAlimentacaoEspecie) {
+                case "carnívoro":
+                case "herbívoro":
+                case "omnívoro":
 
-        ● Cacho de bananas (identificador: ‘b’, imagem: ‘bananas.png’)
-            ○ Pode ser ingerido por qualquer animal -> "carnívoro", "herbívoro", "omnívoro"
-            ○ Aumenta a energia em 40 unidades
+                    if (alimento.getNumeroBananasON() > 0) {
+                        int bananasConsumidas = bananasConsumidasPorJogador.getOrDefault(jogador.getId(), 0);
 
-            ○ Só existem 3 bananas no cacho. Os animais que calham numa casa com este
-            alimento consomem uma dessas bananas. Quando as bananas acabarem, o
-            alimento deixa de produzir efeito. Ou seja, a partir da 4.ª vez que algum animal
-            chega a uma casa contendo este alimento, ele já não é afetado.
-            ○ Como comer muitas bananas causa dificuldades gástricas, se o mesmo jogador
-            consumir mais do que uma banana, a 2.ª e 3.ª bananas retiram energia em vez de
-            dar, na mesma proporção (40U).
-            ○ Note-se que pode haver mais do que um cacho de bananas no terreno. Cada
-            cacho é independente dos outros.
+                        if (bananasConsumidas == 0) {
+                            alteracaoEnergia = 40;
+                            bananasConsumidasPorJogador.put(jogador.getId(), bananasConsumidas + 1);
 
+                        } else if (bananasConsumidas == 1) {
+                            alteracaoEnergia = -40;
+                        }
 
-
-        int aumentarEnergia = 40;
-
-        if (tipoAlimentacaoEspecie.equals("carnívoro") || tipoAlimentacaoEspecie.equals("herbívoro") ||
-                tipoAlimentacaoEspecie.equals("omnívoro") ) {
-
-        if (numeroBananasON > 0) {
-            numeroBananasON--;
-            return energiaEspecie - aumentarEnergia;
-        }
-    }
-        return aumentarEnergia;
-}
-     */
-
-    /*
-    public void consumirBanana(String tipoAlimentacaoEspecie, Jogador jogador) {
-
-        if (tipoAlimentacaoEspecie.equals("carnívoro") || tipoAlimentacaoEspecie.equals("herbívoro") ||
-                tipoAlimentacaoEspecie.equals("omnívoro") ) {
-
-            if (numeroBananasON > 0 && !jogador.isConsumiuCachoDeBanana()) {
-                if (numeroBananasON <= 1) {
-                    jogador.aumentarEnergia(40);
-                } else {
-                    jogador.diminuirEnergia(40 * (numeroBananasON - 1));
-                }
-                numeroBananasON--;
+                        alimento.setNumeroBananasON(alimento.getNumeroBananasON() - 1);
+                    }
+                    break;
             }
         }
 
+        return alteracaoEnergia;
     }
-     */
-
 
     @Override
     public String getId() {
@@ -165,5 +139,16 @@ public class CachoDeBanana extends Alimento {
 
         //int numBananas = 0;
         return "Bananas : " + numeroBananasON + " : + 40 energia" ;
+    }
+
+    // COPORTAMENTO PARA AGUA / ERVA / CARNE / COGUMELO
+    @Override
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador) {
+        return 0;
+    }
+
+    @Override
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, int turnoAtual, Alimento alimento) {
+        return 0;
     }
 }

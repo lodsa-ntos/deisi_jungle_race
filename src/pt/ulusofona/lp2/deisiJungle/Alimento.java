@@ -2,6 +2,7 @@ package pt.ulusofona.lp2.deisiJungle;
 
 import pt.ulusofona.lp2.deisiJungle.alimentoFilho.*;
 
+import java.util.Map;
 import java.util.Random;
 
 public abstract class Alimento {
@@ -37,9 +38,19 @@ public abstract class Alimento {
     }
 
     /**
-     * Efeitos ao consumir alimentos
+     * Efeitos ao consumir alimentos AGUA / ERVA
      */
-    //protected abstract int obterEfeitosConsumo (String tipoAlimentacaoEspecie, int energiaEspecie);
+    public abstract int consumir(String tipoAlimentacaoEspecie, Jogador jogador);
+
+    /**
+     * Efeitos ao consumir alimentos CARNE / COGUMELO MÁGICO
+     */
+    public abstract int consumir(String tipoAlimentacaoEspecie, Jogador jogador, int turnoAtual, Alimento alimento);
+
+    /**
+     * Efeitos ao consumir alimento BANANA
+     */
+    public abstract int consumir(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador);
 
     public void diminuirNumBananas() {
         this.numeroBananasON -= 1;

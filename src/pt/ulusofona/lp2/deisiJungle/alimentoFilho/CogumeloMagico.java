@@ -3,6 +3,7 @@ package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 import pt.ulusofona.lp2.deisiJungle.Alimento;
 import pt.ulusofona.lp2.deisiJungle.Jogador;
 
+import java.util.Map;
 import java.util.Random;
 
 public class CogumeloMagico extends Alimento {
@@ -21,59 +22,32 @@ public class CogumeloMagico extends Alimento {
     /**
      * Efeitos ao consumir cogumelos magicos
      */
-    /*
     @Override
-    protected int obterEfeitosConsumo(String tipoAlimentacaoEspecie, int energiaEspecie) {
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, int turnoAtual, Alimento alimento) {
+        int alteracaoEnergia = 0;
 
-        /*
-        ● Cogumelos magicos (identificador: ‘m’, imagem: ‘mushroom.png’)
-            ○ Todos os animais podem ingerir -> "carnívoro", "herbívoro", "omnívoro"
-            ○ Como são mágicos, o seu comportamento varia de cogumelo para cogumelo e de jogada para jogada.
-            ○ Cada cogumelo associa um número (N) entre 10 e 50, gerado aleatoriamente na sua criação
-            ○ Se comerem o cogumelo nas jogadas pares, os animais aumentam em N% a sua energia
-            ○ Se comerem o cogumelo nas jogadas ímpares, ele torna-se venenoso e reduzem em N% a sua energia
-            ○ A tooltip deve mostrar “Cogumelo Magico: +- <N>% energia”, em que N é o número gerado aleatoriamente.
+        if (alimento.getId().equals("m")) {
+            // Todos os animais podem ingerir -> "carnívoro", "herbívoro", "omnívoro"
+            switch (tipoAlimentacaoEspecie) {
+                case "carnívoro", "herbívoro", "omnívoro" -> {
+                    int energiaJogador = jogador.getEspecie().getEnergiaAtual();
+                    float valorAlteracaoEnergia = (float) alimento.getNumeroAleatorioCog() / 100;
 
-    int aumentarEnergia = 50;
+                    // Se comerem o cogumelo nas jogadas pares, aumentam em N% a energia
+                    if (turnoAtual % 2 == 0) {
+                        alteracaoEnergia = (int) (energiaJogador * valorAlteracaoEnergia);
 
-        return switch (tipoAlimentacaoEspecie) {
-        case "carnívoro", "herbívoro", "omnívoro" -> (energiaEspecie + aumentarEnergia);
-        default -> throw new IllegalArgumentException("");
-    };
-}
-     */
-
-    /*
-    public void consumirCogumeloMagico(Jogador jogador, int turnoCogumelo, CogumeloMagico cogumeloMagico) {
-
-        // Todos os animais podem ingerir -> "carnívoro", "herbívoro", "omnívoro"
-        if (jogador.getEspecie().getTipoAlimentacaoDaEspecie().equals("carnívoro") ||
-                jogador.getEspecie().getTipoAlimentacaoDaEspecie().equals("omnívoro") ||
-                jogador.getEspecie().getTipoAlimentacaoDaEspecie().equals("herbívoro")) {
-
-            // Se comerem o cogumelo nas jogadas pares
-            if (turnoCogumelo % 2 == 0) {
-
-                // os animais aumentam em N% a sua energia
-                jogador.aumentarEnergia(jogador.getEnergiaAtual() * numeroAleatorioCog / 100);
-
-                // Se comerem o cogumelo nas jogadas ímpares
-            } else {
-
-                // torna-se venenos
-                isVenenoso = true;
-                cogumeloMagico.setVenenoso(true);
-
-                // reduzem em N% a sua energia
-                int energia = jogador.getEnergiaAtual() * numeroAleatorioCog / 100;
-                jogador.diminuirEnergia(--energia);
-
+                        // Se comerem o cogumelo nas jogadas ímpares, reduzem em N% a energia
+                    } else {
+                        // Torna-se venenoso e reduzem em N% a sua energia
+                        alimento.setVenenoso(true);
+                        alteracaoEnergia = -(int) (energiaJogador * valorAlteracaoEnergia);
+                    }
+                }
             }
-
         }
+        return alteracaoEnergia;
     }
-     */
-
 
     @Override
     public String getId() {
@@ -164,5 +138,17 @@ public class CogumeloMagico extends Alimento {
 
         //int numeroAleatorio = 0;
         return "Cogumelo Magico : +- " + numeroAleatorioCog + "% energia";
+    }
+
+
+    // COPORTAMENTO PARA AGUA / ERVA / BANANA
+    @Override
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador) {
+        return 0;
+    }
+
+    @Override
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador) {
+        return 0;
     }
 }
