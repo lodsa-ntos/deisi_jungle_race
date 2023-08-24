@@ -26,7 +26,7 @@ public abstract class Alimento {
     /**
      * Identificar Alimentos
      */
-    public static Alimento identificarAlimento(String id, int posicaoAlimento) {
+    protected static Alimento identificarAlimento(String id, int posicaoAlimento) {
         return switch (id) {
             case "e" -> new Erva(id, posicaoAlimento);
             case "a" -> new Agua(id, posicaoAlimento);
@@ -40,17 +40,17 @@ public abstract class Alimento {
     /**
      * Efeitos ao consumir alimentos AGUA / ERVA
      */
-    public abstract int consumir(String tipoAlimentacaoEspecie, Jogador jogador);
+    protected abstract int consumir(String tipoAlimentacaoEspecie, Jogador jogador);
 
     /**
      * Efeitos ao consumir alimentos CARNE / COGUMELO MÁGICO
      */
-    public abstract int consumir(String tipoAlimentacaoEspecie, Jogador jogador, int turnoAtual, Alimento alimento);
+    protected abstract int consumir(String tipoAlimentacaoEspecie, Jogador jogador, int turnoAtual, Alimento alimento);
 
     /**
      * Efeitos ao consumir alimento BANANA
      */
-    public abstract int consumir(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador);
+    protected abstract int consumir(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador);
 
     public void diminuirNumBananas() {
         this.numeroBananasON -= 1;

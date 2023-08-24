@@ -6,31 +6,30 @@ import pt.ulusofona.lp2.deisiJungle.validar.ValidatorAlimento;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
-/*-------------------------------------------------DEISI JUNGLE----------------------------------------------------
+/*-------------------------------------------------DEISI JUNGLE-----------------------------------------------------
     Certo dia, numa savana muito (muito) longe daqui, os animais decidiram descobrir quem seria o melhor atleta entre
     eles. Para o fazer, definiram um conjunto de provas desportivas que iriam disputar entre si — quem vencesse mais
     provas seria considerado o Rei da Selva. Rapidamente a notícia chegou ao Tarzan, que não quis deixar de participar
     nas provas, convencido de que facilmente as venceria. A primeira prova a disputar é a prova de atletismo.
     Os animais vão-se reunir numa pista e competir para determinar qual o melhor atleta.
- ----------------------------------------------------------------------------------------------------------------- */
+ ------------------------------------------------------------------------------------------------------------------ */
 
 // Classe responsável por gerir o jogo
 public class GameManager {
 
     ArrayList<Jogador> jogadores = new ArrayList<>();
     ArrayList<Alimento> alimentos = new ArrayList<>();
-    HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
-    HashMap<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
-
-    Jogador jogadorAtual;
-    int posicaoFinalJogo;
-    int casaPartida;
-    int turnoAtual;
-    boolean alguemChegouNaMeta;
-    boolean casaComAlimento;
-    boolean existeJogadorNoMeio;
-    int casaDoMeio;
-    Jogador jogadorComMaisEnergia;
+    private HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
+    private HashMap<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
+    private Jogador jogadorAtual;
+    private int posicaoFinalJogo;
+    private int casaPartida;
+    private int turnoAtual;
+    private boolean alguemChegouNaMeta;
+    private boolean casaComAlimento;
+    private boolean existeJogadorNoMeio;
+    private int casaDoMeio;
+    private Jogador jogadorComMaisEnergia;
 
     public GameManager() {}
 
@@ -711,7 +710,8 @@ public class GameManager {
             Jogador jogadorAtual = jogadores.get((turnoAtual - 1) % jogadores.size());
 
             for (Jogador jogador : jogadores) {
-                if (jogadorComMaisEnergia == null || jogador.getEspecie().getEnergiaAtual() > jogadorComMaisEnergia.getEspecie().getEnergiaAtual()) {
+                if (jogadorComMaisEnergia == null || jogador.getEspecie().getEnergiaAtual() >
+                        jogadorComMaisEnergia.getEspecie().getEnergiaAtual()) {
                     jogadorComMaisEnergia = jogador;
                 }
             }
@@ -831,7 +831,7 @@ public class GameManager {
      * --------------------------------------moveCurrentPlayer()-------------------------------------
      */
 
-    public String verificarConsumoDeAlimento(int posicao) {
+    private String verificarConsumoDeAlimento(int posicao) {
         for (Alimento alimento : alimentos) {
             if (alimento.getPosicaoAlimento() == posicao) {
                 String idAlimento = alimento.getId();
@@ -875,11 +875,11 @@ public class GameManager {
         return null;
     }
 
-    public boolean validarVelocidadeEspecie(int velocidade) {
+    private boolean validarVelocidadeEspecie(int velocidade) {
         String especieID = jogadorAtual.getEspecie().getId();
 
-        return switch (especieID) { // Elefante
-            case "E", "Z" -> // Tarzan
+        return switch (especieID) {
+            case "E", "Z" -> // Elefante ou Tarzan
                     velocidade >= 1 && velocidade <= 6;
             case "L" -> // Leão
                     velocidade >= 4 && velocidade <= 6;
@@ -915,7 +915,7 @@ public class GameManager {
         }
     }
 
-    public boolean verificaCasaComAlimentoUnicornio(int novaPosicaoJogador) {
+    private boolean verificaCasaComAlimentoUnicornio(int novaPosicaoJogador) {
         for (Alimento alimento : alimentos) {
             if (alimento.getPosicaoAlimento() == novaPosicaoJogador) {
                 return true;
@@ -924,7 +924,7 @@ public class GameManager {
         return false;
     }
 
-    public boolean verificaJogadorNaCasaDoMeio() {
+    private boolean verificaJogadorNaCasaDoMeio() {
         calcularCasaDoMeio();
         for (Jogador jogador : jogadores) {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
@@ -934,7 +934,7 @@ public class GameManager {
         return false;
     }
 
-    public void limitarEnergia(boolean avancouOuRecou, boolean ficou, int valorAlteracaoEnergia) {
+    private void limitarEnergia(boolean avancouOuRecou, boolean ficou, int valorAlteracaoEnergia) {
         /*
         A energia de qualquer jogador nunca pode ultrapassar os 200, seja por descansar, seja
         por efeito de alimentos. Caso isso aconteça, a energia mantém-se nos 200.
@@ -955,7 +955,7 @@ public class GameManager {
         jogadorAtual.getEspecie().setEnergiaAtual(novaEnergia);
     }
 
-    public boolean isMovimentoValido(int nrSquares, int novaPosicaoJogador, int casaPartida, boolean bypassValidations) {
+    private boolean isMovimentoValido(int nrSquares, int novaPosicaoJogador, int casaPartida, boolean bypassValidations) {
         if (!bypassValidations) {
             if (nrSquares < -6 || nrSquares > 6) {
                 return false;
@@ -969,7 +969,7 @@ public class GameManager {
         return true;
     }
 
-    public void atualizarContagemJogadasCarne(int turnoAtual) {
+    private void atualizarContagemJogadasCarne(int turnoAtual) {
         for (Alimento alimento : alimentos) {
             alimento.setNumroJogadasCarne(turnoAtual);
         }
@@ -980,7 +980,7 @@ public class GameManager {
      * ----------------------getWinnerInfo() E getGameResults (DISTANCIA E NOVA CONDIÇÃO)------------------------
      */
 
-    public void calcularCasaDoMeio() {
+    private void calcularCasaDoMeio() {
         if (posicaoFinalJogo % 2 != 0) {
             casaDoMeio = ((posicaoFinalJogo / 2) + 1);
         } else {
@@ -989,7 +989,7 @@ public class GameManager {
         }
     }
 
-    public boolean existeUmJogadorMuitoDistanteDaMeta() {
+    private boolean existeUmJogadorMuitoDistanteDaMeta() {
         int distanciaPrimeiroJogador = Integer.MAX_VALUE;
         int distanciaSegundoJogador = Integer.MAX_VALUE;
 
@@ -1012,7 +1012,7 @@ public class GameManager {
         return distanciaEntreJogadores > metadeDaMeta;
     }
 
-    public Jogador getJogadorMaisDistanteDaMeta(List<Jogador> jogadores) {
+    private Jogador getJogadorMaisDistanteDaMeta(List<Jogador> jogadores) {
         int maiorDistancia = Integer.MIN_VALUE;
         Jogador jogadorMaisDistante = null;
 
@@ -1028,7 +1028,7 @@ public class GameManager {
         return jogadorMaisDistante;
     }
 
-    public void obterVencedorNovaCondicao(ArrayList<Jogador> jogadoresEmJogo, int posicaoChegada, ArrayList<String> resultados) {
+    private void obterVencedorNovaCondicao(ArrayList<Jogador> jogadoresEmJogo, int posicaoChegada, ArrayList<String> resultados) {
         // TODO Nova Condição Vencedor:
         calcularCasaDoMeio();
         if (existeJogadorNoMeio) {
@@ -1073,7 +1073,7 @@ public class GameManager {
      * -----------------------------------------LOADGAME()-------------------------------------------
      */
 
-    public Jogador carregarDadosDoJogador(String[] playerInfo) {
+    private Jogador carregarDadosDoJogador(String[] playerInfo) {
         int novoIdJogador = Integer.parseInt(playerInfo[0]);
         String novoNomeJogador = playerInfo[1];
         int novaPosicaoJogador = Integer.parseInt(playerInfo[2]);
@@ -1106,7 +1106,7 @@ public class GameManager {
         return novoJogador;
     }
 
-    public Alimento carregarDadosAlimento(String[] foodInfo) {
+    private Alimento carregarDadosAlimento(String[] foodInfo) {
         String novoIdAlimento = foodInfo[0];
         int novaPosicaoAlimento = Integer.parseInt(foodInfo[1]);
         int novoNumeroBananasON = Integer.parseInt(foodInfo[2]);
@@ -1122,7 +1122,7 @@ public class GameManager {
         return carregarAlimento;
     }
 
-    public void carregarBananas(HashMap<Integer, Integer> jogadoresBananas, String linha) {
+    private void carregarBananas(HashMap<Integer, Integer> jogadoresBananas, String linha) {
         String hashMapBanana = linha.substring(linha.indexOf("{") + 1, linha.indexOf("}"));
         String[] chaveValorBananas = hashMapBanana.split(", ");
         for (String banana : chaveValorBananas) {
@@ -1135,7 +1135,7 @@ public class GameManager {
         }
     }
 
-    public void carregarJogadores(BufferedReader reader, int quantidadeJogadoresEmJogo, ArrayList<Jogador> jogadores) throws IOException {
+    private void carregarJogadores(BufferedReader reader, int quantidadeJogadoresEmJogo, ArrayList<Jogador> jogadores) throws IOException {
         for (int i = 0; i < quantidadeJogadoresEmJogo; i++) {
             String linha = reader.readLine();
             if (linha.trim().isEmpty()) {
@@ -1146,7 +1146,7 @@ public class GameManager {
         }
     }
 
-    public void carregarAlimentos(BufferedReader reader, int quantidadeAlimentosEmJogo, ArrayList<Alimento> alimentos) throws IOException {
+    private void carregarAlimentos(BufferedReader reader, int quantidadeAlimentosEmJogo, ArrayList<Alimento> alimentos) throws IOException {
         for (int i = 0; i < quantidadeAlimentosEmJogo; i++) {
             String linha = reader.readLine();
             if (linha.trim().isEmpty()) {
@@ -1157,7 +1157,7 @@ public class GameManager {
         }
     }
 
-    public void definirJogadorAtualLoadGame(int idJogador, ArrayList<Jogador> jogadores) {
+    private void definirJogadorAtualLoadGame(int idJogador, ArrayList<Jogador> jogadores) {
         for (Jogador jogador : jogadores) {
             if (jogador.getId() == idJogador) {
                 jogadorAtual = jogador;
@@ -1171,11 +1171,11 @@ public class GameManager {
      * ------------------------------------------TURNOS E RESET()---------------------------------------------
      */
 
-    public void incrementarTurno() {
+    private void incrementarTurno() {
         turnoAtual++;
     }
 
-    public void incrementarReset() {
+    private void incrementarReset() {
         jogadores = new ArrayList<>(); // reset da lista de jogadores.
         alimentos = new ArrayList<>(); // reset da lista de alimentos
         jogadorAtual = null; // reset do jogadorAtual

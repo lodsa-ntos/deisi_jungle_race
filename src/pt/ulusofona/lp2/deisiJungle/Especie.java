@@ -17,7 +17,7 @@ public abstract class Especie {
     /**
      * Identificar Especies
      */
-    public static Especie identificarEspecie(String id) {
+    protected static Especie identificarEspecie(String id) {
         switch (id) {
             case "E" -> {
                 return new Elefante();
