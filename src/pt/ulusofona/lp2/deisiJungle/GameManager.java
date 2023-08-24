@@ -22,14 +22,14 @@ public class GameManager {
     private HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
     private HashMap<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
     private Jogador jogadorAtual;
+    private Jogador jogadorComMaisEnergia;
     private int posicaoFinalJogo;
     private int casaPartida;
     private int turnoAtual;
+    private int casaDoMeio;
     private boolean alguemChegouNaMeta;
     private boolean casaComAlimento;
     private boolean existeJogadorNoMeio;
-    private int casaDoMeio;
-    private Jogador jogadorComMaisEnergia;
 
     public GameManager() {}
 
