@@ -3,17 +3,19 @@ package pt.ulusofona.lp2.deisiJungle;
 import pt.ulusofona.lp2.deisiJungle.especieFilho.*;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class Jogador {
-    private  int id;
-    private  String nome;
-    private  String idEspecie;
+    private int id;
+    private String nome;
+    private String idEspecie;
     private int posicaoAtual;
     private int numeroPosicoesPercorridas;
     private int numeroAlimento;
     private int numJogadoresEmJogo;
     private Especie especie;
+
+    public Jogador() {
+    }
 
     public Jogador(int id, String nome, String idEspecie, int posicaoAtual, Especie especie) {
         this.id = id;
@@ -22,9 +24,6 @@ public class Jogador {
         this.posicaoAtual = posicaoAtual;
         this.especie = especie;
         this.numeroPosicoesPercorridas = 0;
-    }
-
-    public Jogador() {
     }
 
     /**

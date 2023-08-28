@@ -1,7 +1,7 @@
 package pt.ulusofona.lp2.deisiJungle;
 
 import pt.ulusofona.lp2.deisiJungle.validar.ValidadorJogador;
-import pt.ulusofona.lp2.deisiJungle.validar.ValidatorAlimento;
+import pt.ulusofona.lp2.deisiJungle.validar.ValidadorAlimento;
 
 import javax.swing.*;
 import java.io.*;
@@ -17,8 +17,8 @@ import java.util.*;
 // Classe responsável por gerir o jogo
 public class GameManager {
 
-    ArrayList<Jogador> jogadores = new ArrayList<>();
-    ArrayList<Alimento> alimentos = new ArrayList<>();
+    private ArrayList<Jogador> jogadores = new ArrayList<>();
+    private ArrayList<Alimento> alimentos = new ArrayList<>();
     private HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
     private HashMap<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
     private Jogador jogadorAtual;
@@ -216,17 +216,14 @@ public class GameManager {
             int posicaoAtualAlimento = Integer.parseInt(oldPosicaoAlimento);
 
             // TODO O ID - tem que ser um dos que foi retornado pela função getFoodTypes()
-            ValidatorAlimento.validarIDAlimento(idTipo, getFoodTypes());
+            ValidadorAlimento.validarIDAlimento(idTipo, getFoodTypes());
 
             // TODO POSIÇÃO - Os alimentos têm que estar posicionados dentro dos limites do terreno.
-            ValidatorAlimento.validarPosicaoAlimentos(posicaoAtualAlimento, casaPartida, posicaoFinalJogo);
+            ValidadorAlimento.validarPosicaoAlimentos(posicaoAtualAlimento, casaPartida, posicaoFinalJogo);
 
             Alimento tipoAlimento = Alimento.identificarAlimento(idTipo, posicaoAtualAlimento);
+
             alimentos.add(tipoAlimento);
-
-
-            //System.out.println(Arrays.toString(getPlayerInfo(2)));
-            //System.out.println(tipoAlimento.toolTip());
         }
     }
 
@@ -634,7 +631,6 @@ public class GameManager {
             }
         }
 
-
         return null; // Nenhum jogador venceu ainda
     }
 
@@ -955,12 +951,12 @@ public class GameManager {
         jogadorAtual.getEspecie().setEnergiaAtual(novaEnergia);
     }
 
-    private boolean isMovimentoValido(int nrSquares, int novaPosicaoJogador, int casaPartida, boolean bypassValidations) {
+    private boolean isMovimentoValido(int nrSquares, int posicaoJogador, int casaPartida, boolean bypassValidations) {
         if (!bypassValidations) {
             if (nrSquares < -6 || nrSquares > 6) {
                 return false;
             }
-            if (novaPosicaoJogador < casaPartida) {
+            if (posicaoJogador < casaPartida) {
                 return false;
             }
             // Verificar se as espécies se movimentarem nas respetivas velocidades mínima e máxima
@@ -1191,6 +1187,19 @@ public class GameManager {
         posicaoFinalJogo = 0; // reset posicão final do mapa de jogo
         casaDoMeio = 0; // reset casa do meio do mapa de jogo
         atualizarContagemJogadasCarne(0);
+    }
+
+
+    /**
+     * ------------------------------------------Métodos de acesso(Facilitar acesso nos Testes Unitários)()---------------------------------------------
+     */
+
+    public ArrayList<Jogador> getJogadores() {
+        return jogadores;
+    }
+
+    public ArrayList<Alimento> getAlimentos() {
+        return alimentos;
     }
 
 }

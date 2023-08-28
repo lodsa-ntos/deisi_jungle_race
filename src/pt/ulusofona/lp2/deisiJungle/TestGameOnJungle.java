@@ -158,7 +158,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(6, playerInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
@@ -197,7 +197,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(6, playerInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
@@ -240,7 +240,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(6, playerInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
@@ -281,7 +281,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(12, playerInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
@@ -324,7 +324,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(6, playerInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
@@ -380,7 +380,7 @@ public class TestGameOnJungle {
         // Adicionar jogadores
         gameOnJungle.createInitialJungle(10, playerInfo, foodInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
@@ -558,7 +558,7 @@ public class TestGameOnJungle {
         //gameOnJungle.turnoAtual = 1;
 
         // Consumir a carne
-        Alimento carne = gameOnJungle.alimentos.get(0);
+        Alimento carne = gameOnJungle.getAlimentos().get(0);
         //carne.setNumroJogadasCarne(gameOnJungle.turnoAtual);
         String mensagem = carne.toolTip();
         assertEquals("Carne : + 50 energia : 1 jogadas", mensagem);
@@ -637,7 +637,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
@@ -678,7 +678,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
@@ -690,25 +690,25 @@ public class TestGameOnJungle {
         jogador2.getEspecie().setEnergiaAtual(200);
         jogador2.alterarPosicaoAtual(1);
 
-        Alimento alimento = gameOnJungle.alimentos.get(0);
+        Alimento alimento = gameOnJungle.getAlimentos().get(0);
 
         // HashMap para ficar a saber os jogadores que consumiram bananas
         Map<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
 
         // Consumir banana pela priemeira vez
-        int energiaConsumida = alimento.consumir("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        int energiaConsumida = alimento.consumir("herbívoro", jogador1, gameOnJungle.getAlimentos().get(0), jogadoresQueConsumiramBanana);
         assertEquals(40, energiaConsumida);
 
         // Consumir banana pela priemeira vez
-        energiaConsumida = alimento.consumir("carnívoro", jogador2, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        energiaConsumida = alimento.consumir("carnívoro", jogador2, gameOnJungle.getAlimentos().get(0), jogadoresQueConsumiramBanana);
         assertEquals(40, energiaConsumida);
 
         // Consumir banana pela segunda vez
-        energiaConsumida = alimento.consumir("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        energiaConsumida = alimento.consumir("herbívoro", jogador1, gameOnJungle.getAlimentos().get(0), jogadoresQueConsumiramBanana);
         assertEquals(-40, energiaConsumida);
 
         // Consumir quando o cacho estiver vazio
-        energiaConsumida = alimento.consumir("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        energiaConsumida = alimento.consumir("herbívoro", jogador1, gameOnJungle.getAlimentos().get(0), jogadoresQueConsumiramBanana);
         assertEquals(0, energiaConsumida);
     }
 
@@ -743,7 +743,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
@@ -757,37 +757,37 @@ public class TestGameOnJungle {
         Jogador jogador3 = jogadores.get(2);
         jogador3.getEspecie().setEnergiaAtual(60);
 
-        Alimento alimento = gameOnJungle.alimentos.get(0);
+        Alimento alimento = gameOnJungle.getAlimentos().get(0);
 
         // HashMap para ficar a saber os jogadores que consumiram bananas
         Map<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
 
         // Jogador1 consumir banana pela primeira vez
-        int energiaConsumida = alimento.consumir("herbívoro", jogador1, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        int energiaConsumida = alimento.consumir("herbívoro", jogador1, gameOnJungle.getAlimentos().get(0), jogadoresQueConsumiramBanana);
         int energiaEsperada1 = jogador1.getEspecie().getEnergiaAtual() + energiaConsumida;
         assertEquals(40, energiaConsumida);
         assertEquals(60, energiaEsperada1);
 
         // Jogador2 consumir banana pela primeira vez
-        energiaConsumida = alimento.consumir("carnívoro", jogador2, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        energiaConsumida = alimento.consumir("carnívoro", jogador2, gameOnJungle.getAlimentos().get(0), jogadoresQueConsumiramBanana);
         int energiaEsperada2 = jogador2.getEspecie().getEnergiaAtual() + energiaConsumida;
         assertEquals(40, energiaConsumida);
         assertEquals(70, energiaEsperada2);
 
         // Jogador1 consumir banana pela segunda vez
-        energiaConsumida = alimento.consumir("herbívoro", jogador1, gameOnJungle.alimentos.get(1), jogadoresQueConsumiramBanana);
+        energiaConsumida = alimento.consumir("herbívoro", jogador1, gameOnJungle.getAlimentos().get(1), jogadoresQueConsumiramBanana);
         int novaEnergia = energiaEsperada1 + energiaConsumida;
         assertEquals(-40, energiaConsumida);
         assertEquals(20, novaEnergia);
 
         // Jogador2 consumir banana pela segunda vez
-        energiaConsumida = alimento.consumir("carnívoro", jogador2, gameOnJungle.alimentos.get(0), jogadoresQueConsumiramBanana);
+        energiaConsumida = alimento.consumir("carnívoro", jogador2, gameOnJungle.getAlimentos().get(0), jogadoresQueConsumiramBanana);
         novaEnergia = energiaEsperada2 + energiaConsumida;
         assertEquals(-40, energiaConsumida);
         assertEquals(30, novaEnergia);
 
         // Jogador3 consumir banana pela primeira vez
-        energiaConsumida = alimento.consumir("omnívoro", jogador3, gameOnJungle.alimentos.get(1), jogadoresQueConsumiramBanana);
+        energiaConsumida = alimento.consumir("omnívoro", jogador3, gameOnJungle.getAlimentos().get(1), jogadoresQueConsumiramBanana);
         int energiaEsperada3 = jogador3.getEspecie().getEnergiaAtual() + energiaConsumida;
         assertEquals(40, energiaConsumida);
         assertEquals(100, energiaEsperada3);
@@ -817,7 +817,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
@@ -857,7 +857,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
@@ -897,7 +897,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
@@ -937,7 +937,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
@@ -977,7 +977,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
@@ -1016,8 +1016,8 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
-        List<Alimento> alimentos = gameOnJungle.alimentos;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
+        List<Alimento> alimentos = gameOnJungle.getAlimentos();
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
@@ -1061,7 +1061,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
@@ -1100,7 +1100,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
@@ -1139,7 +1139,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
@@ -1178,7 +1178,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(10, playerInfo, foodInfo);
 
-        List<Jogador> jogadores = gameOnJungle.jogadores;
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1
         Jogador jogadorTarzan = jogadores.get(0);
@@ -1641,7 +1641,7 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(10, playerInfo, foodInfo);
 
-        Jogador jogadorUnicornio = gameOnJungle.jogadores.get(0);
+        Jogador jogadorUnicornio = gameOnJungle.getJogadores().get(0);
         jogadorUnicornio.getEspecie().setEnergiaAtual(200);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
@@ -1796,10 +1796,10 @@ public class TestGameOnJungle {
         assertEquals("#2 Bruninho, Leão, 9, 8, 0", gameOnJungle.getGameResults().get(1));
 
         // Chamada da função para obter o vencedor
-        Jogador vencedor = gameOnJungle.obterJogadorComMaisEnergiaNovaCondicao(gameOnJungle.jogadores);
+        Jogador vencedor = gameOnJungle.obterJogadorComMaisEnergiaNovaCondicao(gameOnJungle.getJogadores());
 
         // Verificação
-        assertEquals(gameOnJungle.jogadores.get(0), vencedor);
+        assertEquals(gameOnJungle.getJogadores().get(0), vencedor);
     }
 
 

@@ -52,10 +52,6 @@ public abstract class Alimento {
      */
     protected abstract int consumir(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador);
 
-    public void diminuirNumBananas() {
-        this.numeroBananasON -= 1;
-    }
-
     public abstract String getId();
 
     public abstract String getNome();
@@ -72,21 +68,13 @@ public abstract class Alimento {
 
     public abstract void setNumeroAleatorioCog(int numeroAleatorioCog);
 
-    public abstract boolean isCarneToxica();
-
     public abstract void setCarneToxica(boolean carneToxica);
 
     public abstract int getNumroJogadasCarne();
 
     public abstract void setNumroJogadasCarne(int numroJogadasCarne);
 
-    public abstract boolean isVenenoso();
-
     public abstract void setVenenoso(boolean venenoso);
-
-    public abstract Random getRandom();
-
-    public abstract void setRandom(Random random);
 
     public abstract String toolTip();
 }

@@ -14,6 +14,9 @@ public abstract class Especie {
     protected int velocidadeMinima;
     protected int velocidadeMaxima;
 
+    public Especie() {
+    }
+
     /**
      * Identificar Especies
      */

@@ -2,7 +2,7 @@ package pt.ulusofona.lp2.deisiJungle.validar;
 
 import pt.ulusofona.lp2.deisiJungle.InvalidInitialJungleException;
 
-public class ValidatorAlimento {
+public class ValidadorAlimento {
 
     public static void validarIDAlimento(String idTipo, String[][] foodsInfo) throws InvalidInitialJungleException {
 

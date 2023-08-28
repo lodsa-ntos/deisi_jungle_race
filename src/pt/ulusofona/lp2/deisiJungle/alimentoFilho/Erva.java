@@ -79,11 +79,6 @@ public class Erva extends Alimento {
     }
 
     @Override
-    public boolean isCarneToxica() {
-        return isCarneToxica;
-    }
-
-    @Override
     public void setCarneToxica(boolean carneToxica) {
         this.isCarneToxica = carneToxica;
     }
@@ -99,23 +94,8 @@ public class Erva extends Alimento {
     }
 
     @Override
-    public boolean isVenenoso() {
-        return isVenenoso;
-    }
-
-    @Override
     public void setVenenoso(boolean venenoso) {
         this.isVenenoso = venenoso;
-    }
-
-    @Override
-    public Random getRandom() {
-        return random;
-    }
-
-    @Override
-    public void setRandom(Random random) {
-        this.random = random;
     }
 
     @Override
