@@ -1796,7 +1796,51 @@ public class TestGameOnJungle {
         assertEquals("#2 Bruninho, Leão, 9, 8, 0", gameOnJungle.getGameResults().get(1));
 
         // Chamada da função para obter o vencedor
-        Jogador vencedor = gameOnJungle.obterJogadorComMaisEnergiaNovaCondicao(gameOnJungle.getJogadores());
+        Jogador vencedor = gameOnJungle.verificarJogadorComMaisEnergiaNovaCondicao(gameOnJungle.getJogadores());
+
+        // Verificação
+        assertEquals(gameOnJungle.getJogadores().get(0), vencedor);
+    }
+
+    @Test
+    public void testgetGameResults_NovaLogicaCondicaoVencedor() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[3][3];
+
+        // Jogador 1
+        playerInfo[0][0] = "3";
+        playerInfo[0][1] = "Bruninho";
+        playerInfo[0][2] = "L";
+
+        // Jogador 2
+        playerInfo[1][0] = "1";
+        playerInfo[1][1] = "Pato Donald";
+        playerInfo[1][2] = "L";
+
+        // Jogador 3
+        playerInfo[2][0] = "2";
+        playerInfo[2][1] = "Kelly";
+        playerInfo[2][2] = "Z";
+
+        gameOnJungle.createInitialJungle(10, playerInfo);
+
+        // Jogador 1 joga
+        MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
+
+        // Jogador 2 joga
+        MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
+
+        // Jogador 3 joga
+        MovementResult movementResult3 = gameOnJungle.moveCurrentPlayer(8, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult3.code());
+
+        assertEquals("#2 Bruninho, Leão, 9, 8, 0", gameOnJungle.getGameResults().get(1));
+
+        // Chamada da função para obter o vencedor
+        Jogador vencedor = gameOnJungle.verificarJogadorComMaisEnergiaNovaCondicao(gameOnJungle.getJogadores());
 
         // Verificação
         assertEquals(gameOnJungle.getJogadores().get(0), vencedor);
