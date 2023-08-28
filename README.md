@@ -1,4 +1,4 @@
-# DEISI Jungle
+# <p align="center">DEISI Jungle</p>
 ![](deisi-jungle.jpg?raw=true "Deisi Jungle")
 
 <p align="justify"> Certo dia, numa savana muito (muito) longe daqui, os animais decidiram descobrir quem seria
