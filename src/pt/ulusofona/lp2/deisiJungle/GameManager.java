@@ -921,13 +921,9 @@ public class GameManager {
 
     private boolean verificaJogadorNaCasaDoMeio() {
         calcularCasaDoMeio();
-        int count = 0;
         for (Jogador jogador : jogadores) {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
-                count++;
-                if (count >= 1) {
-                    return true;
-                }
+                return true;
             }
         }
         return false;
@@ -1085,11 +1081,12 @@ public class GameManager {
         // Se existir um jogador na casa do meio que já o vencedor da casa do meio e existirem jogadores fora da casa do meio, ...
         if (jogadorVencedorCasaDoMeio != null && jogadorForaDaCasaDoMeio != null) {
 
-            // ...verificar a energia entre os dois (vencedor casa do meio vs adientado)
-            return (jogadorVencedorCasaDoMeio.getEspecie().getEnergiaAtual() >= jogadorForaDaCasaDoMeio.getEspecie().getEnergiaAtual()) ?
-                    // se o jogador da casa do meio tiver com mais energia em comparação com o jogador adientado, o vencedor é o jogadorVencedorCasaDoMeio
-                    // senão vence o jogador fora da casa do meio com mais energia
-                    jogadorVencedorCasaDoMeio : jogadorForaDaCasaDoMeio;
+            // ...verificar a energia entre os dois (adientado vs vencedor casa do meio)
+            if (jogadorForaDaCasaDoMeio.getEspecie().getEnergiaAtual() > jogadorVencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
+                return jogadorForaDaCasaDoMeio; // O jogador mais adiantado fora da casa do meio tem mais energia e é o segundo colocado
+            } else {
+                return jogadorVencedorCasaDoMeio; // O vencedor da casa do meio é o segundo colocado
+            }
 
         } else if (jogadorVencedorCasaDoMeio != null) {
             // senão se apenas existirem jogadores na casa do meio, retornar apenas o jogador com mais energia como vencedor
