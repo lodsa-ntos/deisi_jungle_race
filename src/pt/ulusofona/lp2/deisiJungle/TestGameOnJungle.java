@@ -1809,19 +1809,19 @@ public class TestGameOnJungle {
         String[][] playerInfo = new String[3][3];
 
         // Jogador 1
-        playerInfo[0][0] = "3";
-        playerInfo[0][1] = "Bruninho";
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Pato Donald";
         playerInfo[0][2] = "L";
 
         // Jogador 2
-        playerInfo[1][0] = "1";
-        playerInfo[1][1] = "Pato Donald";
-        playerInfo[1][2] = "L";
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Kelly";
+        playerInfo[1][2] = "Z";
 
         // Jogador 3
-        playerInfo[2][0] = "2";
-        playerInfo[2][1] = "Kelly";
-        playerInfo[2][2] = "Z";
+        playerInfo[2][0] = "3";
+        playerInfo[2][1] = "Bruninho";
+        playerInfo[2][2] = "L";
 
         gameOnJungle.createInitialJungle(10, playerInfo);
 
@@ -1836,6 +1836,10 @@ public class TestGameOnJungle {
         // Jogador 3 joga
         MovementResult movementResult3 = gameOnJungle.moveCurrentPlayer(8, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult3.code());
+
+        // Jogador 1 joga
+        MovementResult movementResult4 = gameOnJungle.moveCurrentPlayer(0, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult4.code());
 
         assertEquals("#2 Bruninho, Leão, 9, 8, 0", gameOnJungle.getGameResults().get(1));
 

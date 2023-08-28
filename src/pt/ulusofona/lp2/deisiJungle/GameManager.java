@@ -921,9 +921,13 @@ public class GameManager {
 
     private boolean verificaJogadorNaCasaDoMeio() {
         calcularCasaDoMeio();
+        int count = 0;
         for (Jogador jogador : jogadores) {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
-                return true;
+                count++;
+                if (count >= 1) {
+                    return true;
+                }
             }
         }
         return false;
