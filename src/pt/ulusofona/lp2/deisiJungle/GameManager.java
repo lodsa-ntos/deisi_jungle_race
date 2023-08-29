@@ -826,7 +826,7 @@ public class GameManager {
      * --------------------------------------moveCurrentPlayer()-------------------------------------
      */
 
-    private String verificarConsumoDeAlimento(int posicao) {
+    public String verificarConsumoDeAlimento(int posicao) {
         for (Alimento alimento : alimentos) {
             if (alimento.getPosicaoAlimento() == posicao) {
                 String idAlimento = alimento.getId();
@@ -841,12 +841,10 @@ public class GameManager {
                     // BANANA
                     case "b" -> alteracaoEnergia = alimento.consumir(tipoDeAlimentacao, jogadorAtual, alimento, jogadoresQueConsumiramBanana);
                     // CARNE
-                    case "c" -> {
-                        alteracaoEnergia = alimento.consumir(tipoDeAlimentacao, jogadorAtual, turnoAtual, alimento);
-                    }
+                    case "c" -> alteracaoEnergia = alimento.consumir(tipoDeAlimentacao, jogadorAtual, turnoAtual, alimento);
                     // COGUMELO MÁGICO
-                    case "m" ->
-                            alteracaoEnergia = alimento.consumir(tipoDeAlimentacao, jogadorAtual, turnoAtual, alimento);
+                    case "m" -> alteracaoEnergia = alimento.consumir(tipoDeAlimentacao, jogadorAtual, turnoAtual, alimento);
+
                     default -> alteracaoEnergia = 0;
                 }
                 // Verificar se o jogador é um unicórnio ignorar todos os alimentos

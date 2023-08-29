@@ -34,6 +34,11 @@ fun router(): (CommandType) -> ((GameManager, List<String>) -> String?)? {
                         getTopErnergeticOmnivores(manager, maxResults)
 
                     }
+                    // Verificar se o comando é "CONSUMED_FOODS" e se tem pelo menos um argumento
+                    args.isNotEmpty() && args[0] == "CONSUMED_FOODS" -> {
+                        getConsumedFoods(manager)
+                    }
+
                     else -> {
                         "Invalid command"
                     }
@@ -137,6 +142,32 @@ fun getTopErnergeticOmnivores (manager: GameManager, max_results: Int) : String 
 
     // Quebra de linha
     return listaJogadoresOmnivorosEmJogo.joinToString("\n")
+}
+
+/**
+ * GET CONSUMED_FOODS
+ */
+// Obtém a lista dos nomes dos alimentos que já foram consumidos pelo menos uma vez por algum jogador, ordenada alfabeticamente.
+
+    /*
+    Ex:
+    Agua
+    Bananas
+    Cogumelos Magicos
+     */
+
+fun getConsumedFoods(manager: GameManager): String {
+    val alimentosConsumidos = mutableListOf<String>()
+
+    for (jogador in manager.jogadores) {
+        val alimentoConsumido = manager.verificarConsumoDeAlimento(jogador.posicaoAtual)
+        if (alimentoConsumido != null) {
+            alimentosConsumidos.add(alimentoConsumido)
+        }
+    }
+
+    // Ordenar alfabeticamente
+    return alimentosConsumidos.distinct().sorted().joinToString("\n")
 }
 
 
