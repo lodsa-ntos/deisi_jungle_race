@@ -1,5 +1,6 @@
 package pt.ulusofona.lp2.deisiJungle;
 
+import kotlin.jvm.functions.Function2;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -1843,6 +1844,4 @@ public class TestGameOnJungle {
 
         assertEquals("#2 Bruninho, Leao, 9, 8, 0", gameOnJungle.getGameResults().get(1));
     }
-
-
 }
