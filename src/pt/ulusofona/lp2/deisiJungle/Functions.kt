@@ -126,15 +126,16 @@ fun getTopErnergeticOmnivores (manager: GameManager, max_results: Int) : String 
             val nomeJogador = jogador.nome
             val energia = jogador.especie.getEnergiaAtual()
 
-            if (energia == max_results) {
-                // NOME_JOGADOR:ENERGIA
-                listaJogadoresOmnivorosEmJogo.addAll(listOf("$nomeJogador:$energia"))
-            }
+            // NOME_JOGADOR:ENERGIA
+            listaJogadoresOmnivorosEmJogo.addAll(listOf("$nomeJogador:$energia"))
         }
     }
 
-    //Obtém os jogadores omnívoros com mais energia, ordenados de forma decrescente (primeiro o que tem mais energia). ([1] -> $distancia)
-    listaJogadoresOmnivorosEmJogo.sortWith(compareByDescending { it.split(":")[1].toInt() })
+    if (max_results >= 2) {
+        //Obtém os jogadores omnívoros com mais energia, ordenados de forma decrescente (primeiro o que tem mais energia). ([1] -> $distancia)
+        listaJogadoresOmnivorosEmJogo.sortWith(compareByDescending { it.split(":")[1].toInt() })
+    }
+
 
     // Quebra de linha
     return listaJogadoresOmnivorosEmJogo.joinToString("\n")
