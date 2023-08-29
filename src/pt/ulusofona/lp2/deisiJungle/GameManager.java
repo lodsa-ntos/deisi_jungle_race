@@ -1029,33 +1029,19 @@ public class GameManager {
         if (existeJogadorNoMeio) {
             ArrayList<Jogador> jogadoresNoMeio = new ArrayList<>(jogadoresEmJogo);
 
-            // Encontrar o jogador com mais energia na casa do meio
-            Jogador jogadorComMaisEnergia = verificarJogadorComMaisEnergiaNovaCondicao(jogadoresNoMeio);
-            jogadoresNoMeio.remove(jogadorComMaisEnergia);
+            for (Jogador jogador : jogadoresEmJogo) {
+                Jogador jogadorComMaisEnergia = verificarJogadorComMaisEnergiaNovaCondicao(jogadoresNoMeio);
+                String nome = jogadorComMaisEnergia.getNome();
+                String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
+                int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
+                int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
+                int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
 
-            // Ordenar os jogadores restantes por energia e posição
-            jogadoresNoMeio.sort((jogador1, jogador2) -> {
-                if (jogador2.getEspecie().getEnergiaAtual() != jogador1.getEspecie().getEnergiaAtual()) {
-                    return jogador2.getEspecie().getEnergiaAtual() - jogador1.getEspecie().getEnergiaAtual();
-                } else {
-                    return jogador2.getPosicaoAtual() - jogador1.getPosicaoAtual();
-                }
-            });
+                resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                        + ", " + distancia + ", " + numAlimento);
 
-            // Colocar o jogador com mais energia da casa do meio como 1.º lugar (vencedor)
-            resultados.add("#" + posicaoChegada + " " + jogadorComMaisEnergia.getNome() + ", " +
-                    jogadorComMaisEnergia.getEspecie().getNome() + ", " + jogadorComMaisEnergia.getPosicaoAtual() +
-                    ", " + jogadorComMaisEnergia.getNumeroPosicoesPercorridas() + ", " +
-                    jogadorComMaisEnergia.getNumeroAlimento());
-
-            posicaoChegada++;
-
-            // Adicionar os restantes jogadores de acordo com a quantidade de energia
-            for (Jogador jogador : jogadoresNoMeio) {
-                resultados.add("#" + posicaoChegada + " " + jogador.getNome() + ", " +
-                        jogador.getEspecie().getNome() + ", " + jogador.getPosicaoAtual() +
-                        ", " + jogador.getNumeroPosicoesPercorridas() + ", " + jogador.getNumeroAlimento());
-
+                // remover o jogadorComMaisEnergia da lista, atualizar a lista (reset)
+                jogadoresNoMeio.remove(jogadorComMaisEnergia);
                 posicaoChegada++;
             }
         }

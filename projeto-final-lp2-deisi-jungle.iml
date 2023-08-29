@@ -20,6 +20,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="LP2-GuiViewer2223-recurso-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="LP2-GuiViewer2223-recurso-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="KotlinJavaRuntime" level="project" />
   </component>
 </module>
