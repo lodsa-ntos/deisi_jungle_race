@@ -5,7 +5,7 @@ enum class CommandType {
     POST
 }
 
-fun router(): (CommandType) -> ((manager: GameManager, args: List<String>) -> String?) {
+fun router(): (CommandType) -> ((GameManager, List<String>) -> String?)? {
     return { commandType ->
         when (commandType) {
             CommandType.GET -> { manager, args ->
@@ -24,7 +24,7 @@ fun router(): (CommandType) -> ((manager: GameManager, args: List<String>) -> St
                 }
 
             }
-            CommandType.POST -> TODO()
+            CommandType.POST -> null
         }
     }
 }
