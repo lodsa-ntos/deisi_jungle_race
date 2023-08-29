@@ -24,7 +24,7 @@ fun router(): (CommandType) -> ((GameManager, List<String>) -> String?)? {
                 }
 
             }
-            CommandType.POST -> null
+            CommandType.POST -> { _, _ -> null }
         }
     }
 }
