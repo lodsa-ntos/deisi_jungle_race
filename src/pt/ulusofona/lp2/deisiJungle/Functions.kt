@@ -13,16 +13,16 @@ fun router(): (CommandType) -> ((manager: GameManager, args: List<String>) -> St
                 if (args.size >= 2 && args[0] == "PLAYER_INFO") {
                     val nomeJogador = args[1]
                     getPlayerInfo(manager, nomeJogador)
-                } else {
-                    null
-                }
 
-                if (args.size >= 2 && args[0] == "PLAYERS_BY_SPECIE") {
+                // Verificar se o comando é "PLAYERS_BY_SPECIE" e se tem pelo menos um argumento
+                } else if (args.size >= 2 && args[0] == "PLAYERS_BY_SPECIE") {
                     val idEspecie = args[1]
                     getPlayersBySpecie(manager, idEspecie)
+
                 } else {
                     "Invalid command"
                 }
+
             }
             CommandType.POST -> TODO()
         }
