@@ -115,8 +115,9 @@ fun getMostTraveled (manager: GameManager) : String {
  */
 fun getTopErnergeticOmnivores (manager: GameManager, max_results: Int) : String {
 
-    val listaJogadoresOmnivorosEmJogo = mutableListOf<String>()
+    val listaJogadoresOmnivorosEmJogo = mutableListOf<Jogador>()
 
+    /*
     for (jogador in manager.jogadores) {
         if (jogador.especie.getTipoAlimentacaoDaEspecie().equals("omnívoro")) {
             val nomeJogador = jogador.nome
@@ -126,36 +127,31 @@ fun getTopErnergeticOmnivores (manager: GameManager, max_results: Int) : String 
             listaJogadoresOmnivorosEmJogo.addAll(listOf("$nomeJogador:$energia"))
         }
     }
+     */
 
-    if (max_results >= 2) {
-        //Obtém os jogadores omnívoros com mais energia, ordenados de forma decrescente. ([1] -> energia)
-        listaJogadoresOmnivorosEmJogo.sortByDescending { it.split(":")[1].toInt() }
-
-        // Limitar o número de elementos na lista...
-        val listaLimitada = listaJogadoresOmnivorosEmJogo.take(max_results)
-
-        // ... remover os elementos antigos (reset)...
-        listaJogadoresOmnivorosEmJogo.clear()
-        // ...para depois adicionar os novos elementos.
-        listaJogadoresOmnivorosEmJogo.addAll(listaLimitada)
+    for (jogador in manager.jogadores) {
+        if (jogador.especie.getTipoAlimentacaoDaEspecie().equals("omnívoro")) {
+            listaJogadoresOmnivorosEmJogo.add(jogador)
+        }
     }
 
+    // ordenar de forma decrescente (primeiro o que tem mais energia).
+    listaJogadoresOmnivorosEmJogo.sortByDescending { jogador ->
+        jogador.especie.getEnergiaAtual()
+    }
+
+    val topJogadoresOmnivoros = listaJogadoresOmnivorosEmJogo
+        .take(max_results) // Limitar o número de elementos na lista...
+            // transformar cada jogador no formato "NOME_JOGADOR:ENERGIA".
+        .map { jogador -> "${jogador.nome}:${jogador.especie.getEnergiaAtual()}" }
+
     // Quebra de linha
-    return listaJogadoresOmnivorosEmJogo.joinToString("\n")
+    return topJogadoresOmnivoros.joinToString("\n")
 }
 
 /**
  * GET CONSUMED_FOODS
  */
-// Obtém a lista dos nomes dos alimentos que já foram consumidos pelo menos uma vez por algum jogador, ordenada alfabeticamente.
-
-    /*
-    Ex:
-    Agua
-    Bananas
-    Cogumelos Magicos
-     */
-
 fun getConsumedFoods(manager: GameManager): String {
     val alimentosConsumidos = mutableListOf<String>()
 
