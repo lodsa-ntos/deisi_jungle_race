@@ -5,6 +5,9 @@ enum class CommandType {
     POST
 }
 
+/**
+ * router()
+ */
 fun router(): (CommandType) -> ((GameManager, List<String>) -> String?)? {
     return { commandType ->
         when (commandType) {
@@ -38,12 +41,10 @@ fun router(): (CommandType) -> ((GameManager, List<String>) -> String?)? {
                     args.isNotEmpty() && args[0] == "CONSUMED_FOODS" -> {
                         getConsumedFoods(manager)
                     }
-
                     else -> {
                         "Invalid command"
                     }
                 }
-
             }
             CommandType.POST -> { _, _ -> null }
         }
@@ -163,17 +164,39 @@ fun getConsumedFoods(manager: GameManager): String {
     }
 
     // Ordenar alfabeticamente
-    return alimentosConsumidos.distinct().sorted().joinToString("\n")
+    return alimentosConsumidos.sorted().distinct().joinToString("\n")
 }
 
+// POST MOVE <numero de posições>
+// Move o jogador atual tantas posições quantas o parâmetro.
+// Esta operação não está sujeita às limitações de movimento impostas pelas regras do jogo — devem ativar o parâmetro
+// bypassValidations (ver função moveCurrentPlayer).
+// Caso a posição onde o jogador seja válida, mas não tenha alimentos, deverá retornar “OK”
+
+// Exemplo:
+//POST MOVE 3
+//OK (Faz avançar o jogador atual 3 posições)
+
+//Caso o jogador vá parar a uma posição com alimento, deve ser sujeito aos efeitos desse
+//alimento e retornar a mensagem “Apanhou comida”.
+
+//Exemplo:
+//POST MOVE 3
+//Apanhou comida
+
+//Caso o movimento faça com que o jogador se desloque para fora do mapa, deve retornar “Movimento invalido”.
+//Finalmente, caso o jogador não tenha energia suficiente para fazer o movimento, deve retornar “Sem energia”.
 
 
+
+/*
 fun TODO(): (GameManager, List<String>) -> String? {
     return { _, _ ->
         // TODO: Implementar alguma coisa aqui
         "Falta implementar alguma coisa aqui."
     }
 }
+ */
 
 
 

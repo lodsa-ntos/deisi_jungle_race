@@ -6,6 +6,7 @@ import pt.ulusofona.lp2.deisiJungle.validar.ValidadorAlimento;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
+
 /*-------------------------------------------------DEISI JUNGLE-----------------------------------------------------
     Certo dia, numa savana muito (muito) longe daqui, os animais decidiram descobrir quem seria o melhor atleta entre
     eles. Para o fazer, definiram um conjunto de provas desportivas que iriam disputar entre si — quem vencesse mais
@@ -1249,5 +1250,4 @@ public class GameManager {
     public ArrayList<Alimento> getAlimentos() {
         return alimentos;
     }
-
 }
