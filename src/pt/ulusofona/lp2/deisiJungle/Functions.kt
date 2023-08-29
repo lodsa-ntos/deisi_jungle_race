@@ -72,7 +72,7 @@ fun getPlayersBySpecie (manager: GameManager,  idEspecie: String) : String {
     jogadoresComIdEspecie.sortDescending()
 
     // Retorna se existirem muitos com o mesmo ID especie, separados por vírgula
-    return jogadoresComIdEspecie.joinToString(", ")
+    return jogadoresComIdEspecie.joinToString(",")
 }
 
 
