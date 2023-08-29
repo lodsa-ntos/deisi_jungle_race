@@ -6,7 +6,7 @@ public class Leao extends Especie {
 
     public Leao() {
         this.id = "L";
-        this.nome = "Leão";
+        this.nome = "Leao";
         this.imagem = "lion.png";
         this.tipoAlimentacaoDaEspecie = "carnívoro";
         this.energiaAtual = 80;
