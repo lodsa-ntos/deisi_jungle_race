@@ -131,9 +131,11 @@ fun getTopErnergeticOmnivores (manager: GameManager, max_results: Int) : String 
         }
     }
 
-    if (max_results >= 1) {
+    if (max_results >= 2) {
         //Obtém os jogadores omnívoros com mais energia, ordenados de forma decrescente (primeiro o que tem mais energia). ([1] -> $distancia)
-        listaJogadoresOmnivorosEmJogo.sortWith(compareByDescending { it.split(":")[1].toInt() })
+        listaJogadoresOmnivorosEmJogo.sortByDescending { it.split(":")[1].toInt() }
+        // limitar o número de elementos na lista.
+        listaJogadoresOmnivorosEmJogo.take(max_results)
     }
 
 
