@@ -1255,7 +1255,7 @@ public class TestGameOnJungle {
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
 
         assertNotNull(infoJogadorVencedor);
-        assertEquals("[#1 Bagheera, Leão, 10, 9, 0, #2 Mogli, Tarzan, 4, 3, 2]",
+        assertEquals("[#1 Bagheera, Leao, 10, 9, 0, #2 Mogli, Tarzan, 4, 3, 2]",
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
 
     }
@@ -1483,7 +1483,7 @@ public class TestGameOnJungle {
         MovementResult movementResult3 = gameOnJungle.moveCurrentPlayer(4, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult3.code());
 
-        assertEquals("[#1 Akela, Unicórnio, 5, 4, 0, #2 Mogli, Tarzan, 5, 4, 0, #3 Bagheera, Pássaro, 7, 6, 0]",
+        assertEquals("[#1 Akela, Unicórnio, 5, 4, 0, #2 Mogli, Tarzan, 5, 4, 0, #3 Bagheera, Passaro, 7, 6, 0]",
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
@@ -1513,7 +1513,7 @@ public class TestGameOnJungle {
         MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(4, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
 
-        assertEquals("[#1 Goiaba, Elefante, 5, 4, 0, #2 Pato Donald, Leão, 5, 4, 0]",
+        assertEquals("[#1 Goiaba, Elefante, 5, 4, 0, #2 Pato Donald, Leao, 5, 4, 0]",
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
@@ -1696,7 +1696,7 @@ public class TestGameOnJungle {
         MovementResult movementResult4 = gameOnJungle.moveCurrentPlayer(4, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult4.code());
 
-        assertEquals("[#1 Baghu, Elefante, 5, 4, 0, #2 Akela, Tartaruga, 5, 4, 0, #3 Bagheera, Leão, 5, 4, 0, " +
+        assertEquals("[#1 Baghu, Elefante, 5, 4, 0, #2 Akela, Tartaruga, 5, 4, 0, #3 Bagheera, Leao, 5, 4, 0, " +
                         "#4 Mogli, Tarzan, 5, 4, 0]",  Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
@@ -1727,7 +1727,7 @@ public class TestGameOnJungle {
         MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(8, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
 
-        assertEquals("[#1 Mogli, Leão, 5, 4, 0, #2 Bagheera, Leão, 9, 8, 0]",  Arrays.toString(gameOnJungle.getGameResults().toArray()));
+        assertEquals("[#1 Mogli, Leao, 5, 4, 0, #2 Bagheera, Leao, 9, 8, 0]",  Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
     @Test
@@ -1764,7 +1764,7 @@ public class TestGameOnJungle {
         MovementResult movementResult4 = gameOnJungle.moveCurrentPlayer(6, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult4.code());
 
-        assertEquals("[#1 Mogli, Leão, 6, 5, 0, #2 Bagheera, Leão, 9, 8, 0]", Arrays.toString(gameOnJungle.getGameResults().toArray()));
+        assertEquals("[#1 Mogli, Leao, 6, 5, 0, #2 Bagheera, Leao, 9, 8, 0]", Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
     @Test
@@ -1793,7 +1793,7 @@ public class TestGameOnJungle {
         MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(8, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
 
-        assertEquals("#2 Bruninho, Leão, 9, 8, 0", gameOnJungle.getGameResults().get(1));
+        assertEquals("#2 Bruninho, Leao, 9, 8, 0", gameOnJungle.getGameResults().get(1));
 
         // Chamada da função para obter o vencedor
         Jogador vencedor = gameOnJungle.verificarJogadorComMaisEnergiaNovaCondicao(gameOnJungle.getJogadores());
@@ -1841,7 +1841,7 @@ public class TestGameOnJungle {
         MovementResult movementResult4 = gameOnJungle.moveCurrentPlayer(0, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult4.code());
 
-        assertEquals("#2 Bruninho, Leão, 9, 8, 0", gameOnJungle.getGameResults().get(1));
+        assertEquals("#2 Bruninho, Leao, 9, 8, 0", gameOnJungle.getGameResults().get(1));
     }
 
 
