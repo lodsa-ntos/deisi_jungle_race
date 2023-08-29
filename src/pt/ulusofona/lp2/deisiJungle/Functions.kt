@@ -23,7 +23,12 @@ fun router(): (CommandType) -> ((GameManager, List<String>) -> String?)? {
                 } else if (args.isNotEmpty() && args[0] == "MOST_TRAVELED") {
                     getMostTraveled(manager)
 
-                } else {
+                // Verificar se o comando é "TOP_ENERGETIC_OMNIVORES" e se tem pelo menos um argumento
+                } else if (args.size >= 2 && args[0] == "TOP_ENERGETIC_OMNIVORES") {
+                    val maxResults = args[1].toIntOrNull() ?: 0
+                    getTopErnergeticOmnivores(manager, maxResults)
+
+                }else {
                     "Invalid command"
                 }
 
@@ -36,12 +41,6 @@ fun router(): (CommandType) -> ((GameManager, List<String>) -> String?)? {
 /**
  * GET PLAYER_INFO
  */
-
-// Obtém informações do jogador cujo nome é igual ao parâmetro.
-// As informações devem ser obtidas no seguinte formato:
-// <id> | <nome> | <nome_espécie> | <energia> | <posicao>
-// Ex: GET PLAYER_INFO Sara
-// 3 | Sara | Elefante | 130 | 12
 fun getPlayerInfo (manager: GameManager, nomeJogador: String) : String {
     for (jogador in manager.jogadores) {
         if (jogador.nome.equals(nomeJogador)) {
@@ -55,10 +54,6 @@ fun getPlayerInfo (manager: GameManager, nomeJogador: String) : String {
 /**
  * GET PLAYERS_BY_SPECIE
  */
-// Obtém a lista dos nomes dos jogadores de uma certa espécie, separados por vírgula.
-// GET PLAYERS_BY_SPECIE E Pedro, Bruno
-// Caso não exista nenhum jogador associado a essa espécie ou a espécie seja inválida, deve retornar uma String vazia
-// A lista deve estar ordenada alfabeticamente de forma decrescente.
 fun getPlayersBySpecie (manager: GameManager,  idEspecie: String) : String {
     //  lista dos nomes dos jogadores de uma certa espécie
     val jogadoresComIdEspecie = mutableListOf<String>()
@@ -80,25 +75,6 @@ fun getPlayersBySpecie (manager: GameManager,  idEspecie: String) : String {
 /**
  * GET MOST_TRAVELED
  */
-
-// Obtém a lista dos jogadores ordenada, de forma decrescente, pela distância percorrida por cada um.
-// A distância percorrida é a soma dos movimentos efetuados até ao momento.
-// Note-se que recuos também são movimentos positivos (a distância percorrida num recuo é positiva).
-
-// O resultado deve ser uma String com várias linhas em que cada linha tem o seguinte formato:
-// NOME_JOGADOR:ID_ESPÉCIE:DISTÂNCIA_PERCORRIDA
-// Após estas linhas, deve incluir uma última linha com a soma dessas distâncias neste formato:
-// Total:<DISTÂNCIA_PERCORRIDA>
-
-    /*
-    Exemplo:
-    Duarte:E:27
-    Bruno:L:24
-    Pedro:Z:17
-    Total:68
-    Caso hajam empates, a ordem é indiferente.
-     */
-
 fun getMostTraveled (manager: GameManager) : String {
 
     val listaJogadoresEmJogo = mutableListOf<String>()
@@ -123,6 +99,47 @@ fun getMostTraveled (manager: GameManager) : String {
     // Quebra de linha
     return listaJogadoresEmJogo.joinToString("\n")
 }
+
+/**
+ * GET TOP_ENERGETIC_OMNIVORES
+ */
+
+// Obtém os jogadores omnívoros com mais energia, ordenados de forma decrescente (primeiro o que tem mais energia).
+// O resultado deve ser uma String com várias linhas em que cada linha tem o seguinte formato: NOME_JOGADOR:ENERGIA
+
+    /*
+    Ex:
+    Bruno:50
+    Duarte:30
+     */
+
+// O parâmetro <max_results> é um inteiro indicando o número máximo de resultados que deve ser retornado.
+// Para efeitos de testes, não haverão empates.
+
+// GET TOP_ENERGETIC_OMNIVORES <max_results>
+fun getTopErnergeticOmnivores (manager: GameManager, max_results: Int) : String {
+
+    val listaJogadoresOmnivorosEmJogo = mutableListOf<String>()
+
+    for (jogador in manager.jogadores) {
+        if (jogador.especie.getTipoAlimentacaoDaEspecie().equals("omnívoro")) {
+            val nomeJogador = jogador.nome
+            val energia = jogador.especie.getEnergiaAtual()
+
+            if (energia == max_results) {
+                // NOME_JOGADOR:ENERGIA
+                listaJogadoresOmnivorosEmJogo.addAll(listOf("$nomeJogador:$energia"))
+            }
+        }
+    }
+
+    //Obtém os jogadores omnívoros com mais energia, ordenados de forma decrescente (primeiro o que tem mais energia). ([1] -> $distancia)
+    listaJogadoresOmnivorosEmJogo.sortWith(compareByDescending { it.split(":")[1].toInt() })
+
+    // Quebra de linha
+    return listaJogadoresOmnivorosEmJogo.joinToString("\n")
+}
+
 
 
 fun TODO(): (GameManager, List<String>) -> String? {
