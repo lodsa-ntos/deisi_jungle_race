@@ -164,7 +164,7 @@ fun getConsumedFoods(manager: GameManager): String {
     }
 
     // Ordenar alfabeticamente
-    return alimentosConsumidos.sorted().distinct().joinToString("\n")
+    return alimentosConsumidos.sorted().joinToString("\n")
 }
 
 // POST MOVE <numero de posições>
