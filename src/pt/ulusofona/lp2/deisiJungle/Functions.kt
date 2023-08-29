@@ -10,26 +10,33 @@ fun router(): (CommandType) -> ((GameManager, List<String>) -> String?)? {
         when (commandType) {
             CommandType.GET -> { manager, args ->
                 // Verificar se o comando é "PLAYER_INFO" e se tem pelo menos um argumento
-                if (args.size >= 2 && args[0] == "PLAYER_INFO") {
-                    val nomeJogador = args[1]
-                    getPlayerInfo(manager, nomeJogador)
+                when {
+                    // Verificar se o comando é "PLAYER_INFO" e se tem pelo menos um argumento
+                    args.size >= 2 && args[0] == "PLAYER_INFO" -> {
+                        val nomeJogador = args[1]
+                        getPlayerInfo(manager, nomeJogador)
 
-                // Verificar se o comando é "PLAYERS_BY_SPECIE" e se tem pelo menos um argumento
-                } else if (args.size >= 2 && args[0] == "PLAYERS_BY_SPECIE") {
-                    val idEspecie = args[1]
-                    getPlayersBySpecie(manager, idEspecie)
+                    }
+                    // Verificar se o comando é "PLAYERS_BY_SPECIE" e se tem pelo menos um argumento
+                    args.size >= 2 && args[0] == "PLAYERS_BY_SPECIE" -> {
+                        val idEspecie = args[1]
+                        getPlayersBySpecie(manager, idEspecie)
 
-                // Verificar se o comando é "MOST_TRAVELED" e se tem pelo menos um argumento
-                } else if (args.isNotEmpty() && args[0] == "MOST_TRAVELED") {
-                    getMostTraveled(manager)
+                    }
+                    // Verificar se o comando é "MOST_TRAVELED" e se tem pelo menos um argumento
+                    args.isNotEmpty() && args[0] == "MOST_TRAVELED" -> {
+                        getMostTraveled(manager)
 
-                // Verificar se o comando é "TOP_ENERGETIC_OMNIVORES" e se tem pelo menos um argumento
-                } else if (args.size >= 2 && args[0] == "TOP_ENERGETIC_OMNIVORES") {
-                    val maxResults = args[1].toIntOrNull() ?: 0
-                    getTopErnergeticOmnivores(manager, maxResults)
+                    }
+                    // Verificar se o comando é "TOP_ENERGETIC_OMNIVORES" e se tem pelo menos um argumento
+                    args.size >= 2 && args[0] == "TOP_ENERGETIC_OMNIVORES" -> {
+                        val maxResults = args[1].toIntOrNull() ?: 0
+                        getTopErnergeticOmnivores(manager, maxResults)
 
-                }else {
-                    "Invalid command"
+                    }
+                    else -> {
+                        "Invalid command"
+                    }
                 }
 
             }
@@ -50,7 +57,6 @@ fun getPlayerInfo (manager: GameManager, nomeJogador: String) : String {
     return "Inexistent player"
 }
 
-
 /**
  * GET PLAYERS_BY_SPECIE
  */
@@ -70,7 +76,6 @@ fun getPlayersBySpecie (manager: GameManager,  idEspecie: String) : String {
     // Retorna se existirem muitos com o mesmo ID especie, separados por vírgula
     return jogadoresComIdEspecie.joinToString(",")
 }
-
 
 /**
  * GET MOST_TRAVELED
@@ -103,20 +108,6 @@ fun getMostTraveled (manager: GameManager) : String {
 /**
  * GET TOP_ENERGETIC_OMNIVORES
  */
-
-// Obtém os jogadores omnívoros com mais energia, ordenados de forma decrescente (primeiro o que tem mais energia).
-// O resultado deve ser uma String com várias linhas em que cada linha tem o seguinte formato: NOME_JOGADOR:ENERGIA
-
-    /*
-    Ex:
-    Bruno:50
-    Duarte:30
-     */
-
-// O parâmetro <max_results> é um inteiro indicando o número máximo de resultados que deve ser retornado.
-// Para efeitos de testes, não haverão empates.
-
-// GET TOP_ENERGETIC_OMNIVORES <max_results>
 fun getTopErnergeticOmnivores (manager: GameManager, max_results: Int) : String {
 
     val listaJogadoresOmnivorosEmJogo = mutableListOf<String>()
@@ -132,12 +123,17 @@ fun getTopErnergeticOmnivores (manager: GameManager, max_results: Int) : String 
     }
 
     if (max_results >= 2) {
-        //Obtém os jogadores omnívoros com mais energia, ordenados de forma decrescente (primeiro o que tem mais energia). ([1] -> $distancia)
+        //Obtém os jogadores omnívoros com mais energia, ordenados de forma decrescente. ([1] -> energia)
         listaJogadoresOmnivorosEmJogo.sortByDescending { it.split(":")[1].toInt() }
-        // limitar o número de elementos na lista.
-        listaJogadoresOmnivorosEmJogo.take(max_results)
-    }
 
+        // Limitar o número de elementos na lista...
+        val listaLimitada = listaJogadoresOmnivorosEmJogo.take(max_results)
+
+        // ... remover os elementos antigos (reset)...
+        listaJogadoresOmnivorosEmJogo.clear()
+        // ...para depois adicionar os novos elementos.
+        listaJogadoresOmnivorosEmJogo.addAll(listaLimitada)
+    }
 
     // Quebra de linha
     return listaJogadoresOmnivorosEmJogo.joinToString("\n")
