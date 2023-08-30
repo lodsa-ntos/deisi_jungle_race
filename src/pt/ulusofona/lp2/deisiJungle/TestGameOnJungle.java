@@ -1,6 +1,5 @@
 package pt.ulusofona.lp2.deisiJungle;
 
-import kotlin.jvm.functions.Function2;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -163,12 +162,12 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaAtual(76);
+        jogador1.getEspecie().definirEnergiaAtual(76);
         jogador1.alterarPosicaoAtual(6);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaAtual(30);
+        jogador2.getEspecie().definirEnergiaAtual(30);
         jogador2.alterarPosicaoAtual(1);
 
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
@@ -202,17 +201,17 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaAtual(0);
+        jogador1.getEspecie().definirEnergiaAtual(0);
         jogador1.alterarPosicaoAtual(1);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaAtual(76);
+        jogador2.getEspecie().definirEnergiaAtual(76);
         jogador2.alterarPosicaoAtual(6);
 
         // Jogador 3
         Jogador jogador3 = jogadores.get(2);
-        jogador3.getEspecie().setEnergiaAtual(50);
+        jogador3.getEspecie().definirEnergiaAtual(50);
         jogador3.alterarPosicaoAtual(3);
 
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
@@ -245,17 +244,17 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaAtual(0);
+        jogador1.getEspecie().definirEnergiaAtual(0);
         jogador1.alterarPosicaoAtual(1);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaAtual(0);
+        jogador2.getEspecie().definirEnergiaAtual(0);
         jogador2.alterarPosicaoAtual(4);
 
         // Jogador 3
         Jogador jogador3 = jogadores.get(2);
-        jogador3.getEspecie().setEnergiaAtual(0);
+        jogador3.getEspecie().definirEnergiaAtual(0);
         jogador3.alterarPosicaoAtual(3);
 
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
@@ -286,17 +285,17 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaAtual(0);
+        jogador1.getEspecie().definirEnergiaAtual(0);
         jogador1.alterarPosicaoAtual(1);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaAtual(0);
+        jogador2.getEspecie().definirEnergiaAtual(0);
         jogador2.alterarPosicaoAtual(4);
 
         // Jogador 3
         Jogador jogador3 = jogadores.get(2);
-        jogador3.getEspecie().setEnergiaAtual(0);
+        jogador3.getEspecie().definirEnergiaAtual(0);
         jogador3.alterarPosicaoAtual(3);
 
         // Tentar mover o jogador para 6 casas à frente, mas ele não tem energia suficiente
@@ -329,17 +328,17 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaAtual(0);
+        jogador1.getEspecie().definirEnergiaAtual(0);
         jogador1.alterarPosicaoAtual(1);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaAtual(0);
+        jogador2.getEspecie().definirEnergiaAtual(0);
         jogador2.alterarPosicaoAtual(4);
 
         // Jogador 3
         Jogador jogador3 = jogadores.get(2);
-        jogador3.getEspecie().setEnergiaAtual(14);
+        jogador3.getEspecie().definirEnergiaAtual(14);
         jogador3.alterarPosicaoAtual(3);
 
         // Tentar fazer um movimento com o jogador Pedro, que não tem energia suficiente
@@ -385,12 +384,12 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaAtual(74);
+        jogador1.getEspecie().definirEnergiaAtual(74);
         jogador1.alterarPosicaoAtual(1);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaAtual(80);
+        jogador2.getEspecie().definirEnergiaAtual(80);
         jogador2.alterarPosicaoAtual(1);
 
         // Fazer um movimento com o jogador Leão
@@ -642,12 +641,12 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaAtual(50);
+        jogador1.getEspecie().definirEnergiaAtual(50);
         jogador1.alterarPosicaoAtual(1);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaAtual(70);
+        jogador2.getEspecie().definirEnergiaAtual(70);
         jogador2.alterarPosicaoAtual(3);
 
         // Jogador herbívoro calha na carne
@@ -683,12 +682,12 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaAtual(100);
+        jogador1.getEspecie().definirEnergiaAtual(100);
         jogador1.alterarPosicaoAtual(1);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaAtual(200);
+        jogador2.getEspecie().definirEnergiaAtual(200);
         jogador2.alterarPosicaoAtual(1);
 
         Alimento alimento = gameOnJungle.getAlimentos().get(0);
@@ -748,15 +747,15 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogador1 = jogadores.get(0);
-        jogador1.getEspecie().setEnergiaAtual(20);
+        jogador1.getEspecie().definirEnergiaAtual(20);
 
         // Jogador 2
         Jogador jogador2 = jogadores.get(1);
-        jogador2.getEspecie().setEnergiaAtual(30);
+        jogador2.getEspecie().definirEnergiaAtual(30);
 
         // Jogador 3
         Jogador jogador3 = jogadores.get(2);
-        jogador3.getEspecie().setEnergiaAtual(60);
+        jogador3.getEspecie().definirEnergiaAtual(60);
 
         Alimento alimento = gameOnJungle.getAlimentos().get(0);
 
@@ -822,7 +821,7 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaAtual(50);
+        jogadorUnicornio.getEspecie().definirEnergiaAtual(50);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
         MovementResult result = gameOnJungle.moveCurrentPlayer(3, false);
@@ -862,7 +861,7 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaAtual(50);
+        jogadorUnicornio.getEspecie().definirEnergiaAtual(50);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
         MovementResult result = gameOnJungle.moveCurrentPlayer(3, false);
@@ -902,7 +901,7 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaAtual(50);
+        jogadorUnicornio.getEspecie().definirEnergiaAtual(50);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
         MovementResult result = gameOnJungle.moveCurrentPlayer(3, false);
@@ -942,7 +941,7 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaAtual(50);
+        jogadorUnicornio.getEspecie().definirEnergiaAtual(50);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
         MovementResult result = gameOnJungle.moveCurrentPlayer(3, false);
@@ -982,7 +981,7 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaAtual(50);
+        jogadorUnicornio.getEspecie().definirEnergiaAtual(50);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
         MovementResult result = gameOnJungle.moveCurrentPlayer(3, false);
@@ -1022,7 +1021,7 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaAtual(200);
+        jogadorUnicornio.getEspecie().definirEnergiaAtual(200);
         Alimento agua = alimentos.get(0);
 
         jogadorUnicornio.alterarPosicaoAtual(1);
@@ -1066,7 +1065,7 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaAtual(200);
+        jogadorUnicornio.getEspecie().definirEnergiaAtual(200);
 
         jogadorUnicornio.alterarPosicaoAtual(1);
         gameOnJungle.setEnergyOfNumberOfSquare(5, jogadorUnicornio.getEspecie().getEnergiaAtual(), 8, false);
@@ -1105,7 +1104,7 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaAtual(200);
+        jogadorUnicornio.getEspecie().definirEnergiaAtual(200);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
         gameOnJungle.setEnergyOfNumberOfSquare(5, jogadorUnicornio.getEspecie().getEnergiaAtual(), 8, false);
@@ -1144,7 +1143,7 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorUnicornio = jogadores.get(0);
-        jogadorUnicornio.getEspecie().setEnergiaAtual(200);
+        jogadorUnicornio.getEspecie().definirEnergiaAtual(200);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
         gameOnJungle.setEnergyOfNumberOfSquare(5, jogadorUnicornio.getEspecie().getEnergiaAtual(), 8, true);
@@ -1183,11 +1182,11 @@ public class TestGameOnJungle {
 
         // Jogador 1
         Jogador jogadorTarzan = jogadores.get(0);
-        jogadorTarzan.getEspecie().setEnergiaAtual(70);
+        jogadorTarzan.getEspecie().definirEnergiaAtual(70);
 
         // Jogador 2
         Jogador jogadorLeao = jogadores.get(1);
-        jogadorLeao.getEspecie().setEnergiaAtual(80);
+        jogadorLeao.getEspecie().definirEnergiaAtual(80);
 
         /**
          * Tarzan avança
@@ -1643,7 +1642,7 @@ public class TestGameOnJungle {
         gameOnJungle.createInitialJungle(10, playerInfo, foodInfo);
 
         Jogador jogadorUnicornio = gameOnJungle.getJogadores().get(0);
-        jogadorUnicornio.getEspecie().setEnergiaAtual(200);
+        jogadorUnicornio.getEspecie().definirEnergiaAtual(200);
         jogadorUnicornio.alterarPosicaoAtual(1);
 
         int energiaAtual = jogadorUnicornio.getEspecie().getEnergiaAtual();

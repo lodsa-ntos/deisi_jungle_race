@@ -52,7 +52,7 @@ public class Passaro extends Especie {
     }
 
     @Override
-    public void setEnergiaAtual(int energiaAtual) {
+    public void definirEnergiaAtual(int energiaAtual) {
         this.energiaAtual = energiaAtual;
     }
 
@@ -62,7 +62,7 @@ public class Passaro extends Especie {
     }
 
     @Override
-    public void setConsumoEnergia(int consumoEnergia) {
+    public void definirConsumoEnergia(int consumoEnergia) {
         this.consumoEnergia = consumoEnergia;
     }
 
@@ -72,7 +72,7 @@ public class Passaro extends Especie {
     }
 
     @Override
-    public void setGanhoEnergiaDescanso(int ganhoEnergiaDescanso) {
+    public void definirGanhoEnergiaDescanso(int ganhoEnergiaDescanso) {
         this.ganhoEnergiaDescanso = ganhoEnergiaDescanso;
     }
 
@@ -82,7 +82,7 @@ public class Passaro extends Especie {
     }
 
     @Override
-    public void setVelocidadeMinima(int velocidadeMinima) {
+    public void definirVelocidadeMinima(int velocidadeMinima) {
         this.velocidadeMinima = velocidadeMinima;
     }
 
@@ -92,7 +92,7 @@ public class Passaro extends Especie {
     }
 
     @Override
-    public void setVelocidadeMaxima(int velocidadeMaxima) {
+    public void definirVelocidadeMaxima(int velocidadeMaxima) {
         this.velocidadeMaxima = velocidadeMaxima;
     }
 

@@ -46,11 +46,11 @@ public class Jogador {
 
         if (especieJogador != null) {
             jogadorAtual.setEspecie(especieJogador);
-            jogadorAtual.getEspecie().setEnergiaAtual(especieJogador.getEnergiaAtual());
-            jogadorAtual.getEspecie().setConsumoEnergia(especieJogador.getConsumoEnergia());
-            jogadorAtual.getEspecie().setGanhoEnergiaDescanso(especieJogador.getGanhoEnergiaDescanso());
-            jogadorAtual.getEspecie().setVelocidadeMinima(especieJogador.getVelocidadeMinima());
-            jogadorAtual.getEspecie().setVelocidadeMaxima(especieJogador.getVelocidadeMaxima());
+            jogadorAtual.getEspecie().definirEnergiaAtual(especieJogador.getEnergiaAtual());
+            jogadorAtual.getEspecie().definirConsumoEnergia(especieJogador.getConsumoEnergia());
+            jogadorAtual.getEspecie().definirGanhoEnergiaDescanso(especieJogador.getGanhoEnergiaDescanso());
+            jogadorAtual.getEspecie().definirVelocidadeMinima(especieJogador.getVelocidadeMinima());
+            jogadorAtual.getEspecie().definirVelocidadeMaxima(especieJogador.getVelocidadeMaxima());
         }
     }
 
@@ -98,7 +98,7 @@ public class Jogador {
         return numeroPosicoesPercorridas;
     }
 
-    public void setNumeroPosicoesPercorridas(int numeroPosicoesMovimentadas) {
+    public void incrementarNumeroPosicoesPercorridas(int numeroPosicoesMovimentadas) {
         this.numeroPosicoesPercorridas += numeroPosicoesMovimentadas;
     }
 

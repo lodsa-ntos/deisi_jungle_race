@@ -60,23 +60,23 @@ public abstract class Especie {
 
     public abstract int getEnergiaAtual();
 
-    public abstract void setEnergiaAtual(int energiaAtual);
+    public abstract void definirEnergiaAtual(int energiaAtual);
 
     public abstract int getConsumoEnergia();
 
-    public abstract void setConsumoEnergia(int consumoEnergia);
+    public abstract void definirConsumoEnergia(int consumoEnergia);
 
     public abstract int getGanhoEnergiaDescanso();
 
-    public abstract void setGanhoEnergiaDescanso(int ganhoEnergiaDescanso);
+    public abstract void definirGanhoEnergiaDescanso(int ganhoEnergiaDescanso);
 
     public abstract int getVelocidadeMaxima();
 
-    public abstract void setVelocidadeMaxima(int velocidadeMaxima);
+    public abstract void definirVelocidadeMaxima(int velocidadeMaxima);
 
     public abstract int getVelocidadeMinima();
 
-    public abstract void setVelocidadeMinima(int velocidadeMinima);
+    public abstract void definirVelocidadeMinima(int velocidadeMinima);
 
     public abstract String getTipoAlimentacaoDaEspecie();
 
