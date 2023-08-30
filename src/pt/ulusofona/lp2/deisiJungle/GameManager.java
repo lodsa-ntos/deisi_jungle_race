@@ -1047,24 +1047,22 @@ public class GameManager {
     private void obterVencedorNovaCondicao(ArrayList<Jogador> jogadoresEmJogo, int posicaoChegada, ArrayList<String> resultados) {
         // TODO Nova Condição Vencedor:
         calcularCasaDoMeio();
-        if (existeJogadorNoMeio) {
-            ArrayList<Jogador> jogadoresNoMeio = new ArrayList<>(jogadoresEmJogo);
+        ArrayList<Jogador> jogadoresNoMeio = new ArrayList<>(jogadoresEmJogo);
 
-            for (Jogador jogador : jogadoresEmJogo) {
-                Jogador jogadorComMaisEnergia = verificarJogadorComMaisEnergiaNovaCondicao(jogadoresNoMeio);
-                String nome = jogadorComMaisEnergia.getNome();
-                String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
-                int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
-                int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
-                int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
+        for (Jogador jogador : jogadoresEmJogo) {
+            Jogador jogadorComMaisEnergia = verificarJogadorComMaisEnergiaNovaCondicao(jogadoresNoMeio);
+            String nome = jogadorComMaisEnergia.getNome();
+            String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
+            int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
+            int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
+            int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
 
-                resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
-                        + ", " + distancia + ", " + numAlimento);
+            resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                    + ", " + distancia + ", " + numAlimento);
 
-                // remover o jogadorComMaisEnergia da lista, atualizar a lista (reset)
-                jogadoresNoMeio.remove(jogadorComMaisEnergia);
-                posicaoChegada++;
-            }
+            // remover o jogadorComMaisEnergia da lista (vencedor - 1º lugar), atualizar a lista (reset)
+            jogadoresNoMeio.remove(jogadorComMaisEnergia);
+            posicaoChegada++;
         }
     }
 
