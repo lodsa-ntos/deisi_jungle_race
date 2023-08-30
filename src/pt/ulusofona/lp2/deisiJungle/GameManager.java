@@ -635,7 +635,7 @@ public class GameManager {
             }
         }
         ArrayList<String> resultados = new ArrayList<>();
-        int posicaoChegada = 1;
+        int posicaoChegada = 0;
         if (alguemChegouNaMeta) {
             for (Jogador jogador : jogadoresEmJogo) {
                 String nome = jogador.getNome();
@@ -644,7 +644,7 @@ public class GameManager {
                 int distancia = jogador.getNumeroPosicoesPercorridas();
                 int numAlimento = jogador.getNumeroAlimento();
 
-                resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                resultados.add("#" + (posicaoChegada + 1) + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
                         + ", " + distancia + ", " + numAlimento);
                 posicaoChegada++;
             }
@@ -659,7 +659,7 @@ public class GameManager {
                     int distancia = jogadorMaisDistante.getNumeroPosicoesPercorridas();
                     int numAlimento = jogadorMaisDistante.getNumeroAlimento();
 
-                    resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                    resultados.add("#" + (posicaoChegada + 1) + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
                             + ", " + distancia + ", " + numAlimento);
 
                     // remover o jogadorMaisDistante da lista, atualizar a lista (reset)
@@ -1057,7 +1057,7 @@ public class GameManager {
             int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
             int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
 
-            resultados.add("#" + posicaoChegada + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+            resultados.add("#" + (posicaoChegada + 1) + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
                     + ", " + distancia + ", " + numAlimento);
 
             // remover o jogadorComMaisEnergia da lista (vencedor - 1º lugar), atualizar a lista (reset)
@@ -1077,6 +1077,7 @@ public class GameManager {
         //Jogador jogadorComMaisEnergia = vencedoresEmNovasCondicoes.get(0);
         Jogador jogadorVencedorCasaDoMeio = null;
         Jogador jogadorForaDaCasaDoMeio = null;
+        calcularCasaDoMeio();
 
         // Encontrar o jogador vencedor na casa do meio
         boolean existeAlgumJogadorNaCasa = false;
