@@ -154,14 +154,7 @@ fun getTopErnergeticOmnivores (manager: GameManager, max_results: Int) : String 
  * GET CONSUMED_FOODS
  */
 fun getConsumedFoods(manager: GameManager): String {
-    val alimentosConsumidos = mutableSetOf<String>()
-
-    for (jogador in manager.jogadores) {
-        val alimentoConsumido = manager.verificarConsumoDeAlimento(jogador.posicaoAtual)
-        if (alimentoConsumido != null) {
-            alimentosConsumidos.add(alimentoConsumido)
-        }
-    }
+    val alimentosConsumidos = manager.alimentosConsumidos
 
     // Ordenar alfabeticamente e quebrar a linha após cada palavra
     return alimentosConsumidos.sorted().joinToString("\n")

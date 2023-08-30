@@ -22,6 +22,7 @@ public class GameManager {
     private ArrayList<Alimento> alimentos = new ArrayList<>();
     private HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
     private HashMap<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
+    private Set<String> alimentosConsumidos = new HashSet<>();
     private Jogador jogadorAtual;
     private Jogador jogadorComMaisEnergia;
     private int posicaoFinalJogo;
@@ -550,6 +551,7 @@ public class GameManager {
                             && !alimentoConsumido.equals("Carne"))) {
 
                 jogadorAtual.aumentarNumAlimentoApanhado(1);
+                registrarAlimentoConsumido(alimentoConsumido);
                 // senão se for herbívoro e o alimento consumido é carne...
             } else {
                 // ...atualizar o turno e
@@ -557,6 +559,7 @@ public class GameManager {
                 // ...ignorar o consumo de carne por herbívoros
                 return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
             }
+            registrarAlimentoConsumido(alimentoConsumido);
             // Atualizar o turno
             incrementarTurno();
             return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
@@ -826,6 +829,10 @@ public class GameManager {
     /**
      * --------------------------------------moveCurrentPlayer()-------------------------------------
      */
+
+    public void registrarAlimentoConsumido(String alimento) {
+        alimentosConsumidos.add(alimento);
+    }
 
     public String verificarConsumoDeAlimento(int posicao) {
         for (Alimento alimento : alimentos) {
@@ -1227,6 +1234,7 @@ public class GameManager {
         jogadorComMaisEnergia = null; // reset do jogadorComMaisEnergia
         idJogadoresEmJogo = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores no início do jogo
         jogadoresQueConsumiramBanana = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores consumiram bananas
+        alimentosConsumidos = new HashSet<>(); // reset do hashset dos alimentos consumidos durante o jogo
 
         alguemChegouNaMeta = false;
         casaComAlimento = false;
@@ -1240,7 +1248,7 @@ public class GameManager {
 
 
     /**
-     * ------------------------------------------Métodos de acesso(Facilitar acesso nos Testes Unitários)()---------------------------------------------
+     * ----------------------Métodos de acesso(Facilitar acesso nos Testes Unitários e fn KOTLIN)()---------------------------
      */
 
     public ArrayList<Jogador> getJogadores() {
@@ -1249,5 +1257,9 @@ public class GameManager {
 
     public ArrayList<Alimento> getAlimentos() {
         return alimentos;
+    }
+
+    public Set<String> getAlimentosConsumidos() {
+        return alimentosConsumidos;
     }
 }
