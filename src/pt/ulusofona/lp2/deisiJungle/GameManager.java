@@ -6,6 +6,7 @@ import pt.ulusofona.lp2.deisiJungle.validar.ValidadorAlimento;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
 
 /*-------------------------------------------------DEISI JUNGLE-----------------------------------------------------
     Certo dia, numa savana muito (muito) longe daqui, os animais decidiram descobrir quem seria o melhor atleta entre
@@ -17,7 +18,6 @@ import java.util.*;
 
 // Classe responsável por gerir o jogo
 public class GameManager {
-
     private ArrayList<Jogador> jogadores = new ArrayList<>();
     private ArrayList<Alimento> alimentos = new ArrayList<>();
     private HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
@@ -1069,6 +1069,7 @@ public class GameManager {
     }
 
     public Jogador verificarJogadorComMaisEnergiaNovaCondicao(ArrayList<Jogador> vencedoresEmNovasCondicoes) {
+
         // TODO Lógica vencedor nova condição
         // Verificar as posições dos jogadores em jogo.
         // Os jogadores na casa do meio competem pelo primeiro lugar,
@@ -1080,8 +1081,10 @@ public class GameManager {
         Jogador jogadorForaDaCasaDoMeio = null;
 
         // Encontrar o jogador vencedor na casa do meio
+        boolean existeAlgumJogadorNaCasa = false;
         for (Jogador jogador : vencedoresEmNovasCondicoes) {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
+                existeAlgumJogadorNaCasa = true;
                 if (jogadorVencedorCasaDoMeio == null ||
                         jogador.getEspecie().getEnergiaAtual() > jogadorVencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
                     jogadorVencedorCasaDoMeio = jogador;
@@ -1089,39 +1092,38 @@ public class GameManager {
             }
         }
 
-        // Encontrar o jogador mais adiantado fora da casa do meio
+        // Verificar se há jogadores fora da casa do meio
+        boolean existeAlgumJogadorForaDaCasaDoMeio = false;
         for (Jogador jogador : vencedoresEmNovasCondicoes) {
             if (jogador.getPosicaoAtual() > casaDoMeio) {
+                existeAlgumJogadorForaDaCasaDoMeio = true;
                 if (jogadorForaDaCasaDoMeio == null ||
-                        (jogador.getEspecie().getEnergiaAtual() > jogadorForaDaCasaDoMeio.getEspecie().getEnergiaAtual())) {
+                        (jogadorVencedorCasaDoMeio != null && jogador.getEspecie().getEnergiaAtual() > jogadorForaDaCasaDoMeio.getEspecie().getEnergiaAtual())) {
                     jogadorForaDaCasaDoMeio = jogador;
                 }
             }
         }
 
-        // Se existir um jogador na casa do meio que já o vencedor da casa do meio e existirem jogadores fora da casa do meio, ...
-        if (jogadorVencedorCasaDoMeio != null && jogadorForaDaCasaDoMeio != null) {
-
-            // ...verificar a energia entre os dois (adientado vs vencedor casa do meio)
-            if (jogadorForaDaCasaDoMeio.getEspecie().getEnergiaAtual() > jogadorVencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
-                return jogadorForaDaCasaDoMeio; // O jogador mais adiantado fora da casa do meio tem mais energia e é o segundo colocado
-            } else {
-                return jogadorVencedorCasaDoMeio; // O vencedor da casa do meio é o segundo colocado
-            }
-
-        } else if (jogadorVencedorCasaDoMeio != null) {
-            // senão se apenas existirem jogadores na casa do meio, retornar apenas o jogador com mais energia como vencedor
-            return jogadorVencedorCasaDoMeio;
-
-        } else if (jogadorForaDaCasaDoMeio != null) {
-            // senão se existirem jogadores fora da casa do meio, retornar apenas o jogador com mais energia em jogo como vencedor
+        // Não há jogadores na casa do meio, o vencedor fora da casa do meio é o vencedor geral
+        if (!existeAlgumJogadorNaCasa) {
             return jogadorForaDaCasaDoMeio;
-
-        } else {
-            return null; // Nenhum jogador encontrado como vencedor
         }
 
-        /*
+        // Não há jogadores fora da casa do meio, o vencedor da casa do meio é o vencedor geral
+        if (!existeAlgumJogadorForaDaCasaDoMeio) {
+            return jogadorVencedorCasaDoMeio;
+        }
+
+        // Verificar se o jogador mais adiantado fora da casa do meio tem mais energia do que o jogador na casa do meio com menos energia
+        if (jogadorForaDaCasaDoMeio != null && jogadorVencedorCasaDoMeio != null &&
+                jogadorForaDaCasaDoMeio.getEspecie().getEnergiaAtual() > jogadorVencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
+            // O jogador mais adiantado fora da casa do meio tem mais energia e é o segundo colocado
+            return jogadorForaDaCasaDoMeio;
+        }
+
+        return jogadorVencedorCasaDoMeio;
+
+    /*
         for (Jogador jogador : vencedoresEmNovasCondicoes) {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
                 if (jogadorComMaisEnergia == null ||
@@ -1132,8 +1134,9 @@ public class GameManager {
                 }
             }
         }
-         */
-    }
+    */
+}
+
 
 
     /**
