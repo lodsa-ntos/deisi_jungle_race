@@ -1085,7 +1085,7 @@ public class GameManager {
             // Competição pelo segundo lugar (jogador mais adiantado)
             } else if (jogador.getPosicaoAtual() > casaDoMeio) {
 
-                if (segundoClassificado == null || jogador.getPosicaoAtual() > segundoClassificado.getPosicaoAtual()) {
+                if (segundoClassificado == null || jogador.getNumeroPosicoesPercorridas() > segundoClassificado.getNumeroPosicoesPercorridas()) {
                     terceiroClassificado = segundoClassificado;
 
                     // Vencedor por distância (2.º Lugar jogador mais adiantado)
