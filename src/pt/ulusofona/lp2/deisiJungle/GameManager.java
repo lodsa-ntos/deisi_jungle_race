@@ -6,7 +6,6 @@ import pt.ulusofona.lp2.deisiJungle.validar.ValidadorAlimento;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
-import java.util.logging.Logger;
 
 /*-------------------------------------------------DEISI JUNGLE-----------------------------------------------------
     Certo dia, numa savana muito (muito) longe daqui, os animais decidiram descobrir quem seria o melhor atleta entre
@@ -1028,6 +1027,7 @@ public class GameManager {
         return distanciaEntreJogadores > metadeDaMeta;
     }
 
+
     private Jogador getJogadorMaisDistanteDaMeta(List<Jogador> jogadores) {
         int maiorDistancia = Integer.MIN_VALUE;
         Jogador jogadorMaisDistante = null;
@@ -1045,96 +1045,92 @@ public class GameManager {
     }
 
     private void obterVencedorNovaCondicao(ArrayList<Jogador> jogadoresEmJogo, int posicaoChegada, ArrayList<String> resultados) {
-        // TODO Nova Condição Vencedor:
+        // TODO Lógica vencedor nova condição
+        // Os jogadores na casa do meio competem pelo primeiro lugar (ganha o jogador com maior energia, 1.º lugar),
+        // Verificar as posições dos proximos jogadores em jogo. (jogador adiantado vs jogador casa do meio com menos energia)
+        // e se existir um jogador mais adiantado, deve ser o segundo (2.º lugar),
+        // enquanto que o jogador na casa do meio com menos energia deve ser o terceiro.
+
         calcularCasaDoMeio();
-        ArrayList<Jogador> jogadoresNoMeio = new ArrayList<>(jogadoresEmJogo);
+        Jogador jogadorVencedorCasaDoMeio = null;
+        Jogador segundoClassificado = null;
+        Jogador terceiroClassificado = null;
 
         for (Jogador jogador : jogadoresEmJogo) {
-            Jogador jogadorComMaisEnergia = verificarJogadorComMaisEnergiaNovaCondicao(jogadoresNoMeio);
-            String nome = jogadorComMaisEnergia.getNome();
-            String nomeEspecie = jogadorComMaisEnergia.getEspecie().getNome();
-            int posicaoAtual = jogadorComMaisEnergia.getPosicaoAtual();
-            int distancia = jogadorComMaisEnergia.getNumeroPosicoesPercorridas();
-            int numAlimento = jogadorComMaisEnergia.getNumeroAlimento();
+            // Competição pelo primeiro lugar na casa do meio (maior energia)
+            if (jogador.getPosicaoAtual() == casaDoMeio) {
 
-            resultados.add("#" + (posicaoChegada + 1) + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
-                    + ", " + distancia + ", " + numAlimento);
+                // Verificar se o jogador é o vencedor da casa do meio (maior energia)
+                if (jogadorVencedorCasaDoMeio == null || jogador.getEspecie().getEnergiaAtual() > jogadorVencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
 
-            // remover o jogadorComMaisEnergia da lista (vencedor - 1º lugar), atualizar a lista (reset)
-            jogadoresNoMeio.remove(jogadorComMaisEnergia);
+                    // testgetGameResults_NovaCondicaoVencedor e testGetGameResults_NovaCondicaoVencedor4 (Outros cenários)
+                    // (manter ordem correta posições de chegada na classificação)
+                    terceiroClassificado = segundoClassificado;
+                    segundoClassificado = jogadorVencedorCasaDoMeio;
+
+                    // Vencedor (1.º Lugar)
+                    jogadorVencedorCasaDoMeio = jogador;
+
+                // Jogador com menos energia na casa do meio (2.º Lugar)
+                } else if (segundoClassificado == null || jogador.getEspecie().getEnergiaAtual() > segundoClassificado.getEspecie().getEnergiaAtual()) {
+
+                    terceiroClassificado = segundoClassificado;
+                    segundoClassificado = jogador;
+
+                    // Se existem mais que 2 jogadores na casa do meio classificar como terceiro colocado (3.º Lugar)
+                } else if (terceiroClassificado == null || jogador.getEspecie().getEnergiaAtual() > terceiroClassificado.getEspecie().getEnergiaAtual()) {
+                    terceiroClassificado = jogador;
+                }
+
+            // Competição pelo segundo lugar (jogador mais adiantado)
+            } else if (jogador.getPosicaoAtual() > casaDoMeio) {
+
+                if (segundoClassificado == null || jogador.getPosicaoAtual() > segundoClassificado.getPosicaoAtual()) {
+                    terceiroClassificado = segundoClassificado;
+
+                    // Vencedor por distância (2.º Lugar jogador mais adiantado)
+                    segundoClassificado = jogador;
+
+                }
+
+            } else if (terceiroClassificado == null || jogador.getEspecie().getEnergiaAtual() < terceiroClassificado.getEspecie().getEnergiaAtual()) {
+                // Jogador com menos energia na casa do meio (3.º Lugar)
+                terceiroClassificado = jogador;
+            }
+        }
+
+        // Classificar jogadores
+        classificarJogador(resultados, posicaoChegada, jogadorVencedorCasaDoMeio);
+        jogadoresEmJogo.remove(jogadorVencedorCasaDoMeio);
+        posicaoChegada++;
+
+        classificarJogador(resultados, posicaoChegada, segundoClassificado);
+        jogadoresEmJogo.remove(segundoClassificado);
+        posicaoChegada++;
+
+        classificarJogador(resultados, posicaoChegada, terceiroClassificado);
+        jogadoresEmJogo.remove(terceiroClassificado);
+        posicaoChegada++;
+
+        // Se existirem mais jogadores, continuar a classificação
+        for (Jogador emJogo : jogadoresEmJogo) {
+            classificarJogador(resultados, posicaoChegada, emJogo);
             posicaoChegada++;
         }
     }
 
-    public Jogador verificarJogadorComMaisEnergiaNovaCondicao(ArrayList<Jogador> vencedoresEmNovasCondicoes) {
+    private void classificarJogador(ArrayList<String> resultados, int posicaoChegada, Jogador jogador) {
+        if (jogador != null) {
+            String nome = jogador.getNome();
+            String nomeEspecie = jogador.getEspecie().getNome();
+            int posicaoAtual = jogador.getPosicaoAtual();
+            int distancia = jogador.getNumeroPosicoesPercorridas();
+            int numAlimento = jogador.getNumeroAlimento();
 
-        // TODO Lógica vencedor nova condição
-        // Verificar as posições dos jogadores em jogo.
-        // Os jogadores na casa do meio competem pelo primeiro lugar,
-        // e se existir um jogador mais adiantado, mas com mais energia que um dos que estão na casa do meio, deve ser o segundo,
-        // enquanto que o jogador na casa do meio com menos energia deve ser o terceiro.
-
-        //Jogador jogadorComMaisEnergia = vencedoresEmNovasCondicoes.get(0);
-        Jogador jogadorVencedorCasaDoMeio = null;
-        Jogador jogadorForaDaCasaDoMeio = null;
-        calcularCasaDoMeio();
-
-        // Encontrar o jogador vencedor na casa do meio
-        boolean existeAlgumJogadorNaCasa = false;
-        for (Jogador jogador : vencedoresEmNovasCondicoes) {
-            if (jogador.getPosicaoAtual() == casaDoMeio) {
-                existeAlgumJogadorNaCasa = true;
-                if (jogadorVencedorCasaDoMeio == null ||
-                        jogador.getEspecie().getEnergiaAtual() > jogadorVencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
-                    jogadorVencedorCasaDoMeio = jogador;
-                }
-            }
+            resultados.add("#" + (posicaoChegada + 1)  + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                    + ", " + distancia + ", " + numAlimento);
         }
-
-        // Verificar se há jogadores fora da casa do meio
-        boolean existeAlgumJogadorForaDaCasaDoMeio = false;
-        for (Jogador jogador : vencedoresEmNovasCondicoes) {
-            if (jogador.getPosicaoAtual() > casaDoMeio) {
-                existeAlgumJogadorForaDaCasaDoMeio = true;
-                if (jogadorForaDaCasaDoMeio == null ||
-                        (jogadorVencedorCasaDoMeio != null && jogador.getEspecie().getEnergiaAtual() > jogadorForaDaCasaDoMeio.getEspecie().getEnergiaAtual())) {
-                    jogadorForaDaCasaDoMeio = jogador;
-                }
-            }
-        }
-
-        // Não há jogadores na casa do meio, o vencedor fora da casa do meio é o vencedor geral
-        if (!existeAlgumJogadorNaCasa) {
-            return jogadorForaDaCasaDoMeio;
-        }
-
-        // Não há jogadores fora da casa do meio, o vencedor da casa do meio é o vencedor geral
-        if (!existeAlgumJogadorForaDaCasaDoMeio) {
-            return jogadorVencedorCasaDoMeio;
-        }
-
-        // Verificar se o jogador mais adiantado fora da casa do meio tem mais energia do que o jogador na casa do meio com menos energia
-        if (jogadorForaDaCasaDoMeio != null && jogadorVencedorCasaDoMeio != null &&
-                jogadorForaDaCasaDoMeio.getEspecie().getEnergiaAtual() > jogadorVencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
-            // O jogador mais adiantado fora da casa do meio tem mais energia e é o segundo colocado
-            return jogadorForaDaCasaDoMeio;
-        }
-
-        return jogadorVencedorCasaDoMeio;
-
-    /*
-        for (Jogador jogador : vencedoresEmNovasCondicoes) {
-            if (jogador.getPosicaoAtual() == casaDoMeio) {
-                if (jogadorComMaisEnergia == null ||
-                        jogador.getEspecie().getEnergiaAtual() > jogadorComMaisEnergia.getEspecie().getEnergiaAtual()) {
-                    terceirojogadorComMaisEnergia = jogadorForaDaCasaDoMeio;
-                    jogadorForaDaCasaDoMeio = jogadorComMaisEnergia;
-                    jogadorComMaisEnergia = jogador; // vencedor
-                }
-            }
-        }
-    */
-}
+    }
 
 
 
