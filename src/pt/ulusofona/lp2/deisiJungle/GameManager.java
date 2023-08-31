@@ -1090,7 +1090,8 @@ public class GameManager {
 
                     // Vencedor por distância (2.º Lugar jogador mais adiantado)
                     segundoClassificado = jogador;
-
+                } else if (terceiroClassificado == null || jogador.getNumeroPosicoesPercorridas() > terceiroClassificado.getNumeroPosicoesPercorridas()) {
+                    terceiroClassificado = jogador;
                 }
 
             } else if (terceiroClassificado == null || jogador.getEspecie().getEnergiaAtual() < terceiroClassificado.getEspecie().getEnergiaAtual()) {
