@@ -602,18 +602,18 @@ public class GameManager {
 
         // TODO Nova Condição Vencedor:
         //jogadorComMaisEnergia = jogadores.get(0);
-        jogadorComMaisEnergia = encontrarOVencedorDaCasaDoMeio(jogadores);
 
         // O vencedor do jogo é o jogador com mais energia na “casa do meio”
         if (jaExisteUmVencedorDaNovaCondicao) {
+            jogadorComMaisEnergia = encontrarOVencedorDaCasaDoMeio(jogadores);
             infoJogadorVencedor[0] = String.valueOf(jogadorComMaisEnergia.getId());
             infoJogadorVencedor[1] = jogadorComMaisEnergia.getNome();
             infoJogadorVencedor[2] = jogadorComMaisEnergia.getIdEspecie();
             infoJogadorVencedor[3] = String.valueOf(jogadorComMaisEnergia.getEspecie().getEnergiaAtual());
             return infoJogadorVencedor;
+        } else {
+            return null; // Nenhum jogador venceu ainda
         }
-
-        return null; // Nenhum jogador venceu ainda
     }
 
     public ArrayList<String> getGameResults() {
@@ -1088,7 +1088,6 @@ public class GameManager {
             if (jogadorEstaNaCasaDoMeio(jogador)) {
                 if (vencedorCasaDoMeio == null || jogador.getEspecie().getEnergiaAtual() > vencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
                     vencedorCasaDoMeio = jogador;
-                    jaExisteUmVencedorDaNovaCondicao = true;
                 }
             }
         }
