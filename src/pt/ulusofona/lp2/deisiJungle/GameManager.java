@@ -610,10 +610,12 @@ public class GameManager {
             infoJogadorVencedor[1] = jogadorComMaisEnergia.getNome();
             infoJogadorVencedor[2] = jogadorComMaisEnergia.getIdEspecie();
             infoJogadorVencedor[3] = String.valueOf(jogadorComMaisEnergia.getEspecie().getEnergiaAtual());
+            System.out.println(Arrays.toString(infoJogadorVencedor));
             return infoJogadorVencedor;
-        } else {
-            return null; // Nenhum jogador venceu ainda
         }
+
+
+        return null;
     }
 
     public ArrayList<String> getGameResults() {
@@ -1088,6 +1090,7 @@ public class GameManager {
             if (jogadorEstaNaCasaDoMeio(jogador)) {
                 if (vencedorCasaDoMeio == null || jogador.getEspecie().getEnergiaAtual() > vencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
                     vencedorCasaDoMeio = jogador;
+                    jaExisteUmVencedorDaNovaCondicao = true;
                 }
             }
         }

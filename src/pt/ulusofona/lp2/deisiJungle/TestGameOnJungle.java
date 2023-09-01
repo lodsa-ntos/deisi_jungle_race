@@ -1811,6 +1811,9 @@ public class TestGameOnJungle {
         assertEquals("[#1 Lod, Elefante, 5, 4, 0, #2 Bruninho, Leao, 9, 8, 0, #3 Pato Donald, Leao, 5, 4, 0]",
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
 
+        String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
 
+        assertNotNull(infoJogadorVencedor);
+        assertEquals("A vitória deveria ser do jogador Lod","1", gameOnJungle.getWinnerInfo()[0]);
     }
 }
