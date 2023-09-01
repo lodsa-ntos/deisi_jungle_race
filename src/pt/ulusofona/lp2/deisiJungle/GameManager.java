@@ -601,7 +601,9 @@ public class GameManager {
             return infoJogadorVencedor;
         }
 
+        calcularCasaDoMeio();
         encontrarOVencedorDaCasaDoMeio(jogadores);
+        obterVencedorNovaCondicao(jogadores);
 
 
         // TODO Nova Condição Vencedor:
@@ -670,7 +672,7 @@ public class GameManager {
                 //jogador entre a “casa do meio” e a meta, o vencedor do jogo é o jogador com mais energia que
                 //se encontra na “casa do meio”.
 
-                Jogador vencedor = obterVencedorNovaCondicao(jogadoresEmJogo, posicaoChegada, resultados);
+                Jogador vencedor = obterVencedorNovaCondicao(jogadoresEmJogo);
                 processarResultadosNovaCondicaoVencedor(vencedor, jogadoresEmJogo, posicaoChegada, resultados);
 
             }
@@ -1054,7 +1056,7 @@ public class GameManager {
         return jogadorMaisDistante;
     }
 
-    private Jogador obterVencedorNovaCondicao(ArrayList<Jogador> jogadoresEmJogo, int posicaoChegada, ArrayList<String> resultados) {
+    private Jogador obterVencedorNovaCondicao(ArrayList<Jogador> jogadoresEmJogo) {
 
         // Verificar se existem jogadores em jogo
         if (jogadoresEmJogo.isEmpty()) {
@@ -1080,9 +1082,10 @@ public class GameManager {
         }
 
         // Se existirem dois jogadores na casa do meio e pelo menos um adiantado
-        if (jogadoresCasaDoMeio.size() == 2 && !jogadoresAdiantados.isEmpty()) {
+        if (jogadoresCasaDoMeio.size() == 2) {
             // Verificar os jogadores na casa do meio com maior energia
             jogadoresCasaDoMeio.sort((j1, j2) -> j2.getEspecie().getEnergiaAtual() - j1.getEspecie().getEnergiaAtual());
+            jaExisteUmVencedorDaNovaCondicao = true;
 
             return jogadoresCasaDoMeio.get(0); // O jogador com mais energia na casa do meio é o vencedor
         }
@@ -1162,7 +1165,7 @@ public class GameManager {
         return posicaoAtual == casaDoMeio;
     }
 
-    private Jogador encontrarOVencedorDaCasaDoMeio(ArrayList<Jogador> jogadores) {
+    private void encontrarOVencedorDaCasaDoMeio(ArrayList<Jogador> jogadores) {
         calcularCasaDoMeio();
         Jogador vencedorCasaDoMeio = null;
 
@@ -1177,11 +1180,9 @@ public class GameManager {
 
                 if (vencedorCasaDoMeio == null || jogador.getEspecie().getEnergiaAtual() > vencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
                     vencedorCasaDoMeio = jogador;
-                    jaExisteUmVencedorDaNovaCondicao = true;
                 }
             }
         }
-        return vencedorCasaDoMeio;
     }
 
     /*
