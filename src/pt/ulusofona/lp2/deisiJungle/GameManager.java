@@ -1131,9 +1131,6 @@ public class GameManager {
         for (Jogador jogador : jogadores) {
             int distancia = Math.abs(posicaoFinalJogo - jogador.getPosicaoAtual());
 
-            // Ajustar a distância em relação à casa do meio
-
-
             if (distancia < casaDoMeio) {
                 maiorDistancia = distancia;
                 jogadorMaisDistante = jogador;
