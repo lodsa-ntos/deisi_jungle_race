@@ -603,7 +603,6 @@ public class GameManager {
         // TODO Nova Condição Vencedor:
         //jogadorComMaisEnergia = jogadores.get(0);
 
-
         // O vencedor do jogo é o jogador com mais energia na “casa do meio”
         for (Jogador jogador : jogadores) {
             jogador = encontrarOVencedorDaCasaDoMeio(jogadores);
@@ -1100,6 +1099,7 @@ public class GameManager {
     }
 
     private Jogador encontrarOVencedorDaCasaDoMeio(ArrayList<Jogador> jogadores) {
+        calcularCasaDoMeio();
         Jogador vencedorCasaDoMeio = null;
 
         for (Jogador jogador : jogadores) {
