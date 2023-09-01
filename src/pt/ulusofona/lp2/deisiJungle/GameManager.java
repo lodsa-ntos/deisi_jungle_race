@@ -603,7 +603,6 @@ public class GameManager {
 
         // TODO Nova Condição Vencedor:
         calcularCasaDoMeio();
-        encontrarOVencedorDaCasaDoMeio(jogadores);
         obterVencedorNovaCondicao(jogadores);
 
         //jogadorComMaisEnergia = jogadores.get(0);
@@ -1070,6 +1069,10 @@ public class GameManager {
         for (Jogador jogador : jogadoresEmJogo) {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
                 jogadoresCasaDoMeio.add(jogador);
+                if (!jogadoresNaCasaDoMeio.contains(jogador)) {
+                    jogadoresNaCasaDoMeio.add(jogador);
+                    vencedoresEmNovasCondicoes.add(jogador);
+                }
             } else {
                 jogadoresAdiantados.add(jogador);
             }
