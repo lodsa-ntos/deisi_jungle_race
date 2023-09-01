@@ -1483,7 +1483,7 @@ public class TestGameOnJungle {
         MovementResult movementResult3 = gameOnJungle.moveCurrentPlayer(4, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult3.code());
 
-        assertEquals("[#1 Akela, Unicórnio, 5, 4, 0, #2 Mogli, Tarzan, 5, 4, 0, #3 Bagheera, Tarzan, 7, 6, 0]",
+        assertEquals("[#1 Akela, Unicórnio, 5, 4, 0, #2 Bagheera, Tarzan, 7, 6, 0, #3 Mogli, Tarzan, 5, 4, 0]",
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
