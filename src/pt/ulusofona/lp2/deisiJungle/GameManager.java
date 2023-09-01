@@ -602,7 +602,7 @@ public class GameManager {
         }
 
         encontrarOVencedorDaCasaDoMeio(jogadores);
-        Jogador jogadorVencedorNovaCondicao;
+
 
         // TODO Nova Condição Vencedor:
         //jogadorComMaisEnergia = jogadores.get(0);
@@ -612,7 +612,7 @@ public class GameManager {
 
             jogadores.sort((j1, j2) -> j2.getEspecie().getEnergiaAtual() - j1.getEspecie().getEnergiaAtual());
 
-            jogadorVencedorNovaCondicao = jogadores.get(0);
+            Jogador jogadorVencedorNovaCondicao = jogadores.get(0);
 
             infoJogadorVencedor[0] = String.valueOf(jogadorVencedorNovaCondicao.getId());
             infoJogadorVencedor[1] = jogadorVencedorNovaCondicao.getNome();
