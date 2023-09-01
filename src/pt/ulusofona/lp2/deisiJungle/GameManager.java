@@ -19,6 +19,7 @@ import java.util.*;
 public class GameManager {
     private ArrayList<Jogador> jogadores = new ArrayList<>();
     private ArrayList<Alimento> alimentos = new ArrayList<>();
+    ArrayList<Jogador> vencedoresEmNovasCondicoes = new ArrayList<>();
     private HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
     private HashMap<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
     private Set<String> alimentosConsumidos = new HashSet<>();
@@ -561,7 +562,6 @@ public class GameManager {
 
     public String[] getWinnerInfo() {
         String[] infoJogadorVencedor = new String[4];
-        ArrayList<Jogador> vencedoresEmNovasCondicoes = new ArrayList<>();
 
         for (Jogador jogador : jogadores) {
 
@@ -606,7 +606,7 @@ public class GameManager {
         // O vencedor do jogo é o jogador com mais energia na “casa do meio”
         for (Jogador jogador : jogadores) {
             jogador = encontrarOVencedorDaCasaDoMeio(jogadores);
-            if (jaExisteUmVencedorDaNovaCondicao) {
+            if (jaExisteUmVencedorDaNovaCondicao && vencedoresEmNovasCondicoes.size() >= 2) {
                 infoJogadorVencedor[0] = String.valueOf(jogador.getId());
                 infoJogadorVencedor[1] = jogador.getNome();
                 infoJogadorVencedor[2] = jogador.getIdEspecie();
@@ -939,6 +939,7 @@ public class GameManager {
         calcularCasaDoMeio();
         for (Jogador jogador : jogadores) {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
+                vencedoresEmNovasCondicoes.add(jogador);
                 return true;
             }
         }
@@ -1104,6 +1105,7 @@ public class GameManager {
 
         for (Jogador jogador : jogadores) {
             if (jogadorEstaNaCasaDoMeio(jogador)) {
+                vencedoresEmNovasCondicoes.add(jogador);
                 if (vencedorCasaDoMeio == null || jogador.getEspecie().getEnergiaAtual() > vencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
                     vencedorCasaDoMeio = jogador;
                     jaExisteUmVencedorDaNovaCondicao = true;
@@ -1291,6 +1293,7 @@ public class GameManager {
         idJogadoresEmJogo = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores no início do jogo
         jogadoresQueConsumiramBanana = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores consumiram bananas
         alimentosConsumidos = new HashSet<>(); // reset do hashset dos alimentos consumidos durante o jogo
+        vencedoresEmNovasCondicoes = new ArrayList<>();
 
         alguemChegouNaMeta = false;
         casaComAlimento = false;
