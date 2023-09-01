@@ -602,6 +602,7 @@ public class GameManager {
 
         // TODO Nova Condição Vencedor:
         //jogadorComMaisEnergia = jogadores.get(0);
+        jogadorComMaisEnergia = encontrarOVencedorDaCasaDoMeio(jogadores);
 
         // O vencedor do jogo é o jogador com mais energia na “casa do meio”
         if (jaExisteUmVencedorDaNovaCondicao) {
@@ -1041,20 +1042,12 @@ public class GameManager {
         // enquanto que o jogador na casa do meio com menos energia deve ser o terceiro.
 
         calcularCasaDoMeio();
-        Jogador vencedorCasaDoMeio = null;
-        Jogador segundoLugar = null;
+        Jogador vencedorCasaDoMeio;
+        Jogador segundoLugar;
         Jogador terceiroLugar = null;
 
         // Encontrar o vencedor da casa do meio (jogador com a maior energia)
-        for (Jogador jogador : jogadoresEmJogo) {
-            if (jogadorEstaNaCasaDoMeio(jogador)) {
-                if (vencedorCasaDoMeio == null || jogador.getEspecie().getEnergiaAtual() > vencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
-                    vencedorCasaDoMeio = jogador;
-                    jogadorComMaisEnergia = vencedorCasaDoMeio;
-                    jaExisteUmVencedorDaNovaCondicao = true;
-                }
-            }
-        }
+        vencedorCasaDoMeio = encontrarOVencedorDaCasaDoMeio(jogadoresEmJogo);
 
         // Remover o vencedor da casa do meio da lista de jogadores (1.º lugar atribuido)
         jogadoresEmJogo.remove(vencedorCasaDoMeio);
@@ -1086,6 +1079,20 @@ public class GameManager {
     private boolean jogadorEstaNaCasaDoMeio(Jogador jogador) {
         int posicaoAtual = jogador.getPosicaoAtual();
         return posicaoAtual == casaDoMeio;
+    }
+
+    private Jogador encontrarOVencedorDaCasaDoMeio(ArrayList<Jogador> jogadores) {
+        Jogador vencedorCasaDoMeio = null;
+
+        for (Jogador jogador : jogadores) {
+            if (jogadorEstaNaCasaDoMeio(jogador)) {
+                if (vencedorCasaDoMeio == null || jogador.getEspecie().getEnergiaAtual() > vencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
+                    vencedorCasaDoMeio = jogador;
+                    jaExisteUmVencedorDaNovaCondicao = true;
+                }
+            }
+        }
+        return vencedorCasaDoMeio;
     }
 
     private Jogador encontrarSegundoLugar(ArrayList<Jogador> jogadores) {
