@@ -20,6 +20,7 @@ public class GameManager {
     private ArrayList<Jogador> jogadores = new ArrayList<>();
     private ArrayList<Alimento> alimentos = new ArrayList<>();
     ArrayList<Jogador> vencedoresEmNovasCondicoes = new ArrayList<>();
+    private Set<Jogador> jogadoresNaCasaDoMeio = new HashSet<>();
     private HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
     private HashMap<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
     private Set<String> alimentosConsumidos = new HashSet<>();
@@ -943,7 +944,12 @@ public class GameManager {
         calcularCasaDoMeio();
         for (Jogador jogador : jogadores) {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
-                vencedoresEmNovasCondicoes.add(jogador);
+
+                // Garantir que não hajam duplicados
+                if (!jogadoresNaCasaDoMeio.contains(jogador)) {
+                    jogadoresNaCasaDoMeio.add(jogador);
+                    vencedoresEmNovasCondicoes.add(jogador);
+                }
                 return true;
             }
         }
@@ -1109,7 +1115,13 @@ public class GameManager {
 
         for (Jogador jogador : jogadores) {
             if (jogadorEstaNaCasaDoMeio(jogador)) {
-                vencedoresEmNovasCondicoes.add(jogador);
+
+                // Garantir que não hajam duplicados
+                if (!jogadoresNaCasaDoMeio.contains(jogador)) {
+                    jogadoresNaCasaDoMeio.add(jogador);
+                    vencedoresEmNovasCondicoes.add(jogador);
+                }
+
                 if (vencedorCasaDoMeio == null || jogador.getEspecie().getEnergiaAtual() > vencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
                     vencedorCasaDoMeio = jogador;
                     jaExisteUmVencedorDaNovaCondicao = true;
@@ -1297,7 +1309,8 @@ public class GameManager {
         idJogadoresEmJogo = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores no início do jogo
         jogadoresQueConsumiramBanana = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores consumiram bananas
         alimentosConsumidos = new HashSet<>(); // reset do hashset dos alimentos consumidos durante o jogo
-        vencedoresEmNovasCondicoes = new ArrayList<>();
+        vencedoresEmNovasCondicoes = new ArrayList<>(); // reset da lista de jogadores na casa do meio
+        jogadoresNaCasaDoMeio = new HashSet<>(); // reset do hashset da quantidade de jogadores na casa do meio para garantir que não haja duplicados
 
         alguemChegouNaMeta = false;
         casaComAlimento = false;
