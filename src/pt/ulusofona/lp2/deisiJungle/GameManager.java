@@ -603,8 +603,6 @@ public class GameManager {
         // TODO Nova Condição Vencedor:
         //jogadorComMaisEnergia = jogadores.get(0);
 
-        // Isso é porque quando já existe um vencedor e não estás a colocar o jogador que deveria de ganhar bem.
-        // E o que tem maior energia dos jogadores que estão na casa do meio
 
         // O vencedor do jogo é o jogador com mais energia na “casa do meio”
         for (Jogador jogador : jogadores) {
@@ -662,10 +660,12 @@ public class GameManager {
                     jogadoresEmLongaDistancia.remove(jogadorMaisDistante);
                     posicaoChegada++;
                 }
+            } else {
+                // TODO Nova Condição Vencedor:
+                obterVencedorNovaCondicao(jogadoresEmJogo, posicaoChegada, resultados);
             }
 
-            // TODO Nova Condição Vencedor:
-            obterVencedorNovaCondicao(jogadoresEmJogo, posicaoChegada, resultados);
+
         }
 
         return resultados;
