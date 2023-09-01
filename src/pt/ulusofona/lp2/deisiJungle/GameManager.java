@@ -609,7 +609,7 @@ public class GameManager {
         }
 
         // O vencedor do jogo é o jogador com mais energia na “casa do meio”
-        if (jaExisteUmVencedorDaNovaCondicao && vencedoresEmNovasCondicoes.size() >= 2) {
+        if (jaExisteUmVencedorDaNovaCondicao && vencedoresEmNovasCondicoes.size() > 1) {
             if (jogadorVencedorNovaCondicao != null) {
                 infoJogadorVencedor[0] = String.valueOf(jogadorVencedorNovaCondicao.getId());
                 infoJogadorVencedor[1] = jogadorVencedorNovaCondicao.getNome();
