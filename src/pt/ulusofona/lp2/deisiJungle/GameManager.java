@@ -587,40 +587,29 @@ public class GameManager {
                 infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaAtual());
                 return infoJogadorVencedor;
             }
+        }
 
-            // Se nenhum jogador chegou à meta e existe uma grande distância entre os jogadores
-            // Ganha o jogador mais distante da meta
-            if (existeUmJogadorMuitoDistanteDaMeta()) {
-                jogador = getJogadorMaisDistanteDaMeta(jogadores);
-                infoJogadorVencedor[0] = String.valueOf(jogador.getId());
-                infoJogadorVencedor[1] = jogador.getNome();
-                infoJogadorVencedor[2] = jogador.getIdEspecie();
-                infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaAtual());
-                return infoJogadorVencedor;
-            }
+        // Se nenhum jogador chegou à meta e existe uma grande distância entre os jogadores em jogo
+        // Ganha o jogador mais distante da meta
+        if (existeUmJogadorMuitoDistanteDaMeta()) {
+            Jogador jogadorDistante = getJogadorMaisDistanteDaMeta(jogadores);
+            infoJogadorVencedor[0] = String.valueOf(jogadorDistante.getId());
+            infoJogadorVencedor[1] = jogadorDistante.getNome();
+            infoJogadorVencedor[2] = jogadorDistante.getIdEspecie();
+            infoJogadorVencedor[3] = String.valueOf(jogadorDistante.getEspecie().getEnergiaAtual());
+            return infoJogadorVencedor;
+        }
 
-            // TODO Nova Condição Vencedor:
-            calcularCasaDoMeio();
-            jogadorComMaisEnergia = jogadores.get(0);
+        // TODO Nova Condição Vencedor:
+        //jogadorComMaisEnergia = jogadores.get(0);
 
-            // Quando estiverem presentes dois jogadores na “casa do meio”
-            if (jogador.getPosicaoAtual() == casaDoMeio) {
-                vencedoresEmNovasCondicoes.add(jogador);
-                if (jogador.getEspecie().getEnergiaAtual() > jogadorComMaisEnergia.getEspecie().getEnergiaAtual()) {
-                    jogadorComMaisEnergia = jogador;
-                    jaExisteUmVencedorDaNovaCondicao = true;
-                }
-            }
-
-            // Se existir, pelo menos, um jogador entre a “casa do meio” e a meta (vencedoresEmNovasCondicoes)
-            // O vencedor do jogo é o jogador com mais energia na “casa do meio”
-            if (jaExisteUmVencedorDaNovaCondicao && vencedoresEmNovasCondicoes.size() >= 2) {
-                infoJogadorVencedor[0] = String.valueOf(jogadorComMaisEnergia.getId());
-                infoJogadorVencedor[1] = jogadorComMaisEnergia.getNome();
-                infoJogadorVencedor[2] = jogadorComMaisEnergia.getIdEspecie();
-                infoJogadorVencedor[3] = String.valueOf(jogadorComMaisEnergia.getEspecie().getEnergiaAtual());
-                return infoJogadorVencedor;
-            }
+        // O vencedor do jogo é o jogador com mais energia na “casa do meio”
+        if (jaExisteUmVencedorDaNovaCondicao) {
+            infoJogadorVencedor[0] = String.valueOf(jogadorComMaisEnergia.getId());
+            infoJogadorVencedor[1] = jogadorComMaisEnergia.getNome();
+            infoJogadorVencedor[2] = jogadorComMaisEnergia.getIdEspecie();
+            infoJogadorVencedor[3] = String.valueOf(jogadorComMaisEnergia.getEspecie().getEnergiaAtual());
+            return infoJogadorVencedor;
         }
 
         return null; // Nenhum jogador venceu ainda
@@ -1061,6 +1050,7 @@ public class GameManager {
             if (jogadorEstaNaCasaDoMeio(jogador)) {
                 if (vencedorCasaDoMeio == null || jogador.getEspecie().getEnergiaAtual() > vencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
                     vencedorCasaDoMeio = jogador;
+                    jogadorComMaisEnergia = vencedorCasaDoMeio;
                     jaExisteUmVencedorDaNovaCondicao = true;
                 }
             }
