@@ -31,6 +31,7 @@ public class GameManager {
     private boolean alguemChegouNaMeta;
     private boolean casaComAlimento;
     private boolean existeJogadorNoMeio;
+    boolean jaExisteUmVencedorDaNovaCondicao;
 
     public GameManager() {}
 
@@ -559,7 +560,6 @@ public class GameManager {
     }
 
     public String[] getWinnerInfo() {
-        boolean jaExisteUmVencedor = false;
         String[] infoJogadorVencedor = new String[4];
         ArrayList<Jogador> vencedoresEmNovasCondicoes = new ArrayList<>();
 
@@ -608,13 +608,13 @@ public class GameManager {
                 vencedoresEmNovasCondicoes.add(jogador);
                 if (jogador.getEspecie().getEnergiaAtual() > jogadorComMaisEnergia.getEspecie().getEnergiaAtual()) {
                     jogadorComMaisEnergia = jogador;
-                    jaExisteUmVencedor = true;
+                    jaExisteUmVencedorDaNovaCondicao = true;
                 }
             }
 
             // Se existir, pelo menos, um jogador entre a “casa do meio” e a meta (vencedoresEmNovasCondicoes)
             // O vencedor do jogo é o jogador com mais energia na “casa do meio”
-            if (jaExisteUmVencedor && vencedoresEmNovasCondicoes.size() >= 2) {
+            if (jaExisteUmVencedorDaNovaCondicao && vencedoresEmNovasCondicoes.size() >= 2) {
                 infoJogadorVencedor[0] = String.valueOf(jogadorComMaisEnergia.getId());
                 infoJogadorVencedor[1] = jogadorComMaisEnergia.getNome();
                 infoJogadorVencedor[2] = jogadorComMaisEnergia.getIdEspecie();
@@ -1061,6 +1061,7 @@ public class GameManager {
             if (jogadorEstaNaCasaDoMeio(jogador)) {
                 if (vencedorCasaDoMeio == null || jogador.getEspecie().getEnergiaAtual() > vencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
                     vencedorCasaDoMeio = jogador;
+                    jaExisteUmVencedorDaNovaCondicao = true;
                 }
             }
         }
@@ -1290,6 +1291,7 @@ public class GameManager {
         alguemChegouNaMeta = false;
         casaComAlimento = false;
         existeJogadorNoMeio = false;
+        jaExisteUmVencedorDaNovaCondicao = false;
         casaPartida = 1; // reset casa partida de todos os jogadores
         turnoAtual = 0; // reset do turno atual do jogo.
         posicaoFinalJogo = 0; // reset posicão final do mapa de jogo
