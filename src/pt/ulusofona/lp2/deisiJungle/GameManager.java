@@ -1080,16 +1080,16 @@ public class GameManager {
             return null;
         }
 
-        // Se existirem dois jogadores na casa do meio e pelo menos um adiantado
+        // Se existir 1 jogador na casa do meio e pelo menos um adiantado
         if (jogadoresCasaDoMeio.size() == 1 && !jogadoresAdiantados.isEmpty()) {
-            // Verificar os jogadores na casa do meio com maior energia
+            // Classificar os jogadores por maior energia
             jogadoresCasaDoMeio.sort((j1, j2) -> j2.getEspecie().getEnergiaAtual() - j1.getEspecie().getEnergiaAtual());
             jaExisteUmVencedorDaNovaCondicao = true;
 
-            return jogadoresCasaDoMeio.get(0); // O jogador com mais energia na casa do meio é o vencedor
+            return jogadoresCasaDoMeio.get(0); // O jogador com mais energia no jogo é o vencedor
         }
 
-        // Se existirem dois jogadores na casa do meio e pelo menos um adiantado
+        // Se existirem dois jogadores na casa do meio
         if (jogadoresCasaDoMeio.size() == 2) {
             // Verificar os jogadores na casa do meio com maior energia
             jogadoresCasaDoMeio.sort((j1, j2) -> j2.getEspecie().getEnergiaAtual() - j1.getEspecie().getEnergiaAtual());
