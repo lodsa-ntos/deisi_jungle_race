@@ -603,15 +603,20 @@ public class GameManager {
         // TODO Nova Condição Vencedor:
         //jogadorComMaisEnergia = jogadores.get(0);
 
+        // Isso é porque quando já existe um vencedor e não estás a colocar o jogador que deveria de ganhar bem.
+        // E o que tem maior energia dos jogadores que estão na casa do meio
+
         // O vencedor do jogo é o jogador com mais energia na “casa do meio”
-        if (jaExisteUmVencedorDaNovaCondicao) {
-            jogadorComMaisEnergia = encontrarOVencedorDaCasaDoMeio(jogadores);
-            infoJogadorVencedor[0] = String.valueOf(jogadorComMaisEnergia.getId());
-            infoJogadorVencedor[1] = jogadorComMaisEnergia.getNome();
-            infoJogadorVencedor[2] = jogadorComMaisEnergia.getIdEspecie();
-            infoJogadorVencedor[3] = String.valueOf(jogadorComMaisEnergia.getEspecie().getEnergiaAtual());
-            System.out.println(Arrays.toString(infoJogadorVencedor));
-            return infoJogadorVencedor;
+        for (Jogador jogador : jogadores) {
+            jogador = encontrarOVencedorDaCasaDoMeio(jogadores);
+            if (jaExisteUmVencedorDaNovaCondicao) {
+                infoJogadorVencedor[0] = String.valueOf(jogador.getId());
+                infoJogadorVencedor[1] = jogador.getNome();
+                infoJogadorVencedor[2] = jogador.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaAtual());
+                System.out.println(Arrays.toString(infoJogadorVencedor));
+                return infoJogadorVencedor;
+            }
         }
 
 
@@ -1078,6 +1083,17 @@ public class GameManager {
         }
     }
 
+    private void classificarJogador(ArrayList<String> resultados, int posicao, Jogador jogador) {
+        String nome = jogador.getNome();
+        String nomeEspecie = jogador.getEspecie().getNome();
+        int posicaoAtual = jogador.getPosicaoAtual();
+        int distancia = jogador.getNumeroPosicoesPercorridas();
+        int numAlimento = jogador.getNumeroAlimento();
+
+        resultados.add("#" + posicao + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                + ", " + distancia + ", " + numAlimento);
+    }
+
     private boolean jogadorEstaNaCasaDoMeio(Jogador jogador) {
         int posicaoAtual = jogador.getPosicaoAtual();
         return posicaoAtual == casaDoMeio;
@@ -1114,17 +1130,6 @@ public class GameManager {
         }
 
         return segundoLugar;
-    }
-
-    private void classificarJogador(ArrayList<String> resultados, int posicao, Jogador jogador) {
-        String nome = jogador.getNome();
-        String nomeEspecie = jogador.getEspecie().getNome();
-        int posicaoAtual = jogador.getPosicaoAtual();
-        int distancia = jogador.getNumeroPosicoesPercorridas();
-        int numAlimento = jogador.getNumeroAlimento();
-
-        resultados.add("#" + posicao + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
-                + ", " + distancia + ", " + numAlimento);
     }
 
     /*
