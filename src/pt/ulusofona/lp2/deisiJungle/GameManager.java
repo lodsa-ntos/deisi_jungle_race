@@ -557,20 +557,7 @@ public class GameManager {
 
     public String[] getWinnerInfo() {
         String[] infoJogadorVencedor = new String[4];
-
-        int jogadoresNaCasaDoMeio = 0;
         calcularCasaDoMeio();
-        for (Jogador jogador : jogadores) {
-            if (jogadorEstaNaCasaDoMeio(jogador)) {
-                jogadoresNaCasaDoMeio++;
-            }
-        }
-        if (jogadoresNaCasaDoMeio == 2) {
-            // Definir o vencedor com base na energia na "casa do meio"
-            if (jogadores.get(0).getEspecie().getEnergiaAtual() > jogadores.get(1).getEspecie().getEnergiaAtual()) {
-                jaExisteUmVencedorDaNovaCondicao = true;
-            }
-        }
 
         for (Jogador jogador : jogadores) {
 
@@ -614,6 +601,7 @@ public class GameManager {
             // O vencedor do jogo é o jogador com mais energia na “casa do meio”
             if (jaExisteUmVencedorDaNovaCondicao) {
                 jogadores.sort((j1, j2) -> j2.getEspecie().getEnergiaAtual() - j1.getEspecie().getEnergiaAtual());
+
                 jogador = jogadores.get(0);
 
                 infoJogadorVencedor[0] = String.valueOf(jogador.getId());
