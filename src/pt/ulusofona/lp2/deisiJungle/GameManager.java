@@ -602,24 +602,24 @@ public class GameManager {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
                 jogadoresCasaDoMeio.add(jogador);
             }
-            Jogador vencedorCondicaoDoMeio = jogadores.get(0); // TODO evitar não-nulo (solução??)
+
 
             // Se existirem dois jogadores na casa do meio
             if (jogadoresCasaDoMeio.size() == 2) {
                 // Verificar os jogadores na casa do meio com maior energia
                 jogadoresCasaDoMeio.sort((j1, j2) -> j2.getEspecie().getEnergiaAtual() - j1.getEspecie().getEnergiaAtual());
-                vencedorCondicaoDoMeio = jogadoresCasaDoMeio.get(0); // vencedor
+                jogador = jogadoresCasaDoMeio.get(0); // vencedor
                 jaExisteUmVencedorDaNovaCondicao = true;
             }
 
             //jogadorComMaisEnergia = jogadores.get(0);
             // O vencedor do jogo é o jogador com mais energia na “casa do meio”
-            if (jaExisteUmVencedorDaNovaCondicao && vencedorCondicaoDoMeio != null) {
+            if (jaExisteUmVencedorDaNovaCondicao && jogador != null) {
 
-                infoJogadorVencedor[0] = String.valueOf(vencedorCondicaoDoMeio.getId());
-                infoJogadorVencedor[1] = vencedorCondicaoDoMeio.getNome();
-                infoJogadorVencedor[2] = vencedorCondicaoDoMeio.getIdEspecie();
-                infoJogadorVencedor[3] = String.valueOf(vencedorCondicaoDoMeio.getEspecie().getEnergiaAtual());
+                infoJogadorVencedor[0] = String.valueOf(jogador.getId());
+                infoJogadorVencedor[1] = jogador.getNome();
+                infoJogadorVencedor[2] = jogador.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaAtual());
                 return infoJogadorVencedor;
             }
         }
