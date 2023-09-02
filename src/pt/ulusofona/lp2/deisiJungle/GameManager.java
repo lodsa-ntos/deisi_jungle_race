@@ -602,7 +602,7 @@ public class GameManager {
 
             // TODO Nova Condição Vencedor:
             calcularCasaDoMeio();
-            obterVencedorNovaCondicao(jogadores);
+            //obterVencedorNovaCondicao(jogadores);
 
             //jogadorComMaisEnergia = jogadores.get(0);
 
@@ -1094,6 +1094,7 @@ public class GameManager {
         if (jogadoresAdiantados.isEmpty()) {
             // Todos os jogadores estão na casa do meio, classificar por energia
             jogadoresCasaDoMeio.sort((j1, j2) -> j2.getEspecie().getEnergiaAtual() - j1.getEspecie().getEnergiaAtual());
+            jaExisteUmVencedorDaNovaCondicao = true;
             return jogadoresCasaDoMeio.get(0); // O jogador com mais energia vence
         }
 
