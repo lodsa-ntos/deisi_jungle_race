@@ -1871,8 +1871,6 @@ public class TestGameOnJungle {
 
         gameOnJungle.createInitialJungle(10, playerInfo);
 
-        List<Jogador> jogadores = gameOnJungle.getJogadores();
-
         // Jogador 1 joga (vencedor)
         MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(4, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
@@ -1911,8 +1909,6 @@ public class TestGameOnJungle {
         playerInfo[2][2] = "P";
 
         gameOnJungle.createInitialJungle(10, playerInfo);
-
-        List<Jogador> jogadores = gameOnJungle.getJogadores();
 
         // Jogador 1 joga (vencedor)
         MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(4, true);
