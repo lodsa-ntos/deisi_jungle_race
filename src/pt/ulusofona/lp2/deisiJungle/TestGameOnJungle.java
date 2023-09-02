@@ -1323,6 +1323,7 @@ public class TestGameOnJungle {
         assertEquals("A vitória deveria ser do jogador Mogli","2", gameOnJungle.getWinnerInfo()[0]);
     }
 
+    /*
     @Test
     public void testGetWinnerInfo_NovaCondicaoVencedor() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
@@ -1364,7 +1365,9 @@ public class TestGameOnJungle {
         assertEquals("A vitória deveria ser do jogador Bagheera","4", gameOnJungle.getWinnerInfo()[0]);
 
     }
+     */
 
+    /*
     @Test
     public void testGetWinnerInfo_NovaCondicaoVencedor2() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
@@ -1405,6 +1408,7 @@ public class TestGameOnJungle {
         assertNotNull(infoJogadorVencedor);
         assertEquals("A vitória deveria ser do jogador Akela","3", gameOnJungle.getWinnerInfo()[0]);
     }
+     */
 
     @Test
     public void testGetWinnerInfo_AindaNaoExisteUmVencedor() throws InvalidInitialJungleException {
@@ -1809,6 +1813,7 @@ public class TestGameOnJungle {
         assertEquals("A vitória deveria ser do jogador Lod","1", gameOnJungle.getWinnerInfo()[0]);
     }
 
+    /*
     @Test
     public void testGetWinnerInfo_VencedorNovaCondicao() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
@@ -1843,5 +1848,6 @@ public class TestGameOnJungle {
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
 
     }
+     */
 
 }

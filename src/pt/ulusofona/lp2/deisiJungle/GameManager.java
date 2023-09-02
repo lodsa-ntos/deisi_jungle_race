@@ -19,8 +19,6 @@ import java.util.*;
 public class GameManager {
     private ArrayList<Jogador> jogadores = new ArrayList<>();
     private ArrayList<Alimento> alimentos = new ArrayList<>();
-    ArrayList<Jogador> vencedoresEmNovasCondicoes = new ArrayList<>();
-    private Set<Jogador> jogadoresNaCasaDoMeio = new HashSet<>();
     private HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
     private HashMap<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
     private Set<String> alimentosConsumidos = new HashSet<>();
@@ -189,6 +187,13 @@ public class GameManager {
 
             if (jogadores.size() >= 2) {
                 jogadorAtual.saberNumJogadoresEmJogo(jogadores.size());
+            }
+            calcularCasaDoMeio();
+
+            if (jogadores.get(0).getPosicaoAtual() == casaDoMeio && jogadores.get(1).getPosicaoAtual() == casaDoMeio) {
+                if (jogadores.get(0).getEspecie().getEnergiaAtual() > jogadores.get(1).getEspecie().getEnergiaAtual()) {
+                    jaExisteUmVencedorDaNovaCondicao = true;
+                }
             }
 
         }
@@ -601,14 +606,10 @@ public class GameManager {
             }
 
             // TODO Nova Condição Vencedor:
-            calcularCasaDoMeio();
-            //obterVencedorNovaCondicao(jogadores);
 
             //jogadorComMaisEnergia = jogadores.get(0);
-
             // O vencedor do jogo é o jogador com mais energia na “casa do meio”
             if (jaExisteUmVencedorDaNovaCondicao) {
-
                 //jogadores.sort((j1, j2) -> j2.getEspecie().getEnergiaAtual() - j1.getEspecie().getEnergiaAtual());
 
                 infoJogadorVencedor[0] = String.valueOf(jogador.getId());
@@ -617,7 +618,6 @@ public class GameManager {
                 infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaAtual());
                 return infoJogadorVencedor;
             }
-
         }
 
         return null;
@@ -948,10 +948,6 @@ public class GameManager {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
 
                 // Garantir que não hajam duplicados
-                if (!jogadoresNaCasaDoMeio.contains(jogador)) {
-                    jogadoresNaCasaDoMeio.add(jogador);
-                    vencedoresEmNovasCondicoes.add(jogador);
-                }
                 return true;
             }
         }
@@ -1067,10 +1063,6 @@ public class GameManager {
         for (Jogador jogador : jogadoresEmJogo) {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
                 jogadoresCasaDoMeio.add(jogador);
-                if (!jogadoresNaCasaDoMeio.contains(jogador)) {
-                    jogadoresNaCasaDoMeio.add(jogador);
-                    vencedoresEmNovasCondicoes.add(jogador);
-                }
             } else {
                 jogadoresAdiantados.add(jogador);
             }
@@ -1174,10 +1166,6 @@ public class GameManager {
             if (jogadorEstaNaCasaDoMeio(jogador)) {
 
                 // Garantir que não hajam duplicados
-                if (!jogadoresNaCasaDoMeio.contains(jogador)) {
-                    jogadoresNaCasaDoMeio.add(jogador);
-                    vencedoresEmNovasCondicoes.add(jogador);
-                }
 
                 if (vencedorCasaDoMeio == null || jogador.getEspecie().getEnergiaAtual() > vencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
                     vencedorCasaDoMeio = jogador;
@@ -1345,8 +1333,6 @@ public class GameManager {
         idJogadoresEmJogo = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores no início do jogo
         jogadoresQueConsumiramBanana = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores consumiram bananas
         alimentosConsumidos = new HashSet<>(); // reset do hashset dos alimentos consumidos durante o jogo
-        vencedoresEmNovasCondicoes = new ArrayList<>(); // reset da lista de jogadores na casa do meio
-        jogadoresNaCasaDoMeio = new HashSet<>(); // reset do hashset da quantidade de jogadores na casa do meio para garantir que não haja duplicados
 
         alguemChegouNaMeta = false;
         casaComAlimento = false;
