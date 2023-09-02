@@ -32,7 +32,6 @@ public class GameManager {
     private boolean casaComAlimento;
     private boolean existeJogadorNoMeio;
     boolean jaExisteUmVencedorDaNovaCondicao;
-    Jogador segundoLugar;
 
     public GameManager() {}
 
@@ -560,7 +559,6 @@ public class GameManager {
     public String[] getWinnerInfo() {
         String[] infoJogadorVencedor = new String[4];
         calcularCasaDoMeio();
-        obterVencedorNovaCondicao(jogadores); // TODO ERRO NÃO-NULO??
 
         for (Jogador jogador : jogadores) {
 
@@ -1088,7 +1086,7 @@ public class GameManager {
         // Se existir em jogo um jogador na casa do meio e um adiantado
         // O segundo lugar é determinado com base na distância
         Jogador jogadorCasaDoMeio = jogadoresCasaDoMeio.get(0);
-
+        Jogador segundoLugar = null;
 
         for (Jogador jogador : jogadoresAdiantados) {
             if (segundoLugar == null || jogador.getPosicaoAtual() < segundoLugar.getPosicaoAtual()) {
@@ -1324,7 +1322,6 @@ public class GameManager {
         alimentos = new ArrayList<>(); // reset da lista de alimentos
         jogadorAtual = null; // reset do jogadorAtual
         jogadorComMaisEnergia = null; // reset do jogadorComMaisEnergia
-        segundoLugar = null;
         idJogadoresEmJogo = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores no início do jogo
         jogadoresQueConsumiramBanana = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores consumiram bananas
         alimentosConsumidos = new HashSet<>(); // reset do hashset dos alimentos consumidos durante o jogo
