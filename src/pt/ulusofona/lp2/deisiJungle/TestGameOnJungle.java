@@ -1848,4 +1848,87 @@ public class TestGameOnJungle {
 
     }
 
+    @Test
+    public void testgetGameResults_VitoriaPelaEnergiaCasaDoMeio() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[3][3];
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Pato Donald";
+        playerInfo[0][2] = "E";
+
+        // Jogador 2
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Bruninho";
+        playerInfo[1][2] = "L";
+
+        // Jogador 3
+        playerInfo[2][0] = "3";
+        playerInfo[2][1] = "Goiaba";
+        playerInfo[2][2] = "P";
+
+        gameOnJungle.createInitialJungle(10, playerInfo);
+
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
+
+        // Jogador 1 joga (vencedor)
+        MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
+
+        // Jogador 2 joga (com menos energia na casa do meio)
+        MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
+
+        // Jogador 3 joga (adiantado)
+        MovementResult movementResult3 = gameOnJungle.moveCurrentPlayer(5, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult3.code());
+
+        assertEquals("[#1 Pato Donald, Elefante, 5, 4, 0, #2 Goiaba, Passaro, 6, 5, 0, #3 Bruninho, Leao, 5, 4, 0]",
+                Arrays.toString(gameOnJungle.getGameResults().toArray()));
+    }
+
+    @Test
+    public void testgetGameResults_SegundoClassificado() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[3][3];
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Pato Donald";
+        playerInfo[0][2] = "E";
+
+        // Jogador 2
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Bruninho";
+        playerInfo[1][2] = "L";
+
+        // Jogador 3
+        playerInfo[2][0] = "3";
+        playerInfo[2][1] = "Goiaba";
+        playerInfo[2][2] = "P";
+
+        gameOnJungle.createInitialJungle(10, playerInfo);
+
+        List<Jogador> jogadores = gameOnJungle.getJogadores();
+
+        // Jogador 1 joga (vencedor)
+        MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
+
+        // Jogador 2 joga (com menos energia na casa do meio)
+        MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
+
+        // Jogador 3 joga (adiantado)
+        MovementResult movementResult3 = gameOnJungle.moveCurrentPlayer(5, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult3.code());
+
+        assertEquals( "A fn getGameResults está a retornar o 2º classificado incorreto.",
+                "#2 Goiaba, Passaro, 6, 5, 0",
+                gameOnJungle.getGameResults().get(1));
+    }
+
 }

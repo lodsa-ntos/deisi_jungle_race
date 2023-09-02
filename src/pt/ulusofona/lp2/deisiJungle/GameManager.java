@@ -609,13 +609,8 @@ public class GameManager {
             if (jogadoresCasaDoMeio.size() == 2) {
                 // Verificar os jogadores na casa do meio com maior energia
                 jogadoresCasaDoMeio.sort((j1, j2) -> j2.getEspecie().getEnergiaAtual() - j1.getEspecie().getEnergiaAtual());
-                jogador = jogadoresCasaDoMeio.get(0); // vencedor
-                jaExisteUmVencedorDaNovaCondicao = true;
-            }
 
-            //jogadorComMaisEnergia = jogadores.get(0);
-            // O vencedor do jogo é o jogador com mais energia na “casa do meio”
-            if (jaExisteUmVencedorDaNovaCondicao && jogador != null) {
+                jogador = jogadoresCasaDoMeio.get(0); // vencedor
 
                 infoJogadorVencedor[0] = String.valueOf(jogador.getId());
                 infoJogadorVencedor[1] = jogador.getNome();
@@ -1126,6 +1121,8 @@ public class GameManager {
 
                 // Senão se estiverem 3 jogadores em jogo, dois na casa do meio e um adiantado e já existir um venvedor....
             } else {
+                // Disputa pelo segundo lugar,
+                // A classificação restante deve corresponder à distância que cada jogador se encontra da meta.
                 // Ordenar os jogadores restantes com base na distância até a meta
                 jogadoresEmJogo.sort(Collections.reverseOrder(Comparator.comparingInt(Jogador::getNumeroPosicoesPercorridas)));
             }
