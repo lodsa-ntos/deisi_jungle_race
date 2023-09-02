@@ -561,6 +561,13 @@ public class GameManager {
         calcularCasaDoMeio();
         ArrayList<Jogador> jogadoresCasaDoMeio = new ArrayList<>();
 
+        // TODO Nova Condição Vencedor:
+        for (Jogador jogador : jogadores) {
+            if (jogador.getPosicaoAtual() == casaDoMeio) {
+                jogadoresCasaDoMeio.add(jogador);
+            }
+        }
+
         for (Jogador jogador : jogadores) {
 
             if (jogador.getPosicaoAtual() == posicaoFinalJogo) {
@@ -598,12 +605,6 @@ public class GameManager {
             }
 
             // TODO Nova Condição Vencedor:
-
-            if (jogador.getPosicaoAtual() == casaDoMeio) {
-                jogadoresCasaDoMeio.add(jogador);
-            }
-
-
             // Se existirem dois jogadores na casa do meio
             if (jogadoresCasaDoMeio.size() == 2) {
                 // Verificar os jogadores na casa do meio com maior energia
