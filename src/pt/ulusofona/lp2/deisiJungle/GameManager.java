@@ -186,6 +186,7 @@ public class GameManager {
             if (jogadores.size() >= 2) {
                 jogadorAtual.saberNumJogadoresEmJogo(jogadores.size());
             }
+
         }
 
         /**
@@ -558,6 +559,7 @@ public class GameManager {
     public String[] getWinnerInfo() {
         String[] infoJogadorVencedor = new String[4];
         calcularCasaDoMeio();
+        obterVencedorNovaCondicao(jogadores); // TODO ERRO NÃO-NULO??
 
         for (Jogador jogador : jogadores) {
 
@@ -1152,15 +1154,14 @@ public class GameManager {
 
     private void encontrarOVencedorDaCasaDoMeio(ArrayList<Jogador> jogadores) {
         calcularCasaDoMeio();
-        Jogador vencedorCasaDoMeio = null;
+
 
         for (Jogador jogador : jogadores) {
+            Jogador vencedorCasaDoMeio = jogadores.get(0);
             if (jogadorEstaNaCasaDoMeio(jogador)) {
-
-                // Garantir que não hajam duplicados
-
                 if (vencedorCasaDoMeio == null || jogador.getEspecie().getEnergiaAtual() > vencedorCasaDoMeio.getEspecie().getEnergiaAtual()) {
                     vencedorCasaDoMeio = jogador;
+                    jaExisteUmVencedorDaNovaCondicao = true;
                 }
             }
         }

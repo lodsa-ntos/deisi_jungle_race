@@ -1813,7 +1813,6 @@ public class TestGameOnJungle {
         assertEquals("A vitória deveria ser do jogador Lod","1", gameOnJungle.getWinnerInfo()[0]);
     }
 
-    /*
     @Test
     public void testGetWinnerInfo_VencedorNovaCondicao() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
@@ -1848,6 +1847,5 @@ public class TestGameOnJungle {
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
 
     }
-     */
 
 }
