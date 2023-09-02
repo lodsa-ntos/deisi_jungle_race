@@ -602,7 +602,7 @@ public class GameManager {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
                 jogadoresCasaDoMeio.add(jogador);
             }
-            Jogador vencedorCondicaoDoMeio = null;
+            Jogador vencedorCondicaoDoMeio = jogadores.get(0); // TODO evitar não-nulo
 
             // Se existirem dois jogadores na casa do meio
             if (jogadoresCasaDoMeio.size() == 2) {
