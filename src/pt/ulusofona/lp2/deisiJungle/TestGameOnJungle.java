@@ -1451,7 +1451,7 @@ public class TestGameOnJungle {
     }
 
     @Test
-    public void testgetGameResults_NovaCondicaoVencedor() throws InvalidInitialJungleException {
+    public void testGetGameResults_NovaCondicaoVencedor() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
 
         String[][] playerInfo = new String[3][3];
@@ -1490,7 +1490,7 @@ public class TestGameOnJungle {
     }
 
     @Test
-    public void testgetGameResults_NovaCondicaoVencedor2() throws InvalidInitialJungleException {
+    public void testGetGameResults_NovaCondicaoVencedor2() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
 
         String[][] playerInfo = new String[2][3];
@@ -1520,7 +1520,7 @@ public class TestGameOnJungle {
     }
 
     @Test
-    public void testgetGameResults_IndexOutOfBoundsException() throws InvalidInitialJungleException {
+    public void testGetGameResults_IndexOutOfBoundsException() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
 
         String[][] playerInfo = new String[2][3];
@@ -1774,7 +1774,7 @@ public class TestGameOnJungle {
      */
 
     @Test
-    public void testgetGameResults_NovaLogicaCondicaoVencedor() throws InvalidInitialJungleException {
+    public void testGetGameResults_NovaLogicaCondicaoVencedor() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
 
         String[][] playerInfo = new String[3][3];
@@ -1853,7 +1853,7 @@ public class TestGameOnJungle {
     }
 
     @Test
-    public void testgetGameResults_VitoriaPelaEnergiaCasaDoMeio() throws InvalidInitialJungleException {
+    public void testGetGameResults_VitoriaPelaEnergiaCasaDoMeio() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
 
         String[][] playerInfo = new String[3][3];

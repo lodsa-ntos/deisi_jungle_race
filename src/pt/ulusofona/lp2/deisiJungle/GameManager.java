@@ -1058,6 +1058,14 @@ public class GameManager {
             return jogadoresCasaDoMeio.get(0); // O jogador com mais energia na casa do meio é o vencedor
         }
 
+        // Se existir 1 jogador na casa do meio e 1 jogador adiantado
+        if (jogadoresCasaDoMeio.size() == 1 && jogadoresAdiantados.size() == 1) {
+            // classificar por número posicões percorridas
+            jogadoresEmJogo.sort((j1, j2) -> j2.getNumeroPosicoesPercorridas() - j1.getNumeroPosicoesPercorridas());
+            //jaExisteUmVencedorDaNovaCondicao = true;
+            return jogadoresEmJogo.get(0); // O jogador com mais perto da meta vence
+        }
+
         // Se existirem 4 jogadores na casa do meio ou apenas um na casa do meio
         if (jogadoresAdiantados.isEmpty()) {
             // Todos os jogadores estão na casa do meio, classificar por energia
