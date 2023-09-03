@@ -23,7 +23,6 @@ public class GameManager {
     private HashMap<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
     private Set<String> alimentosConsumidos = new HashSet<>();
     private Jogador jogadorAtual;
-    private Jogador jogadorComMaisEnergia;
     private int posicaoFinalJogo;
     private int casaPartida;
     private int turnoAtual;
@@ -686,6 +685,7 @@ public class GameManager {
         try {
             FileWriter guardarJogo = new FileWriter(file.getAbsoluteFile());
             Jogador jogadorAtual = jogadores.get((turnoAtual - 1) % jogadores.size());
+            Jogador jogadorComMaisEnergia = null;
 
             for (Jogador jogador : jogadores) {
                 if (jogadorComMaisEnergia == null || jogador.getEspecie().getEnergiaAtual() >
@@ -1331,7 +1331,6 @@ public class GameManager {
         jogadores = new ArrayList<>(); // reset da lista de jogadores.
         alimentos = new ArrayList<>(); // reset da lista de alimentos
         jogadorAtual = null; // reset do jogadorAtual
-        jogadorComMaisEnergia = null; // reset do jogadorComMaisEnergia
         idJogadoresEmJogo = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores no início do jogo
         jogadoresQueConsumiramBanana = new HashMap<>(); // reset do hashmap dos ‘ids’ dos jogadores consumiram bananas
         alimentosConsumidos = new HashSet<>(); // reset do hashset dos alimentos consumidos durante o jogo
