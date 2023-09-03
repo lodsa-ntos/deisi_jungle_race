@@ -1360,12 +1360,16 @@ public class TestGameOnJungle {
 
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
 
+        assertNotNull(gameOnJungle.getJogadores());
+        Jogador vencedor = gameOnJungle.obterVencedorNovaCondicao(gameOnJungle.getJogadores());
+
+         assertNotNull(vencedor);
+
         assertNotNull(infoJogadorVencedor);
         assertEquals("A vitória deveria ser do jogador Bagheera","4", gameOnJungle.getWinnerInfo()[0]);
 
     }
 
-    /*
     @Test
     public void testGetWinnerInfo_NovaCondicaoVencedor2() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
@@ -1406,7 +1410,6 @@ public class TestGameOnJungle {
         assertNotNull(infoJogadorVencedor);
         assertEquals("A vitória deveria ser do jogador Akela","3", gameOnJungle.getWinnerInfo()[0]);
     }
-     */
 
     @Test
     public void testGetWinnerInfo_AindaNaoExisteUmVencedor() throws InvalidInitialJungleException {
@@ -1444,6 +1447,8 @@ public class TestGameOnJungle {
         GameManager gameOnJungle = new GameManager();
 
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
+
+        assertNotNull(gameOnJungle.getJogadores());
 
         assertNull("getWinnerInfo() devia ter dado null porque não há jogadores", infoJogadorVencedor);
     }
