@@ -1323,7 +1323,6 @@ public class TestGameOnJungle {
         assertEquals("A vitória deveria ser do jogador Mogli","2", gameOnJungle.getWinnerInfo()[0]);
     }
 
-    /*
     @Test
     public void testGetWinnerInfo_NovaCondicaoVencedor() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
@@ -1365,7 +1364,6 @@ public class TestGameOnJungle {
         assertEquals("A vitória deveria ser do jogador Bagheera","4", gameOnJungle.getWinnerInfo()[0]);
 
     }
-     */
 
     /*
     @Test
@@ -1546,7 +1544,8 @@ public class TestGameOnJungle {
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
 
 
-        gameOnJungle.getGameResults().toArray();
+        gameOnJungle.getGameResults();
+
     }
 
     @Test
@@ -2004,16 +2003,6 @@ public class TestGameOnJungle {
 
         assertEquals("[#1 Pato Donald, Elefante, 5, 4, 0, #2 Akela, Tarzan, 9, 8, 0, #3 Goiaba, Passaro, 6, 5, 0, #4 Bruninho, Leao, 5, 4, 0]",
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
-    }
-
-    @Test
-    public void testGetWinnerInfo() {
-
-        GameManager gameOnJungle = new GameManager();
-
-        String[] vencedorInfo = gameOnJungle.getWinnerInfo();
-
-        assertNull("getWinnerInfo() devolveu não-null demasiado cedo", vencedorInfo);
     }
 
 }

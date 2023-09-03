@@ -1033,7 +1033,7 @@ public class GameManager {
 
     private Jogador getJogadorMaisDistanteDaMeta(List<Jogador> jogadores) {
         int maiorDistancia = Integer.MIN_VALUE;
-        Jogador jogadorMaisDistante = null;
+        Jogador jogadorMaisDistante = jogadores.get(0);
 
         // Encontrar o jogador com a maior distância da meta
         for (Jogador jogador : jogadores) {
