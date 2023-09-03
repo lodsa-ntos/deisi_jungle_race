@@ -1034,39 +1034,6 @@ public class GameManager {
         return jogadorMaisDistante;
     }
 
-    private boolean isNovaCondicaoVencedor(List<Jogador> jogadoresEmJogo) {
-        ArrayList<Jogador> jogadoresNaCasaDoMeio = new ArrayList<>();
-
-        // Verificar se há pelo menos dois jogadores na "casa do meio"
-        for (Jogador jogador : jogadoresEmJogo) {
-            if (jogadorEstaNaCasaDoMeio(jogador)) {
-                jogadoresNaCasaDoMeio.add(jogador);
-                // Se existirem em jogo 3 jogadores (2 na casa do meio e 1 adiantado)
-                if (jogadoresNaCasaDoMeio.size() >= 2 && jogadorEntreCasaDoMeioEAMeta(jogadoresEmJogo)) {
-                    return true;
-
-                    // Senão se existirem em jogo 2 jogadores na casa do meio
-                } else if (jogadoresNaCasaDoMeio.size() == 2) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private boolean jogadorEntreCasaDoMeioEAMeta(List<Jogador> jogadoresEmJogo) {
-        // Verificar se há pelo menos um jogador entre a "casa do meio" e a meta
-        calcularCasaDoMeio();
-        for (Jogador jogador : jogadoresEmJogo) {
-            int posicaoAtual = jogador.getPosicaoAtual();
-            if (posicaoAtual > casaDoMeio && posicaoAtual < posicaoFinalJogo) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private Jogador obterVencedorNovaCondicao(ArrayList<Jogador> jogadoresEmJogo) {
 
         calcularCasaDoMeio();
@@ -1162,6 +1129,39 @@ public class GameManager {
                 posicaoChegada++;
             }
         }
+    }
+
+    private boolean isNovaCondicaoVencedor(List<Jogador> jogadoresEmJogo) {
+        ArrayList<Jogador> jogadoresNaCasaDoMeio = new ArrayList<>();
+
+        // Verificar se há pelo menos dois jogadores na "casa do meio"
+        for (Jogador jogador : jogadoresEmJogo) {
+            if (jogadorEstaNaCasaDoMeio(jogador)) {
+                jogadoresNaCasaDoMeio.add(jogador);
+                // Se existirem em jogo 3 jogadores (2 na casa do meio e 1 adiantado)
+                if (jogadoresNaCasaDoMeio.size() >= 2 && jogadorEntreCasaDoMeioEAMeta(jogadoresEmJogo)) {
+                    return true;
+
+                    // Senão se existirem em jogo 2 jogadores na casa do meio
+                } else if (jogadoresNaCasaDoMeio.size() == 2) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private boolean jogadorEntreCasaDoMeioEAMeta(List<Jogador> jogadoresEmJogo) {
+        // Verificar se há pelo menos um jogador entre a "casa do meio" e a meta
+        calcularCasaDoMeio();
+        for (Jogador jogador : jogadoresEmJogo) {
+            int posicaoAtual = jogador.getPosicaoAtual();
+            if (posicaoAtual > casaDoMeio && posicaoAtual < posicaoFinalJogo) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean jogadorEstaNaCasaDoMeio(Jogador jogador) {
