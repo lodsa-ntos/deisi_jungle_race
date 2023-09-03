@@ -1061,6 +1061,14 @@ public class GameManager {
             }
         }
 
+        // Se existirem dois jogadores em jogo, 1 casa do meio + 1 adiantado
+        if (jogadoresCasaDoMeio.size() == 1 && jogadoresAdiantados.size() == 1) {
+            // Verificar os jogadores em jogo pela distância que cada jogador se encontra da meta.
+            jogadoresEmJogo.sort(Collections.reverseOrder(Comparator.comparingInt(Jogador::getNumeroPosicoesPercorridas)));
+            //jaExisteUmVencedorDaNovaCondicao = true;
+            return jogadoresEmJogo.get(0);
+        }
+
         // Se existirem dois jogadores na casa do meio
         if (jogadoresCasaDoMeio.size() == 2) {
             // Verificar os jogadores na casa do meio com maior energia
