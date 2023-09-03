@@ -590,7 +590,6 @@ public class GameManager {
         }
 
         if (existemDoisJogadoresEntreACasaDoMeioEaMeta(jogadores)) {
-            jogadorAtual = getJogadorMaisDistanteDaMeta(jogadores);
             infoJogadorVencedor[0] = String.valueOf(jogadorAtual.getId());
             infoJogadorVencedor[1] = jogadorAtual.getNome();
             infoJogadorVencedor[2] = jogadorAtual.getIdEspecie();

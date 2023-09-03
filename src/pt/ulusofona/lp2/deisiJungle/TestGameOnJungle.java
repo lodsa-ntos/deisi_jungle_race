@@ -2012,35 +2012,4 @@ public class TestGameOnJungle {
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
-    @Test
-    public void testExisteGrandeDistanciaEntreJogadores_Casa_Do_Meio_Meta() throws InvalidInitialJungleException {
-        GameManager gameOnJungle = new GameManager();
-
-        String[][] playerInfo = new String[2][3];
-        String[][] foodInfo = new String[0][0];
-
-        // Jogador 1
-        playerInfo[0][0] = "2";
-        playerInfo[0][1] = "Mogli";
-        playerInfo[0][2] = "Z";
-
-        // Jogador 2
-        playerInfo[1][0] = "4";
-        playerInfo[1][1] = "Bagheera";
-        playerInfo[1][2] = "L";
-
-        gameOnJungle.createInitialJungle(10, playerInfo, foodInfo);
-
-        MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(5, true);
-        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
-
-        MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(7, true);
-        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
-
-        String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
-
-        assertNotNull(infoJogadorVencedor);
-        assertEquals("getWinnerInfo()[0] regra da distância","2", gameOnJungle.getWinnerInfo()[0]);
-    }
-
 }
