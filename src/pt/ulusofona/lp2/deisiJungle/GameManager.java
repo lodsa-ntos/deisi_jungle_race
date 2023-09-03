@@ -572,7 +572,7 @@ public class GameManager {
                                 .thenComparingInt(Jogador::getId)
                 );
 
-                jogador = jogadores.get(0);
+                //jogador = jogadores.get(0);
                 infoJogadorVencedor[0] = String.valueOf(jogador.getId());
                 infoJogadorVencedor[1] = jogador.getNome();
                 infoJogadorVencedor[2] = jogador.getIdEspecie();
