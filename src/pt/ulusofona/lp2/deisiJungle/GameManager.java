@@ -597,13 +597,14 @@ public class GameManager {
 
         // TODO Nova Condição Vencedor:
         if (isNovaCondicaoVencedor(jogadores)) {
-            Jogador vencedorCasaDoMeio = obterVencedorNovaCondicao(jogadores);
-            if (vencedorCasaDoMeio != null) {
+            jogadorComMaisEnergia = jogadores.get(0);
+            jogadorComMaisEnergia = obterVencedorNovaCondicao(jogadores);
+            if (jogadorComMaisEnergia != null) {
 
-                infoJogadorVencedor[0] = String.valueOf(vencedorCasaDoMeio.getId());
-                infoJogadorVencedor[1] = vencedorCasaDoMeio.getNome();
-                infoJogadorVencedor[2] = vencedorCasaDoMeio.getIdEspecie();
-                infoJogadorVencedor[3] = String.valueOf(vencedorCasaDoMeio.getEspecie().getEnergiaAtual());
+                infoJogadorVencedor[0] = String.valueOf(jogadorComMaisEnergia.getId());
+                infoJogadorVencedor[1] = jogadorComMaisEnergia.getNome();
+                infoJogadorVencedor[2] = jogadorComMaisEnergia.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(jogadorComMaisEnergia.getEspecie().getEnergiaAtual());
 
                 return infoJogadorVencedor;
             }
