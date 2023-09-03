@@ -20,7 +20,7 @@ public class GameManager {
     private ArrayList<Jogador> jogadores = new ArrayList<>();
     private ArrayList<Alimento> alimentos = new ArrayList<>();
     private HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
-    private HashMap<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
+    private HashMap<Integer,Integer> jogadoresQueConsumiramBanana = new HashMap<>();
     private Set<String> alimentosConsumidos = new HashSet<>();
     private Jogador jogadorAtual;
     private int posicaoFinalJogo;
@@ -29,7 +29,6 @@ public class GameManager {
     private int casaDoMeio;
     private boolean alguemChegouNaMeta;
     private boolean casaComAlimento;
-    private boolean existeJogadorNoMeio;
 
     public GameManager() {}
 
@@ -528,7 +527,7 @@ public class GameManager {
         casaComAlimento = verificaCasaComAlimentoUnicornio(novaPosicaoJogador);
 
         // Verificar se existem jogadores na casa do meio para nova condição de vitória
-        existeJogadorNoMeio = verificaJogadorNaCasaDoMeio();
+        verificaJogadorNaCasaDoMeio();
 
         // Definir a energia do jogador quando recua ou avança
         setEnergyOfNumberOfSquare(nrSquares, energiaAtual, consumoEnergia, casaComAlimento);
@@ -582,14 +581,6 @@ public class GameManager {
         // Ganha o jogador mais distante da meta
         if (existeUmJogadorMuitoDistanteDaMeta()) {
             jogadorAtual = getJogadorMaisDistanteDaMeta(jogadores);
-            infoJogadorVencedor[0] = String.valueOf(jogadorAtual.getId());
-            infoJogadorVencedor[1] = jogadorAtual.getNome();
-            infoJogadorVencedor[2] = jogadorAtual.getIdEspecie();
-            infoJogadorVencedor[3] = String.valueOf(jogadorAtual.getEspecie().getEnergiaAtual());
-            return infoJogadorVencedor;
-        }
-
-        if (existemDoisJogadoresEntreACasaDoMeioEaMeta(jogadores)) {
             infoJogadorVencedor[0] = String.valueOf(jogadorAtual.getId());
             infoJogadorVencedor[1] = jogadorAtual.getNome();
             infoJogadorVencedor[2] = jogadorAtual.getIdEspecie();
@@ -1036,25 +1027,6 @@ public class GameManager {
         return distanciaEntreJogadores > metadeDaMeta;
     }
 
-    private boolean existemDoisJogadoresEntreACasaDoMeioEaMeta(List<Jogador> jogadores) {
-        int contadorDeJogadoresNaFaixa = 0;
-        calcularCasaDoMeio();
-
-        // Ordenar os jogadores por posição atual
-        jogadores.sort(Comparator.comparing(Jogador::getPosicaoAtual));
-
-        for (Jogador jogador : jogadores) {
-            int posicaoAtual = jogador.getPosicaoAtual();
-            if (posicaoAtual > casaDoMeio && posicaoAtual < posicaoFinalJogo) {
-                contadorDeJogadoresNaFaixa++;
-            }
-        }
-
-        // Verificar se existem exatamente 2 jogadores dentro da faixa
-        return contadorDeJogadoresNaFaixa == 2;
-    }
-
-
     private Jogador getJogadorMaisDistanteDaMeta(List<Jogador> jogadores) {
         int maiorDistancia = Integer.MIN_VALUE;
 
@@ -1341,6 +1313,22 @@ public class GameManager {
         }
     }
 
+    /**
+     * ----------------------Métodos de acesso(Facilitar acesso nos Testes Unitários e fn KOTLIN)()---------------------------
+     */
+
+    public ArrayList<Jogador> getJogadores() {
+        return jogadores;
+    }
+
+    public ArrayList<Alimento> getAlimentos() {
+        return alimentos;
+    }
+
+    public Set<String> getAlimentosConsumidos() {
+        return alimentosConsumidos;
+    }
+
 
     /**
      * ------------------------------------------TURNOS E RESET()---------------------------------------------
@@ -1360,7 +1348,6 @@ public class GameManager {
 
         alguemChegouNaMeta = false;
         casaComAlimento = false;
-        existeJogadorNoMeio = false;
         casaPartida = 1; // reset casa partida de todos os jogadores
         turnoAtual = 0; // reset do turno atual do jogo.
         posicaoFinalJogo = 0; // reset posicão final do mapa de jogo
@@ -1368,20 +1355,4 @@ public class GameManager {
         atualizarContagemJogadasCarne(0);
     }
 
-
-    /**
-     * ----------------------Métodos de acesso(Facilitar acesso nos Testes Unitários e fn KOTLIN)()---------------------------
-     */
-
-    public ArrayList<Jogador> getJogadores() {
-        return jogadores;
-    }
-
-    public ArrayList<Alimento> getAlimentos() {
-        return alimentos;
-    }
-
-    public Set<String> getAlimentosConsumidos() {
-        return alimentosConsumidos;
-    }
 }
