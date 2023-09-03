@@ -1033,18 +1033,17 @@ public class GameManager {
 
     private Jogador getJogadorMaisDistanteDaMeta(List<Jogador> jogadores) {
         int maiorDistancia = Integer.MIN_VALUE;
-        Jogador jogadorMaisDistante = null;
 
         // Encontrar o jogador com a maior distância da meta
         for (Jogador jogador : jogadores) {
             int distancia = Math.abs(posicaoFinalJogo - jogador.getPosicaoAtual());
             if (distancia > maiorDistancia) {
                 maiorDistancia = distancia;
-                jogadorMaisDistante = jogador;
+                jogadorAtual = jogador;
             }
         }
 
-        return jogadorMaisDistante;
+        return jogadorAtual;
     }
 
     public Jogador obterVencedorNovaCondicao(ArrayList<Jogador> jogadoresEmJogo) {
