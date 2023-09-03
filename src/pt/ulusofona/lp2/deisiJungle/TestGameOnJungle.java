@@ -1287,6 +1287,8 @@ public class TestGameOnJungle {
 
     }
 
+
+
     @Test
     public void testGetWinnerInfo_VencedorAposAlcancarMeta() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
