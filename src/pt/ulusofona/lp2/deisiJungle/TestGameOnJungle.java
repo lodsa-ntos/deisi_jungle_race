@@ -1942,4 +1942,68 @@ public class TestGameOnJungle {
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
+    @Test
+    public void testGetGameResults_ClassificacaoGeral() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[4][3];
+
+        // Jogador 1
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Pato Donald";
+        playerInfo[0][2] = "E";
+
+        // Jogador 2
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Bruninho";
+        playerInfo[1][2] = "L";
+
+        // Jogador 3
+        playerInfo[2][0] = "3";
+        playerInfo[2][1] = "Goiaba";
+        playerInfo[2][2] = "P";
+
+        // Jogador 3
+        playerInfo[3][0] = "4";
+        playerInfo[3][1] = "Akela";
+        playerInfo[3][2] = "Z";
+
+        gameOnJungle.createInitialJungle(10, playerInfo);
+
+        // Jogador 1 joga (vencedor)
+        MovementResult movementResult1 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult1.code());
+
+        // Jogador 2 joga (com menos energia na casa do meio)
+        MovementResult movementResult2 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult2.code());
+
+        // Jogador 3 joga (adiantado)
+        MovementResult movementResult3 = gameOnJungle.moveCurrentPlayer(5, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult3.code());
+
+        // Jogador 4 joga (adiantado)
+        MovementResult movementResult4 = gameOnJungle.moveCurrentPlayer(8, true);
+        assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult4.code());
+
+        assertEquals( "A fn getGameResults está a retornar o 1º classificado incorreto.",
+                "#1 Pato Donald, Elefante, 5, 4, 0",
+                gameOnJungle.getGameResults().get(0));
+
+        assertEquals( "A fn getGameResults está a retornar o 2º classificado incorreto.",
+                "#2 Akela, Tarzan, 9, 8, 0",
+                gameOnJungle.getGameResults().get(1));
+
+        assertEquals( "A fn getGameResults está a retornar o 3º classificado incorreto.",
+                "#3 Goiaba, Passaro, 6, 5, 0",
+                gameOnJungle.getGameResults().get(2));
+
+        assertEquals( "A fn getGameResults está a retornar o 4º classificado incorreto.",
+                "#4 Bruninho, Leao, 5, 4, 0",
+                gameOnJungle.getGameResults().get(3));
+
+        assertEquals("[#1 Pato Donald, Elefante, 5, 4, 0, #2 Akela, Tarzan, 9, 8, 0, #3 Goiaba, Passaro, 6, 5, 0, #4 Bruninho, Leao, 5, 4, 0]",
+                Arrays.toString(gameOnJungle.getGameResults().toArray()));
+    }
+
 }

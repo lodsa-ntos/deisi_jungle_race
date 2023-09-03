@@ -1095,6 +1095,9 @@ public class GameManager {
     }
 
     private void processarResultadosNovaCondicaoVencedor(Jogador vencedor, List<Jogador> jogadoresEmJogo, int posicaoChegada, List<String> resultados) {
+        ArrayList<Jogador> jogadoresCasaDoMeio = new ArrayList<>();
+        ArrayList<Jogador> jogadoresAdiantados = new ArrayList<>();
+
         if (vencedor != null) {
             // Colocar a parte o vencedor da casa do meio com maior energia (Reservar vencedor)
             jogadoresEmJogo.remove(vencedor);
@@ -1111,10 +1114,23 @@ public class GameManager {
 
             posicaoChegada++;
 
+            for (Jogador jogador : jogadoresEmJogo) {
+                if (jogador.getPosicaoAtual() == casaDoMeio) {
+                    jogadoresCasaDoMeio.add(jogador);
+                } else {
+                    jogadoresAdiantados.add(jogador);
+                }
+            }
+
             // Se existirem 4 jogadores na casa do meio, classificar por energia
             if (jogadoresEmJogo.size() == 3) {
-                // Ordenar por ordem decrescente de energia (do maior ao menor)
-                jogadoresEmJogo.sort((jogador1, jogador2) -> jogador2.getEspecie().getEnergiaAtual() - jogador1.getEspecie().getEnergiaAtual());
+
+                if (jogadoresCasaDoMeio.size() == 1 && jogadoresAdiantados.size() >= 2) {
+                    jogadoresEmJogo.sort(Collections.reverseOrder(Comparator.comparingInt(Jogador::getNumeroPosicoesPercorridas)));
+                } else {
+                    // Ordenar por ordem decrescente de energia (do maior ao menor)
+                    jogadoresEmJogo.sort((jogador1, jogador2) -> jogador2.getEspecie().getEnergiaAtual() - jogador1.getEspecie().getEnergiaAtual());
+                }
 
             } else {
                 // Senão se estiverem 3 jogadores em jogo, dois na casa do meio e um adiantado e já existir um venvedor....
