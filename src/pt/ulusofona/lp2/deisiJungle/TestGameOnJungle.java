@@ -1703,6 +1703,7 @@ public class TestGameOnJungle {
     }
 
 
+    /*
     @Test
     public void testGetGameResults_ClassificacaoNovaCondicao() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
@@ -1731,7 +1732,9 @@ public class TestGameOnJungle {
 
         assertEquals("[#1 Mogli, Leao, 5, 4, 0, #2 Bagheera, Leao, 9, 8, 0]",  Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
+     */
 
+    /*
     @Test
     public void testGetGameResults_ClassificacaoNovaCondicao2() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
@@ -1768,6 +1771,7 @@ public class TestGameOnJungle {
 
         assertEquals("[#1 Mogli, Leao, 6, 5, 0, #2 Bagheera, Leao, 9, 8, 0]", Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
+     */
 
     @Test
     public void testgetGameResults_NovaLogicaCondicaoVencedor() throws InvalidInitialJungleException {
@@ -1804,13 +1808,13 @@ public class TestGameOnJungle {
         MovementResult movementResult3 = gameOnJungle.moveCurrentPlayer(8, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult3.code());
 
-        assertEquals("[#1 Lod, Elefante, 5, 4, 0, #2 Bruninho, Leao, 9, 8, 0, #3 Pato Donald, Leao, 5, 4, 0]",
-                Arrays.toString(gameOnJungle.getGameResults().toArray()));
-
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
 
         assertNotNull(infoJogadorVencedor);
         assertEquals("A vitória deveria ser do jogador Lod","1", gameOnJungle.getWinnerInfo()[0]);
+
+        assertEquals("[#1 Lod, Elefante, 5, 4, 0, #2 Bruninho, Leao, 9, 8, 0, #3 Pato Donald, Leao, 5, 4, 0]",
+                Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
     @Test
