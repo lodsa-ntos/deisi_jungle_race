@@ -556,6 +556,7 @@ public class GameManager {
     }
 
     public String[] getWinnerInfo() {
+        String[] infoJogadorVencedor = new String[4];
         calcularCasaDoMeio();
 
         for (Jogador jogador : jogadores) {
@@ -574,7 +575,27 @@ public class GameManager {
                 );
 
                 jogador = jogadores.get(0);
-                String[] infoJogadorVencedor = new String[4];
+                infoJogadorVencedor[0] = String.valueOf(jogador.getId());
+                infoJogadorVencedor[1] = jogador.getNome();
+                infoJogadorVencedor[2] = jogador.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaAtual());
+                return infoJogadorVencedor;
+            }
+
+            // Se nenhum jogador chegou à meta e existe uma grande distância entre os jogadores em jogo
+            // Ganha o jogador mais distante da meta
+            if (existeUmJogadorMuitoDistanteDaMeta()) {
+                jogador = getJogadorMaisDistanteDaMeta(jogadores);
+                infoJogadorVencedor[0] = String.valueOf(jogador.getId());
+                infoJogadorVencedor[1] = jogador.getNome();
+                infoJogadorVencedor[2] = jogador.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(jogador.getEspecie().getEnergiaAtual());
+                return infoJogadorVencedor;
+            }
+
+            // TODO Nova Condição Vencedor:
+            if (isNovaCondicaoVencedor(jogadores)) {
+                jogador = obterVencedorNovaCondicao(jogadores);
                 infoJogadorVencedor[0] = String.valueOf(jogador.getId());
                 infoJogadorVencedor[1] = jogador.getNome();
                 infoJogadorVencedor[2] = jogador.getIdEspecie();
@@ -583,32 +604,6 @@ public class GameManager {
             }
         }
 
-        // Se nenhum jogador chegou à meta e existe uma grande distância entre os jogadores em jogo
-        // Ganha o jogador mais distante da meta
-        if (existeUmJogadorMuitoDistanteDaMeta()) {
-            String[] infoJogadorVencedor = new String[4];
-            Jogador jogadorDistante = getJogadorMaisDistanteDaMeta(jogadores);
-            infoJogadorVencedor[0] = String.valueOf(jogadorDistante.getId());
-            infoJogadorVencedor[1] = jogadorDistante.getNome();
-            infoJogadorVencedor[2] = jogadorDistante.getIdEspecie();
-            infoJogadorVencedor[3] = String.valueOf(jogadorDistante.getEspecie().getEnergiaAtual());
-            return infoJogadorVencedor;
-        }
-
-        // TODO Nova Condição Vencedor:
-        if (isNovaCondicaoVencedor(jogadores)) {
-            jogadorComMaisEnergia = jogadores.get(0);
-            jogadorComMaisEnergia = obterVencedorNovaCondicao(jogadores);
-            if (jogadorComMaisEnergia != null) {
-                String[] infoJogadorVencedor = new String[4];
-                infoJogadorVencedor[0] = String.valueOf(jogadorComMaisEnergia.getId());
-                infoJogadorVencedor[1] = jogadorComMaisEnergia.getNome();
-                infoJogadorVencedor[2] = jogadorComMaisEnergia.getIdEspecie();
-                infoJogadorVencedor[3] = String.valueOf(jogadorComMaisEnergia.getEspecie().getEnergiaAtual());
-
-                return infoJogadorVencedor;
-            }
-        }
         return null;
     }
 
