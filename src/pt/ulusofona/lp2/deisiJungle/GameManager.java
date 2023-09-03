@@ -557,15 +557,14 @@ public class GameManager {
 
     public String[] getWinnerInfo() {
         String[] infoJogadorVencedor = new String[4];
+
         calcularCasaDoMeio();
+        verificarChegadaAMeta();
 
         for (Jogador jogador : jogadores) {
-            if (jogador.getPosicaoAtual() == posicaoFinalJogo) {
-                alguemChegouNaMeta = true;
-            }
 
             // Se algum jogador chegou à posição final do jogo mostrar a info do jogador vencedor
-            if (alguemChegouNaMeta) {
+            if (isAlguemChegouNaMeta()) {
                 jogadores.sort(
                         Comparator.comparingInt(Jogador::getPosicaoAtual)
                                 // inverter com base na posição atual dos jogadores
@@ -594,6 +593,10 @@ public class GameManager {
             }
 
             // TODO Nova Condição Vencedor:
+            // Se nenhum jogador chegou à meta e não existe uma grande distância entre os jogadores em jogo
+            // Quando estiverem presentes dois jogadores na “casa do meio” e existir, pelo menos, um
+            // jogador entre a “casa do meio” e a meta, o vencedor do jogo é o jogador com mais energia que
+            // se encontra na “casa do meio”.
             if (isNovaCondicaoVencedor(jogadores)) {
                 jogador = obterVencedorNovaCondicao(jogadores);
                 infoJogadorVencedor[0] = String.valueOf(jogador.getId());
@@ -624,7 +627,7 @@ public class GameManager {
             return resultados;
 
         } else {
-            if (alguemChegouNaMeta) {
+            if (isAlguemChegouNaMeta()) {
                 for (Jogador jogador : jogadoresEmJogo) {
                     String nome = jogador.getNome();
                     String nomeEspecie = jogador.getEspecie().getNome();
@@ -989,6 +992,20 @@ public class GameManager {
             // Se o tabuleiro tem tamanho 10, logo, a casa do meio é a casa 5.
             casaDoMeio = (posicaoFinalJogo / 2);
         }
+    }
+
+    private void verificarChegadaAMeta() {
+
+        for (Jogador jogador : jogadores) {
+            if (jogador.getPosicaoAtual() == posicaoFinalJogo) {
+                alguemChegouNaMeta = true;
+                break;
+            }
+        }
+    }
+
+    public boolean isAlguemChegouNaMeta() {
+        return alguemChegouNaMeta;
     }
 
     private boolean existeUmJogadorMuitoDistanteDaMeta() {

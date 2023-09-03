@@ -2006,4 +2006,14 @@ public class TestGameOnJungle {
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
+    @Test
+    public void testGetWinnerInfo() {
+
+        GameManager gameOnJungle = new GameManager();
+
+        String[] vencedorInfo = gameOnJungle.getWinnerInfo();
+
+        assertNull("getWinnerInfo() devolveu não-null demasiado cedo", vencedorInfo);
+    }
+
 }
