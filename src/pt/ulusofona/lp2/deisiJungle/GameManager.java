@@ -589,6 +589,15 @@ public class GameManager {
             return infoJogadorVencedor;
         }
 
+        if (existemDoisJogadoresEntreACasaDoMeioEaMeta(jogadores)) {
+            jogadorAtual = getJogadorMaisDistanteDaMeta(jogadores);
+            infoJogadorVencedor[0] = String.valueOf(jogadorAtual.getId());
+            infoJogadorVencedor[1] = jogadorAtual.getNome();
+            infoJogadorVencedor[2] = jogadorAtual.getIdEspecie();
+            infoJogadorVencedor[3] = String.valueOf(jogadorAtual.getEspecie().getEnergiaAtual());
+            return infoJogadorVencedor;
+        }
+
         // TODO Nova Condição Vencedor:
         // Se nenhum jogador chegou à meta e não existe uma grande distância entre os jogadores em jogo
         // Quando estiverem presentes dois jogadores na “casa do meio” e existir, pelo menos, um
@@ -1027,6 +1036,25 @@ public class GameManager {
         // Verificar se a distância entre os jogadores é maior que a metade do tamanho do mapa
         return distanciaEntreJogadores > metadeDaMeta;
     }
+
+    private boolean existemDoisJogadoresEntreACasaDoMeioEaMeta(List<Jogador> jogadores) {
+        int contadorDeJogadoresNaFaixa = 0;
+        calcularCasaDoMeio();
+
+        // Ordenar os jogadores por posição atual
+        jogadores.sort(Comparator.comparing(Jogador::getPosicaoAtual));
+
+        for (Jogador jogador : jogadores) {
+            int posicaoAtual = jogador.getPosicaoAtual();
+            if (posicaoAtual > casaDoMeio && posicaoAtual < posicaoFinalJogo) {
+                contadorDeJogadoresNaFaixa++;
+            }
+        }
+
+        // Verificar se existem exatamente 2 jogadores dentro da faixa
+        return contadorDeJogadoresNaFaixa == 2;
+    }
+
 
     private Jogador getJogadorMaisDistanteDaMeta(List<Jogador> jogadores) {
         int maiorDistancia = Integer.MIN_VALUE;
