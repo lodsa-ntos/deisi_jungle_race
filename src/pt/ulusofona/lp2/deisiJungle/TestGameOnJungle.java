@@ -1892,7 +1892,7 @@ public class TestGameOnJungle {
     }
 
     @Test
-    public void testgetGameResults_SegundoClassificado() throws InvalidInitialJungleException {
+    public void testGetGameResults_SegundoClassificado() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
 
         String[][] playerInfo = new String[3][3];
@@ -1926,9 +1926,20 @@ public class TestGameOnJungle {
         MovementResult movementResult3 = gameOnJungle.moveCurrentPlayer(5, true);
         assertEquals(MovementResultCode.VALID_MOVEMENT, movementResult3.code());
 
+        assertEquals( "A fn getGameResults está a retornar o 1º classificado incorreto.",
+                "#1 Pato Donald, Elefante, 5, 4, 0",
+                gameOnJungle.getGameResults().get(0));
+
         assertEquals( "A fn getGameResults está a retornar o 2º classificado incorreto.",
                 "#2 Goiaba, Passaro, 6, 5, 0",
                 gameOnJungle.getGameResults().get(1));
+
+        assertEquals( "A fn getGameResults está a retornar o 3º classificado incorreto.",
+                "#3 Bruninho, Leao, 5, 4, 0",
+                gameOnJungle.getGameResults().get(2));
+
+        assertEquals("[#1 Pato Donald, Elefante, 5, 4, 0, #2 Goiaba, Passaro, 6, 5, 0, #3 Bruninho, Leao, 5, 4, 0]",
+                Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
 }
