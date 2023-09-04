@@ -80,7 +80,7 @@ public abstract class Especie {
 
     public abstract String getTipoAlimentacaoDaEspecie();
 
-    public abstract String setTipoAlimentacaoDaEspecie(String tipoAlimentacaoDaEspecie);
+    public abstract String definirTipoAlimentacaoDaEspecie(String tipoAlimentacaoDaEspecie);
 
     public abstract String toString();
 }

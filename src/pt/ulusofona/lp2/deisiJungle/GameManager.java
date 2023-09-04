@@ -1228,7 +1228,7 @@ public class GameManager {
         novoJogador.getEspecie().definirEnergiaAtual(novaEnergiaAtual);
         novoJogador.incrementarNumeroPosicoesPercorridas(novaPosicaoPercorridas);
         novoJogador.aumentarNumAlimentoApanhado(novoNumAlimento);
-        novoJogador.getEspecie().setTipoAlimentacaoDaEspecie(novoTipoAlimentacaoEspecie);
+        novoJogador.getEspecie().definirTipoAlimentacaoDaEspecie(novoTipoAlimentacaoEspecie);
         novoJogador.getEspecie().definirConsumoEnergia(novoConsumoEnergia);
         novoJogador.getEspecie().definirGanhoEnergiaDescanso(novoGanhoEnergia);
         novoJogador.getEspecie().definirVelocidadeMinima(novaVelocidadeMinima);
