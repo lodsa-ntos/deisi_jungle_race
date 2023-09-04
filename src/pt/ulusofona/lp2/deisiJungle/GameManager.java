@@ -1362,7 +1362,7 @@ public class GameManager {
         }
 
         int metadeDaMeta = posicaoFinalJogo / 2;
-        int distanciaEntreJogadores = (distanciaSegundoJogador - distanciaPrimeiroJogador);
+        int distanciaEntreJogadores = (distanciaSegundoJogador — distanciaPrimeiroJogador);
 
         // Verificar se a distância entre os jogadores é menor que a metade do tamanho do mapa
         return distanciaEntreJogadores < metadeDaMeta;
