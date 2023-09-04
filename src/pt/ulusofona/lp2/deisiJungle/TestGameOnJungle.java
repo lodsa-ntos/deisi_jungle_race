@@ -1363,7 +1363,7 @@ public class TestGameOnJungle {
         String[] infoJogadorVencedor = gameOnJungle.getWinnerInfo();
 
         assertNotNull(gameOnJungle.getJogadores());
-        Jogador vencedor = gameOnJungle.obterVencedorNovaCondicao(gameOnJungle.getJogadores());
+        Jogador vencedor = gameOnJungle.obterVencedorDaCasaDoMeioNovaCondicao(gameOnJungle.getJogadores());
 
          assertNotNull(vencedor);
 

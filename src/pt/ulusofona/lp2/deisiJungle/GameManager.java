@@ -601,7 +601,7 @@ public class GameManager {
         // jogador entre a “casa do meio” e a meta, o vencedor do jogo é o jogador com mais energia que
         // se encontra na “casa do meio”.
         if (isNovaCondicaoVencedor(jogadores)) {
-            jogadorAtual = obterVencedorNovaCondicao(jogadores);
+            jogadorAtual = obterVencedorDaCasaDoMeioNovaCondicao(jogadores);
             infoJogadorVencedor[0] = String.valueOf(jogadorAtual.getId());
             infoJogadorVencedor[1] = jogadorAtual.getNome();
             infoJogadorVencedor[2] = jogadorAtual.getIdEspecie();
@@ -626,7 +626,7 @@ public class GameManager {
 
         if (isNovaCondicaoVencedor(jogadoresEmJogo)) {
             // Encontrar o jogador com mais energia na "casa do meio"
-            Jogador vencedorCasaDoMeio = obterVencedorNovaCondicao(jogadoresEmJogo);
+            Jogador vencedorCasaDoMeio = obterVencedorDaCasaDoMeioNovaCondicao(jogadoresEmJogo);
             processarResultadosNovaCondicaoVencedor(vencedorCasaDoMeio, jogadoresEmJogo, posicaoDeChegada, resultados);
             return resultados;
 
@@ -1099,18 +1099,15 @@ public class GameManager {
         return posicaoAtual == casaDoMeio;
     }
 
-    public Jogador obterVencedorNovaCondicao(ArrayList<Jogador> jogadoresEmJogo) {
+    public Jogador obterVencedorDaCasaDoMeioNovaCondicao(ArrayList<Jogador> jogadoresEmJogo) {
 
         calcularCasaDoMeio();
 
         ArrayList<Jogador> jogadoresCasaDoMeio = new ArrayList<>();
-        ArrayList<Jogador> jogadoresAdiantados = new ArrayList<>();
 
         for (Jogador jogador : jogadoresEmJogo) {
             if (jogador.getPosicaoAtual() == casaDoMeio) {
                 jogadoresCasaDoMeio.add(jogador);
-            } else {
-                jogadoresAdiantados.add(jogador);
             }
         }
 
