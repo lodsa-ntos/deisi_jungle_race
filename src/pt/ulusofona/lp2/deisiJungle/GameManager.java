@@ -4,10 +4,8 @@ import pt.ulusofona.lp2.deisiJungle.validar.ValidadorJogador;
 import pt.ulusofona.lp2.deisiJungle.validar.ValidadorAlimento;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.util.*;
-import java.util.List;
 
 /*-------------------------------------------------DEISI JUNGLE-----------------------------------------------------
     Certo dia, numa savana muito (muito) longe daqui, os animais decidiram descobrir quem seria o melhor atleta entre
@@ -22,7 +20,7 @@ public class GameManager {
     private ArrayList<Jogador> jogadores = new ArrayList<>();
     private ArrayList<Alimento> alimentos = new ArrayList<>();
     private HashMap<Integer,Integer> idJogadoresEmJogo = new HashMap<>();
-    private HashMap<Integer,Integer> jogadoresQueConsumiramBanana = new HashMap<>();
+    private HashMap<Integer, Integer> jogadoresQueConsumiramBanana = new HashMap<>();
     private Set<String> alimentosConsumidos = new HashSet<>();
     private Jogador jogadorAtual;
     private int posicaoFinalJogo;
@@ -31,6 +29,7 @@ public class GameManager {
     private int casaDoMeio;
     private boolean alguemChegouNaMeta;
     private boolean casaComAlimento;
+    private boolean existeJogadorNoMeio;
 
     public GameManager() {}
 
@@ -46,7 +45,7 @@ public class GameManager {
             ● [6] ⇒ velocidade, no formato “X..Y”
             // Total Especies = 6
         */
-        String [][] especies = new String[7][7];
+        String [][] especies = new String[6][7];
 
         especies[0][0] = "E"; // ⇒ id da espécie
         especies[0][1] = "Elefante"; // ⇒ nome da espécie
@@ -286,7 +285,6 @@ public class GameManager {
             infoPosCaixasNoMapa[0] = "blank.png";
             infoPosCaixasNoMapa[1] = "Vazio";
         }
-
         infoPosCaixasNoMapa[2] = "";
 
         for (Alimento alimento : alimentos) {
@@ -297,6 +295,8 @@ public class GameManager {
 
             //incrementarTurno();
             //atualizarContagemJogadasCarne(0);
+
+
 
             //TODO deve passar a retornar informação do alimento, quando nesse slot esteja algum alimento.
             // Mostrar uma tooltip quando se passa o rato por cima de um alimento
@@ -311,6 +311,7 @@ public class GameManager {
             }
         }
 
+        //
         // [2] => Uma String contendo os identificadores dos jogadores que estão nessa posição, separados por
         // vírgula (ex: “3,5” — estão lá os jogadores 3 e 5).
 
@@ -356,7 +357,6 @@ public class GameManager {
         - [3] => A energia atual do jogador, medida em unidades de energia
         - [4] => A velocidade, no formato “X..Y” => Velocidade Minima = 1..6 = Velocidade Maxima
          */
-
         String[] infoJogador = new String[5];
 
         for (Jogador jogador : jogadores) {
@@ -380,7 +380,6 @@ public class GameManager {
          */
 
         String[] infoJogadorAtual = new String[5];
-
         // Alternar o jogador
         Jogador jogadorAtual = jogadores.get((turnoAtual - 1) % jogadores.size());
 
@@ -395,20 +394,19 @@ public class GameManager {
 
     public String[] getCurrentPlayerEnergyInfo(int nrPositions) {
 
+        // Devolve informação de energia para o jogador que se encontra ativo no turno atual.
+
         /*
-        Devolve informação de energia para o jogador que se encontra ativo no turno atual.
-
-        Consumo de energia — a quantidade de unidades de energia gastas para o
-        animal se mover uma posição. Por exemplo, se o jogador se movimentar 3 posições, irá
-        gastar 3 * N, em que N é o consumo de energia da espécie respetiva
-
-        Ganho de energia em descanso — a quantidade de unidades de energia que o jogador
-        eganha por não avançar (seja porque assim o decidiu, seja porque já não tem energia)
-
         - [0] => Qual será o consumo de energia deste jogador se se movimentar <nrPositions>
         - [1] => Qual será o ganho de energia se ficar no lugar
-
          */
+
+        // Consumo de energia — a quantidade de unidades de energia gastas para o
+        // animal se mover uma posição. Por exemplo, se o jogador se movimentar 3 posições, irá
+        // gastar 3 * N, em que N é o consumo de energia da espécie respetiva
+
+        // Ganho de energia em descanso — a quantidade de unidades de energia que o jogador
+        // eganha por não avançar (seja porque assim o decidiu, seja porque já não tem energia)
 
         String[] infoEnergia = new String[2];
 
@@ -429,7 +427,6 @@ public class GameManager {
 
         // Atualizar o turno e o jogador atual a se movimentar
         //jogadorAtual = jogadores.get(turnoAtual % jogadores.size());
-
         int casaAtual = jogadorAtual.getPosicaoAtual();
         int novaPosicaoJogador = casaAtual + nrPositions;
         int consumoEnergia = jogadorAtual.getEspecie().getConsumoEnergia() * Math.abs(nrPositions);
@@ -477,7 +474,6 @@ public class GameManager {
         // A cada turno alterno o jogador atual de acordo a quantidade dos jogadores em jogo
         jogadorAtual = jogadores.get((turnoAtual - 1) % jogadores.size());
         atualizarContagemJogadasCarne(turnoAtual);
-
         int casaAtual = jogadorAtual.getPosicaoAtual(); // CASA DE PARTIDA = 1
         int novaPosicaoJogador = casaAtual + nrSquares; // A + M
         int energiaAtual = jogadorAtual.getEspecie().getEnergiaAtual();
@@ -499,11 +495,10 @@ public class GameManager {
         }
 
         // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
-        MovementResult nivelDeEnergia = jogadorComEnergiaSuficienteParaSeMover(nrSquares, energiaAtual, consumoEnergia);
-
-        // Se o resultado do nivel de energia não for null, retornar NO_ENERGY
-        if (nivelDeEnergia != null) {
-            return nivelDeEnergia;
+        if (energiaAtual < consumoEnergia * Math.abs(nrSquares)) {
+            // Atualizar o turno
+            incrementarTurno();
+            return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
 
         // O argumento nrSquares tem que estar contido entre -6 e 6
@@ -515,7 +510,7 @@ public class GameManager {
 
         // Se o jogador tentar ultrapassar a casa final do jogo, deve ficar na posição final do jogo
         if (novaPosicaoJogador >= posicaoFinalJogo) {
-            // ...o jogador deve ficar na posição final do jogo
+            // ...o jogador deve fica na posição final do jogo
             novaPosicaoJogador = posicaoFinalJogo;
             // Movimentar o jogador para a casa A + M
             jogadorAtual.alterarPosicaoAtual(novaPosicaoJogador);
@@ -533,24 +528,23 @@ public class GameManager {
         casaComAlimento = verificaCasaComAlimentoUnicornio(novaPosicaoJogador);
 
         // Verificar se existem jogadores na casa do meio para nova condição de vitória
-        verificaJogadorNaCasaDoMeio();
+        existeJogadorNoMeio = verificaJogadorNaCasaDoMeio();
 
         // Definir a energia do jogador quando recua ou avança
         setEnergyOfNumberOfSquare(nrSquares, energiaAtual, consumoEnergia, casaComAlimento);
 
         // Se não tiver energia suficiente para fazer o movimento, fica na mesma casa
-        MovementResult nivelDeEnergia2 = jogadorComEnergiaSuficienteParaSeMover(nrSquares, energiaAtual, consumoEnergia);
-
-        // Se o resultado do nivel de energia não for null, retornar NO_ENERGY
-        if (nivelDeEnergia2 != null) {
-            return nivelDeEnergia2;
+        if (energiaAtual < consumoEnergia * Math.abs(nrSquares)) {
+            // Atualizar o turno
+            incrementarTurno();
+            return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
 
         // Verficar qual o alimento consumido
         String alimentoConsumido = verificarConsumoDeAlimento(novaPosicaoJogador);
-        MovementResult resultadoConsumo = processarMovimentoParaConsumoDeAlimento(alimentoConsumido, jogadorAtual);
+        MovementResult resultadoConsumo = processarMovimentoParaConsumoAlimento(alimentoConsumido, jogadorAtual);
 
-        // Se o resultado do consumo de alimento não for null, retornar CAUGHT_FOOD
+        // Se o resultado do consumo de alimento não for null, retornar VALID_MOVEMENT ou CAUGHT_FOOD
         if (resultadoConsumo != null) {
             return resultadoConsumo;
         }
@@ -582,12 +576,20 @@ public class GameManager {
             infoJogadorVencedor[2] = jogadorAtual.getIdEspecie();
             infoJogadorVencedor[3] = String.valueOf(jogadorAtual.getEspecie().getEnergiaAtual());
             return infoJogadorVencedor;
-        }
+        } else
 
-        // Se nenhum jogador chegou à meta e existe uma grande distância entre os jogadores em jogo
-        // Ganha o jogador mais distante da meta
-        if (existeUmJogadorMuitoDistanteDaMeta()) {
-            jogadorAtual = obterJogadorMaisDistanteDaMeta(jogadores);
+            // Se nenhum jogador chegou à meta e existe uma grande distância entre os jogadores em jogo
+            // Ganha o jogador mais distante da meta
+            if (existeUmJogadorMuitoDistanteDaMeta()) {
+                jogadorAtual = getJogadorMaisDistanteDaMeta(jogadores);
+                infoJogadorVencedor[0] = String.valueOf(jogadorAtual.getId());
+                infoJogadorVencedor[1] = jogadorAtual.getNome();
+                infoJogadorVencedor[2] = jogadorAtual.getIdEspecie();
+                infoJogadorVencedor[3] = String.valueOf(jogadorAtual.getEspecie().getEnergiaAtual());
+                return infoJogadorVencedor;
+            }
+
+        if (existemDoisJogadoresEntreACasaDoMeioEaMeta(jogadores)) {
             infoJogadorVencedor[0] = String.valueOf(jogadorAtual.getId());
             infoJogadorVencedor[1] = jogadorAtual.getNome();
             infoJogadorVencedor[2] = jogadorAtual.getIdEspecie();
@@ -613,25 +615,22 @@ public class GameManager {
     }
 
     public ArrayList<String> getGameResults() {
-        ArrayList<String> resultados = new ArrayList<>();
         ArrayList<Jogador> jogadoresEmJogo = new ArrayList<>();
-
-        int posicaoDeChegada = 0;
-
         for (Jogador jogador : jogadores) {
             if (jogador.getEspecie().getEnergiaAtual() >= 0) {
                 jogadoresEmJogo.add(jogador);
             }
         }
+        ArrayList<String> resultados = new ArrayList<>();
+        int posicaoChegada = 0;
 
         if (isNovaCondicaoVencedor(jogadoresEmJogo)) {
             // Encontrar o jogador com mais energia na "casa do meio"
             Jogador vencedorCasaDoMeio = obterVencedorNovaCondicao(jogadoresEmJogo);
-            processarResultadosNovaCondicaoVencedor(vencedorCasaDoMeio, jogadoresEmJogo, posicaoDeChegada, resultados);
+            processarResultadosNovaCondicaoVencedor(vencedorCasaDoMeio, jogadoresEmJogo, posicaoChegada, resultados);
             return resultados;
 
         } else {
-
             if (isAlguemChegouNaMeta()) {
                 for (Jogador jogador : jogadoresEmJogo) {
                     String nome = jogador.getNome();
@@ -640,29 +639,27 @@ public class GameManager {
                     int distancia = jogador.getNumeroPosicoesPercorridas();
                     int numAlimento = jogador.getNumeroAlimento();
 
-                    resultados.add("#" + (posicaoDeChegada + 1) + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                    resultados.add("#" + (posicaoChegada + 1) + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
                             + ", " + distancia + ", " + numAlimento);
-                    posicaoDeChegada++;
+                    posicaoChegada++;
                 }
-
             } else {
-
                 if (existeUmJogadorMuitoDistanteDaMeta()) {
                     ArrayList<Jogador> jogadoresEmLongaDistancia = new ArrayList<>(jogadoresEmJogo);
                     for (Jogador jogador : jogadoresEmJogo) {
-                        Jogador jogadorMaisDistante = obterJogadorMaisDistanteDaMeta(jogadoresEmLongaDistancia);
+                        Jogador jogadorMaisDistante = getJogadorMaisDistanteDaMeta(jogadoresEmLongaDistancia);
                         String nome = jogadorMaisDistante.getNome();
                         String nomeEspecie = jogadorMaisDistante.getEspecie().getNome();
                         int posicaoAtual = jogadorMaisDistante.getPosicaoAtual();
                         int distancia = jogadorMaisDistante.getNumeroPosicoesPercorridas();
                         int numAlimento = jogadorMaisDistante.getNumeroAlimento();
 
-                        resultados.add("#" + (posicaoDeChegada + 1) + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
+                        resultados.add("#" + (posicaoChegada + 1) + " " + nome + ", " + nomeEspecie + ", " + posicaoAtual
                                 + ", " + distancia + ", " + numAlimento);
 
                         // remover o jogadorMaisDistante da lista, atualizar a lista (reset)
                         jogadoresEmLongaDistancia.remove(jogadorMaisDistante);
-                        posicaoDeChegada++;
+                        posicaoChegada++;
                     }
                 }
             }
@@ -676,9 +673,6 @@ public class GameManager {
         JPanel mostrarCredito = new JPanel();
 
         author.setText("Lodney Santos");
-
-        author.setForeground(Color.BLUE);
-        author.setFont(new Font("Arial", Font.BOLD, 18));
 
         mostrarCredito.add(author);
         return mostrarCredito;
@@ -810,116 +804,43 @@ public class GameManager {
 
 
 
+
     /**
-     * --------------------------------------FUNÇÕES AUXILIARES moveCurrentPlayer()-------------------------------------
+     * -----------------------------------------FUNÇÕES AUXILIARES---------------------------------------
      */
 
-    private void atualizarContagemJogadasCarne(int turnoAtual) {
-        for (Alimento alimento : alimentos) {
-            alimento.setNumroJogadasCarne(turnoAtual);
-        }
-    }
+    /**
+     * --------------------------------------moveCurrentPlayer()-------------------------------------
+     */
 
-    private void limitarEnergia(boolean avancouOuRecou, boolean ficou, int valorAlteracaoEnergia) {
-        /*
-        A energia de qualquer jogador nunca pode ultrapassar os 200, seja por descansar, seja
-        por efeito de alimentos. Caso isso aconteça, a energia mantém-se nos 200.
-         */
-        int limiteEnergia = 200;
+    private MovementResult processarMovimentoParaConsumoAlimento(String alimentoConsumido, Jogador jogadorAtual) {
+        if (alimentoConsumido != null) {
+            // Se for carnívoro, omnivoro ou se for herbivoro e o alimento consumido não é carne
+            // contar o número de alimento apanhado.
+            if (!jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie().equals("herbívoro") ||
+                    (jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie().equals("herbívoro")
+                            && !alimentoConsumido.equals("Carne"))) {
 
-        int novaEnergia = jogadorAtual.getEspecie().getEnergiaAtual();
-
-        if (avancouOuRecou) {
-            novaEnergia -= Math.abs(valorAlteracaoEnergia);
-            novaEnergia = Math.max(novaEnergia, 0); // Garantir que a energia não fica negativa
-
-        } else if (ficou) {
-            novaEnergia += valorAlteracaoEnergia;
-            novaEnergia = Math.min(novaEnergia, limiteEnergia); // Garantir que a energia não ultrapassa o limite
-        }
-
-        jogadorAtual.getEspecie().definirEnergiaAtual(novaEnergia);
-    }
-
-    private MovementResult jogadorComEnergiaSuficienteParaSeMover(int nrSquares, int energiaAtual, int consumoEnergia) {
-        if (energiaAtual < consumoEnergia * Math.abs(nrSquares)) {
+                jogadorAtual.aumentarNumAlimentoApanhado(1);
+                // Registrar o alimento consumido
+                registrarAlimentoConsumido(alimentoConsumido);
+                // senão se for herbívoro e o alimento consumido é carne...
+            } else {
+                // Atualizar o turno e ignorar o consumo de carne por herbívoros
+                incrementarTurno();
+                return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
+            }
+            // Registrar o alimento consumido
+            registrarAlimentoConsumido(alimentoConsumido);
             // Atualizar o turno
             incrementarTurno();
-            return new MovementResult(MovementResultCode.NO_ENERGY, null);
+            return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
         }
         return null;
     }
 
-    private boolean isMovimentoValido(int nrSquares, int posicaoJogador, int casaPartida, boolean bypassValidations) {
-        if (!bypassValidations) {
-            if (nrSquares < -6 || nrSquares > 6) {
-                return false;
-            }
-            if (posicaoJogador < casaPartida) {
-                return false;
-            }
-            // Verificar se as espécies se movimentarem nas respetivas velocidades mínima e máxima
-            return validarVelocidadeEspecie(Math.abs(nrSquares));
-        }
-        return true;
-    }
-
-    private boolean validarVelocidadeEspecie(int velocidade) {
-        String especieID = jogadorAtual.getEspecie().getId();
-
-        return switch (especieID) {
-            case "E", "Z" -> // Elefante ou Tarzan
-                    velocidade >= 1 && velocidade <= 6;
-            case "L" -> // Leão
-                    velocidade >= 4 && velocidade <= 6;
-            case "T" -> // Tartaruga
-                    velocidade >= 1 && velocidade <= 3;
-            case "P" -> // Pássaro
-                    velocidade >= 5 && velocidade <= 6;
-            case "U" -> // Unicórnio
-                    velocidade >= 3 && velocidade <= 6;
-            default -> false;
-        };
-    }
-
-    private boolean verificaCasaComAlimentoUnicornio(int novaPosicaoJogador) {
-        for (Alimento alimento : alimentos) {
-            if (alimento.getPosicaoAlimento() == novaPosicaoJogador) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void verificaJogadorNaCasaDoMeio() {
-        calcularCasaDoMeio();
-        for (Jogador jogador : jogadores) {
-            if (jogador.getPosicaoAtual() == casaDoMeio) {
-                return;
-            }
-        }
-    }
-
-    public void setEnergyOfNumberOfSquare(int nrSquares, int energiaAtual, int consumoEnergia, boolean casaComAlimento) {
-        if (nrSquares != 0) {
-
-            int energiaGasta = consumoEnergia * Math.abs(nrSquares);
-            Especie especieJogador = jogadorAtual.getEspecie();
-
-            if (especieJogador.getId().equals("U")) {
-                if (casaComAlimento) {
-                    int novaEnergia = energiaAtual - energiaGasta;
-                    especieJogador.definirEnergiaAtual(novaEnergia);
-                } else {
-                    int energiaAtualizada = energiaAtual + 2;
-                    int novaEnergia = energiaAtualizada - energiaGasta;
-                    especieJogador.definirEnergiaAtual(novaEnergia);
-                }
-            } else {
-                int novaEnergia = energiaAtual - energiaGasta;
-                especieJogador.definirEnergiaAtual(novaEnergia);
-            }
-        }
+    private void registrarAlimentoConsumido(String alimento) {
+        alimentosConsumidos.add(alimento);
     }
 
     private String verificarConsumoDeAlimento(int posicao) {
@@ -964,41 +885,109 @@ public class GameManager {
         return null;
     }
 
-    private MovementResult processarMovimentoParaConsumoDeAlimento(String alimentoConsumido, Jogador jogadorAtual) {
-        if (alimentoConsumido != null) {
-            // Se for carnívoro, omnivoro ou se for herbivoro e o alimento consumido não é carne
-            // contar o número de alimento apanhado.
-            if (!jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie().equals("herbívoro") ||
-                    (jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie().equals("herbívoro")
-                            && !alimentoConsumido.equals("Carne"))) {
+    private boolean validarVelocidadeEspecie(int velocidade) {
+        String especieID = jogadorAtual.getEspecie().getId();
 
-                jogadorAtual.aumentarNumAlimentoApanhado(1);
-                // Registrar o alimento consumido
-                registrarAlimentoConsumido(alimentoConsumido);
-                // senão se for herbívoro e o alimento consumido é carne...
+        return switch (especieID) {
+            case "E", "Z" -> // Elefante ou Tarzan
+                    velocidade >= 1 && velocidade <= 6;
+            case "L" -> // Leão
+                    velocidade >= 4 && velocidade <= 6;
+            case "T" -> // Tartaruga
+                    velocidade >= 1 && velocidade <= 3;
+            case "P" -> // Pássaro
+                    velocidade >= 5 && velocidade <= 6;
+            case "U" -> // Unicórnio
+                    velocidade >= 3 && velocidade <= 6;
+            default -> false;
+        };
+    }
+
+    public void setEnergyOfNumberOfSquare(int nrSquares, int energiaAtual, int consumoEnergia, boolean casaComAlimento) {
+        if (nrSquares != 0) {
+
+            int energiaGasta = consumoEnergia * Math.abs(nrSquares);
+            Especie especieJogador = jogadorAtual.getEspecie();
+
+            if (especieJogador.getId().equals("U")) {
+                if (casaComAlimento) {
+                    int novaEnergia = energiaAtual - energiaGasta;
+                    especieJogador.definirEnergiaAtual(novaEnergia);
+                } else {
+                    int energiaAtualizada = energiaAtual + 2;
+                    int novaEnergia = energiaAtualizada - energiaGasta;
+                    especieJogador.definirEnergiaAtual(novaEnergia);
+                }
             } else {
-                // Atualizar o turno e ignorar o consumo de carne por herbívoros
-                incrementarTurno();
-                return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
+                int novaEnergia = energiaAtual - energiaGasta;
+                especieJogador.definirEnergiaAtual(novaEnergia);
             }
-            // Registrar o alimento consumido
-            registrarAlimentoConsumido(alimentoConsumido);
-            // Atualizar o turno
-            incrementarTurno();
-            return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
         }
-        return null;
     }
 
-    private void registrarAlimentoConsumido(String alimento) {
-        alimentosConsumidos.add(alimento);
+    private boolean verificaCasaComAlimentoUnicornio(int novaPosicaoJogador) {
+        for (Alimento alimento : alimentos) {
+            if (alimento.getPosicaoAlimento() == novaPosicaoJogador) {
+                return true;
+            }
+        }
+        return false;
     }
 
+    private boolean verificaJogadorNaCasaDoMeio() {
+        calcularCasaDoMeio();
+        for (Jogador jogador : jogadores) {
+            if (jogador.getPosicaoAtual() == casaDoMeio) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    private void limitarEnergia(boolean avancouOuRecou, boolean ficou, int valorAlteracaoEnergia) {
+        /*
+        A energia de qualquer jogador nunca pode ultrapassar os 200, seja por descansar, seja
+        por efeito de alimentos. Caso isso aconteça, a energia mantém-se nos 200.
+         */
+        int limiteEnergia = 200;
+
+        int novaEnergia = jogadorAtual.getEspecie().getEnergiaAtual();
+
+        if (avancouOuRecou) {
+            novaEnergia -= Math.abs(valorAlteracaoEnergia);
+            novaEnergia = Math.max(novaEnergia, 0); // Garantir que a energia não fica negativa
+
+        } else if (ficou) {
+            novaEnergia += valorAlteracaoEnergia;
+            novaEnergia = Math.min(novaEnergia, limiteEnergia); // Garantir que a energia não ultrapassa o limite
+        }
+
+        jogadorAtual.getEspecie().definirEnergiaAtual(novaEnergia);
+    }
+
+    private boolean isMovimentoValido(int nrSquares, int posicaoJogador, int casaPartida, boolean bypassValidations) {
+        if (!bypassValidations) {
+            if (nrSquares < -6 || nrSquares > 6) {
+                return false;
+            }
+            if (posicaoJogador < casaPartida) {
+                return false;
+            }
+            // Verificar se as espécies se movimentarem nas respetivas velocidades mínima e máxima
+            return validarVelocidadeEspecie(Math.abs(nrSquares));
+        }
+        return true;
+    }
+
+    private void atualizarContagemJogadasCarne(int turnoAtual) {
+        for (Alimento alimento : alimentos) {
+            alimento.setNumroJogadasCarne(turnoAtual);
+        }
+    }
 
 
     /**
-     * ---------------------------------FUNÇÕES AUXILIARES getWinnerInfo()------------------------------------
+     * ----------------------getWinnerInfo() E getGameResults (DISTANCIA E NOVA CONDIÇÃO)------------------------
      */
 
     private void calcularCasaDoMeio() {
@@ -1011,6 +1000,7 @@ public class GameManager {
     }
 
     private void verificarChegadaAMeta() {
+
         for (Jogador jogador : jogadores) {
             if (jogador.getPosicaoAtual() == posicaoFinalJogo) {
                 alguemChegouNaMeta = true;
@@ -1046,7 +1036,26 @@ public class GameManager {
         return distanciaEntreJogadores > metadeDaMeta;
     }
 
-    private Jogador obterJogadorMaisDistanteDaMeta(List<Jogador> jogadores) {
+    private boolean existemDoisJogadoresEntreACasaDoMeioEaMeta(List<Jogador> jogadores) {
+        int contadorDeJogadoresNaFaixa = 0;
+        calcularCasaDoMeio();
+
+        // Ordenar os jogadores por posição atual
+        jogadores.sort(Comparator.comparing(Jogador::getPosicaoAtual));
+
+        for (Jogador jogador : jogadores) {
+            int posicaoAtual = jogador.getPosicaoAtual();
+            if (posicaoAtual > casaDoMeio && posicaoAtual < posicaoFinalJogo) {
+                contadorDeJogadoresNaFaixa++;
+            }
+        }
+
+        // Verificar se existem exatamente 2 jogadores dentro da faixa
+        return contadorDeJogadoresNaFaixa == 2;
+    }
+
+
+    private Jogador getJogadorMaisDistanteDaMeta(List<Jogador> jogadores) {
         int maiorDistancia = Integer.MIN_VALUE;
 
         // Encontrar o jogador com a maior distância da meta
@@ -1059,44 +1068,6 @@ public class GameManager {
         }
 
         return jogadorAtual;
-    }
-
-    private boolean isNovaCondicaoVencedor(List<Jogador> jogadoresEmJogo) {
-        ArrayList<Jogador> jogadoresNaCasaDoMeio = new ArrayList<>();
-
-        // Verificar se há pelo menos dois jogadores na "casa do meio"
-        for (Jogador jogador : jogadoresEmJogo) {
-            if (jogadorEstaNaCasaDoMeio(jogador)) {
-                jogadoresNaCasaDoMeio.add(jogador);
-                // Se existirem em jogo 3 jogadores (2 na casa do meio e 1 adiantado)
-                if (jogadoresNaCasaDoMeio.size() >= 2 && jogadorEntreCasaDoMeioEAMeta(jogadoresEmJogo)) {
-                    return true;
-
-                    // Senão se existirem em jogo 2 jogadores na casa do meio
-                } else if (jogadoresNaCasaDoMeio.size() == 2) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private boolean jogadorEntreCasaDoMeioEAMeta(List<Jogador> jogadoresEmJogo) {
-        // Verificar se há pelo menos um jogador entre a "casa do meio" e a meta
-        calcularCasaDoMeio();
-        for (Jogador jogador : jogadoresEmJogo) {
-            int posicaoAtual = jogador.getPosicaoAtual();
-            if (posicaoAtual > casaDoMeio && posicaoAtual < posicaoFinalJogo) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean jogadorEstaNaCasaDoMeio(Jogador jogador) {
-        int posicaoAtual = jogador.getPosicaoAtual();
-        return posicaoAtual == casaDoMeio;
     }
 
     public Jogador obterVencedorNovaCondicao(ArrayList<Jogador> jogadoresEmJogo) {
@@ -1127,13 +1098,6 @@ public class GameManager {
 
         return null;
     }
-
-
-
-
-    /**
-     * ---------------------------------FUNÇÕES AUXILIARES getGameResults()------------------------------------
-     */
 
     private void processarResultadosNovaCondicaoVencedor(Jogador vencedor, List<Jogador> jogadoresEmJogo, int posicaoChegada, List<String> resultados) {
         ArrayList<Jogador> jogadoresCasaDoMeio = new ArrayList<>();
@@ -1197,13 +1161,91 @@ public class GameManager {
         }
     }
 
+    private boolean isNovaCondicaoVencedor(List<Jogador> jogadoresEmJogo) {
+        ArrayList<Jogador> jogadoresNaCasaDoMeio = new ArrayList<>();
 
+        // Verificar se há pelo menos dois jogadores na "casa do meio"
+        for (Jogador jogador : jogadoresEmJogo) {
+            if (jogadorEstaNaCasaDoMeio(jogador)) {
+                jogadoresNaCasaDoMeio.add(jogador);
+                // Se existirem em jogo 3 jogadores (2 na casa do meio e 1 adiantado)
+                if (jogadoresNaCasaDoMeio.size() >= 2 && jogadorEntreCasaDoMeioEAMeta(jogadoresEmJogo)) {
+                    return true;
 
+                    // Senão se existirem em jogo 2 jogadores na casa do meio
+                } else if (jogadoresNaCasaDoMeio.size() == 2) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private boolean jogadorEntreCasaDoMeioEAMeta(List<Jogador> jogadoresEmJogo) {
+        // Verificar se há pelo menos um jogador entre a "casa do meio" e a meta
+        calcularCasaDoMeio();
+        for (Jogador jogador : jogadoresEmJogo) {
+            int posicaoAtual = jogador.getPosicaoAtual();
+            if (posicaoAtual > casaDoMeio && posicaoAtual < posicaoFinalJogo) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean jogadorEstaNaCasaDoMeio(Jogador jogador) {
+        int posicaoAtual = jogador.getPosicaoAtual();
+        return posicaoAtual == casaDoMeio;
+    }
+
+    /*
+    private boolean existeGrandeDistanciaNovaCondicaoVencedor() {
+        int distanciaPrimeiroJogador = Integer.MAX_VALUE;
+        int distanciaSegundoJogador = Integer.MAX_VALUE;
+
+        // Verificar as duas menores distâncias entre os jogadores e a posição final do jogo
+        for (Jogador jogador : jogadores) {
+            int distancia = Math.abs(posicaoFinalJogo - jogador.getPosicaoAtual());
+
+            if (distancia < distanciaPrimeiroJogador) {
+                distanciaSegundoJogador = distanciaPrimeiroJogador;
+                distanciaPrimeiroJogador = distancia;
+            } else if (distancia < distanciaSegundoJogador) {
+                distanciaSegundoJogador = distancia;
+            }
+        }
+
+        int metadeDaMeta = posicaoFinalJogo / 2;
+        int distanciaEntreJogadores = (distanciaSegundoJogador - distanciaPrimeiroJogador);
+
+        // Verificar se a distância entre os jogadores é menor que a metade do tamanho do mapa
+        return distanciaEntreJogadores < metadeDaMeta;
+    }
+
+    private Jogador getJogadorMaisAdiantadoDaMetaNovaCondicao(List<Jogador> jogadores) {
+        int maiorDistancia = Integer.MIN_VALUE;
+        Jogador jogadorMaisDistante = null;
+
+        // Encontrar o jogador com a maior distância da casa do meio à meta
+        for (Jogador jogador : jogadores) {
+            int distancia = Math.abs(posicaoFinalJogo - jogador.getPosicaoAtual());
+
+            if (distancia < casaDoMeio) {
+                maiorDistancia = distancia;
+                jogadorMaisDistante = jogador;
+            }
+        }
+        jaExisteSegundoClassificadoNovaCondicao = true;
+
+        return jogadorMaisDistante;
+    }
+     */
 
 
 
     /**
-     * --------------------------------------FUNÇÕES AUXILIARES LOADGAME()--------------------------------------
+     * -----------------------------------------LOADGAME()-------------------------------------------
      */
 
     private Jogador carregarDadosDoJogador(String[] playerInfo) {
@@ -1300,27 +1342,6 @@ public class GameManager {
     }
 
 
-
-
-
-
-    /**
-     * ----------------------Métodos de acesso(Facilitar acesso nos Testes Unitários e fn KOTLIN)()---------------------------
-     */
-
-    public ArrayList<Jogador> getJogadores() {
-        return jogadores;
-    }
-
-    public ArrayList<Alimento> getAlimentos() {
-        return alimentos;
-    }
-
-    public Set<String> getAlimentosConsumidos() {
-        return alimentosConsumidos;
-    }
-
-
     /**
      * ------------------------------------------TURNOS E RESET()---------------------------------------------
      */
@@ -1339,6 +1360,7 @@ public class GameManager {
 
         alguemChegouNaMeta = false;
         casaComAlimento = false;
+        existeJogadorNoMeio = false;
         casaPartida = 1; // reset casa partida de todos os jogadores
         turnoAtual = 0; // reset do turno atual do jogo.
         posicaoFinalJogo = 0; // reset posicão final do mapa de jogo
@@ -1346,47 +1368,20 @@ public class GameManager {
         atualizarContagemJogadasCarne(0);
     }
 
-     /*
-    private boolean existeGrandeDistanciaNovaCondicaoVencedor() {
-        int distanciaPrimeiroJogador = Integer.MAX_VALUE;
-        int distanciaSegundoJogador = Integer.MAX_VALUE;
 
-        // Verificar as duas menores distâncias entre os jogadores e a posição final do jogo
-        for (Jogador jogador : jogadores) {
-            int distancia = Math.abs(posicaoFinalJogo - jogador.getPosicaoAtual());
-
-            if (distancia < distanciaPrimeiroJogador) {
-                distanciaSegundoJogador = distanciaPrimeiroJogador;
-                distanciaPrimeiroJogador = distancia;
-            } else if (distancia < distanciaSegundoJogador) {
-                distanciaSegundoJogador = distancia;
-            }
-        }
-
-        int metadeDaMeta = posicaoFinalJogo / 2;
-        int distanciaEntreJogadores = (distanciaSegundoJogador - distanciaPrimeiroJogador);
-
-        // Verificar se a distância entre os jogadores é menor que a metade do tamanho do mapa
-        return distanciaEntreJogadores < metadeDaMeta;
-    }
-
-    private Jogador getJogadorMaisAdiantadoDaMetaNovaCondicao(List<Jogador> jogadores) {
-        int maiorDistancia = Integer.MIN_VALUE;
-        Jogador jogadorMaisDistante = null;
-
-        // Encontrar o jogador com a maior distância da casa do meio à meta
-        for (Jogador jogador : jogadores) {
-            int distancia = Math.abs(posicaoFinalJogo - jogador.getPosicaoAtual());
-
-            if (distancia < casaDoMeio) {
-                maiorDistancia = distancia;
-                jogadorMaisDistante = jogador;
-            }
-        }
-        jaExisteSegundoClassificadoNovaCondicao = true;
-
-        return jogadorMaisDistante;
-    }
+    /**
+     * ----------------------Métodos de acesso(Facilitar acesso nos Testes Unitários e fn KOTLIN)()---------------------------
      */
 
+    public ArrayList<Jogador> getJogadores() {
+        return jogadores;
+    }
+
+    public ArrayList<Alimento> getAlimentos() {
+        return alimentos;
+    }
+
+    public Set<String> getAlimentosConsumidos() {
+        return alimentosConsumidos;
+    }
 }
