@@ -1019,7 +1019,7 @@ public class GameManager {
         }
     }
 
-    public boolean isAlguemChegouNaMeta() {
+    private boolean isAlguemChegouNaMeta() {
         return alguemChegouNaMeta;
     }
 
@@ -1132,7 +1132,8 @@ public class GameManager {
      * ---------------------------------FUNÇÕES AUXILIARES getGameResults()------------------------------------
      */
 
-    private void processarResultadosNovaCondicaoVencedor(Jogador vencedor, List<Jogador> jogadoresEmJogo, int posicaoChegada, List<String> resultados) {
+    private void processarResultadosNovaCondicaoVencedor(Jogador vencedor, List<Jogador> jogadoresEmJogo, int posicaoChegada,
+                                                         List<String> resultados) {
         ArrayList<Jogador> jogadoresCasaDoMeio = new ArrayList<>();
         ArrayList<Jogador> jogadoresAdiantados = new ArrayList<>();
 
