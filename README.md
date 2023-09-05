@@ -122,7 +122,7 @@ competir para determinar qual o melhor atleta. </p>
     facilitou a compreensão da lógica do jogo e a implementação de novas funcionalidades sem afetar outras partes do código.</p>
 
 # Video de demonstração
-- por definir...
+- Uma demonstração funcional do jogo pode ser vista [aqui](https://youtu.be/iSjHJs5aGWg).
 
 ## Tela do jogo
 ![alt_text](The_jungle.png?raw=true "Deisi Jungle")
