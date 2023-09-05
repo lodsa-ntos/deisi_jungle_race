@@ -163,21 +163,13 @@ public class GameManager {
             // TODO IDs — não pode haver dois jogadores com o mesmo id
             ValidadorJogador.validarNumeroIDs(idJogadoresEmJogo, idJogador);
 
-            // TODO O NOME — não podem ser null ou vazios
+            // TODO NOMES — não podem ser null ou vazios
             ValidadorJogador.validarNomeJogadores(nomeJogador);
 
             // TODO TARZAN — Apenas poderá existir um jogador da espécie Tarzan a competir
-            for (int i = 0; i < idEspecieJogador.length(); i++) {
-                if (idEspecieJogador.charAt(i) == 'Z') {
-                    countTarzan++;
-                }
+            validarEspecieTarzan(idEspecieJogador);
 
-                if (countTarzan > 1) {
-                    throw new InvalidInitialJungleException("Existe mais do que 1 jogador da espécie Tarzan a competir.", true, false);
-                }
-            }
-
-            // TODO O ESPÉCIES — A espécie tem que ser uma das que foi retornada da função getSpecies()
+            // TODO ESPÉCIES — A espécie tem que ser uma das que foi retornada da função getSpecies()
             ValidadorJogador.validarEspecieJogador(idEspecieJogador, getSpecies());
 
 
@@ -820,6 +812,25 @@ public class GameManager {
 
 
     /**
+     * --------------------------------------FUNÇÃO AUXILIAR createInitialJungle()-------------------------------------
+     */
+
+    // TODO TARZAN — Apenas poderá existir um jogador da espécie Tarzan a competir
+    private void validarEspecieTarzan(String playerSpecies) throws InvalidInitialJungleException {
+        for (int i = 0; i < playerSpecies.length(); i++) {
+            if (playerSpecies.charAt(i) == 'Z') {
+                countTarzan++;
+            }
+
+            if (countTarzan > 1) {
+                throw new InvalidInitialJungleException("Existe mais do que 1 jogador da espécie Tarzan a competir.", true, false);
+            }
+        }
+    }
+
+
+
+    /**
      * --------------------------------------FUNÇÕES AUXILIARES moveCurrentPlayer()-------------------------------------
      */
 
@@ -1138,7 +1149,7 @@ public class GameManager {
 
 
     /**
-     * ---------------------------------FUNÇÕES AUXILIARES getGameResults()------------------------------------
+     * ---------------------------------FUNÇÃO AUXILIAR getGameResults()------------------------------------
      */
 
     private void processarResultadosNovaCondicaoVencedor(Jogador vencedor, List<Jogador> jogadoresEmJogo, int posicaoChegada,

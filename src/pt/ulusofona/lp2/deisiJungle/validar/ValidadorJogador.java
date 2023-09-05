@@ -36,20 +36,6 @@ public class ValidadorJogador {
         }
     }
 
-    public static void validarEspecieTarzan(String playerSpecies) throws InvalidInitialJungleException {
-        int countTarzan = 0;
-
-        for (int i = 0; i < playerSpecies.length(); i++) {
-            if (playerSpecies.charAt(i) == 'Z') {
-                countTarzan++;
-            }
-
-            if (countTarzan >= 2) {
-                throw new InvalidInitialJungleException("Existe mais do que 1 jogador da espécie Tarzan a competir.", true, false);
-            }
-        }
-    }
-
     public static void validarEspecieJogador(String especieJogador, String[][] especies) throws InvalidInitialJungleException {
 
         int countIDEspecie = 0;
