@@ -29,6 +29,7 @@ public class GameManager {
     private int casaPartida;
     private int turnoAtual;
     private int casaDoMeio;
+    private int countTarzan;
     private boolean alguemChegouNaMeta;
     private boolean casaComAlimento;
 
@@ -166,7 +167,15 @@ public class GameManager {
             ValidadorJogador.validarNomeJogadores(nomeJogador);
 
             // TODO TARZAN — Apenas poderá existir um jogador da espécie Tarzan a competir
-            ValidadorJogador.validarEspecieTarzan(idEspecieJogador);
+            for (int i = 0; i < idEspecieJogador.length(); i++) {
+                if (idEspecieJogador.charAt(i) == 'Z') {
+                    countTarzan++;
+                }
+
+                if (countTarzan > 1) {
+                    throw new InvalidInitialJungleException("Existe mais do que 1 jogador da espécie Tarzan a competir.", true, false);
+                }
+            }
 
             // TODO O ESPÉCIES — A espécie tem que ser uma das que foi retornada da função getSpecies()
             ValidadorJogador.validarEspecieJogador(idEspecieJogador, getSpecies());
@@ -1341,6 +1350,7 @@ public class GameManager {
         turnoAtual = 0; // reset do turno atual do jogo.
         posicaoFinalJogo = 0; // reset posicão final do mapa de jogo
         casaDoMeio = 0; // reset casa do meio do mapa de jogo
+        countTarzan = 0;
         atualizarContagemJogadasCarne(0);
     }
 

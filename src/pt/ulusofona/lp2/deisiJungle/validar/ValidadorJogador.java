@@ -6,6 +6,8 @@ import java.util.Map;
 
 public class ValidadorJogador {
 
+
+
     public static void validarDimensaoMapa(int jungleSize, int numJogadores) throws InvalidInitialJungleException {
         if (jungleSize < 2 * numJogadores) {
             throw new InvalidInitialJungleException("O mapa tem de ter, pelo menos, duas posições por cada jogador.", true, false);
@@ -42,7 +44,7 @@ public class ValidadorJogador {
                 countTarzan++;
             }
 
-            if (countTarzan > 1) {
+            if (countTarzan >= 2) {
                 throw new InvalidInitialJungleException("Existe mais do que 1 jogador da espécie Tarzan a competir.", true, false);
             }
         }
