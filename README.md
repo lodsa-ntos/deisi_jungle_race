@@ -51,8 +51,43 @@ competir para determinar qual o melhor atleta. </p>
       > Tarzan — contém as informações específicas sobre espécie tarzan, os métodos/funções que processam os comportamentos relevantes da especie tarzan para o contexto do jogo.
       > Unicornio — contém as informações específicas sobre espécie unicórnio, os métodos/funções que processam os comportamentos relevantes da especie unicórnio para o contexto do jogo.
 
-  
- <br/>
+##### Classes filho (Nova Especie)
+
+| Espécie | Id  | Nome   | Imagem                             | Energia inicial | Consumo de energia | Ganho de energia em descanso | Velocidade |
+|---------|-----|--------|------------------------------------|-----------------|--------------------|------------------------------|------------|
+| Girafa  | G   | Girafa | ![](giraffe.png?raw=true "Girafa") | 150             | 4                  | 3                            | 2..3       |
+
+> Características (Nova Especie):
+
+1. **Alimentação:**
+   <p align="justify">- As girafas têm pescoços longos que alcançam facilmente folhas nas árvores, 
+   a sua fonte de energia rica em fibras e nutrientes.</p>
+
+
+2. **Energia inicial:**
+   <p align="justify">- Começam com 150 unidades de energia devido ao seu tamanho. </p>
+
+
+3. **Consumo de energia:**
+   <p align="justify">- Gastam 4 unidades de energia durante a corrida devido ao tamanho do corpo. </p>
+
+
+4. **Ganho de energia:**
+   <p align="justify">- Ganham 2 unidades de energia durante o descanso, economizando enquanto digerem.. </p>
+
+
+5. **Velocidade mínima de 2 e velocidade máxima de 3:**
+   <p align="justify">- Embora não sejam os mais rápidos,
+   usam altura e estratégias de comportamento. </p>
+
+
+6. **Não se alimentam de cogumelos:**
+   <p align="justify">- Por se tratar de um animal com uma dieta especializada em folhas de árvores, arbustos e ervas, 
+   as girafas não são afetadas pelo alimento cogumelos mágicos. Sempre que um jogador "girafa" se deslocar para 
+   uma casa que contenha cogumelos, a sua energia não é afetada pelo respetivo alimento, e o histórico de alimentos do jogador 
+   não deve ser atualizado. </p>
+
+<br/>
 
   <p align="justify">Ao longo do terreno, estarão espalhados vários alimentos, de diferentes tipos. Quando um
   jogador calha numa casa com um alimento, ele é obrigado a ingeri-lo. Isso pode ser bom ou

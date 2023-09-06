@@ -36,17 +36,6 @@ public class GameManager {
     public GameManager() {}
 
     public String[][] getSpecies() {
-
-        /* estrutura:
-            ● [0] ⇒ id da espécie
-            ● [1] ⇒ nome da espécie
-            ● [2] ⇒ nome do ficheiro com a imagem da espécie (ex: “turtle.png”)
-            ● [3] ⇒ energia inicial
-            ● [4] ⇒ consumo de energia
-            ● [5] ⇒ ganho de energia em descanso
-            ● [6] ⇒ velocidade, no formato “X..Y”
-            // Total Especies = 6
-        */
         String [][] especies = new String[7][7];
 
         especies[0][0] = "E"; // ⇒ id da espécie
@@ -684,7 +673,7 @@ public class GameManager {
         JLabel author = new JLabel();
         JPanel mostrarCredito = new JPanel();
 
-        author.setText("Lodney Santos");
+        author.setText("Lodney Santos - a21505293");
 
         author.setForeground(Color.BLUE);
         author.setFont(new Font("Arial", Font.BOLD, 18));

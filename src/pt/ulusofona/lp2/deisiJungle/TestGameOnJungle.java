@@ -3,8 +3,11 @@ package pt.ulusofona.lp2.deisiJungle;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.util.*;
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.*;
@@ -1287,8 +1290,6 @@ public class TestGameOnJungle {
 
     }
 
-
-
     @Test
     public void testGetWinnerInfo_VencedorAposAlcancarMeta() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
@@ -1942,7 +1943,7 @@ public class TestGameOnJungle {
     }
 
     @Test
-    public void testGirafa_IgnoraConsumoDoCogumelo() throws InvalidInitialJungleException {
+    public void testGirafaIgnoraConsumoDoCogumelo() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
 
         String[][] playerInfo = new String[2][3];
@@ -1974,7 +1975,7 @@ public class TestGameOnJungle {
     }
 
     @Test
-    public void testGirafa_AdoraConsumirErva() throws InvalidInitialJungleException {
+    public void testGirafaAdoraConsumirErva() throws InvalidInitialJungleException {
         GameManager gameOnJungle = new GameManager();
 
         String[][] playerInfo = new String[2][3];
@@ -2031,6 +2032,83 @@ public class TestGameOnJungle {
         assertEquals("VALID_MOVEMENT", res5.code().toString());
 
         assertEquals(192, gameOnJungle.getJogadores().get(0).getEspecie().getEnergiaAtual());
+    }
+
+    @Test
+    public void testGetPlayerIds_And_GetPlayerInfo() throws InvalidInitialJungleException {
+
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[2][2];
+
+        // Cogumelo Magico
+        foodInfo[0][0] = "a";
+        foodInfo[0][1] = "3";
+
+        // Cogumelo Magico
+        foodInfo[1][0] = "b";
+        foodInfo[1][1] = "6";
+
+        // Jogadores
+        playerInfo[0][0] = "4";
+        playerInfo[0][1] = "Melvin";
+        playerInfo[0][2] = "G";
+
+        playerInfo[1][0] = "3";
+        playerInfo[1][1] = "Mowgli";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(15, playerInfo, foodInfo);
+
+        assertEquals("[3, 4]", Arrays.toString(gameOnJungle.getPlayerIds(1)));
+
+        MovementResult res1 = gameOnJungle.moveCurrentPlayer(4, true);
+        assertEquals("VALID_MOVEMENT", res1.code().toString());
+
+        assertEquals("[4]", Arrays.toString(gameOnJungle.getPlayerIds(1)));
+
+        assertEquals("[3]", Arrays.toString(gameOnJungle.getPlayerIds(5)));
+
+        MovementResult res2 = gameOnJungle.moveCurrentPlayer(2, true);
+        assertEquals("CAUGHT_FOOD", res2.code().toString());
+
+        assertEquals("[4]", Arrays.toString(gameOnJungle.getPlayerIds(3)));
+
+        assertEquals("[3]", Arrays.toString(gameOnJungle.getPlayerIds(5)));
+
+        // Informação dos jogadores em jogo
+        assertEquals("[3, Mowgli, L, 72, 4..6]", Arrays.toString(gameOnJungle.getPlayerInfo(3)));
+        assertEquals("[4, Melvin, G, 157, 2..3]", Arrays.toString(gameOnJungle.getPlayerInfo(4)));
+
+    }
+
+    @Test
+    public void testGetAuthorsPanel() {
+        GameManager gameOnJungle = new GameManager();
+
+        JPanel autor = gameOnJungle.getAuthorsPanel();
+
+        assertNotNull(autor);
+
+        JLabel authorLabel = (JLabel) autor.getComponents()[0];
+
+        // Verificar se o texto é "Lodney Santos - a21505293"
+        assertEquals("Lodney Santos - a21505293", authorLabel.getText());
+
+        // Verificar se a cor do texto é azul
+        assertEquals(Color.BLUE, authorLabel.getForeground());
+
+        // Verificar se a fonte é Arial em negrito com tamanho 18
+        Font expectedFont = new Font("Arial", Font.BOLD, 18);
+        assertEquals(expectedFont, authorLabel.getFont());
+    }
+
+    @Test
+    public void testWhoIsTaborda() {
+        GameManager gameOnJungle = new GameManager();
+
+        assertEquals("Wrestling", gameOnJungle.whoIsTaborda());
     }
 
 }
