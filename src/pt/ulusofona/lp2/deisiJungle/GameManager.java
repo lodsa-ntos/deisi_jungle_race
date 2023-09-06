@@ -47,7 +47,7 @@ public class GameManager {
             ● [6] ⇒ velocidade, no formato “X..Y”
             // Total Especies = 6
         */
-        String [][] especies = new String[6][7];
+        String [][] especies = new String[7][7];
 
         especies[0][0] = "E"; // ⇒ id da espécie
         especies[0][1] = "Elefante"; // ⇒ nome da espécie
@@ -96,6 +96,14 @@ public class GameManager {
         especies[5][4] = "8"; // ⇒ consumo de energia
         especies[5][5] = "20"; // ⇒ ganho de energia em descanso
         especies[5][6] = "3..6"; // ⇒ velocidade, no formato “X..Y”
+
+        especies[6][0] = "G";
+        especies[6][1] = "Girafa";
+        especies[6][2] = "giraffe.png";
+        especies[6][3] = "150"; // ⇒ energia inicial
+        especies[6][4] = "4"; // ⇒ consumo de energia
+        especies[6][5] = "3"; // ⇒ ganho de energia em descanso
+        especies[6][6] = "2..3"; // ⇒ velocidade, no formato “X..Y”
 
         return especies;
     }
@@ -898,6 +906,8 @@ public class GameManager {
                     velocidade >= 5 && velocidade <= 6;
             case "U" -> // Unicórnio
                     velocidade >= 3 && velocidade <= 6;
+            case "G" -> // Girafa
+                    velocidade >= 2 && velocidade <= 3;
             default -> false;
         };
     }
@@ -968,6 +978,20 @@ public class GameManager {
                     if (alteracaoEnergia == 0) {
                         return null;
                     }
+                    // Verificar se o jogador é uma girafa
+                } else if (jogadorAtual.getEspecie().getId().equals("G")) {
+                    switch (idAlimento) {
+                        // aumentar nivel de energia ao consumir ERVA
+                        case "e" -> alteracaoEnergia = 50;
+                        // ÁGUA
+                        case "a" -> alteracaoEnergia = alimento.consumir(tipoDeAlimentacao, jogadorAtual);
+                        // BANANA
+                        case "b" -> alteracaoEnergia = alimento.consumir(tipoDeAlimentacao, jogadorAtual, alimento, jogadoresQueConsumiramBanana);
+                        // CARNE
+                        case "c" -> alteracaoEnergia = alimento.consumir(tipoDeAlimentacao, jogadorAtual, turnoAtual, alimento);
+                        // ignorar COGUMELO MÁGICO
+                        case "m" -> alteracaoEnergia = 0;
+                    }
                 }
 
                 // Se o valor após consumir algum alimento for acima de zero ou igual (agua) aumenta...
@@ -986,9 +1010,24 @@ public class GameManager {
 
     private MovementResult processarMovimentoParaConsumoDeAlimento(String alimentoConsumido, Jogador jogadorAtual) {
         if (alimentoConsumido != null) {
-            // Se for carnívoro, omnivoro ou se for herbivoro e o alimento consumido não é carne
-            // contar o número de alimento apanhado.
-            if (!jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie().equals("herbívoro") ||
+
+            if (jogadorAtual.getEspecie().getId().equals("G")) {
+                if (!alimentoConsumido.equals("Cogumelo Magico")) {
+                    jogadorAtual.aumentarNumAlimentoApanhado(1);
+                    // Registrar o alimento consumido
+                    registrarAlimentoConsumido(alimentoConsumido);
+                    // Atualizar o turno
+                    incrementarTurno();
+                    return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + alimentoConsumido);
+                } else {
+                    // Atualizar o turno e ignorar o consumo de carne por herbívoros
+                    incrementarTurno();
+                    return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
+                }
+
+                // Se for carnívoro, omnivoro ou se for herbivoro e o alimento consumido não é carne
+                // contar o número de alimento apanhado.
+            } else if (!jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie().equals("herbívoro") ||
                     (jogadorAtual.getEspecie().getTipoAlimentacaoDaEspecie().equals("herbívoro")
                             && !alimentoConsumido.equals("Carne"))) {
 

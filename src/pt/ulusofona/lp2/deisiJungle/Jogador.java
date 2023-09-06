@@ -40,6 +40,7 @@ public class Jogador {
         especies.put("P", new Passaro());
         especies.put("Z", new Tarzan());
         especies.put("U", new Unicornio());
+        especies.put("G", new Girafa());
 
         //  obter a instância que correspondente à idEspecie
         Especie especieJogador = especies.get(idEspecie);

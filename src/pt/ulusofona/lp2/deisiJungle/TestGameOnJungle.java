@@ -1941,4 +1941,96 @@ public class TestGameOnJungle {
                 Arrays.toString(gameOnJungle.getGameResults().toArray()));
     }
 
+    @Test
+    public void testGirafa_IgnoraConsumoDoCogumelo() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[1][2];
+
+        // Cogumelo Magico
+        foodInfo[0][0] = "m";
+        foodInfo[0][1] = "3";
+
+        // Jogadores
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Melvin";
+        playerInfo[0][2] = "G";
+
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Mowgli";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        String[] infoEnergia = gameOnJungle.getCurrentPlayerEnergyInfo(20);
+        Assert.assertEquals("[80, 3]", Arrays.toString(infoEnergia));
+
+        // Movimentar o jogador 4 posições para que o alimento seja consumido
+        MovementResult res1 = gameOnJungle.moveCurrentPlayer(2, true);
+        assertEquals("VALID_MOVEMENT", res1.code().toString());
+
+        assertEquals(0, gameOnJungle.getJogadores().get(0).getNumeroAlimento());
+    }
+
+    @Test
+    public void testGirafa_AdoraConsumirErva() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[2][2];
+
+        // Cogumelo Magico
+        foodInfo[0][0] = "e";
+        foodInfo[0][1] = "3";
+
+        // Cogumelo Magico
+        foodInfo[1][0] = "e";
+        foodInfo[1][1] = "6";
+
+        // Jogadores
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Melvin";
+        playerInfo[0][2] = "G";
+
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Mowgli";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        String[] infoEnergia = gameOnJungle.getCurrentPlayerEnergyInfo(20);
+        Assert.assertEquals("[80, 3]", Arrays.toString(infoEnergia));
+
+        // Movimentar o jogador 3 posições para que o alimento seja consumido
+        MovementResult res1 = gameOnJungle.moveCurrentPlayer(2, true);
+        assertEquals("CAUGHT_FOOD", res1.code().toString());
+
+        assertEquals(1, gameOnJungle.getJogadores().get(0).getNumeroAlimento());
+
+        // Verificar se a energia foi atualizada corretamente
+        infoEnergia = gameOnJungle.getCurrentPlayerEnergyInfo(3);
+        assertEquals("[12, 3]", Arrays.toString(infoEnergia));
+
+        // Movimentar o jogador 9 posições para que o alimento seja consumido
+        MovementResult res2 = gameOnJungle.moveCurrentPlayer(8, true);
+        assertEquals("VALID_MOVEMENT", res2.code().toString());
+
+        // Movimentar o jogador 4 posições para que o alimento seja consumido
+        MovementResult res3 = gameOnJungle.moveCurrentPlayer(3, true);
+        assertEquals("CAUGHT_FOOD", res3.code().toString());
+
+        assertEquals(200, gameOnJungle.getJogadores().get(0).getEspecie().getEnergiaAtual());
+
+        // Movimentar o jogador 7 posições para que o alimento seja consumido
+        MovementResult res4 = gameOnJungle.moveCurrentPlayer(6, true);
+        assertEquals("VALID_MOVEMENT", res4.code().toString());
+
+        // Movimentar o jogador para trás (recuar)
+        MovementResult res5 = gameOnJungle.moveCurrentPlayer(-2, true);
+        assertEquals("VALID_MOVEMENT", res5.code().toString());
+
+        assertEquals(192, gameOnJungle.getJogadores().get(0).getEspecie().getEnergiaAtual());
+    }
+
 }
