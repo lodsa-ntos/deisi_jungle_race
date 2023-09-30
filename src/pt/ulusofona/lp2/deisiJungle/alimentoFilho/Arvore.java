@@ -1,49 +1,37 @@
 package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 
 import pt.ulusofona.lp2.deisiJungle.Alimento;
-import pt.ulusofona.lp2.deisiJungle.GameManager;
 import pt.ulusofona.lp2.deisiJungle.Jogador;
 
 import java.util.Map;
 import java.util.Random;
 
-public class Carne extends Alimento {
+public class Arvore extends Alimento {
 
-    public Carne(String id, int posicaoAlimento) {
+    public Arvore(String id, int posicaoAlimento) {
+
         super(id, posicaoAlimento);
 
         this.id = id;
-        this.nome = "Carne";
-        this.imagem = "meat.png";
+        this.nome = "Arvore";
+        this.imagem = "trees.png";
         this.posicaoAlimento = posicaoAlimento;
-        isCarneToxica = false;
     }
 
     /**
-     * Efeitos ao consumir carne
+     * Efeitos ao consumir folhas das árvores
      */
     @Override
-    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, int turnoAtual, Alimento alimento) {
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador) {
         int alteracaoEnergia = 0;
-        if (getId().equals("c")) {
-            // Só é comestível nas primeiras 12 jogadas
-            if (turnoAtual <= 12) {
-                // Se ingerido por carnívoros (ex: Leão) ou omnívoros (ex: Tarzan)...
-                switch (tipoAlimentacaoEspecie) {
-                    case "carnívoro", "omnívoro" -> {
-                        // aumenta a energia em 50 unidades
-                        alteracaoEnergia = 50;
-                    }
-                }
-            } else {
-                // A partir daí é tóxica. — se for ingerida, reduz para metade a energia do animal
-                alimento.setCarneToxica(true);
 
-                switch (tipoAlimentacaoEspecie) {
-                    case "carnívoro", "omnívoro" -> {
-                        int diminuiEnergia = jogador.getEspecie().getEnergiaAtual() / 2;
-                        alteracaoEnergia = -diminuiEnergia;
-                    }
+        if (getId().equals("t")) {
+            switch (tipoAlimentacaoEspecie) {
+                case "herbívoro" -> {
+                    alteracaoEnergia = 50;
+                }
+                case "omnívoro" -> {
+                    alteracaoEnergia = ((int) (jogador.getEspecie().getEnergiaAtual() * 0.30));
                 }
             }
         }
@@ -113,22 +101,14 @@ public class Carne extends Alimento {
     @Override
     public String toolTip() {
         /*
-            ○ A tooltip deve mostrar “Carne : +- 50 energia : <N> jogadas”, em que <N>
-                representa o número de jogadas já efetuadas. Caso a carne já esteja tóxica,
-                deve mostrar “Carne toxica”
+            ○ A tooltip deve mostrar “Arvore : + 50U|30% energia”.
          */
-
-        if (numroJogadasCarne <= 12) {
-            return "Carne : + 50 energia : " + numroJogadasCarne + " jogadas";
-        } else {
-            return "Carne toxica";
-        }
+        return "Arvore : + 50U|30% energia";
     }
 
-
-    // COPORTAMENTO PARA AGUA / ERVA / BANANA
+    // COPORTAMENTO PARA CARNE / COGUMELO / BANANA
     @Override
-    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador) {
+    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, int turnoAtual, Alimento alimento) {
         return 0;
     }
 
@@ -136,5 +116,4 @@ public class Carne extends Alimento {
     public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador) {
         return 0;
     }
-
 }

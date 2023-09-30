@@ -40,6 +40,9 @@ public abstract class Especie {
             case "U" -> {
                 return new Unicornio();
             }
+            case "G" -> {
+                return new Girafa();
+            }
             default -> {
                 return null;
             }

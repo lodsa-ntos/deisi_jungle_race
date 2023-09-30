@@ -4,7 +4,6 @@ import pt.ulusofona.lp2.deisiJungle.Alimento;
 import pt.ulusofona.lp2.deisiJungle.Jogador;
 
 import java.util.Map;
-import java.util.Random;
 
 public class Agua extends Alimento {
 

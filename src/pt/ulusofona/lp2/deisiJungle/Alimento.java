@@ -33,6 +33,7 @@ public abstract class Alimento {
             case "b" -> new CachoDeBanana(id, posicaoAlimento);
             case "c" -> new Carne(id, posicaoAlimento);
             case "m" -> new CogumeloMagico(id, posicaoAlimento);
+            case "t" -> new Arvore(id, posicaoAlimento);
             default -> null;
         };
     }

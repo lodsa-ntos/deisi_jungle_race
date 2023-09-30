@@ -2111,4 +2111,31 @@ public class TestGameOnJungle {
         assertEquals("Wrestling", gameOnJungle.whoIsTaborda());
     }
 
+    @Test
+    public void testGirafaDetestaCarne() throws InvalidInitialJungleException {
+        GameManager gameOnJungle = new GameManager();
+
+        String[][] playerInfo = new String[2][3];
+        String[][] foodInfo = new String[1][2];
+
+        // Cogumelo Magico
+        foodInfo[0][0] = "c";
+        foodInfo[0][1] = "3";
+
+        // Jogadores
+        playerInfo[0][0] = "1";
+        playerInfo[0][1] = "Melvin";
+        playerInfo[0][2] = "G";
+
+        playerInfo[1][0] = "2";
+        playerInfo[1][1] = "Mowgli";
+        playerInfo[1][2] = "L";
+
+        gameOnJungle.createInitialJungle(20, playerInfo, foodInfo);
+
+        // Girafa avança para casa com carne
+        MovementResult res1 = gameOnJungle.moveCurrentPlayer(2, true);
+        assertEquals("VALID_MOVEMENT", res1.code().toString());;
+    }
+
 }

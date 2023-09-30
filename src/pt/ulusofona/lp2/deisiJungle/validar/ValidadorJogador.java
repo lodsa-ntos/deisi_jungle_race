@@ -2,15 +2,12 @@ package pt.ulusofona.lp2.deisiJungle.validar;
 
 import pt.ulusofona.lp2.deisiJungle.InvalidInitialJungleException;
 
-import java.util.Map;
-
 public class ValidadorJogador {
-
-
 
     public static void validarDimensaoMapa(int jungleSize, int numJogadores) throws InvalidInitialJungleException {
         if (jungleSize < 2 * numJogadores) {
-            throw new InvalidInitialJungleException("O mapa tem de ter, pelo menos, duas posições por cada jogador.", true, false);
+            throw new InvalidInitialJungleException("O mapa tem de ter, pelo menos, duas posições por cada jogador.",
+                    true, false);
         }
     }
 
@@ -20,23 +17,15 @@ public class ValidadorJogador {
         }
     }
 
-    public static void validarNumeroIDs(Map<Integer, Integer> idJogadoresEmJogo, int idJogador) throws InvalidInitialJungleException {
-        Integer countIDJogadores = idJogadoresEmJogo.get(idJogador);
-
-        if (countIDJogadores != null && countIDJogadores > 0) {
-            throw new InvalidInitialJungleException("Não podem haver dois jogadores com o mesmo id.", true, false);
-        }
-
-        idJogadoresEmJogo.put(idJogador, 1);
-    }
-
     public static void validarNomeJogadores(String nomeJogador) throws InvalidInitialJungleException {
         if (nomeJogador == null || nomeJogador.isEmpty()) {
-            throw new InvalidInitialJungleException("Os nomes dos jogadores não podem ser null ou vazios.", true, false);
+            throw new InvalidInitialJungleException("Os nomes dos jogadores não podem ser null ou vazios.", true,
+                    false);
         }
     }
 
-    public static void validarEspecieJogador(String especieJogador, String[][] especies) throws InvalidInitialJungleException {
+    public static void validarEspecieJogador(String especieJogador, String[][] especies)
+            throws InvalidInitialJungleException {
 
         int countIDEspecie = 0;
 
@@ -45,14 +34,16 @@ public class ValidadorJogador {
 
             // Se o ‘id’ da espécie pertence ao que foi retornado pela função getSpecies()
             if (especieJogador.contains(obterEspecies)) {
-                // E se contém dentro do playersInfo a especieJogador com retornado pela função getSpecies()
+                // E se contém dentro do playersInfo a especieJogador com retornado pela função
+                // getSpecies()
                 // o count = 1, contem ‘id’ da espécie
                 countIDEspecie++;
                 break;
             }
         }
 
-        // Se não tiver nenhum ‘id’ de acordo aos que são retornados pela função getSpecies(),
+        // Se não tiver nenhum ‘id’ de acordo aos que são retornados pela função
+        // getSpecies(),
         if (countIDEspecie == 0) {
             // é lançado uma exception.
             throw new InvalidInitialJungleException("A espécie do jogador não é válida.", true, false);
@@ -61,4 +52,3 @@ public class ValidadorJogador {
     }
 
 }
-

@@ -28,7 +28,11 @@ public class Erva extends Alimento {
         if (getId().equals("e")) {
             switch (tipoAlimentacaoEspecie) {
                 case "herbívoro", "omnívoro" -> {
-                    alteracaoEnergia = 20;
+                    if (jogador.getEspecie().getId().equals("G")) { // Girafa
+                        alteracaoEnergia = 50;
+                    } else {
+                        alteracaoEnergia = 20;
+                    }
                 }
                 case "carnívoro" -> {
                     alteracaoEnergia = -20;
