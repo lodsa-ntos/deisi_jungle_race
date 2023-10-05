@@ -1,4 +1,4 @@
-<p align="center">DEISI Jungle</p>
+## <p align="center">DEISI Jungle</p>
 
 <p align="center">🦁🐘🦒 Welcome to the Animal Olympics Game! 🏁🏆</p>
 
