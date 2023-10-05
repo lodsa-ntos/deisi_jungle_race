@@ -10,11 +10,11 @@ import java.util.*;
 import java.util.List;
 
 /*-------------------------------------------------DEISI JUNGLE-----------------------------------------------------
-    Certo dia, numa savana muito (muito) longe daqui, os animais decidiram descobrir quem seria o melhor atleta entre
-    eles. Para o fazer, definiram um conjunto de provas desportivas que iriam disputar entre si — quem vencesse mais
-    provas seria considerado o Rei da Selva. Rapidamente a notícia chegou ao Tarzan, que não quis deixar de participar
-    nas provas, convencido de que facilmente as venceria. A primeira prova a disputar é a prova de atletismo.
-    Os animais vão-se reunir numa pista e competir para determinar qual o melhor atleta.
+    One day, in a savannah far (far) from here, the animals decided to find out who would be the best athlete among them.
+    To do so, they defined a set of sporting events that would compete with each other - whoever won more events would
+    be considered the King of the Jungle. Soon the news reached Tarzan, who did not want to stop participating in the
+    events, convinced that he would easily win them. The first race is the track race. The animals will gather
+    on a track and compete to determine which athlete is the best.
  ------------------------------------------------------------------------------------------------------------------ */
 
 // Classe responsável por gerir o jogo

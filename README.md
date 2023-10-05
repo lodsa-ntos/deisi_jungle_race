@@ -1,10 +1,16 @@
 # <p align="center">DEISI Jungle</p>
+
+<p align="center">🦁🐘🦒 Welcome to the Animal Olympics Game! 🏁🏆</p>
+
 ![](deisi-jungle.jpg?raw=true "Deisi Jungle")
 
 <p align="justify"> One day, in a savannah far (far) from here, the animals decided to find out who would be the best athlete among them. 
 To do so, they defined a set of sporting events that would compete with each other - whoever won more events would be considered the King of the Jungle. 
 Soon the news reached Tarzan, who did not want to stop participating in the events, convinced that he would easily win them. 
 The first race is the track race. The animals will gather on a track and compete to determine which athlete is the best. </p>
+
+<p align="justify"> Join the wild adventure in a Java-based game set in the heart of a distant savannah. 
+In this exciting game, animals from all walks of life have come together to compete for the title of 'King of the Jungle. </p>
 
 # UML diagram
 ![](diagrama.png?raw=true "UML diagram")
@@ -162,4 +168,17 @@ The first race is the track race. The animals will gather on a track and compete
 - A functional demo of the game can be seen [here](https://youtu.be/iSjHJs5aGWg).
 
 ## The game screen
+<p align="justify"> 🐾 Challenge your friends, set new records, and experience the thrill of the Animal Olympics. 
+Dive into the adventure today and prove to be the best athlete in the jungle! </p>
+
 ![alt_text](The_jungle.png?raw=true "Deisi Jungle")
+
+## How to Play:
+
+- Clone this repository on your local machine.
+- Run the game in a compatible Java environment.
+
+## Technical details:
+
+- Java version: Java 17
+- Version of Kotlin: 1.7
