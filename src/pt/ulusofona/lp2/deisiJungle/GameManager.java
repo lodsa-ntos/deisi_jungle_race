@@ -245,7 +245,7 @@ public class GameManager {
         /// REQUIREMENTS:
         // Get the 'ids' of the players of a certain position on the map
         for (Player playerEmJogo : players) {
-            if (playerEmJogo.getPosicaoAtual() == squareNr) {
+            if (playerEmJogo.getCurrentPosition() == squareNr) {
                 listaIdsJogadores.add(playerEmJogo);
             }
         }
@@ -317,7 +317,7 @@ public class GameManager {
         String jogadoresNaCasa = "";
 
         for (Player player : players) {
-            if (player.getPosicaoAtual() == squareNr) {
+            if (player.getCurrentPosition() == squareNr) {
                 // if the map position has more than one player,
                 if (!jogadoresNaCasa.isEmpty()) {
                     jogadoresNaCasa += ","; // will be separated by comma "3,5"
@@ -404,7 +404,7 @@ public class GameManager {
         // Update current player's turn and move
         // playerCurrent = players.get(turnoCurrent % players.size());
 
-        int casaAtual = currentPlayer.getPosicaoAtual();
+        int casaAtual = currentPlayer.getCurrentPosition();
         int novaPosicaoJogador = casaAtual + nrPositions;
         int consumoEnergia = currentPlayer.getEspecie().getEnergyConsumption() * Math.abs(nrPositions);
         int ganhoEnergiaDescanso = currentPlayer.getEspecie().getGainEnergyRest();
@@ -452,7 +452,7 @@ public class GameManager {
         currentPlayer = players.get((currentShift - 1) % players.size());
         updateMeatPlayCount(currentShift);
 
-        int casaAtual = currentPlayer.getPosicaoAtual(); // CASA DE PARTIDA = 1
+        int casaAtual = currentPlayer.getCurrentPosition(); // CASA DE PARTIDA = 1
         int novaPosicaoJogador = casaAtual + nrSquares; // A + M
         int energiaAtual = currentPlayer.getEspecie().getCurrentEnergy();
         int consumoEnergia = currentPlayer.getEspecie().getEnergyConsumption();
@@ -543,7 +543,7 @@ public class GameManager {
         // If a player reached the final position of the game, show the information of the winning player
         if (isSomeoneReachedTheGoal()) {
             players.sort(
-                    Comparator.comparingInt(Player::getPosicaoAtual)
+                    Comparator.comparingInt(Player::getCurrentPosition)
                             // flip based on players current position
                             .reversed()
                             // If the positions are the same, sort by ID
@@ -610,7 +610,7 @@ public class GameManager {
                 for (Player player : playersInGames) {
                     String nome = player.getNome();
                     String nomeEspecie = player.getEspecie().getName();
-                    int posicaoAtual = player.getPosicaoAtual();
+                    int posicaoAtual = player.getCurrentPosition();
                     int distancia = player.getNumeroPosicoesPercorridas();
                     int numAlimento = player.getNumeroAlimento();
 
@@ -627,7 +627,7 @@ public class GameManager {
                         Player playerMaisDistante = obterJogadorMaisDistanteDaMeta(jogadoresEmLongaDistancia);
                         String nome = playerMaisDistante.getNome();
                         String nomeEspecie = playerMaisDistante.getEspecie().getName();
-                        int posicaoAtual = playerMaisDistante.getPosicaoAtual();
+                        int posicaoAtual = playerMaisDistante.getCurrentPosition();
                         int distancia = playerMaisDistante.getNumeroPosicoesPercorridas();
                         int numAlimento = playerMaisDistante.getNumeroAlimento();
 
@@ -694,7 +694,7 @@ public class GameManager {
             guardarJogo.write("Quantidade de jogadores em jogo: " + players.size() + nextLine);
 
             for(Player player : players) {
-                guardarJogo.write(player.getId() + " : " + player.getNome() + " : " + player.getPosicaoAtual() + " : "
+                guardarJogo.write(player.getId() + " : " + player.getNome() + " : " + player.getCurrentPosition() + " : "
                         + player.getIdEspecie() + " : " + player.getEspecie().getCurrentEnergy() + " : " +
                         player.getNumeroPosicoesPercorridas() + " : " + player.getNumeroAlimento() + " : " +
                         player.getEspecie().getTypeFeedSpecies() + " : " + player.getEspecie().getEnergyConsumption()
@@ -900,7 +900,7 @@ public class GameManager {
     private void verificaJogadorNaCasaDoMeio() {
         calcularCasaDoMeio();
         for (Player player : players) {
-            if (player.getPosicaoAtual() == middleHouse) {
+            if (player.getCurrentPosition() == middleHouse) {
                 return;
             }
         }
@@ -1039,7 +1039,7 @@ public class GameManager {
 
     private void verificarChegadaAMeta() {
         for (Player player : players) {
-            if (player.getPosicaoAtual() == finalGamePosition) {
+            if (player.getCurrentPosition() == finalGamePosition) {
                 someoneReachedTheGoal = true;
                 break;
             }
@@ -1056,7 +1056,7 @@ public class GameManager {
 
         // Verificar as duas menores distâncias entre os jogadores e a posição final do jogo
         for (Player player : players) {
-            int distancia = Math.abs(finalGamePosition - player.getPosicaoAtual());
+            int distancia = Math.abs(finalGamePosition - player.getCurrentPosition());
 
             if (distancia < distanciaPrimeiroJogador) {
                 distanciaSegundoJogador = distanciaPrimeiroJogador;
@@ -1078,7 +1078,7 @@ public class GameManager {
 
         // Encontrar o jogador com a maior distância da meta
         for (Player player : jogadores) {
-            int distancia = Math.abs(finalGamePosition - player.getPosicaoAtual());
+            int distancia = Math.abs(finalGamePosition - player.getCurrentPosition());
             if (distancia > maiorDistancia) {
                 maiorDistancia = distancia;
                 currentPlayer = player;
@@ -1113,7 +1113,7 @@ public class GameManager {
         // Verificar se há pelo menos um jogador entre a "casa do meio" e a meta
         calcularCasaDoMeio();
         for (Player player : jogadoresEmJogos) {
-            int posicaoAtual = player.getPosicaoAtual();
+            int posicaoAtual = player.getCurrentPosition();
             if (posicaoAtual > middleHouse && posicaoAtual < finalGamePosition) {
                 return true;
             }
@@ -1122,7 +1122,7 @@ public class GameManager {
     }
 
     private boolean jogadorEstaNaCasaDoMeio(Player player) {
-        int posicaoAtual = player.getPosicaoAtual();
+        int posicaoAtual = player.getCurrentPosition();
         return posicaoAtual == middleHouse;
     }
 
@@ -1133,7 +1133,7 @@ public class GameManager {
         ArrayList<Player> jogadoresCasaDoMeio = new ArrayList<>();
 
         for (Player player : jogadoresEmJogos) {
-            if (player.getPosicaoAtual() == middleHouse) {
+            if (player.getCurrentPosition() == middleHouse) {
                 jogadoresCasaDoMeio.add(player);
             }
         }
@@ -1169,7 +1169,7 @@ public class GameManager {
             // Classificar o jogador vencedor da casa do meio como primeiro classificado
             String nomeVencedor = vencedor.getNome();
             String especieVencedor = vencedor.getEspecie().getName();
-            int posicaoAtualVencedor = vencedor.getPosicaoAtual();
+            int posicaoAtualVencedor = vencedor.getCurrentPosition();
             int distanciaVencedor = vencedor.getNumeroPosicoesPercorridas();
             int numAlimentoVencedor = vencedor.getNumeroAlimento();
 
@@ -1179,7 +1179,7 @@ public class GameManager {
             posicaoChegada++;
 
             for (Player player : jogadoresEmJogos) {
-                if (player.getPosicaoAtual() == middleHouse) {
+                if (player.getCurrentPosition() == middleHouse) {
                     jogadoresCasaDoMeio.add(player);
                 } else {
                     jogadoresAdiantados.add(player);
@@ -1208,7 +1208,7 @@ public class GameManager {
             for (Player player : jogadoresEmJogos) {
                 String nome = player.getNome();
                 String especie = player.getEspecie().getName();
-                int posicaoAtual = player.getPosicaoAtual();
+                int posicaoAtual = player.getCurrentPosition();
                 int distancia = player.getNumeroPosicoesPercorridas();
                 int numAlimento = player.getNumeroAlimento();
 

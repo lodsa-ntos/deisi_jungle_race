@@ -57,7 +57,7 @@ fun router(): (CommandType) -> ((GameManager, List<String>) -> String?)? {
 fun getPlayerInfo (manager: GameManager, nomeJogador: String) : String {
     for (jogador in manager.players) {
         if (jogador.nome.equals(nomeJogador)) {
-            return "${jogador.id} | ${jogador.nome} | ${jogador.especie.name} | ${jogador.especie.currentEnergy} | ${jogador.posicaoAtual}"
+            return "${jogador.id} | ${jogador.nome} | ${jogador.especie.name} | ${jogador.especie.currentEnergy} | ${jogador.currentPosition}"
         }
     }
     return "Inexistent player"

@@ -8,7 +8,7 @@ public class Player {
     private int id;
     private String nome;
     private String idEspecie;
-    private int posicaoAtual;
+    private int currentPosition;
     private int numeroPosicoesPercorridas;
     private int numeroAlimento;
     private int numJogadoresEmJogo;
@@ -17,11 +17,11 @@ public class Player {
     public Player() {
     }
 
-    public Player(int id, String nome, String idEspecie, int posicaoAtual, Specie specie) {
+    public Player(int id, String nome, String idEspecie, int currentPosition, Specie specie) {
         this.id = id;
         this.nome = nome;
         this.idEspecie = idEspecie;
-        this.posicaoAtual = posicaoAtual;
+        this.currentPosition = currentPosition;
         this.specie = specie;
         this.numeroPosicoesPercorridas = 0;
     }
@@ -79,12 +79,12 @@ public class Player {
         this.idEspecie = idEspecie;
     }
 
-    public int getPosicaoAtual() {
-        return posicaoAtual;
+    public int getCurrentPosition() {
+        return currentPosition;
     }
 
     public void alterarPosicaoAtual(int posicaoAtual) {
-        this.posicaoAtual = posicaoAtual;
+        this.currentPosition = posicaoAtual;
     }
 
     public Specie getEspecie() {
@@ -122,6 +122,6 @@ public class Player {
     @Override
     public String toString() {
         return id + ":" + nome + ":" + idEspecie + ":" + specie.getCurrentEnergy()
-                + ":" + posicaoAtual + ":" + numeroPosicoesPercorridas + ":" + numeroAlimento;
+                + ":" + currentPosition + ":" + numeroPosicoesPercorridas + ":" + numeroAlimento;
     }
 }
