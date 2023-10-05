@@ -12,32 +12,32 @@ fun router(): (CommandType) -> ((GameManager, List<String>) -> String?)? {
     return { commandType ->
         when (commandType) {
             CommandType.GET -> { manager, args ->
-                // Verificar se o comando é "PLAYER_INFO" e se tem pelo menos um argumento
+                // Check that the command is "PLAYER_INFO" and that it has at least one argument
                 when {
-                    // Verificar se o comando é "PLAYER_INFO" e se tem pelo menos um argumento
+                    // Check that the command is "PLAYER_INFO" and that it has at least one argument
                     args.size >= 2 && args[0] == "PLAYER_INFO" -> {
                         val nomeJogador = args[1]
                         getPlayerInfo(manager, nomeJogador)
 
                     }
-                    // Verificar se o comando é "PLAYERS_BY_SPECIE" e se tem pelo menos um argumento
+                    // Verify that the command is "PLAYERS_BY_SPECIE" and that it has at least one argument
                     args.size >= 2 && args[0] == "PLAYERS_BY_SPECIE" -> {
                         val idEspecie = args[1]
                         getPlayersBySpecie(manager, idEspecie)
 
                     }
-                    // Verificar se o comando é "MOST_TRAVELED" e se tem pelo menos um argumento
+                    // Check that the command is "MOST_TRAVELED" and that it has at least one argument
                     args.isNotEmpty() && args[0] == "MOST_TRAVELED" -> {
                         getMostTraveled(manager)
 
                     }
-                    // Verificar se o comando é "TOP_ENERGETIC_OMNIVORES" e se tem pelo menos um argumento
+                    // Check that the command is "TOP_ENERGETIC_OMNIVORES" and that it has at least one argument
                     args.size >= 2 && args[0] == "TOP_ENERGETIC_OMNIVORES" -> {
                         val maxResults = args[1].toIntOrNull() ?: 0
                         getTopErnergeticOmnivores(manager, maxResults)
 
                     }
-                    // Verificar se o comando é "CONSUMED_FOODS" e se tem pelo menos um argumento
+                    // Check that the command is "CONSUMED_FOODS" and that it has at least one argument
                     args.isNotEmpty() && args[0] == "CONSUMED_FOODS" -> {
                         getConsumedFoods(manager)
                     }
@@ -55,9 +55,9 @@ fun router(): (CommandType) -> ((GameManager, List<String>) -> String?)? {
  * GET PLAYER_INFO
  */
 fun getPlayerInfo (manager: GameManager, nomeJogador: String) : String {
-    for (jogador in manager.jogadores) {
+    for (jogador in manager.players) {
         if (jogador.nome.equals(nomeJogador)) {
-            return "${jogador.id} | ${jogador.nome} | ${jogador.especie.nome} | ${jogador.especie.energiaAtual} | ${jogador.posicaoAtual}"
+            return "${jogador.id} | ${jogador.nome} | ${jogador.especie.name} | ${jogador.especie.currentEnergy} | ${jogador.posicaoAtual}"
         }
     }
     return "Inexistent player"
@@ -67,19 +67,19 @@ fun getPlayerInfo (manager: GameManager, nomeJogador: String) : String {
  * GET PLAYERS_BY_SPECIE
  */
 fun getPlayersBySpecie (manager: GameManager,  idEspecie: String) : String {
-    //  lista dos nomes dos jogadores de uma certa espécie
+    //  List of the names of players of a certain species
     val jogadoresComIdEspecie = mutableListOf<String>()
 
-    for (jogador in manager.jogadores) {
+    for (jogador in manager.players) {
         if (jogador.especie.getId().equals(idEspecie)) {
             jogadoresComIdEspecie.add(jogador.nome)
         }
     }
 
-    // A lista deve estar ordenada alfabeticamente de forma decrescente.
+    // The list should be sorted alphabetically in descending order.
     jogadoresComIdEspecie.sortDescending()
 
-    // Retorna se existirem muitos com o mesmo ID especie, separados por vírgula
+    // Returns if there are many with the same species ID, separated by a comma
     return jogadoresComIdEspecie.joinToString(",")
 }
 
@@ -88,27 +88,27 @@ fun getPlayersBySpecie (manager: GameManager,  idEspecie: String) : String {
  */
 fun getMostTraveled (manager: GameManager) : String {
 
-    val listaJogadoresEmJogo = mutableListOf<String>()
+    val listOfPlayersInPlay = mutableListOf<String>()
 
-    for (jogador in manager.jogadores) {
+    for (jogador in manager.players) {
         val nomeJogador = jogador.nome
         val idEspecie = jogador.especie.getId()
         val distanciaPercorrida = jogador.numeroPosicoesPercorridas
 
         // NOME_JOGADOR:ID_ESPÉCIE:DISTÂNCIA_PERCORRIDA
-        listaJogadoresEmJogo.addAll(listOf("$nomeJogador:$idEspecie:$distanciaPercorrida"))
+        listOfPlayersInPlay.addAll(listOf("$nomeJogador:$idEspecie:$distanciaPercorrida"))
     }
 
-    // Obter a lista dos jogadores ordenada, de forma decrescente, pela distância percorrida por cada um. ([2] -> $distancia)
-    listaJogadoresEmJogo.sortWith(compareByDescending { it.split(":")[2].toInt() })
+    // Get the list of players sorted, in descending order, by the distance traveled by each one. ([2] -> $distancia)
+    listOfPlayersInPlay.sortWith(compareByDescending { it.split(":")[2].toInt() })
 
-    // A distância percorrida é a soma dos movimentos efetuados até ao momento.
-    val totalDistanciaPercorridas = manager.jogadores.sumOf { it.numeroPosicoesPercorridas }
+    // The distance travelled is the sum of the movements made so far.
+    val totalDistanciaPercorridas = manager.players.sumOf { it.numeroPosicoesPercorridas }
     // Total:<DISTÂNCIA_PERCORRIDA>
-    listaJogadoresEmJogo.add("Total:$totalDistanciaPercorridas")
+    listOfPlayersInPlay.add("Total:$totalDistanciaPercorridas")
 
-    // Quebra de linha
-    return listaJogadoresEmJogo.joinToString("\n")
+    // Line Break
+    return listOfPlayersInPlay.joinToString("\n")
 }
 
 /**
@@ -116,7 +116,7 @@ fun getMostTraveled (manager: GameManager) : String {
  */
 fun getTopErnergeticOmnivores (manager: GameManager, max_results: Int) : String {
 
-    val listaJogadoresOmnivorosEmJogo = mutableListOf<Jogador>()
+    val listaJogadoresOmnivorosEmJogos = mutableListOf<Player>()
 
     /*
     for (jogador in manager.jogadores) {
@@ -130,23 +130,23 @@ fun getTopErnergeticOmnivores (manager: GameManager, max_results: Int) : String 
     }
      */
 
-    for (jogador in manager.jogadores) {
-        if (jogador.especie.getTipoAlimentacaoDaEspecie().equals("omnívoro")) {
-            listaJogadoresOmnivorosEmJogo.add(jogador)
+    for (jogador in manager.players) {
+        if (jogador.especie.getTypeFeedSpecies().equals("omnívoro")) {
+            listaJogadoresOmnivorosEmJogos.add(jogador)
         }
     }
 
-    // ordenar de forma decrescente (primeiro o que tem mais energia).
-    listaJogadoresOmnivorosEmJogo.sortByDescending { jogador ->
-        jogador.especie.getEnergiaAtual()
+    // sort in descending order (first the one with the most energy).
+    listaJogadoresOmnivorosEmJogos.sortByDescending { jogador ->
+        jogador.especie.getCurrentEnergy()
     }
 
-    val topJogadoresOmnivoros = listaJogadoresOmnivorosEmJogo
-        .take(max_results) // Limitar o número de elementos na lista...
+    val topJogadoresOmnivoros = listaJogadoresOmnivorosEmJogos
+        .take(max_results) // Limit the number of items in the list...
             // transformar cada jogador no formato "NOME_JOGADOR:ENERGIA".
-        .map { jogador -> "${jogador.nome}:${jogador.especie.getEnergiaAtual()}" }
+        .map { jogador -> "${jogador.nome}:${jogador.especie.getCurrentEnergy()}" }
 
-    // Quebra de linha
+    // Line Break
     return topJogadoresOmnivoros.joinToString("\n")
 }
 
@@ -154,39 +154,17 @@ fun getTopErnergeticOmnivores (manager: GameManager, max_results: Int) : String 
  * GET CONSUMED_FOODS
  */
 fun getConsumedFoods(manager: GameManager): String {
-    val alimentosConsumidos = manager.alimentosConsumidos
+    val alimentosConsumidos = manager.foodsConsumed
 
-    // Ordenar alfabeticamente e quebrar a linha após cada palavra
+    // Sort alphabetically and break the line after each word
     return alimentosConsumidos.sorted().joinToString("\n")
 }
-
-// POST MOVE <numero de posições>
-// Move o jogador atual tantas posições quantas o parâmetro.
-// Esta operação não está sujeita às limitações de movimento impostas pelas regras do jogo — devem ativar o parâmetro
-// bypassValidations (ver função moveCurrentPlayer).
-// Caso a posição onde o jogador seja válida, mas não tenha alimentos, deverá retornar “OK”
-
-// Exemplo:
-//POST MOVE 3
-//OK (Faz avançar o jogador atual 3 posições)
-
-//Caso o jogador vá parar a uma posição com alimento, deve ser sujeito aos efeitos desse
-//alimento e retornar a mensagem “Apanhou comida”.
-
-//Exemplo:
-//POST MOVE 3
-//Apanhou comida
-
-//Caso o movimento faça com que o jogador se desloque para fora do mapa, deve retornar “Movimento invalido”.
-//Finalmente, caso o jogador não tenha energia suficiente para fazer o movimento, deve retornar “Sem energia”.
-
-
 
 /*
 fun TODO(): (GameManager, List<String>) -> String? {
     return { _, _ ->
         // TODO: Implementar alguma coisa aqui
-        "Falta implementar alguma coisa aqui."
+        "Something needs to be implemented here."
     }
 }
  */

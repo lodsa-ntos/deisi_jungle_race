@@ -4,7 +4,7 @@ import pt.ulusofona.lp2.deisiJungle.especieFilho.*;
 
 import java.util.HashMap;
 
-public class Jogador {
+public class Player {
     private int id;
     private String nome;
     private String idEspecie;
@@ -12,46 +12,46 @@ public class Jogador {
     private int numeroPosicoesPercorridas;
     private int numeroAlimento;
     private int numJogadoresEmJogo;
-    private Especie especie;
+    private Specie specie;
 
-    public Jogador() {
+    public Player() {
     }
 
-    public Jogador(int id, String nome, String idEspecie, int posicaoAtual, Especie especie) {
+    public Player(int id, String nome, String idEspecie, int posicaoAtual, Specie specie) {
         this.id = id;
         this.nome = nome;
         this.idEspecie = idEspecie;
         this.posicaoAtual = posicaoAtual;
-        this.especie = especie;
+        this.specie = specie;
         this.numeroPosicoesPercorridas = 0;
     }
 
     /**
-     * Caracterizar a Especie do Jogador
+     * Caracterizar a Specie do Player
      */
-    public void caracterizarEspecieJogador(Jogador jogadorAtual) {
+    public void caracterizarEspecieJogador(Player playerAtual) {
 
-        // HashMap para mapear os IDs das espécie e às instâncias da classe Especie.
-        HashMap<String, Especie> especies = new HashMap<>();
+        // HashMap to map species IDs and instances of the Specie class.
+        HashMap<String, Specie> especies = new HashMap<>();
 
-        especies.put("E", new Elefante());
-        especies.put("L", new Leao());
-        especies.put("T", new Tartaruga());
-        especies.put("P", new Passaro());
+        especies.put("E", new Elephant());
+        especies.put("L", new Lion());
+        especies.put("T", new Turtle());
+        especies.put("P", new Bird());
         especies.put("Z", new Tarzan());
-        especies.put("U", new Unicornio());
-        especies.put("G", new Girafa());
+        especies.put("U", new Unicorn());
+        especies.put("G", new Giraffe());
 
-        //  obter a instância que correspondente à idEspecie
-        Especie especieJogador = especies.get(idEspecie);
+        // get the instance that corresponds to the speciesid
+        Specie specieJogador = especies.get(idEspecie);
 
-        if (especieJogador != null) {
-            jogadorAtual.setEspecie(especieJogador);
-            jogadorAtual.getEspecie().definirEnergiaAtual(especieJogador.getEnergiaAtual());
-            jogadorAtual.getEspecie().definirConsumoEnergia(especieJogador.getConsumoEnergia());
-            jogadorAtual.getEspecie().definirGanhoEnergiaDescanso(especieJogador.getGanhoEnergiaDescanso());
-            jogadorAtual.getEspecie().definirVelocidadeMinima(especieJogador.getVelocidadeMinima());
-            jogadorAtual.getEspecie().definirVelocidadeMaxima(especieJogador.getVelocidadeMaxima());
+        if (specieJogador != null) {
+            playerAtual.setEspecie(specieJogador);
+            playerAtual.getEspecie().definirEnergiaAtual(specieJogador.getCurrentEnergy());
+            playerAtual.getEspecie().definirConsumoEnergia(specieJogador.getEnergyConsumption());
+            playerAtual.getEspecie().definirGanhoEnergiaDescanso(specieJogador.getGainEnergyRest());
+            playerAtual.getEspecie().definirVelocidadeMinima(specieJogador.getMinimumSpeed());
+            playerAtual.getEspecie().definirVelocidadeMaxima(specieJogador.getMaximumSpeed());
         }
     }
 
@@ -87,12 +87,12 @@ public class Jogador {
         this.posicaoAtual = posicaoAtual;
     }
 
-    public Especie getEspecie() {
-        return especie;
+    public Specie getEspecie() {
+        return specie;
     }
 
-    public void setEspecie(Especie especie) {
-        this.especie = especie;
+    public void setEspecie(Specie specie) {
+        this.specie = specie;
     }
 
     public int getNumeroPosicoesPercorridas() {
@@ -121,7 +121,7 @@ public class Jogador {
 
     @Override
     public String toString() {
-        return id + ":" + nome + ":" + idEspecie + ":" + especie.getEnergiaAtual()
+        return id + ":" + nome + ":" + idEspecie + ":" + specie.getCurrentEnergy()
                 + ":" + posicaoAtual + ":" + numeroPosicoesPercorridas + ":" + numeroAlimento;
     }
 }

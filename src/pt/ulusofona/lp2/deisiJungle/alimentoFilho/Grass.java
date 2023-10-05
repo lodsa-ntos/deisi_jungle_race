@@ -1,53 +1,43 @@
 package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 
-import pt.ulusofona.lp2.deisiJungle.Alimento;
-import pt.ulusofona.lp2.deisiJungle.Jogador;
+import pt.ulusofona.lp2.deisiJungle.Food;
+import pt.ulusofona.lp2.deisiJungle.Player;
 
 import java.util.Map;
-import java.util.Random;
 
-public class CachoDeBanana extends Alimento {
+public class Grass extends Food {
 
-    public CachoDeBanana(String id, int posicaoAlimento) {
+    public Grass(String id, int posicaoAlimento) {
+
         super(id, posicaoAlimento);
 
         this.id = id;
-        this.nome = "Bananas";
-        this.imagem = "bananas.png";
+        this.nome = "Grass";
+        this.imagem = "grass.png";
         this.posicaoAlimento = posicaoAlimento;
-        numeroBananasON = 3;
     }
 
     /**
-     * Efeitos ao consumir bananas
+     * Efeitos ao consumir Grass
      */
     @Override
-    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador) {
+    public int consumir(String tipoAlimentacaoEspecie, Player player) {
         int alteracaoEnergia = 0;
 
-        if (alimento.getId().equals("b")) {
+        if (getId().equals("e")) {
             switch (tipoAlimentacaoEspecie) {
-                case "carnívoro":
-                case "herbívoro":
-                case "omnívoro":
-
-                    if (alimento.getNumeroBananasON() > 0) {
-                        int bananasConsumidas = bananasConsumidasPorJogador.getOrDefault(jogador.getId(), 0);
-
-                        if (bananasConsumidas == 0) {
-                            alteracaoEnergia = 40;
-                            bananasConsumidasPorJogador.put(jogador.getId(), bananasConsumidas + 1);
-
-                        } else if (bananasConsumidas == 1) {
-                            alteracaoEnergia = -40;
-                        }
-
-                        alimento.setNumeroBananasON(alimento.getNumeroBananasON() - 1);
+                case "herbívoro", "omnívoro" -> {
+                    if (player.getEspecie().getId().equals("G")) { // Giraffe
+                        alteracaoEnergia = 50;
+                    } else {
+                        alteracaoEnergia = 20;
                     }
-                    break;
+                }
+                case "carnívoro" -> {
+                    alteracaoEnergia = -20;
+                }
             }
         }
-
         return alteracaoEnergia;
     }
 
@@ -114,21 +104,19 @@ public class CachoDeBanana extends Alimento {
     @Override
     public String toolTip() {
         /*
-            A tooltip deve mostrar “Bananas : <N> : + 40 energia”, em que N é o número de bananas disponíveis
+            ○ A tooltip deve mostrar “Water : + 15U|20% energia”.
          */
-
-        //int numBananas = 0;
-        return "Bananas : " + numeroBananasON + " : + 40 energia" ;
+        return "Grass : +- 20 energia";
     }
 
-    // COPORTAMENTO PARA AGUA / ERVA / CARNE / COGUMELO
+    // COPORTAMENTO PARA CARNE / COGUMELO / BANANA
     @Override
-    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador) {
+    public int consumir(String tipoAlimentacaoEspecie, Player player, int turnoAtual, Food food) {
         return 0;
     }
 
     @Override
-    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, int turnoAtual, Alimento alimento) {
+    public int consumir(String tipoAlimentacaoEspecie, Player player, Food food, Map<Integer, Integer> bananasConsumidasPorJogador) {
         return 0;
     }
 }

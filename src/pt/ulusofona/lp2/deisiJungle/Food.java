@@ -5,7 +5,7 @@ import pt.ulusofona.lp2.deisiJungle.alimentoFilho.*;
 import java.util.Map;
 import java.util.Random;
 
-public abstract class Alimento {
+public abstract class Food {
 
     protected String id;
     protected String nome;
@@ -18,7 +18,7 @@ public abstract class Alimento {
     protected boolean isVenenoso;
     protected Random random;
 
-    public Alimento(String id, int posicaoAlimento) {
+    public Food(String id, int posicaoAlimento) {
         this.id = id;
         this.posicaoAlimento = posicaoAlimento;
     }
@@ -26,14 +26,14 @@ public abstract class Alimento {
     /**
      * Identificar Alimentos
      */
-    protected static Alimento identificarAlimento(String id, int posicaoAlimento) {
+    protected static Food identificarAlimento(String id, int posicaoAlimento) {
         return switch (id) {
-            case "e" -> new Erva(id, posicaoAlimento);
-            case "a" -> new Agua(id, posicaoAlimento);
-            case "b" -> new CachoDeBanana(id, posicaoAlimento);
-            case "c" -> new Carne(id, posicaoAlimento);
-            case "m" -> new CogumeloMagico(id, posicaoAlimento);
-            case "t" -> new Arvore(id, posicaoAlimento);
+            case "e" -> new Grass(id, posicaoAlimento);
+            case "a" -> new Water(id, posicaoAlimento);
+            case "b" -> new BunchesOfBanana(id, posicaoAlimento);
+            case "c" -> new Meat(id, posicaoAlimento);
+            case "m" -> new MagicMushroom(id, posicaoAlimento);
+            case "t" -> new Tree(id, posicaoAlimento);
             default -> null;
         };
     }
@@ -41,17 +41,17 @@ public abstract class Alimento {
     /**
      * Efeitos ao consumir alimentos AGUA / ERVA
      */
-    protected abstract int consumir(String tipoAlimentacaoEspecie, Jogador jogador);
+    protected abstract int consumir(String tipoAlimentacaoEspecie, Player player);
 
     /**
      * Efeitos ao consumir alimentos CARNE / COGUMELO MÁGICO
      */
-    protected abstract int consumir(String tipoAlimentacaoEspecie, Jogador jogador, int turnoAtual, Alimento alimento);
+    protected abstract int consumir(String tipoAlimentacaoEspecie, Player player, int turnoAtual, Food food);
 
     /**
-     * Efeitos ao consumir alimento BANANA
+     * Efeitos ao consumir food BANANA
      */
-    protected abstract int consumir(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador);
+    protected abstract int consumir(String tipoAlimentacaoEspecie, Player player, Food food, Map<Integer, Integer> bananasConsumidasPorJogador);
 
     public abstract String getId();
 

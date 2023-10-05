@@ -2,16 +2,16 @@ package pt.ulusofona.lp2.deisiJungle.especieFilho;
 
 import pt.ulusofona.lp2.deisiJungle.Specie;
 
-public class Tarzan extends Specie {
+public class Elephant extends Specie {
 
-    public Tarzan() {
-        this.id = "Z";
-        this.name = "Tarzan";
-        this.image = "tarzan.png";
-        this.typeFeedSpecies = "omnívoro";
-        this.currentEnergy = 70;
-        this.energyConsumption = 2;
-        this.gainEnergyRest = 20;
+    public Elephant() {
+        this.id = "E";
+        this.name = "Elephant";
+        this.image = "elephant.png";
+        this.typeFeedSpecies = "herbívoro";
+        this.currentEnergy = 180;
+        this.energyConsumption = 4;
+        this.gainEnergyRest = 10;
         this.minimumSpeed = 1;
         this.maximumSpeed = 6;
     }

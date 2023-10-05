@@ -1,37 +1,36 @@
 package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 
-import pt.ulusofona.lp2.deisiJungle.Alimento;
-import pt.ulusofona.lp2.deisiJungle.Jogador;
+import pt.ulusofona.lp2.deisiJungle.Food;
+import pt.ulusofona.lp2.deisiJungle.Player;
 
 import java.util.Map;
-import java.util.Random;
 
-public class Arvore extends Alimento {
+public class Water extends Food {
 
-    public Arvore(String id, int posicaoAlimento) {
+    public Water(String id, int posicaoAlimento) {
 
         super(id, posicaoAlimento);
 
         this.id = id;
-        this.nome = "Arvore";
-        this.imagem = "trees.png";
+        this.nome = "Water";
+        this.imagem = "water.png";
         this.posicaoAlimento = posicaoAlimento;
     }
 
     /**
-     * Efeitos ao consumir folhas das árvores
+     * Efeitos ao consumir Água
      */
     @Override
-    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador) {
+    public int consumir(String tipoAlimentacaoEspecie, Player player) {
         int alteracaoEnergia = 0;
 
-        if (getId().equals("t")) {
+        if (getId().equals("a")) {
             switch (tipoAlimentacaoEspecie) {
-                case "herbívoro" -> {
-                    alteracaoEnergia = 50;
+                case "carnívoro", "herbívoro" -> {
+                    alteracaoEnergia = 15;
                 }
                 case "omnívoro" -> {
-                    alteracaoEnergia = ((int) (jogador.getEspecie().getEnergiaAtual() * 0.30));
+                    alteracaoEnergia = ((int) (player.getEspecie().getCurrentEnergy() * 0.20));
                 }
             }
         }
@@ -101,19 +100,19 @@ public class Arvore extends Alimento {
     @Override
     public String toolTip() {
         /*
-            ○ A tooltip deve mostrar “Arvore : + 50U|30% energia”.
+            ○ A tooltip deve mostrar “Water : + 15U|20% energia”.
          */
-        return "Arvore : + 50U|30% energia";
+        return "Water : + 15U|20% energia";
     }
 
     // COPORTAMENTO PARA CARNE / COGUMELO / BANANA
     @Override
-    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, int turnoAtual, Alimento alimento) {
+    public int consumir(String tipoAlimentacaoEspecie, Player player, int turnoAtual, Food food) {
         return 0;
     }
 
     @Override
-    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador) {
+    public int consumir(String tipoAlimentacaoEspecie, Player player, Food food, Map<Integer, Integer> bananasConsumidasPorJogador) {
         return 0;
     }
 }

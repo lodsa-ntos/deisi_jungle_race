@@ -49,7 +49,7 @@ In this exciting game, animals from all walks of life have come together to comp
   ##### Classes son (Species)
 
       > Elephant - contains the specific information about elephant species, methods/functions that process the relevant behaviors of the elephant species for the context of the game. 
-      > Leao - contains the specific information about lion species, the methods/functions that process the relevant behaviors of the lion species for the context of the game.
+      > Lion - contains the specific information about lion species, the methods/functions that process the relevant behaviors of the lion species for the context of the game.
       > Bird - contains the specific information about bird species, the methods/functions that process the relevant behaviors of the bird species for the game context.
       > Turtle - contains the specific information about turtle species, the methods/functions that process the relevant behaviors of the turtle species for the context of the game.
       > Tarzan - contains the specific information about Tarzan species, the methods/functions that process the relevant behaviours of the Tarzan specie for the game context.
@@ -109,12 +109,12 @@ In this exciting game, animals from all walks of life have come together to comp
                ○ Ingested by carnivores or herbivores, increases to energy in 15 units.
                ○ Ingested by omnivores, increases to energy in 20%.
 
-      > Herb — contains the specific information about the herb, methods/functions that process the relevant behaviors 
+      > Grass — contains the specific information about the grass, methods/functions that process the relevant behaviors 
              from weed to the context of the game.
                ○ Ingested by herbivores or omnivores, increases to energy in 20 units.
                ○ Ingested by carnivores, reduced to energy in 20 units.
 
-      >   BunchesOfBananas — contains specific information on banana bunches, methods/functions processing 
+      > BunchesOfBananas — contains specific information on banana bunches, methods/functions processing 
              the relevant behaviors of the clusters of bananas for the context of the game.
                ○ Can be ingested by any animal.
                ○ Increases energy by 40 units.
@@ -127,7 +127,7 @@ In this exciting game, animals from all walks of life have come together to comp
                  consuming more than one banana, the 2nd and 3rd bananas draw energy instead of
                  give, in the same proportion (40U).
 
-      >   Meat — contains meat-specific information, methods/functions that process behaviour 
+      > Meat — contains meat-specific information, methods/functions that process behaviour 
              relevant to the context of the game.
                ○ If ingested by carnivores (ex: Leo) or omnivores (ex: Tarzan), increases the
                  energy in 50 units.
@@ -136,7 +136,7 @@ In this exciting game, animals from all walks of life have come together to comp
                  plays. From there it is toxic - if ingested, reduces the energy of the
                  animal.
 
-      >   MagicMushroom — contains the specific information on magic mushrooms, methods/functions that process 
+      > MagicMushroom — contains the specific information on magic mushrooms, methods/functions that process 
             the relevant behaviors of magic mushrooms for the context of the game.
                ○ All animals can eat.
                ○ As they are magical, their behavior varies from mushroom to mushroom and

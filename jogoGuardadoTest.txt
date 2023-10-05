@@ -1,7 +1,7 @@
 Turno atual: 2
 Dimensão do mapa: 10
-Jogador atual: 3
-Jogador com mais energia: 3
+Player atual: 3
+Player com mais energia: 3
 Jogadores que consumiram bananas: {}
 Casa do meio do mapa: 5
 Já existe vencedor: false

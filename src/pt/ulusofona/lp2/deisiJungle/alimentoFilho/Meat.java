@@ -1,19 +1,17 @@
 package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 
-import pt.ulusofona.lp2.deisiJungle.Alimento;
-import pt.ulusofona.lp2.deisiJungle.GameManager;
-import pt.ulusofona.lp2.deisiJungle.Jogador;
+import pt.ulusofona.lp2.deisiJungle.Food;
+import pt.ulusofona.lp2.deisiJungle.Player;
 
 import java.util.Map;
-import java.util.Random;
 
-public class Carne extends Alimento {
+public class Meat extends Food {
 
-    public Carne(String id, int posicaoAlimento) {
+    public Meat(String id, int posicaoAlimento) {
         super(id, posicaoAlimento);
 
         this.id = id;
-        this.nome = "Carne";
+        this.nome = "Meat";
         this.imagem = "meat.png";
         this.posicaoAlimento = posicaoAlimento;
         isCarneToxica = false;
@@ -23,7 +21,7 @@ public class Carne extends Alimento {
      * Efeitos ao consumir carne
      */
     @Override
-    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, int turnoAtual, Alimento alimento) {
+    public int consumir(String tipoAlimentacaoEspecie, Player player, int turnoAtual, Food food) {
         int alteracaoEnergia = 0;
         if (getId().equals("c")) {
             // Só é comestível nas primeiras 12 jogadas
@@ -37,11 +35,11 @@ public class Carne extends Alimento {
                 }
             } else {
                 // A partir daí é tóxica. — se for ingerida, reduz para metade a energia do animal
-                alimento.setCarneToxica(true);
+                food.setCarneToxica(true);
 
                 switch (tipoAlimentacaoEspecie) {
                     case "carnívoro", "omnívoro" -> {
-                        int diminuiEnergia = jogador.getEspecie().getEnergiaAtual() / 2;
+                        int diminuiEnergia = player.getEspecie().getCurrentEnergy() / 2;
                         alteracaoEnergia = -diminuiEnergia;
                     }
                 }
@@ -113,27 +111,27 @@ public class Carne extends Alimento {
     @Override
     public String toolTip() {
         /*
-            ○ A tooltip deve mostrar “Carne : +- 50 energia : <N> jogadas”, em que <N>
+            ○ A tooltip deve mostrar “Meat : +- 50 energia : <N> jogadas”, em que <N>
                 representa o número de jogadas já efetuadas. Caso a carne já esteja tóxica,
-                deve mostrar “Carne toxica”
+                deve mostrar “Meat toxica”
          */
 
         if (numroJogadasCarne <= 12) {
-            return "Carne : + 50 energia : " + numroJogadasCarne + " jogadas";
+            return "Meat : + 50 energia : " + numroJogadasCarne + " jogadas";
         } else {
-            return "Carne toxica";
+            return "Meat toxica";
         }
     }
 
 
     // COPORTAMENTO PARA AGUA / ERVA / BANANA
     @Override
-    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador) {
+    public int consumir(String tipoAlimentacaoEspecie, Player player) {
         return 0;
     }
 
     @Override
-    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador) {
+    public int consumir(String tipoAlimentacaoEspecie, Player player, Food food, Map<Integer, Integer> bananasConsumidasPorJogador) {
         return 0;
     }
 

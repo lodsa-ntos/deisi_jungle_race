@@ -12,8 +12,8 @@ Quantidade de jogadores em jogo: 2
 1 : sdf : 3 : Z : 66 : 2 : 0 : omnívoro : 2 : 20 : 1 : 6
 2 : sdfsdfs : 5 : L : 72 : 4 : 0 : carnívoro : 2 : 10 : 4 : 6
 
-Informação geral dos alimentos em jogo: 
-Quantidade de alimentos em jogo: 10
+Informação geral dos foods em jogo:
+Quantidade de foods em jogo: 10
 e : 27 : 0 : 3 : 0 : Erva : +- 20 energia
 a : 39 : 0 : 3 : 0 : Agua : + 15U|20% energia
 b : 35 : 3 : 3 : 0 : Bananas : 3 : + 40 energia

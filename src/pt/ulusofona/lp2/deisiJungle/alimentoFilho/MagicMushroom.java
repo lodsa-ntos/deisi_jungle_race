@@ -1,14 +1,14 @@
 package pt.ulusofona.lp2.deisiJungle.alimentoFilho;
 
-import pt.ulusofona.lp2.deisiJungle.Alimento;
-import pt.ulusofona.lp2.deisiJungle.Jogador;
+import pt.ulusofona.lp2.deisiJungle.Food;
+import pt.ulusofona.lp2.deisiJungle.Player;
 
 import java.util.Map;
 import java.util.Random;
 
-public class CogumeloMagico extends Alimento {
+public class MagicMushroom extends Food {
 
-    public CogumeloMagico(String id, int posicaoAlimento) {
+    public MagicMushroom(String id, int posicaoAlimento) {
         super(id, posicaoAlimento);
 
         this.id = id;
@@ -23,15 +23,15 @@ public class CogumeloMagico extends Alimento {
      * Efeitos ao consumir cogumelos magicos
      */
     @Override
-    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, int turnoAtual, Alimento alimento) {
+    public int consumir(String tipoAlimentacaoEspecie, Player player, int turnoAtual, Food food) {
         int alteracaoEnergia = 0;
 
-        if (alimento.getId().equals("m")) {
+        if (food.getId().equals("m")) {
             // Todos os animais podem ingerir -> "carnívoro", "herbívoro", "omnívoro"
             switch (tipoAlimentacaoEspecie) {
                 case "carnívoro", "herbívoro", "omnívoro" -> {
-                    int energiaJogador = jogador.getEspecie().getEnergiaAtual();
-                    float valorAlteracaoEnergia = (float) alimento.getNumeroAleatorioCog() / 100;
+                    int energiaJogador = player.getEspecie().getCurrentEnergy();
+                    float valorAlteracaoEnergia = (float) food.getNumeroAleatorioCog() / 100;
 
                     // Se comerem o cogumelo nas jogadas pares, aumentam em N% a energia
                     if (turnoAtual % 2 == 0) {
@@ -40,7 +40,7 @@ public class CogumeloMagico extends Alimento {
                         // Se comerem o cogumelo nas jogadas ímpares, reduzem em N% a energia
                     } else {
                         // Torna-se venenoso e reduzem em N% a sua energia
-                        alimento.setVenenoso(true);
+                        food.setVenenoso(true);
                         alteracaoEnergia = -(int) (energiaJogador * valorAlteracaoEnergia);
                     }
                 }
@@ -123,12 +123,12 @@ public class CogumeloMagico extends Alimento {
 
     // COPORTAMENTO PARA AGUA / ERVA / BANANA
     @Override
-    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador, Alimento alimento, Map<Integer, Integer> bananasConsumidasPorJogador) {
+    public int consumir(String tipoAlimentacaoEspecie, Player player, Food food, Map<Integer, Integer> bananasConsumidasPorJogador) {
         return 0;
     }
 
     @Override
-    public int consumir(String tipoAlimentacaoEspecie, Jogador jogador) {
+    public int consumir(String tipoAlimentacaoEspecie, Player player) {
         return 0;
     }
 }
