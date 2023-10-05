@@ -10,7 +10,7 @@ Soon the news reached Tarzan, who did not want to stop participating in the even
 The first race is the track race. The animals will gather on a track and compete to determine which athlete is the best. </p>
 
 <p align="justify"> Join the wild adventure in a Java-based game set in the heart of a distant savannah. 
-In this exciting game, animals from all walks of life have come together to compete for the title of 'King of the Jungle. </p>
+In this exciting game, animals from all walks of life have come together to compete for the title of King of the Jungle. </p>
 
 # UML diagram
 ![](diagrama.png?raw=true "UML diagram")
