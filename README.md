@@ -1,163 +1,165 @@
 # <p align="center">DEISI Jungle</p>
 ![](deisi-jungle.jpg?raw=true "Deisi Jungle")
 
-<p align="justify"> Certo dia, numa savana muito (muito) longe daqui, os animais decidiram descobrir quem seria
-o melhor atleta entre eles. Para o fazer, definiram um conjunto de provas desportivas que iriam
-disputar entre si — quem vencesse mais provas seria considerado o Rei da Selva. Rapidamente
-a notícia chegou ao Tarzan, que não quis deixar de participar nas provas, convencido de que
-facilmente as venceria. A primeira prova a disputar é a prova de atletismo. Os animais vão-se reunir numa pista e
-competir para determinar qual o melhor atleta. </p>
+<p align="justify"> One day, in a savannah far (far) from here, the animals decided to find out who would be the best athlete among them. 
+To do so, they defined a set of sporting events that would compete with each other - whoever won more events would be considered the King of the Jungle. 
+Soon the news reached Tarzan, who did not want to stop participating in the events, convinced that he would easily win them. 
+The first race is the track race. The animals will gather on a track and compete to determine which athlete is the best. </p>
 
-# Diagrama UML
-![](diagrama.png?raw=true "Diagrama UML")
+# UML diagram
+![](diagrama.png?raw=true "UML diagram")
 
-### Escolhas de modelação
+### Modeling choices
 
 ##### Classes
-- <p align="justify">GameManager — responsável por gerir o jogo.</p>
+- <p align="justify">GameManager — responsible for managing the game.</p>
   <br/>
-- <p align="justify">Jogador — representa a classe que encapsula informações e funcionalidades específicas dos jogadores no jogo.
-   Armazena atributos relevantes para a caracterização dos jogadores e define o seu comportamento durante o jogo.</p>
+- <p align="justify">Player — Represents the class that encapsulates information and features specific to players in the game.
+   Stores attributes relevant to the characterization of players and defines their behavior during the game.</p>
   <br/>
-- <p align="justify">MovementResult — representa o resultado de um movimento realizado por um jogador.
-  Caracteriza-se por uma variável "code" do tipo MovementResultCode e, opcionalmente, por uma variável "message" 
-  do tipo String, que apresenta uma mensagem descritiva no visualizador.</p>
+- <p align="justify">MovementResult — Represents the result of a move made by a player. It is characterized by a variable 
+   "code" of type MovementResultCode and, optionally, by a variable "message" of type String, which presents a descriptive 
+   message in the viewer.</p>
   <br/>
-- <p align="justify">MovementResultCode — enumeração que define os possíveis códigos de resultado para um movimento.
-    Inclui os valores INVALID_MOVEMENT, NO_ENERGY, VALID_MOVEMENT e CAUGHT_FOOD, que correspondem a diferentes situações do jogo, 
-    como erros de movimento, falta de energia, movimento válido e interação com alimentos.</p>
+- <p align="justify">MovementResultCode — Enumeration that defines the possible result codes for a movement.
+    Includes the values INVALID_MOVEMENT, NO_ENERGY, VALID_MOVEMENT and CAUGHT_FOOD, which correspond to different situations of the game, 
+    such as movement errors, lack of energy, valid movement and interaction with food.</p>
   <br/>
-- <p align="justify">InvalidInitialJungleException — classe responsável por lançar exceções em situações 
-  de configuração inicial inválida do mapa de jogo.
-  Especialmente relacionada à composição e posição de elementos como jogadores e alimentos. 
-  Esta exceção é acionada quando as condições iniciais não estão de acordo com as regras do jogo.</p>
+- <p align="justify">InvalidInitialJungleException — Class responsible for throwing exceptions in situations 
+  of invalid initial game map configuration.
+  Especially related to the composition and position of elements such as players and food. 
+  This exception is triggered when the initial conditions are not in accordance with the rules of the game.</p>
   <br/>
 
-##### Classes abstratas
+##### Abstract classes
 
-  <p align="justify">As espécies trazem variedade ao jogo e dão vida às diferentes espécies que os jogadores podem escolher.</p>
+  <p align="justify">Species bring variety to the game and give life to the different species that players can choose from.</p>
 
-- <p align="justify">Especie — com um papel essencial no jogo, a classe Especie representa todas as espécies presentes. 
-            Contém os atributos essenciais para caracterizar as diferentes espécies em jogo, junto com os métodos e funções 
-            que processam os comportamentos específicos de cada espécie durante o jogo, de forma a garantir que cada espécie seja única.</p>
+- <p align="justify">Species — with an essential role in the game, the Specie class represents all species present. 
+            Contains the essential attributes to characterize the different species at stake, along with methods and functions 
+            that process the specific behaviors of each species during the game, in order to ensure that each species is unique.</p>
   
 
-  ##### Classes filho (Especie)
+  ##### Classes son (Species)
 
-      > Elefante — contém as informações específicas sobre espécie elefante, métodos/funções que processam os comportamentos relevantes da especie elefante para o contexto do jogo. 
-      > Leao — contém as informações específicas sobre espécie leão, os métodos/funções que processam os comportamentos relevantes da especie leão para o contexto do jogo.
-      > Passaro — contém as informações específicas sobre espécie pássaro, os métodos/funções que processam os comportamentos relevantes da especie pássaro para o contexto do jogo.
-      > Tartaruga — contém as informações específicas sobre espécie tartaruga, os métodos/funções que processam os comportamentos relevantes da especie tartaruga para o contexto do jogo.
-      > Tarzan — contém as informações específicas sobre espécie tarzan, os métodos/funções que processam os comportamentos relevantes da especie tarzan para o contexto do jogo.
-      > Unicornio — contém as informações específicas sobre espécie unicórnio, os métodos/funções que processam os comportamentos relevantes da especie unicórnio para o contexto do jogo.
+      > Elephant - contains the specific information about elephant species, methods/functions that process the relevant behaviors of the elephant species for the context of the game. 
+      > Leao - contains the specific information about lion species, the methods/functions that process the relevant behaviors of the lion species for the context of the game.
+      > Bird - contains the specific information about bird species, the methods/functions that process the relevant behaviors of the bird species for the game context.
+      > Turtle - contains the specific information about turtle species, the methods/functions that process the relevant behaviors of the turtle species for the context of the game.
+      > Tarzan - contains the specific information about Tarzan species, the methods/functions that process the relevant behaviours of the Tarzan specie for the game context.
+      > Unicorn - contains the specific information about unicorn species, the methods/functions that process the relevant behaviors of the unicorn species for the context of the game.
 
-##### Classes filho (Nova Especie)
+##### Child classes (New Species)
 
-| Espécie | Id  | Nome   | Imagem                             | Energia inicial | Consumo de energia | Ganho de energia em descanso | Velocidade |
-|---------|-----|--------|------------------------------------|-----------------|--------------------|------------------------------|------------|
-| Girafa  | G   | Girafa | ![](giraffe.png?raw=true "Girafa") | 150             | 4                  | 3                            | 2..3       |
+| Species | Id  | Name    | Image                               | Initial energy | Energy consumption | Energy gain at rest | Speed |
+|---------|-----|---------|-------------------------------------|----------------|--------------------|---------------------|-------|
+| Giraffe | G   | Giraffe | ![](giraffe.png?raw=true "Giraffe") | 150            | 4                  | 3                   | 2..3  |
 
-> Características (Nova Especie):
+> Characteristics (New Specification):
 
-1. **Alimentação:**
-   <p align="justify">- As girafas têm pescoços longos que alcançam facilmente folhas nas árvores, 
-   a sua fonte de energia rica em fibras e nutrientes.</p>
-
-
-2. **Energia inicial:**
-   <p align="justify">- Começam com 150 unidades de energia devido ao seu tamanho. </p>
+1. **Feeding:**
+   <p align="Justify">- Giraffes have long necks that easily reach leaves in trees, 
+   its source of energy rich in fiber and nutrients. </p>
 
 
-3. **Consumo de energia:**
-   <p align="justify">- Gastam 4 unidades de energia durante a corrida devido ao tamanho do corpo. </p>
+2. **Initial energy:**
+   <p align="Justify">- Start with 150 power units due to their size. </p>
 
 
-4. **Ganho de energia:**
-   <p align="justify">- Ganham 2 unidades de energia durante o descanso, economizando enquanto digerem.. </p>
+3. **Power consumption:**
+   <p align="Justify">- Spend 4 units of energy during the race due to body size. </p>
 
 
-5. **Velocidade mínima de 2 e velocidade máxima de 3:**
-   <p align="justify">- Embora não sejam os mais rápidos,
-   usam altura e estratégias de comportamento. </p>
+4. **Energy gain:**
+   <p align="Justify">- Gain 2 units of energy during rest, saving while digesting.. </p>
 
 
-6. **Não se alimentam de cogumelos:**
-   <p align="justify">- Por se tratar de um animal com uma dieta especializada em folhas de árvores, arbustos e ervas, 
-   as girafas não são afetadas pelo alimento cogumelos mágicos. Sempre que um jogador "girafa" se deslocar para 
-   uma casa que contenha cogumelos, a sua energia não é afetada pelo respetivo alimento, e o histórico de alimentos do jogador 
-   não deve ser atualizado. </p>
+5. **Minimum speed 2 and maximum speed 3:**
+   <p align="Justify">- Although not the fastest,
+   use height and behavior strategies. </p>
+
+
+6. **Do not feed on mushrooms:**
+   <p align="Justify">- Because it is an animal with a diet specialized in leaves of trees, shrubs and herbs, 
+   giraffes are not affected by the food magic mushrooms. Whenever a player "giraffe" moves to 
+   a house containing mushrooms, its energy is not affected by its food, and the player’s food history 
+   should not be updated. </p>
 
 <br/>
 
-  <p align="justify">Ao longo do terreno, estarão espalhados vários alimentos, de diferentes tipos. Quando um
-  jogador calha numa casa com um alimento, ele é obrigado a ingeri-lo. Isso pode ser bom ou
-  mau.</p>
+  <p align="Justify">Along the terrain will be scattered various foods of different types. When a
+  player runs into a house with a food, he is required to ingest it. This can be good or
+  bad. </p>
 
-- <p align="justify">Alimento — essencial para o jogo, representa todos os tipos de alimentos disponíveis.
-  Contém os atributos para caracterizar os alimentos em jogo, bem como os métodos e funções 
-  que processam os comportamentos relevantes de cada alimento. Tal como a classe abstrata Especie, 
-  o código evita redundâncias, proporcionando uma base sólida dos conceitos de herança e o polimorfismo.</p>
+- <p align="Justify">Food - essential to the game, represents all types of food available.
+  Contains the attributes to characterize the foods in play, as well as the methods and functions 
+  that process the relevant behaviors of each food. Such as abstract class Specie, 
+  the code avoids redundancies, providing a solid foundation of the concepts of inheritance and polymorphism. </p>
 
-  ##### Classes filho (Alimento)
+  ##### Classes child (Food)
 
-      > Agua — contém as informações específicas sobre a água, métodos/funções que processam os comportamentos relevantes da água para o contexto do jogo.
-               ○ Se ingerido por carnívoros ou herbívoros, aumenta a energia em 15 unidades
-               ○ Se ingerido por omnívoros, aumenta a energia em 20%
+      > Water — contains the specific information about water, methods/functions that process the behaviors relevant 
+             to the context of the game water.
+               ○ Ingested by carnivores or herbivores, increases to energy in 15 units.
+               ○ Ingested by omnivores, increases to energy in 20%.
 
-      > Erva — contém as informações específicas sobre a erva, métodos/funções que processam os comportamentos relevantes da erva para o contexto do jogo.
-               ○ Se ingerido por herbívoros ou omnívoros, aumenta a energia em 20 unidades
-               ○ Se ingerido por carnívoros, reduz a energia em 20 unidades
+      > Herb — contains the specific information about the herb, methods/functions that process the relevant behaviors 
+             from weed to the context of the game.
+               ○ Ingested by herbivores or omnivores, increases to energy in 20 units.
+               ○ Ingested by carnivores, reduced to energy in 20 units.
 
-      > CachoDeBanana — contém as informações específicas sobre os cachos de banana, métodos/funções que processam os comportamentos relevantes dos cachos de bananas 
-               para o contexto do jogo.
-               ○ Pode ser ingerido por qualquer animal
-               ○ Aumenta a energia em 40 unidades
-               ○ Só existem 3 bananas no cacho. Os animais que calham numa casa com este
-               alimento consomem uma dessas bananas. Quando as bananas acabarem, o
-               alimento deixa de produzir efeito. Ou seja, a partir da 4ª vez que algum animal
-               chega a uma casa contendo este alimento, ele já não é afetado.
-               ○ Como comer muitas bananas causa dificuldades gástricas, se o mesmo jogador
-               consumir mais do que uma banana, a 2ª e 3ª bananas retiram energia em vez de
-               dar, na mesma proporção (40U).
+      >   BunchesOfBananas — contains specific information on banana bunches, methods/functions processing 
+             the relevant behaviors of the clusters of bananas for the context of the game.
+               ○ Can be ingested by any animal.
+               ○ Increases energy by 40 units.
+               ○ There are only 3 bananas in the bunch. The animals that fall into a house with this
+                 food consumes one of these bananas. When bananas run out, the
+                 food ceases to produce effect. That is, from the 4th time any animal
+                 comes to a house containing this food, it is no longer affected.
 
-      > Carne — contém as informações específicas sobre a carne, métodos/funções que processam os comportamentos relevantes da carne para o contexto do jogo.
-               ○ Se ingerido por carnívoros (ex: Leão) ou omnívoros (ex: Tarzan), aumenta a
-               energia em 50 unidades.
-               ○ Os herbívoros ignoram esta comida, por isso não lhes acontece nada.
-               ○ Deteriora-se à medida que o tempo passa. Só é comestível nas primeiras 12
-               jogadas. A partir daí é tóxica - se fôr ingerida, reduz para metade a energia do
-               animal.
+               ○ How to eat many bananas causes gastric difficulties, if the same player
+                 consuming more than one banana, the 2nd and 3rd bananas draw energy instead of
+                 give, in the same proportion (40U).
 
-      > CogumeloMagico — contém as informações específicas sobre os cogumelos mágicos, métodos/funções que processam os comportamentos relevantes dos cogumelos mágicos 
-               para o contexto do jogo.
-               ○ Todos os animais podem ingerir.
-               ○ Como são mágicos, o seu comportamento varia de cogumelo para cogumelo e
-               de jogada para jogada.
-               ○ Cada cogumelo tem associado um número (N) entre 10 e 50, que é gerado
-               aleatoriamente na sua criação.
-               ○ Se comerem o cogumelo nas jogadas pares, os animais aumentam em N% a
-               sua energia.
-               ○ Se comerem o cogumelo nas jogadas ímpares, ele torna-se venenoso e
-               reduzem em N% a sua energia.
+      >   Meat — contains meat-specific information, methods/functions that process behaviour 
+             relevant to the context of the game.
+               ○ If ingested by carnivores (ex: Leo) or omnivores (ex: Tarzan), increases the
+                 energy in 50 units.
+               ○ Herbivores ignore this food, so nothing happens to them.
+               ○ It deteriorates as time passes. It is only edible in the first 12
+                 plays. From there it is toxic - if ingested, reduces the energy of the
+                 animal.
+
+      >   MagicMushroom — contains the specific information on magic mushrooms, methods/functions that process 
+            the relevant behaviors of magic mushrooms for the context of the game.
+               ○ All animals can eat.
+               ○ As they are magical, their behavior varies from mushroom to mushroom and
+                 from play to play.
+               ○ Each mushroom has associated a number (N) between 10 and 50, which is generated
+                 randomly in its creation.
+               ○ If they eat the mushroom in even plays, the animals increase by N% to
+                 your energy.
+               ○ If you eat the mushroom in odd turns, it becomes poisonous and
+                 reduce their energy by N%.
   
 
-### Justificação das escolhas de modelação
+### Justification of the modelling choices
 
-> Evitar duplicação de código:
+> Avoid duplication of code:
 > 
-  <p align="justify"> Através da aplicação de herança e polimorfismo, o foco era evitar redundâncias no código, 
-    para facilitar na implementação, legibilidade e compreensão da lógica do jogo. 
-    Ao compartilhar comportamentos comuns através das classes base, como Especie e Alimento, cada classe filha 
-    foi habilitada a ter comportamentos específicos e únicos.</p>
+  <p align="justify"> By applying inheritance and polymorphism, the focus was to avoid code redundancies, 
+    to facilitate implementation, readability and understanding of game logic. 
+    By sharing common behaviors across the base classes, such as Specialty and Food, each child class 
+    was enabled to have specific and unique behaviors.</p>
 
-> Definir características comuns e manter comportamentos distintos: 
+> Define common characteristics and maintain distinct behaviours: 
 > 
-  <p align="justify"> A herança forneceu a base para uma estrutura centralizada de características compartilhadas entre todas as espécies e alimentos. 
-    Isso permitiu a incorporação flexível de comportamentos únicos para cada espécie e alimento. Essa abordagem
-    facilitou a compreensão da lógica do jogo e a implementação de novas funcionalidades sem afetar outras partes do código.</p>
+  <p align="justify"> Inheritance provided the basis for a centralized structure of characteristics shared among all species and foods. 
+    This allowed the flexible incorporation of unique behaviors for each species and food. This approach
+    made it easier to understand game logic and implement new features without affecting other parts of the code.</p>
 
-# Video de demonstração
-- Uma demonstração funcional do jogo pode ser vista [aqui](https://youtu.be/iSjHJs5aGWg).
+# Demo video (pt-pt)
+- A functional demo of the game can be seen [here](https://youtu.be/iSjHJs5aGWg).
 
-## Tela do jogo
+## The game screen
 ![alt_text](The_jungle.png?raw=true "Deisi Jungle")
